@@ -1,0 +1,637 @@
+<template >
+    <div>
+    <Loading v-if="loading" style="z-index: 99999;"></Loading>
+        <div class="row authentication mx-0">
+
+            <div class="col-xxl-5 col-xl-5 col-lg-5 d-xl-block d-none px-0">
+    <div class="authentication-cover">
+        <div class="aunthentication-cover-content rounded">
+            <div class="swiper mySwiper keyboard-control">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="text-fixed-white text-center p-5 d-flex align-items-center justify-content-center">
+                            <div>
+                                <div class="mb-5">
+                                    <img src="@/assets/img/logo.png" class="authentication-image" alt="">
+                                </div>
+                                <h6 class="fw-semibold text-fixed-white">Sign In</h6>
+                                <p class="fw-normal fs-14 op-7"> 
+                                  LE PRIMECARE is a provider of home health care services especially if you much prefer 
+                                  to be treated at home than in a care facility or institutionalized setting.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="text-fixed-white text-center p-5 d-flex align-items-center justify-content-center">
+                            <div>
+                                <div class="mb-5">
+                                    <img src="@/assets/img/logo.png" class="authentication-image" alt="">
+
+                                </div>
+                                <h6 class="fw-semibold text-fixed-white">Sign In</h6>
+                                <p class="fw-normal fs-14 op-7"> 
+                                  Home Health Care services can be easily accessible at your home with us.
+                                   To get started or to request for an assessment, please call 770-686-3566.
+                                   </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="text-fixed-white text-center p-5 d-flex align-items-center justify-content-center">
+                            <div>
+                                <div class="mb-5">
+                                    <img src="@/assets/img/logo.png" class="authentication-image" alt="">
+                                </div>
+                                <h6 class="fw-semibold text-fixed-white">Sign In</h6>
+                                <p class="fw-normal fs-14 op-7">
+                                  Stupendous service and exceptional care is what we provide, where we are always by your side. 
+                                  Restoration to the whole persons mind body and soul that they are made whole again.
+
+                                   </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+           </div> 
+
+            <div class="col-xxl-7 col-xl-7 col-lg-12  d-flex flex-column justify-content-center">
+            
+                <div class="login-reg-panel">
+                    
+                                        
+                    <div class="register-info-box">
+                        <div class="image">
+                        <img src="@/assets/img/logo.png" alt="" class="w-100">
+                        </div>
+                        <p class="text-dark" >Bureau de Suivi des Priorités Présidentiels</p>
+                    </div>
+                                        
+                    <div class="white-panel">
+                        <div class="login-show" style="margin-top:30px">
+                            <small>{{ error  }}</small>
+                                    <h2 style="font-size:20px !important;">Bienvenue chez BSSP ! </h2>
+                                     <p>Connectez-vous pour continuer sur la plateforme BSSP .</p>
+                            
+                            <div class="mb-6">
+                                <MazInput  v-model="step1.email" type="email"  label="Adresse Email" color="info" name="email"   size="md" rounded-size="sm" />
+                                <small v-if="v$.step1.email.$error">{{v$.step1.email.$errors[0].$message}}</small> 
+                            </div>
+                            
+                                <div class="mb-6">
+                                <MazInput  v-model="step1.password" type="password"  label="Mot de passe" color="info" name="password"   size="md" rounded-size="sm" />
+                                    <small v-if="v$.step1.password.$error">{{v$.step1.password.$errors[0].$message}}</small>
+                                </div>
+            
+                                <p class="signin" style="text-align: end; " @click="ChangePassword"> <span >Mot de passe oublié ?</span> </p>
+                                <div class="boutton">
+                                <button class="" @click="Hamdlelogin()">Connecter</button>
+                                </div>
+                            
+                        
+                        </div>
+                        
+                    </div>
+                    </div>
+            </div>
+        </div> 
+
+        <!-- <div class="text-center pa-4">
+      <v-dialog v-model="dialogPassword"  width="auto">
+        
+        <v-sheet
+      class="py-8 px-6 mx-auto ma-4 text-center"
+      elevation="4"
+      max-width="500"
+      rounded="lg"
+      width="100%"
+    >
+      <h3 class="text-h5">Entrer votre Adresse Email</h3>
+  
+      <div class="text-subtitle-2 font-weight-light mb-3">
+          Pour réinitialiser votre mot de passe, veuillez entrer votre 
+          adresse e-mail et suivre les instructions à suivre.
+      </div>
+  
+                      <div class="mb-6">
+                      <v-text-field v-model="step3.email"  :counter="10" label="Adresse Email" name="email"   color="blue-grey-lighten-2" type="email" hide-details required variant="outlined" ></v-text-field>
+                     <small v-if="v$.step3.email.$error">{{v$.step3.email.$errors[0].$message}}</small> 
+                  </div>
+  
+      <div class="text-caption">
+          <div class="boutton">
+              <button class="" @click="PasswordOtp()">réinitialisation</button>
+              </div>
+      </div>
+    </v-sheet>
+        
+      </v-dialog>
+    </div>
+  
+    <div class="text-center pa-4">
+      <v-dialog v-model="dialogOtpPassword"  width="auto">
+        
+        <v-sheet
+      class="py-8 px-6 mx-auto ma-4 text-center"
+      elevation="4"
+      max-width="500"
+      rounded="lg"
+      width="100%"
+    >
+    <small>{{  errorOtp }}</small>
+      <h3 class="text-h5">Verification Code</h3>
+  
+      <div class="text-subtitle-2 font-weight-light mb-3">
+        Veuillez entrer le code que nous avons envoyé à votre
+         adresse e-mail pour réinitialiser votre mot de passe.
+      </div>
+  
+      <v-otp-input
+        v-model="step4.code"
+        class="mb-8"
+        divider="•"
+        length="4"
+        variant="outlined"
+        @input="onOtpInputPassworod"
+      ></v-otp-input>
+  
+      <div class="text-caption">
+        <v-btn
+          color="primary"
+          size="x-small"
+          text="Renvoyer un nouveau code"
+          variant="text"
+          @click="renew"
+        ></v-btn>
+      </div>
+    </v-sheet>
+        
+      </v-dialog>
+    </div> -->
+    </div>
+</template>
+<script>
+ import useVuelidate from '@vuelidate/core';
+  import { require, lgmin, lgmax , ValidEmail } from '@/functions/rules';
+  import Swiper from 'swiper/bundle';
+import 'swiper/swiper-bundle.css';
+import axios from '@/lib/axiosConfig.js'
+import Loading from '@/components/others/loading.vue';
+import { mapActions } from 'vuex';
+ 
+
+  export default {
+    components: {
+        Loading,
+  
+      },
+  
+      data() {
+          return {
+            loading:false,
+              show1: false,
+              visible:false,
+              dialogOtp:false,
+              dialogPassword:false, 
+              dialogOtpPassword:false,
+              InfoUser:'',
+              errorOtp:'',
+              step1:{
+               email: '',
+               password: '',
+             },
+  
+               step2:{
+               code:'',
+          },
+  
+          step3:{
+              email:'',
+          },
+          step4:{
+               code:'',
+          },
+         
+          v$: useVuelidate(),
+          error:''
+          }
+      },
+      validations: {
+      step1:{
+          email: {
+        require,
+        ValidEmail
+      },
+      password: {
+        require,
+        lgmin: lgmin(8),
+        lgmax: lgmax(20),
+      }
+      },
+      step2:{
+              code:{
+          require,
+        lgmin: lgmin(4),
+        lgmax: lgmax(4),
+              }
+              
+          },
+          step3:{
+          email: {
+        require,
+        ValidEmail
+      },
+    },
+      step4:{
+              code:{
+          require,
+        lgmin: lgmin(4),
+        lgmax: lgmax(4),
+              }
+              
+          },
+  
+      
+    },
+    methods: {
+        ...mapActions('auth', ['setMyAuthenticatedUser']),
+    async Hamdlelogin(){
+
+this.error = '',
+ this.v$.step1.$touch()
+  if (this.v$.$errors.length == 0 ) {
+     this.loading = true
+    
+let DataUser = {
+email:this.step1.email,
+password:this.step1.password,
+}
+console.log("eeeee",DataUser);
+try {
+const response = await axios.post('/login' , DataUser);
+console.log('response.login', response.data); 
+if (response.data.status === "success") {
+this.InfoUser = response.data.data
+this.setMyAuthenticatedUser(this.InfoUser);
+this.loading = false
+
+      this.$router.push('/bssp'); 
+
+} else {
+
+}
+
+
+
+} catch (error) {
+console.log('response.login', error); 
+
+this.loading = false
+if (error.response.data.status === "error") {
+return this.error = error.response.data.message
+
+} else {
+return this.error = "L'authentification a échoué"
+}
+}
+    }else{
+    
+    console.log('pas bon', this.v$.$errors);
+    
+    } 
+},
+
+async ChangePassword(){
+            this.dialogPassword = true
+            this.error = ''
+            
+    
+    }, 
+  
+    async PasswordOtp(){
+  
+             this.v$.step3.$touch()
+            if (this.v$.$errors.length == 0 ) {
+               this.loading = true
+            
+            let CodeUserEmail ={
+              email:1,
+              value:this.step3.email
+            
+            }
+            console.log("eee",CodeUserEmail);
+            try {
+           const response = await axios.post('/mcipme/send-otp', CodeUserEmail);
+           
+           console.log('response.Code', response); 
+           if (response.data.status === 'success') {
+            this.dialogPassword = false
+           this.dialogOtpPassword = true
+           this.loading = false
+           } else {
+            
+           }
+      
+      } catch (error) {
+          console.log('error',error);
+      }
+            }else{
+            
+          console.log('error',this.v$.$errors);
+            
+            
+            }
+    },
+  
+    onOtpInputPassworod() {
+        // Vérifiez si l'OTP est complètement saisi (longueur de 4 chiffres)
+        this.errorOtp  = ''
+        if (this.step4.code.length === 4) {
+          // Déclenchez votre action ici, par exemple, appelez une méthode pour envoyer à l'API
+          this.HamdleOtpPassword();
+        }
+      },
+      async  HamdleOtpPassword(){
+          this.error = '',
+           this.v$.step4.$touch()
+            if (this.v$.$errors.length == 0 ) {
+               this.loading = true
+              
+              let DataUser = {
+              email: true,
+              value: this. step3.email,
+              code: this. step4.code
+          }
+        console.log("eeeee",DataUser);
+     
+       
+        try {
+        const response = await axios.post('/mcipme/verification-otp' , DataUser);
+        console.log('response.login', response.data); 
+        if(response.data.status === 'success'){
+          localStorage.setItem('resetPasswordInfo', JSON.stringify({
+                    email: this.step3.email,
+                    code: this.step4.code// Assurez-vous de récupérer le code correctement
+                  }));
+               this.$router.push('/reinitialiser');
+                this.loading = false
+                this.dialogOtpPassword = false
+        }else{
+        
+         this.errorOtp = "Echec de vérification du code."
+         this. step4.code = ''
+         this.loading = false
+        }
+      
+          
+                
+       
+      } catch (error) {
+        console.log('response.login', error); 
+  
+        this.loading = false
+        if (error.response.data.status === 'error') {
+         return this.errorOtp = "L'authentification a échoué"
+          
+        } else {
+          
+        }
+      }
+              }else{
+              
+              console.log('pas bon', this.v$.$errors);
+              
+              }
+  
+      },
+    },
+  async  mounted() {
+        
+  const swiper = new Swiper(".keyboard-control", {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        keyboard: {
+            enabled: true,
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        loop: true,
+        autoplay: {
+            delay: 2000,
+            disableOnInteraction: false
+        }
+    });
+    },
+    
+}
+</script>
+<style lang="css" scoped>
+
+  
+  @import url('https://fonts.googleapis.com/css?family=Mukta');
+  
+  .login{
+  
+     
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #f8f9fa;
+  }
+  
+  
+  .login-reg-panel{
+      position: relative;
+      /* top: 50%; */
+      /* transform: translateY(-50%); */
+      text-align:center;
+      width:100%;
+      /* right:0;left:0; */
+      /* margin:auto; */
+      height:400px;
+      /* background-color: rgba(236, 48, 20, 0.9); */
+      border: 1px solid #d9d9d9;
+      display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+     
+  }
+  .white-panel{
+      background-color: rgba(255,255, 255, 1);
+      height:450px;
+      position:absolute;
+      top:-23px;
+      width:54%;
+      right:calc(50% - 50px);
+      transition:.3s ease-in-out;
+      z-index:0;
+      box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+      
+  }
+  .login-reg-panel input[type="radio"]{
+      position:relative;
+      display:none;
+  }
+  .login-reg-panel{
+      color:#B8B8B8;
+  }
+  .login-reg-panel #label-login, 
+  .login-reg-panel #label-register{
+      border:1px solid #9E9E9E;
+      padding:5px 5px;
+      width:150px;
+      display:block;
+      text-align:center;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight: 600;
+      font-size: 18px;
+  }
+  .login-info-box{
+      width:30%;
+      padding:0 50px;
+      top:20%;
+      left:0;
+      position:absolute;
+      text-align:left;
+  }
+  .register-info-box{
+    width: 43%;
+   
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .register-info-box .image{
+    width: 90%;
+    padding: 10px;
+    background: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    box-shadow: 0 1px 3px #0000001a, 0 1px 2px #0000000f;
+
+  }
+  .right-log{right:50px !important;}
+  
+  .login-show, 
+  .register-show{
+      z-index: 1;
+      display:block;
+      opacity:1;
+      transition:0.3s ease-in-out;
+      color:#242424;
+      text-align:left;
+      padding:30px 50px;
+      text-align: center;
+  }
+  .show-log-panel{
+      display:block;
+      opacity:0.9;
+  }
+  
+  
+  .boutton a{
+      display:inline-block;
+      padding:10px 0;
+  }
+  
+  
+  
+  .signin {
+  color: rgba(88, 87, 87, 0.822);
+  font-size: 14px;
+  text-align: center;
+  margin-top: 20px;
+  }
+  
+  
+  
+  .signin span {
+  color: royalblue;
+  }
+  
+  .signin span:hover {
+  text-decoration: underline royalblue;
+  cursor: pointer;
+  }
+  
+  @media (max-width: 1100px) {
+  
+      .login-reg-panel{
+  
+          display: flex;
+        
+      height: auto;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      padding: 20px 10px;
+      } 
+  
+      .white-panel{
+          position: static;
+          width: 100%;
+      max-width: 380px;
+      }
+  
+      .register-info-box{
+          position: static;
+          margin-bottom: 20px;
+          width: 50%;
+          display: flex;
+    justify-content: center;
+      }
+  }
+  
+  @media (max-width: 675px) {
+      .login-reg-panel{
+     
+      width:100%;
+  
+     
+  }
+  
+  .register-info-box{
+        
+          width: 50%;
+      }
+  }
+  @media (max-width: 530px) {
+  
+  .register-info-box{
+        
+          width: 60%;
+      }
+  }
+  @media (max-width: 460px) {
+  
+  .register-info-box{
+        
+          width: 70%;
+      }
+  }
+
+  .m-input{   
+    width: 100%;
+  
+}
+    
+</style>
