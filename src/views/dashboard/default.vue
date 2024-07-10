@@ -968,7 +968,7 @@
             <ul class="main-menu">
               <!-- Start::slide -->
               <li class="slide">
-                <router-link to="/dashboard" class="side-menu__item">
+                <router-link to="/bspp" class="side-menu__item">
                   <i class="bx bx-home side-menu__icon"></i>
                   <span class="side-menu__label">Tableau de bord</span>
                 </router-link>
@@ -977,7 +977,7 @@
 
               <!-- Start::slide -->
               <li class="slide">
-                <router-link to="/bssp/utilisateurs" class="side-menu__item">
+                <router-link to="/bspp/utilisateurs" class="side-menu__item">
                   <i class="bx bx-group side-menu__icon"></i>
                   <span class="side-menu__label">Utilisateurs</span>
                 </router-link>
@@ -986,7 +986,7 @@
 
               <!-- Start::slide -->
               <li class="slide">
-                <router-link to="/bssp/Projets" class="side-menu__item">
+                <router-link to="/bspp/Projets" class="side-menu__item">
                   <i class='bx bxs-city side-menu__icon'></i>
                   <span class="side-menu__label">Projets</span>
                 </router-link>
@@ -994,7 +994,7 @@
               <!-- End::slide -->
                 <!-- Start::slide -->
                 <li class="slide">
-                <router-link to="/bssp/infrastructures" class="side-menu__item">
+                <router-link to="/bspp/infrastructures" class="side-menu__item">
                   <i class='bx bxs-city side-menu__icon'></i>
                   <span class="side-menu__label">Infrastructures</span>
                 </router-link>
@@ -1013,19 +1013,19 @@
                     <a href="javascript:void(0)"> Paramétrages</a>
                   </li>
                   <li class="slide">
-                    <router-link to="/bssp/bailleurs" class="side-menu__item"
+                    <router-link to="/bspp/bailleurs" class="side-menu__item"
                       >Bailleurs</router-link
                     >
                   </li>
                   <li class="slide">
                     <router-link
-                      to="/bssp/types-infrastructures"
+                      to="/bspp/types-infrastructures"
                       class="side-menu__item"
                       >Infrastructures</router-link
                     >
                   </li>
                   <li class="slide">
-                    <router-link to="/bssp/zones" class="side-menu__item">Zones</router-link>
+                    <router-link to="/bspp/zones" class="side-menu__item">Zones</router-link>
                   </li>
                 </ul>
               </li>
@@ -1063,7 +1063,7 @@
       <footer class="footer mt-auto py-3 bg-white text-center">
         <div class="container">
           <span class="text-muted">
-            © Copyright BSSP <span id="year"></span>
+            © Copyright BSPP <span id="year"></span>
             <a href="javascript:void(0);" class="text-dark fw-semibold"
               >Tous droits réservés
             </a>
@@ -1085,7 +1085,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "BsspGuineeLayout",
+  name: "BsppGuineeLayout",
   components: {},
 
   data() {

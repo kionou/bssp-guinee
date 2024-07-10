@@ -10,7 +10,7 @@
           <nav>
             <ol class="breadcrumb mb-0">
               <li class="breadcrumb-item">
-                <a href="javascript:void(0);">BSSP</a>
+                <a href="javascript:void(0);">BSPP</a>
               </li>
               <li class="breadcrumb-item active" aria-current="page">
                 Projets
@@ -39,331 +39,364 @@
               </button>
             </div>
   
-            <div class="btn btn-icon btn-primary ms-2" @click="$router.push({ path: '/bssp/ajouter-projets' })">
+            <div class="btn btn-icon btn-primary ms-2" @click="$router.push({ path: '/bspp/ajouter-projets' })">
               <i class="ri-add-line"> </i>
             </div>
           </div>
         </div>
       </div>
-      <div class=" row justify-content-center">
-    <div class="parent" >
-     <div class="carde" >
-    <div class="content-box">
-        <div class="row align-items-center px-2">
-        <div class="date-box" >
-       <img  src="@/assets/img/projet1.jpg" alt=""> 
-      </div>
-        <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
-        </div>
-  
-       
-        <div class="texte">
-          <p class="texte-content" >Date debut: <span> 20/03/2024 </span></p>
-        <p class="texte-content" >Date fin: <span> 20/03/2024 </span></p>
-        <p class="texte-content text-truncate" >Zones: <span> Grand Conakry  </span></p>
-        <p class="texte-content" >Budget: <span> 223 (M GNF) </span></p>
-        <!-- <p class="texte-content text-truncate" >Email: <span> pme.pme.AdresseEmail </span></p>
-        <p class="texte-content"  >Contact: <span>  pme.pme.NumeroWhatsApp </span></p> -->
-        <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
-            <div class="btn-list">
-                <router-link to="/bssp/detail-projet"
+      <div class="row task-card">
+                <div class="row">
+                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <div class="card custom-card task-pending-card border border-dark ">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between flex-wrap flex-column ">
+                            <div>
+                             
+                                <div class="row align-items-center px-2">
+                                    <div class="date-box" >
+                                <img  src="@/assets/img/projet1.jpg" alt=""> 
+                                </div>
+                                    <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
+                                    </div>
+                          
+                                <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-primary fw-semibold">20/03/2024</span></p>
+                                <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1 text-muted fw-semibold" >20/03/2024</span></p>
+                                <p class="mb-2 fw-semibold"> Zones  :<span class="fs-14 mb-1 text-muted fw-semibold">Grand Conakry</span></p>
+                                <p class="mb-2 fw-semibold">  Budget  :<span class="fs-14 mb-1 text-muted fw-semibold">223 (M GNF)</span></p>
+                                
+                            </div>
+                            <div>
+                                <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
+                                <div class="btn-list">
+                                    <router-link to="/bspp/detail-projet"
+                                        
+                                        class="btn btn-sm btn-icon btn-success btn-wave"
+                                    >
+                                        <i class="ri-eye-line"></i>
+                                    </router-link>
+                                
+                                <button class="btn btn-sm btn-icon btn-primary btn-wave">
+                                    <i class="ri-edit-line"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                                    <i class="ri-shut-down-line"></i>
+                                </button>
+                                
+                                </div>
+                                </div>
+                                    
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                    </div>
+                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <div class="card custom-card task-pending-card border border-dark ">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between flex-wrap flex-column ">
+                            <div>
+                             
+                                <div class="row align-items-center px-2">
+                                    <div class="date-box" >
+                                <img  src="@/assets/img/projet1.jpg" alt=""> 
+                                </div>
+                                    <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
+                                    </div>
+                          
+                                <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-primary fw-semibold">20/03/2024</span></p>
+                                <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1 text-muted fw-semibold" >20/03/2024</span></p>
+                                <p class="mb-2 fw-semibold"> Zones  :<span class="fs-14 mb-1 text-muted fw-semibold">Grand Conakry</span></p>
+                                <p class="mb-2 fw-semibold">  Budget  :<span class="fs-14 mb-1 text-muted fw-semibold">223 (M GNF)</span></p>
+                                
+                            </div>
+                            <div>
+                                <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
+                                <div class="btn-list">
+                                    <router-link to="/bspp/detail-projet"
+                                        
+                                        class="btn btn-sm btn-icon btn-success btn-wave"
+                                    >
+                                        <i class="ri-eye-line"></i>
+                                    </router-link>
+                                
+                                <button class="btn btn-sm btn-icon btn-primary btn-wave">
+                                    <i class="ri-edit-line"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                                    <i class="ri-shut-down-line"></i>
+                                </button>
+                                
+                                </div>
+                                </div>
+                                    
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                    </div>
+                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <div class="card custom-card task-pending-card border border-dark ">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between flex-wrap flex-column ">
+                            <div>
+                             
+                                <div class="row align-items-center px-2">
+                                    <div class="date-box" >
+                                <img  src="@/assets/img/projet1.jpg" alt=""> 
+                                </div>
+                                    <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
+                                    </div>
+                          
+                                <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-primary fw-semibold">20/03/2024</span></p>
+                                <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1 text-muted fw-semibold" >20/03/2024</span></p>
+                                <p class="mb-2 fw-semibold"> Zones  :<span class="fs-14 mb-1 text-muted fw-semibold">Grand Conakry</span></p>
+                                <p class="mb-2 fw-semibold">  Budget  :<span class="fs-14 mb-1 text-muted fw-semibold">223 (M GNF)</span></p>
+                                
+                            </div>
+                            <div>
+                                <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
+                                <div class="btn-list">
+                                    <router-link to="/bspp/detail-projet"
+                                        
+                                        class="btn btn-sm btn-icon btn-success btn-wave"
+                                    >
+                                        <i class="ri-eye-line"></i>
+                                    </router-link>
+                                
+                                <button class="btn btn-sm btn-icon btn-primary btn-wave">
+                                    <i class="ri-edit-line"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                                    <i class="ri-shut-down-line"></i>
+                                </button>
+                                
+                                </div>
+                                </div>
+                                    
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                    </div>
+                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <div class="card custom-card task-pending-card border border-dark ">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between flex-wrap flex-column ">
+                            <div>
+                             
+                                <div class="row align-items-center px-2">
+                                    <div class="date-box" >
+                                <img  src="@/assets/img/projet1.jpg" alt=""> 
+                                </div>
+                                    <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
+                                    </div>
+                          
+                                <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-primary fw-semibold">20/03/2024</span></p>
+                                <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1 text-muted fw-semibold" >20/03/2024</span></p>
+                                <p class="mb-2 fw-semibold"> Zones  :<span class="fs-14 mb-1 text-muted fw-semibold">Grand Conakry</span></p>
+                                <p class="mb-2 fw-semibold">  Budget  :<span class="fs-14 mb-1 text-muted fw-semibold">223 (M GNF)</span></p>
+                                
+                            </div>
+                            <div>
+                                <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
+                                <div class="btn-list">
+                                    <router-link to="/bspp/detail-projet"
+                                        
+                                        class="btn btn-sm btn-icon btn-success btn-wave"
+                                    >
+                                        <i class="ri-eye-line"></i>
+                                    </router-link>
+                                
+                                <button class="btn btn-sm btn-icon btn-primary btn-wave">
+                                    <i class="ri-edit-line"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                                    <i class="ri-shut-down-line"></i>
+                                </button>
+                                
+                                </div>
+                                </div>
+                                    
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                    </div>
+                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <div class="card custom-card task-pending-card border border-dark ">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between flex-wrap flex-column ">
+                            <div>
+                             
+                                <div class="row align-items-center px-2">
+                                    <div class="date-box" >
+                                <img  src="@/assets/img/projet1.jpg" alt=""> 
+                                </div>
+                                    <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
+                                    </div>
+                          
+                                <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-primary fw-semibold">20/03/2024</span></p>
+                                <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1 text-muted fw-semibold" >20/03/2024</span></p>
+                                <p class="mb-2 fw-semibold"> Zones  :<span class="fs-14 mb-1 text-muted fw-semibold">Grand Conakry</span></p>
+                                <p class="mb-2 fw-semibold">  Budget  :<span class="fs-14 mb-1 text-muted fw-semibold">223 (M GNF)</span></p>
+                                
+                            </div>
+                            <div>
+                                <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
+                                <div class="btn-list">
+                                    <router-link to="/bspp/detail-projet"
+                                        
+                                        class="btn btn-sm btn-icon btn-success btn-wave"
+                                    >
+                                        <i class="ri-eye-line"></i>
+                                    </router-link>
+                                
+                                <button class="btn btn-sm btn-icon btn-primary btn-wave">
+                                    <i class="ri-edit-line"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                                    <i class="ri-shut-down-line"></i>
+                                </button>
+                                
+                                </div>
+                                </div>
+                                    
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                    </div>
+                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <div class="card custom-card task-pending-card border border-dark ">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between flex-wrap flex-column ">
+                            <div>
+                             
+                                <div class="row align-items-center px-2">
+                                    <div class="date-box" >
+                                <img  src="@/assets/img/projet1.jpg" alt=""> 
+                                </div>
+                                    <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
+                                    </div>
+                          
+                                <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-primary fw-semibold">20/03/2024</span></p>
+                                <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1 text-muted fw-semibold" >20/03/2024</span></p>
+                                <p class="mb-2 fw-semibold"> Zones  :<span class="fs-14 mb-1 text-muted fw-semibold">Grand Conakry</span></p>
+                                <p class="mb-2 fw-semibold">  Budget  :<span class="fs-14 mb-1 text-muted fw-semibold">223 (M GNF)</span></p>
+                                
+                            </div>
+                            <div>
+                                <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
+                                <div class="btn-list">
+                                    <router-link to="/bspp/detail-projet"
+                                        
+                                        class="btn btn-sm btn-icon btn-success btn-wave"
+                                    >
+                                        <i class="ri-eye-line"></i>
+                                    </router-link>
+                                
+                                <button class="btn btn-sm btn-icon btn-primary btn-wave">
+                                    <i class="ri-edit-line"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                                    <i class="ri-shut-down-line"></i>
+                                </button>
+                                
+                                </div>
+                                </div>
+                                    
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                    </div>
+                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <div class="card custom-card task-pending-card border border-dark ">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between flex-wrap flex-column ">
+                            <div>
+                             
+                                <div class="row align-items-center px-2">
+                                    <div class="date-box" >
+                                <img  src="@/assets/img/projet1.jpg" alt=""> 
+                                </div>
+                                    <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
+                                    </div>
+                          
+                                <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-primary fw-semibold">20/03/2024</span></p>
+                                <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1 text-muted fw-semibold" >20/03/2024</span></p>
+                                <p class="mb-2 fw-semibold"> Zones  :<span class="fs-14 mb-1 text-muted fw-semibold">Grand Conakry</span></p>
+                                <p class="mb-2 fw-semibold">  Budget  :<span class="fs-14 mb-1 text-muted fw-semibold">223 (M GNF)</span></p>
+                                
+                            </div>
+                            <div>
+                                <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
+                                <div class="btn-list">
+                                    <router-link to="/bspp/detail-projet"
+                                        
+                                        class="btn btn-sm btn-icon btn-success btn-wave"
+                                    >
+                                        <i class="ri-eye-line"></i>
+                                    </router-link>
+                                
+                                <button class="btn btn-sm btn-icon btn-primary btn-wave">
+                                    <i class="ri-edit-line"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                                    <i class="ri-shut-down-line"></i>
+                                </button>
+                                
+                                </div>
+                                </div>
+                                    
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                    </div>
+
                     
-                    class="btn btn-sm btn-icon btn-success btn-wave"
-                  >
-                    <i class="ri-eye-line"></i>
-                  </router-link>
-               
-               <button class="btn btn-sm btn-icon btn-primary btn-wave">
-                 <i class="ri-edit-line"></i>
-               </button>
-
-               <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                 <i class="ri-delete-bin-line"></i>
-               </button>
-
-               <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                <i class="ri-shut-down-line"></i>
-               </button>
-              
-             </div>
-                   
-
-        </div>
-    </div>
-    
-</div>
-</div>
-   </div>   
-
-   <div class="parent" >
-     <div class="carde" >
-    <div class="content-box">
-        <div class="row align-items-center px-2">
-        <div class="date-box" >
-       <img  src="@/assets/img/projet1.jpg" alt=""> 
-      </div>
-        <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
-        </div>
-  
-       
-        <div class="texte">
-          <p class="texte-content" >Date debut: <span> 20/03/2024 </span></p>
-        <p class="texte-content" >Date fin: <span> 20/03/2024 </span></p>
-        <p class="texte-content text-truncate" >Zones: <span> Grand Conakry  </span></p>
-        <p class="texte-content" >Budget: <span> 223 (M GNF) </span></p>
-        <!-- <p class="texte-content text-truncate" >Email: <span> pme.pme.AdresseEmail </span></p>
-        <p class="texte-content"  >Contact: <span>  pme.pme.NumeroWhatsApp </span></p> -->
-        <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
-            <div class="btn-list">
-                <router-link
                     
-                    class="btn btn-sm btn-icon btn-success btn-wave"
-                  >
-                    <i class="ri-eye-line"></i>
-                  </router-link>
-               
-               <button class="btn btn-sm btn-icon btn-primary btn-wave">
-                 <i class="ri-edit-line"></i>
-               </button>
-
-               <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                 <i class="ri-delete-bin-line"></i>
-               </button>
-              
-             </div>
-                   
-
-        </div>
-    </div>
-    
-</div>
-</div>
-   </div> 
-   <div class="parent" >
-     <div class="carde" >
-    <div class="content-box">
-        <div class="row align-items-center px-2">
-        <div class="date-box" >
-       <img  src="@/assets/img/projet1.jpg" alt=""> 
-      </div>
-        <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
-        </div>
-  
-       
-        <div class="texte">
-          <p class="texte-content" >Date debut: <span> 20/03/2024 </span></p>
-        <p class="texte-content" >Date fin: <span> 20/03/2024 </span></p>
-        <p class="texte-content text-truncate" >Zones: <span> Grand Conakry  </span></p>
-        <p class="texte-content" >Budget: <span> 223 (M GNF) </span></p>
-        <!-- <p class="texte-content text-truncate" >Email: <span> pme.pme.AdresseEmail </span></p>
-        <p class="texte-content"  >Contact: <span>  pme.pme.NumeroWhatsApp </span></p> -->
-        <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
-            <div class="btn-list">
-                <router-link
-                    
-                    class="btn btn-sm btn-icon btn-success btn-wave"
-                  >
-                    <i class="ri-eye-line"></i>
-                  </router-link>
-               
-               <button class="btn btn-sm btn-icon btn-primary btn-wave">
-                 <i class="ri-edit-line"></i>
-               </button>
-
-               <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                 <i class="ri-delete-bin-line"></i>
-               </button>
-              
-             </div>
-                   
-
-        </div>
-    </div>
-    
-</div>
-</div>
-   </div> 
-
-   <div class="parent" >
-     <div class="carde" >
-    <div class="content-box">
-        <div class="row align-items-center px-2">
-        <div class="date-box" >
-       <img  src="@/assets/img/projet1.jpg" alt=""> 
-      </div>
-        <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
-        </div>
-  
-       
-        <div class="texte">
-          <p class="texte-content" >Date debut: <span> 20/03/2024 </span></p>
-        <p class="texte-content" >Date fin: <span> 20/03/2024 </span></p>
-        <p class="texte-content text-truncate" >Zones: <span> Grand Conakry  </span></p>
-        <p class="texte-content" >Budget: <span> 223 (M GNF) </span></p>
-        <!-- <p class="texte-content text-truncate" >Email: <span> pme.pme.AdresseEmail </span></p>
-        <p class="texte-content"  >Contact: <span>  pme.pme.NumeroWhatsApp </span></p> -->
-        <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
-            <div class="btn-list">
-                <router-link
-                    
-                    class="btn btn-sm btn-icon btn-success btn-wave"
-                  >
-                    <i class="ri-eye-line"></i>
-                  </router-link>
-               
-               <button class="btn btn-sm btn-icon btn-primary btn-wave">
-                 <i class="ri-edit-line"></i>
-               </button>
-
-               <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                 <i class="ri-delete-bin-line"></i>
-               </button>
-              
-             </div>
-                   
-
-        </div>
-    </div>
-    
-</div>
-</div>
-   </div> 
-
-   <div class="parent" >
-     <div class="carde" >
-    <div class="content-box">
-        <div class="row align-items-center px-2">
-        <div class="date-box" >
-       <img  src="@/assets/img/projet1.jpg" alt=""> 
-      </div>
-        <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
-        </div>
-  
-       
-        <div class="texte">
-          <p class="texte-content" >Date debut: <span> 20/03/2024 </span></p>
-        <p class="texte-content" >Date fin: <span> 20/03/2024 </span></p>
-        <p class="texte-content text-truncate" >Zones: <span> Grand Conakry  </span></p>
-        <p class="texte-content" >Budget: <span> 223 (M GNF) </span></p>
-        <!-- <p class="texte-content text-truncate" >Email: <span> pme.pme.AdresseEmail </span></p>
-        <p class="texte-content"  >Contact: <span>  pme.pme.NumeroWhatsApp </span></p> -->
-        <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
-            <div class="btn-list">
-                <router-link
-                    
-                    class="btn btn-sm btn-icon btn-success btn-wave"
-                  >
-                    <i class="ri-eye-line"></i>
-                  </router-link>
-               
-               <button class="btn btn-sm btn-icon btn-primary btn-wave">
-                 <i class="ri-edit-line"></i>
-               </button>
-
-               <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                 <i class="ri-delete-bin-line"></i>
-               </button>
-              
-             </div>
-                   
-
-        </div>
-    </div>
-    
-</div>
-</div>
-   </div> 
-
-   <div class="parent" >
-     <div class="carde" >
-    <div class="content-box">
-        <div class="row align-items-center px-2">
-        <div class="date-box" >
-       <img  src="@/assets/img/projet1.jpg" alt=""> 
-      </div>
-        <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
-        </div>
-  
-       
-        <div class="texte">
-          <p class="texte-content" >Date debut: <span> 20/03/2024 </span></p>
-        <p class="texte-content" >Date fin: <span> 20/03/2024 </span></p>
-        <p class="texte-content text-truncate" >Zones: <span> Grand Conakry  </span></p>
-        <p class="texte-content" >Budget: <span> 223 (M GNF) </span></p>
-        <!-- <p class="texte-content text-truncate" >Email: <span> pme.pme.AdresseEmail </span></p>
-        <p class="texte-content"  >Contact: <span>  pme.pme.NumeroWhatsApp </span></p> -->
-        <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
-            <div class="btn-list">
-                <router-link
-                    
-                    class="btn btn-sm btn-icon btn-success btn-wave"
-                  >
-                    <i class="ri-eye-line"></i>
-                  </router-link>
-               
-               <button class="btn btn-sm btn-icon btn-primary btn-wave">
-                 <i class="ri-edit-line"></i>
-               </button>
-
-               <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                 <i class="ri-delete-bin-line"></i>
-               </button>
-              
-             </div>
-                   
-
-        </div>
-    </div>
-    
-</div>
-</div>
-   </div> 
-
-   <div class="parent" >
-     <div class="carde" >
-    <div class="content-box">
-        <div class="row align-items-center px-2">
-        <div class="date-box" >
-       <img  src="@/assets/img/projet1.jpg" alt=""> 
-      </div>
-        <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
-        </div>
-  
-       
-        <div class="texte">
-          <p class="texte-content" >Date debut: <span> 20/03/2024 </span></p>
-        <p class="texte-content" >Date fin: <span> 20/03/2024 </span></p>
-        <p class="texte-content text-truncate" >Zones: <span> Grand Conakry  </span></p>
-        <p class="texte-content" >Budget: <span> 223 (M GNF) </span></p>
-        <!-- <p class="texte-content text-truncate" >Email: <span> pme.pme.AdresseEmail </span></p>
-        <p class="texte-content"  >Contact: <span>  pme.pme.NumeroWhatsApp </span></p> -->
-        <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
-            <div class="btn-list">
-                <router-link
-                    
-                    class="btn btn-sm btn-icon btn-success btn-wave"
-                  >
-                    <i class="ri-eye-line"></i>
-                  </router-link>
-               
-               <button class="btn btn-sm btn-icon btn-primary btn-wave">
-                 <i class="ri-edit-line"></i>
-               </button>
-
-               <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                 <i class="ri-delete-bin-line"></i>
-               </button>
-              
-             </div>
-                   
-
-        </div>
-    </div>
-    
-</div>
-</div>
-   </div> 
-          </div>
+                </div>
+                
+                
+ </div>
       <div class="row">
             <div class="col-lg-12">
               <div class="container_pagination">
@@ -724,50 +757,12 @@
   };
   </script>
   <style lang="css" scoped>
-.parent {
-width: 280px;
-perspective: 1000px;
-}
 
-.carde {
-padding: 5px;
-border: 3px solid #eff2f7;
-transform-style: preserve-3d;
-background: linear-gradient(135deg, #0000 18.75%, #697a8d 0 31.25%, #0000 0), repeating-linear-gradient(45deg, #697a8d -6.25% 6.25%, #697a8d 0 18.75%);
-background-size: 60px 60px;
-background-position: 0 0, 0 0;
-background-color: #f0f0f0;
-width: 100%;
-transition: all 0.5s ease-in-out;
-}
 
-.carde .texte {
-
+ .texte {
 margin-top: 10px;
 }
-
-.carde .texte-content {
-
-font-weight: bold;
-font-size: 13px;
-margin-bottom: 10px !important;
-
-}
-
-/* .carde:hover {
-background-position: -100px 100px, -100px 100px;
-transform: rotate3d(0.5, 1, 0, 30deg);
-} */
-
-.content-box {
-background: #fff;
-/* border-radius: 10px 100px 10px 10px; */
-transition: all 0.5s ease-in-out;
-padding: 6px ;
-transform-style: preserve-3d;
-}
-
-.content-box .carde-title {
+.carde-title {
 display: inline-block;
   font-size: 12px;
   font-weight: 700;
@@ -778,46 +773,11 @@ display: inline-block;
   
 }
 
-.content-box .carde-title:hover {
+.carde-title:hover {
 transform: translate3d(0px, 0px, 60px);
 }
 
-.content-box .carde-content {
-  
-  font-weight: 700;
-  color: #f2f2f2;
-  position: absolute;
-  right: 33px;
-  top: 11px;
-}
 
-.content-box .carde-content:hover {
-transform: translate3d(0px, 0px, 60px);
-}
-
-.content-box .see-more {
-  cursor: pointer;
-  display: flex;
-  font-weight: 900;
-  font-size: 9px;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  background: white;
-  transition: all 0.5s ease-in-out;
-  transform: translate3d(0px, 0px, 20px);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  align-items: center;
-  justify-content: center;
-  
-}
-.content-box .see-more i {
-font-size: 20px;
-}
-.content-box .see-more:hover {
-transform: translate3d(0px, 0px, 60px);
-}
 
 .date-box {
 

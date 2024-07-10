@@ -10,7 +10,7 @@
         <nav>
           <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item">
-              <a href="javascript:void(0);">BSSP</a>
+              <a href="javascript:void(0);">BSPP</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
                 Zones

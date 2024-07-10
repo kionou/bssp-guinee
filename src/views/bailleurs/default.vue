@@ -10,7 +10,7 @@
         <nav>
           <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item">
-              <a href="javascript:void(0);">BSSP</a>
+              <a href="javascript:void(0);">BSPP</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
                 Bailleurs
@@ -149,7 +149,7 @@
               style="font-size: 22px !important"
             >
               <b class="text-center"
-                >Ajputer un bailleur</b
+                >Ajouter un bailleur</b
               >
             </h2>
           </div>
@@ -169,20 +169,20 @@
                         > Code <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step1.duty_name"
+                        v-model="step1.CodeBailleur"
                         color="info"
-                        name="duty_name"
+                        name="CodeBailleur"
                         size="sm"
                         rounded-size="sm"
                         type="text"
                         
                         
                       />
-                      <small v-if="v$.step1.duty_name.$error">{{
-                        v$.step1.duty_name.$errors[0].$message
+                      <small v-if="v$.step1.CodeBailleur.$error">{{
+                        v$.step1.CodeBailleur.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['duty_name']">
-                        {{ resultError["duty_name"] }}
+                      <small v-if="resultError['CodeBailleur']">
+                        {{ resultError["CodeBailleur"] }}
                       </small>
                     </div>
                   </div>
@@ -196,19 +196,19 @@
                         <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step1.descriptions"
+                        v-model="step1.NomBailleur"
                         type="text"
                         color="info"
-                        name="descriptions"
+                        name="NomBailleur"
                         size="sm"
                         rounded-size="sm"
                        
                       />
-                      <small v-if="v$.step1.descriptions.$error">{{
-                        v$.step1.descriptions.$errors[0].$message
+                      <small v-if="v$.step1.NomBailleur.$error">{{
+                        v$.step1.NomBailleur.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['descriptions']">
-                        {{ resultError["descriptions"] }}
+                      <small v-if="resultError['NomBailleur']">
+                        {{ resultError["NomBailleur"] }}
                       </small>
                     </div>
                   </div>
@@ -223,20 +223,20 @@
                         <span class="text-danger">*</span></label
                       >
                       <MazSelect
-                        v-model="step1.descriptions"
+                        v-model="step1.Visible"
                         type="text"
                         color="info"
-                        name="descriptions"
+                        name="Visible"
                         size="sm"
                         rounded-size="sm"
                          :options="choix"
                        
                       />
-                      <small v-if="v$.step1.descriptions.$error">{{
-                        v$.step1.descriptions.$errors[0].$message
+                      <small v-if="v$.step1.Visible.$error">{{
+                        v$.step1.Visible.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['descriptions']">
-                        {{ resultError["descriptions"] }}
+                      <small v-if="resultError['Visible']">
+                        {{ resultError["Visible"] }}
                       </small>
                     </div>
                   </div>
@@ -315,20 +315,20 @@
                         > Code <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step2.duty_name"
+                        v-model="step2.CodeBailleur"
                         color="info"
-                        name="duty_name"
+                        name="CodeBailleur"
                         size="sm"
                         rounded-size="sm"
                         type="text"
                         
                         
                       />
-                      <small v-if="v$.step2.duty_name.$error">{{
-                        v$.step2.duty_name.$errors[0].$message
+                      <small v-if="v$.step2.CodeBailleur.$error">{{
+                        v$.step2.CodeBailleur.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['duty_name']">
-                        {{ resultError["duty_name"] }}
+                      <small v-if="resultError['CodeBailleur']">
+                        {{ resultError["CodeBailleur"] }}
                       </small>
                     </div>
                   </div>
@@ -342,19 +342,19 @@
                         <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step2.descriptions"
+                        v-model="step2.NomBailleur"
                         type="text"
                         color="info"
-                        name="descriptions"
+                        name="NomBailleur"
                         size="sm"
                         rounded-size="sm"
                        
                       />
-                      <small v-if="v$.step2.descriptions.$error">{{
-                        v$.step2.descriptions.$errors[0].$message
+                      <small v-if="v$.step2.NomBailleur.$error">{{
+                        v$.step2.NomBailleur.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['descriptions']">
-                        {{ resultError["descriptions"] }}
+                      <small v-if="resultError['NomBailleur']">
+                        {{ resultError["NomBailleur"] }}
                       </small>
                     </div>
                   </div>
@@ -369,20 +369,20 @@
                         <span class="text-danger">*</span></label
                       >
                       <MazSelect
-                        v-model="step2.descriptions"
+                        v-model="step2.Visible"
                         type="text"
                         color="info"
-                        name="descriptions"
+                        name="Visible"
                         size="sm"
                         rounded-size="sm"
                         :options="choix"
                        
                       />
-                      <small v-if="v$.step2.descriptions.$error">{{
-                        v$.step2.descriptions.$errors[0].$message
+                      <small v-if="v$.step2.Visible.$error">{{
+                        v$.step2.Visible.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['descriptions']">
-                        {{ resultError["descriptions"] }}
+                      <small v-if="resultError['Visible']">
+                        {{ resultError["Visible"] }}
                       </small>
                     </div>
                   </div>
@@ -466,13 +466,15 @@ export default {
         ],
 
       step1: {
-        duty_name:"",
-        descriptions:"",
+        CodeBailleur:"",
+        NomBailleur:"",
+        Visible:"",
        
       },
       step2: {
-        duty_name:"",
-        descriptions:"",
+        CodeBailleur:"",
+        NomBailleur:"",
+        Visible:"",
        
       },
       v$: useVuelidate(),
@@ -482,12 +484,14 @@ export default {
   },
   validations: {
     step1: {
-        duty_name:{require},
-        descriptions:{},
+        CodeBailleur:{require},
+        NomBailleur:{require},
+        Visible:{require},
     },
     step2: {
-        duty_name:{require},
-        descriptions:{},
+        CodeBailleur:{require},
+        NomBailleur:{require},
+        Visible:{require},
     },
    
    

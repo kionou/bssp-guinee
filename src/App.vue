@@ -45,7 +45,7 @@
       const title = name 
         // ? `${name} (${to.href.split('/')[2].toLowerCase()})`
         // : name
-      document.title = `Bssp-Guinee - ${title}`
+      document.title = `Bspp-Guinee - ${title}`
 
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }

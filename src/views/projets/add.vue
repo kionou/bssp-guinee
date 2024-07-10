@@ -10,7 +10,7 @@
           <nav>
             <ol class="breadcrumb mb-0">
               <li class="breadcrumb-item">
-                <a href="javascript:void(0);">BSSP</a>
+                <a href="javascript:void(0);">BSPP</a>
               </li>
               <li class="breadcrumb-item active" aria-current="page">
                 Projets
@@ -35,27 +35,27 @@
 <div class="col">
 <div class="input-groupe">
  <label for="userpassword">Code <span class="text-danger">*</span></label>
- <MazInput  v-model="step1.first_name" type="text"  color="info" name="nom"   size="sm" rounded-size="sm" />
+ <MazInput  v-model="step1.code" type="text"  color="info" name="code" size="sm" rounded-size="sm" />
 </div>
-<small v-if="v$.step1.first_name.$error">{{ v$.step1.first_name.$errors[0].$message}}</small>
-<small v-if="resultError['first_name']"> {{ resultError["first_name"] }} </small>
+<small v-if="v$.step1.code.$error">{{ v$.step1.code.$errors[0].$message}}</small>
+<small v-if="resultError['code']"> {{ resultError["code"] }} </small>
 </div>
 <div class="col">
 <div class="input-groupe">
  <label for="userpassword">Sigle <span class="text-danger">*</span></label>
- <MazInput  v-model="step1.last_name" type="text"  color="info" name="prenom"   size="sm" rounded-size="sm" />
+ <MazInput  v-model="step1.sigle" type="text" color="info" name="sigle"   size="sm" rounded-size="sm" />
 
 </div>
-<small v-if="v$.step1.last_name.$error">{{ v$.step1.last_name.$errors[0].$message}}</small>
-<small v-if="resultError['last_name']"> {{ resultError["last_name"] }} </small>
+<small v-if="v$.step1.sigle.$error">{{ v$.step1.sigle.$errors[0].$message}}</small>
+<small v-if="resultError['sigle']"> {{ resultError["sigle"] }} </small>
 </div>
 <div class="col">
 <div class="input-groupe">
  <label for="userpassword">Nom <span class="text-danger">*</span></label>
- <MazInput  v-model="step1.first_name" type="text"  color="info" name="nom"   size="sm" rounded-size="sm" />
+ <MazInput  v-model="step1.nom" type="text"  color="info" name="nom"   size="sm" rounded-size="sm" />
 </div>
-<small v-if="v$.step1.first_name.$error">{{ v$.step1.first_name.$errors[0].$message}}</small>
-<small v-if="resultError['first_name']"> {{ resultError["first_name"] }} </small>
+<small v-if="v$.step1.nom.$error">{{ v$.step1.nom.$errors[0].$message}}</small>
+<small v-if="resultError['nom']"> {{ resultError["nom"] }} </small>
 </div>
 
                </div>
@@ -63,27 +63,27 @@
                <div class="col">
                <div class="input-groupe">
                  <label for="userpassword"> Zone <span class="text-danger">*</span></label>
-               <MazSelect  v-model="step1.email"   color="info" name="email"   size="sm" rounded-size="sm" />
+               <MazSelect  v-model="step1.zone"   color="info" name="zone"   size="sm" rounded-size="sm" />
                </div>
-               <small v-if="v$.step1.email.$error">{{ v$.step1.email.$errors[0].$message}}</small>
-               <small v-if="resultError['email']"> {{ resultError["email"] }} </small>
+               <small v-if="v$.step1.zone.$error">{{ v$.step1.zone.$errors[0].$message}}</small>
+               <small v-if="resultError['zone']"> {{ resultError["zone"] }} </small>
               </div>
                <div class="col">
                <div class="input-groupe">
                  <label for="userpassword">Budget <span class="text-danger">*</span></label>
-               <MazInput  v-model="step1.address" type="text"  color="info" name="address"   size="sm" rounded-size="sm" />
+               <MazInput  v-model="step1.budget" type="text"  color="info" name="budget"   size="sm" rounded-size="sm" />
                </div>
-               <small v-if="v$.step1.address.$error">{{ v$.step1.address.$errors[0].$message}}</small>
-               <small v-if="resultError['address']"> {{ resultError["address"] }} </small>
+               <small v-if="v$.step1.budget.$error">{{ v$.step1.budget.$errors[0].$message}}</small>
+               <small v-if="resultError['budget']"> {{ resultError["budget"] }} </small>
               </div>
               <div class="col">
                <div class="input-groupe">
 
                  <label for="userpassword">Mode de financement <span class="text-danger">*</span></label>
-                <MazInput  v-model="step1.age" type="number" min="0" color="info" name="age"   size="sm" rounded-size="sm" />
+                <MazInput  v-model="step1.ModeFinancement" type="number" min="0" color="info" name="ModeFinancement"   size="sm" rounded-size="sm" />
                </div>
-               <small v-if="v$.step1.age.$error">{{ v$.step1.age.$errors[0].$message}}</small>
-               <small v-if="resultError['age']"> {{ resultError["age"] }} </small>
+               <small v-if="v$.step1.ModeFinancement.$error">{{ v$.step1.ModeFinancement.$errors[0].$message}}</small>
+               <small v-if="resultError['ModeFinancement']"> {{ resultError["ModeFinancement"] }} </small>
               </div>
 
              
@@ -95,28 +95,28 @@
                  <div class="col">
                  <div class="input-groupe">
                  <label for="userpassword">Visible <span class="text-danger">*</span></label>
-                 <MazSelect  v-model="step1.number_street_city_state_zip" type="text"  color="info"  name="number_street_city_state_zip" size="sm" rounded-size="sm" />
+                 <MazSelect  v-model="step1.Visible" type="text"  color="info"  name="Visible" size="sm" rounded-size="sm" />
                  </div>
-                 <small v-if="v$.step1.number_street_city_state_zip.$error">{{ v$.step1.number_street_city_state_zip.$errors[0].$message}}</small>
-                 <small v-if="resultError['number_street_city_state_zip']"> {{ resultError["number_street_city_state_zip"] }} </small>
+                 <small v-if="v$.step1.Visible.$error">{{ v$.step1.Visible.$errors[0].$message}}</small>
+                 <small v-if="resultError['Visible']"> {{ resultError["Visible"] }} </small>
                  </div>
 
                  <div class="col">
                  <div class="input-groupe">
                  <label for="userpassword">Date debut <span class="text-danger">*</span></label>
-                 <MazInput  v-model="step1.number_street_city_state_zip" type="text"  color="info"  name="number_street_city_state_zip" size="sm" rounded-size="sm" />
+                 <MazInput  v-model="step1.DateDebut" type="date"  color="info"  name="DateDebut" size="sm" rounded-size="sm" />
                  </div>
-                 <small v-if="v$.step1.number_street_city_state_zip.$error">{{ v$.step1.number_street_city_state_zip.$errors[0].$message}}</small>
-                 <small v-if="resultError['number_street_city_state_zip']"> {{ resultError["number_street_city_state_zip"] }} </small>
+                 <small v-if="v$.step1.DateDebut.$error">{{ v$.step1.DateDebut.$errors[0].$message}}</small>
+                 <small v-if="resultError['DateDebut']"> {{ resultError["DateDebut"] }} </small>
                  </div>
 
                  <div class="col">
                  <div class="input-groupe">
                  <label for="userpassword">Date fin <span class="text-danger">*</span></label>
-                 <MazInput  v-model="step1.number_street_city_state_zip" type="text"  color="info"  name="number_street_city_state_zip" size="sm" rounded-size="sm" />
+                 <MazInput  v-model="step1.DateFin" type="date"  color="info"  name="DateFin" size="sm" :min="step1.DateDebut" rounded-size="sm" />
                  </div>
-                 <small v-if="v$.step1.number_street_city_state_zip.$error">{{ v$.step1.number_street_city_state_zip.$errors[0].$message}}</small>
-                 <small v-if="resultError['number_street_city_state_zip']"> {{ resultError["number_street_city_state_zip"] }} </small>
+                 <small v-if="v$.step1.DateFin.$error">{{ v$.step1.DateFin.$errors[0].$message}}</small>
+                 <small v-if="resultError['DateFin']"> {{ resultError["DateFin"] }} </small>
                  </div>
              </div>
 
@@ -126,28 +126,30 @@
             <div class="col">
             <div class="input-groupe">
             <label for="userpassword">Description <span class="text-danger">*</span></label>
-            <MazTextarea  v-model="step1.number_street_city_state_zip" type="text"  color="info"  name="number_street_city_state_zip" size="sm" rounded-size="sm" />
+            <MazTextarea  v-model="step1.Description" type="text"  color="info"  name="Description" size="sm" rounded-size="sm" />
             </div>
-            <small v-if="v$.step1.number_street_city_state_zip.$error">{{ v$.step1.number_street_city_state_zip.$errors[0].$message}}</small>
-            <small v-if="resultError['number_street_city_state_zip']"> {{ resultError["number_street_city_state_zip"] }} </small>
-            </div>
-
-        
-
-          
-        </div>
+            <small v-if="v$.step1.Description.$error">{{ v$.step1.Description.$errors[0].$message}}</small>
+            <small v-if="resultError['Description']"> {{ resultError["Description"] }} </small>
+            </div> 
+           </div>
 
               <p class="titre">Les Bailleurs</p>
 
               <div class="row mb-3 mt-3 content-group">
-         <div  class="row mb-3 mt-3 content-group" v-for="(day, index) in step1.DaysHours" :key="day.id">
+                <div class="btn-list" style="position:absolute" >
+          <div class="bouttons" style="position:relative">
+        <div class="boutton"   style="max-width: 34px; width: 100%;padding: 6px; margin-top: 20px; display: flex;
+                    flex-direction: column;  align-items: center; justify-content: center; right: -47.5%; top: 29px; position: relative; z-index:1000" @click="AddformDataBailleurs" ><i  class="ri-add-line"></i></div>
+        </div>
+          </div>
+         <div  class="row mb-3 mt-3 content-group" v-for="(bailleur, index) in step1.Bailleurs" :key="bailleur.id">
            <div class="col">
          <div class="input-groupe">
          <label for="userpassword">Nom bailleur <span class="text-danger">*</span></label>
          <MazSelect 
           label="Select" 
-          v-model="day.day_id"
-           name="day_id"  
+          v-model="bailleur.nom"
+           name="nom"  
            listPosition="left" 
            color="info"
             :options="DaysOptions" 
@@ -155,27 +157,27 @@
              rounded-size="sm" 
               v-slot="{ option }"
             search > 
-            <div class="flex items-center" style="  width: 100%;  gap: 1rem; " @click="clearError(index, 'day_id')">
+            <div class="flex items-center" style="  width: 100%;  gap: 1rem; " @click="clearError(index, 'nom')">
                      {{ option.label }}
                    </div>
                  </MazSelect>  
          </div>
-         <small v-if="errors.step1.DaysHours && errors.step1.DaysHours[index] && errors.step1.DaysHours[index].day_id">{{ errors.step1.DaysHours[index].day_id }}</small>
-         <small v-if="resultError['DaysHours']"> {{ resultError["DaysHours"] }} </small>
+         <small v-if="errors.step1.Bailleurs && errors.step1.Bailleurs[index] && errors.step1.Bailleurs[index].nom">{{ errors.step1.Bailleurs[index].nom }}</small>
+         <small v-if="resultError['Bailleurs']"> {{ resultError["Bailleurs"] }} </small>
          </div>
 
          <div class="col   d-flex align-items-center">
          <div class="input-groupe w-100 me-2">
             <div >
              <label for="userpassword">Budget <span class="text-danger">*</span></label>
-         <MazInput  v-model="day.available_hour" type="text"  color="info" @input="clearError(index, 'available_hour')"  name="day.available_hour" size="sm" rounded-size="sm" />
+         <MazInput  v-model="bailleur.budget" type="text"  color="info" @input="clearError(index, 'budget')"  name="bailleur.budget" size="sm" rounded-size="sm" />
          </div>
-         <small v-if="errors.step1.DaysHours && errors.step1.DaysHours[index] && errors.step1.DaysHours[index].available_hour">{{ errors.step1.DaysHours[index].available_hour }}</small>
-         <small v-if="resultError['DaysHours']"> {{ resultError["DaysHours"] }} </small>
+         <small v-if="errors.step1.Bailleurs && errors.step1.Bailleurs[index] && errors.step1.Bailleurs[index].budget">{{ errors.step1.Bailleurs[index].budget }}</small>
+         <small v-if="resultError['Bailleurs']"> {{ resultError["Bailleurs"] }} </small>
             </div>
             <div class="btn-list mt-8">
              <div class="bouttons" style="position:relative;">
-       <div class="boutton"   style=" padding:6px 10px !important ; background:red;margin-top:0 !important" @click="deleteRowDays(index)" ><i class="ri-delete-bin-line"></i></div>
+       <div class="boutton"   style=" padding:6px 10px !important ; background:red;margin-top:0 !important" @click="deleteRowBailleurs(index)" ><i class="ri-delete-bin-line"></i></div>
        </div>
            <!-- <a aria-label="anchor"  @click="deleteRowDays(index)" href="javascript:void(0);" class="btn btn-icon btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a> -->
        </div>
@@ -186,42 +188,35 @@
              <p class="titre">Objectifs</p>
 
 <div class="row mb-3 mt-3 content-group">
-<div  class="row mb-3 mt-3 content-group" v-for="(day, index) in step1.DaysHours" :key="day.id">
+  <div class="btn-list" style="position:absolute" >
+          <div class="bouttons" style="position:relative">
+        <div class="boutton"   style="max-width: 34px; width: 100%;padding: 6px; margin-top: 20px; display: flex;
+                    flex-direction: column;  align-items: center; justify-content: center; right: -47.5%; top: 29px; position: relative; z-index:1000" @click="AddformDataObjectifs" ><i  class="ri-add-line"></i></div>
+        </div>
+          </div>
+<div  class="row mb-3 mt-3 content-group" v-for="(objectif, index) in step1.Objectifs" :key="objectif.id">
 <div class="col">
 <div class="input-groupe">
 <label for="userpassword">Intitule <span class="text-danger">*</span></label>
-<MazInput
-label="Select" 
-v-model="day.day_id"
-name="day_id"  
-listPosition="left" 
-color="info"
-:options="DaysOptions" 
-size="sm" 
-rounded-size="sm" 
-v-slot="{ option }"
-search > 
-<div class="flex items-center" style="  width: 100%;  gap: 1rem; " @click="clearError(index, 'day_id')">
-       {{ option.label }}
-     </div>
-   </MazInput>  
+<MazInput v-model="objectif.Intitule" name="Intitule" color="info"
+size="sm" rounded-size="sm" /> 
 </div>
-<small v-if="errors.step1.DaysHours && errors.step1.DaysHours[index] && errors.step1.DaysHours[index].day_id">{{ errors.step1.DaysHours[index].day_id }}</small>
-<small v-if="resultError['DaysHours']"> {{ resultError["DaysHours"] }} </small>
+<small v-if="errors.step1.Objectifs && errors.step1.Objectifs[index] && errors.step1.Objectifs[index].Intitule">{{ errors.step1.Objectifs[index].Intitule }}</small>
+<small v-if="resultError['Objectifs']"> {{ resultError["Objectifs"] }} </small>
 </div>
 
 <div class="col   d-flex align-items-center">
 <div class="input-groupe w-100 me-2">
 <div >
 <label for="userpassword">Visible <span class="text-danger">*</span></label>
-<MazSelect  v-model="day.available_hour" type="text"  color="info" @input="clearError(index, 'available_hour')"  name="day.available_hour" size="sm" rounded-size="sm" />
+<MazSelect  v-model="objectif.Visible" type="text"  color="info" @click="clearErrorObjectifs(index, 'Visible')"  name="objectif.Visible" size="sm" rounded-size="sm" />
 </div>
-<small v-if="errors.step1.DaysHours && errors.step1.DaysHours[index] && errors.step1.DaysHours[index].available_hour">{{ errors.step1.DaysHours[index].available_hour }}</small>
-<small v-if="resultError['DaysHours']"> {{ resultError["DaysHours"] }} </small>
+<small v-if="errors.step1.Objectifs && errors.step1.Objectifs[index] && errors.step1.Objectifs[index].Visible">{{ errors.step1.Objectifs[index].Visible }}</small>
+<small v-if="resultError['Objectifs']"> {{ resultError["Objectifs"] }} </small>
 </div>
 <div class="btn-list mt-8">
 <div class="bouttons" style="position:relative;">
-<div class="boutton"   style=" padding:6px 10px !important ; background:red;margin-top:0 !important" @click="deleteRowDays(index)" ><i class="ri-delete-bin-line"></i></div>
+<div class="boutton"   style=" padding:6px 10px !important ; background:red;margin-top:0 !important" @click="deleteRowObjectifs(index)" ><i class="ri-delete-bin-line"></i></div>
 </div>
 <!-- <a aria-label="anchor"  @click="deleteRowDays(index)" href="javascript:void(0);" class="btn btn-icon btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a> -->
 </div>
@@ -231,7 +226,7 @@ search >
            </div>
            <!-- fin infos genral -->
            <div class="btnForm py-3 d-flex items-center justify-content-end">
-           <button class="btnLogin" :disabled="isButtonDisabled" @click.prevent="nextStep">
+           <button class="btnLogin"  @click.prevent="submitprojet()">
              Valider
            </button>
          </div>
@@ -272,9 +267,6 @@ search >
      return {
        
        loading: false,
-       userData:'',
-      
-   
        error: "",
        resultError: {},
        DaysOptions:[],
@@ -284,7 +276,11 @@ search >
        TransportOptions:[],
        FileInsurance:"",
        errors: {
-       step1: { DaysHours: [] },
+       step1: { 
+        Bailleurs: [] ,
+        Objectifs: [] ,
+       
+       },
      },
    
      results: null,
@@ -297,411 +293,136 @@ search >
        
        v$: useVuelidate(),
        step1: {
-           first_name: "",
-           last_name: "",
-           phone: "",
-
-           email:"",
-           address: "",
-           age: "",
-           social_security: "",
-
-           number_street_city_state_zip:"",
-
-           position_applied_agency:"",
-           weekly_available_hours:"",
-           can_work_night:"",
-
-           number_pref:"",
-           how_long:"",
-
-           DaysHours:[{
-             day_id:'',
-           available_hour:'',
-
-           }],
-
-           
+            code: "",
+            sigle: "",
+            nom: "",
+            zone:"",
+            budget: "",
+            ModeFinancement: "",
+            Visible: "",
+            DateDebut:"",
+            DateFin:"",
+            Description:"",
+            Bailleurs:[{ nom:'', budget:'',}],
+            Objectifs:[{ Intitule:'', Visible:'',}],
+  
      },
-    
-      
+     
      };
    },
    validations: {
      step1: {
-           first_name: {require},
-           last_name: {require},
-           phone: {require},
-
-           email:{require},
-           address: {require},
-           age: {require},
-           social_security: {require },
-
-           number_street_city_state_zip:{require},
-
-
-           position_applied_agency:{require},
-           weekly_available_hours:{require},
-           can_work_night:{require},
-
-           number_pref:{ValidNumeri},
-           how_long:{require},
-
-           DaysHours: {
-         $each: {
-           day_id: { require},
-           available_hour: { require },
+            code: {require},
+            sigle: {require},
+            nom: {require},
+            zone:{require},
+            budget: {require},
+            ModeFinancement: {require},
+            Visible: {require},
+            DateDebut:{require},
+            DateFin:{require},
+            Description:{require},
+           
          }
-       },
-           date_available_to_start:{require}, 
-
-          date_available_to_start:{require}, 
-           full_part_both:{require},    
-     },
-    
-
+        
     
    },
    methods: {
    
   
 
-   clearError(index, field) {
-       
-     if (this.errors.step1.DaysHours[index]) {
-       this.errors.step1.DaysHours[index][field] = null;
+   clearError(index, field) {   
+     if (this.errors.step1.Bailleurs[index]) {
+       this.errors.step1.Bailleurs[index][field] = null;
      }
    },
-  
-     
-     redirect(){
 
-       window.location.href = 'https://www.leprimecare.com'
-     },
-     swaaa(){
-       Swal.fire({
- title: "Recruitment information has been successfully submitted",
- text: "A return will be made to you after processing, thank you",
- icon: "success",
- showCancelButton: false,
- confirmButtonColor: "#3085d6",
- cancelButtonColor: "#d33",
- confirmButtonText: "OK"
-}).then((result) => {
- if (result.isConfirmed) {
-   this.redirect()
-   
- }
-});
-     },
-
-AddformDataDays() {
-   this.step1.DaysHours.push({ day_id:'', available_hour:'',});
- },
-
- deleteRowDays(index) {
+   clearErrorObjectifs(index, field) {   
+     if (this.errors.step1.Objectifs[index]) {
+       this.errors.step1.Objectifs[index][field] = null;
+     }
+   },
+   AddformDataBailleurs() {
+   this.step1.Bailleurs.push({ nom:'', budget:'',});
+   },
+   deleteRowBailleurs(index) {
   
    if(index !== 0){
-     this.step1.DaysHours.splice(index, 1);
+     this.step1.Bailleurs.splice(index, 1);
    }
-},
+  },
 
-
-
-collectStepData(step) {
-   let stepData = {};
  
-
-// Collecter les données des étapes précédentes
-for (let i = 1; i < step; i++) {
-   const previousStepData = this.collectStepData(i);
-   Object.assign(stepData, previousStepData);
-}
-   
-   switch (step) {
-       case 1:
-           stepData = {
-             
-             ...stepData,
-
-             first_name: this.step1.first_name,
-             last_name: this.step1.last_name,
-             phone: this.step1.phone,
-             address: this.step1.address,
-             email:this.step1.email,
-             age: this.step1.age,
-             social_security: this.step1.social_security,
-             number_street_city_state_zip: this.step1.number_street_city_state_zip,
-             position_applied_agency: this.step1.position_applied_agency,
-             weekly_available_hours: this.step1.weekly_available_hours,
-             can_work_night: this.step1.can_work_night,
-             number_pref: this.step1.number_pref,
-             how_long: this.step1.how_long,
-
-             DaysHours: this.step1.DaysHours,
-
-             date_available_to_start: this.step1.date_available_to_start,
-             full_part_both: this.step1.full_part_both,
-           };
-           break;
-       case 2:
-           stepData = {
-             ...stepData,
-             type_school: this.step2.type_school,
-             school_name: this.step2.school_name,
-             school_location: this.step2.school_location,
-             school_email_address: this.step2.school_email_address,
-             number_of_year_school: this.step2.number_of_year_school,
-             school_level_id: parseInt(this.step2.school_level_id),
-             means_transportation: this.step2.means_transportation,
-             driver_licence: this.step2.driver_licence,
-             driver_licence_number: this.step2.driver_licence_number,
-             driver_licence_issue_state: this.step2.driver_licence_issue_state,
-             driver_licence_expiration_date: this.step2.driver_licence_expiration_date,
-             current_insurance: this.step2.current_insurance,
-             insurance_policy: this.step2.insurance_policy,
-             insurance_copy_submitted: this.step2.insurance_copy_submitted,
-             FileInsurance: this.FileInsurance,
-
-           };
-           break;
-
-           case 3:
-           stepData = {
-             ...stepData,
-             any_accident_during_past_year:this.step3.any_accident_during_past_year ,
-             accident_count: parseInt(this.step3.accident_count)  ,
-             moving_violation_past_three_year: this.step3.moving_violation_past_three_year,
-             moving_violation_count:parseInt(this.step3.moving_violation_count) ,
-             convicted_crime: this.step3.convicted_crime,
-             crime_description: this.step3.crime_description,
-
-           };
-           break;
-           case 4:
-           stepData = {
-             ...stepData,
-               experiences:this.step4.experiences
-           };
-           break;
-           case 5:
-           stepData = {
-             ...stepData,
-             references:this.step5.references
-        
-       
-           };
-           break;
-           case 6:
-           stepData = {
-             ...stepData,
-             type_skill:this.step6.type_skill,
-             computer_skill:this.step6.computer_skill,
-             other_skills:this.step6.other_skills,
-        
-       
-           };
-           break;
-       // Ajoutez des cas pour chaque étape du formulaire
-       default:
-           break;
-   }
-   
-   return stepData;
-},
-   
- 
-     async nextStep() {   
-       try {
-         let isValid = false;
-
-       if (this.currentStep === 1) {
-       isValid = this.validateStep1();
-     } else if (this.currentStep === 4) {
-       isValid = this.validateStep4();
-     } else if (this.currentStep === 5) {
-       isValid = this.validateStep5();
-     } else {
-       isValid = true; 
-     }
+   AddformDataObjectifs() {
+   this.step1.Objectifs.push({ Intitule:'', Visible:'',});
+   },
+   deleteRowObjectifs(index) {
   
-
-
+   if(index !== 0){
+     this.step1.Objectifs.splice(index, 1);
+   }
+  },
  
-       this.v$[`step${this.currentStep}`].$touch();
-       if (this.v$.$errors.length === 0 && isValid) {
-         if( this.currentStep === 6){
-              this.loading = true
-               const stepData = this.collectStepData(this.currentStep);
-                 console.log(stepData);
-                 localStorage.setItem('tempLeprimecare', JSON.stringify(stepData));
-                 const response = await this.registeremployeeData(stepData) 
-                 console.log('responseenregistrement',response)
-                 if(response.status === "success"){
-                 this.loading = false
-                   this.swaaa()
-                   localStorage.removeItem('tempLeprimecare')
+  async submitprojet() {
+    try {
+        let isStep1Valid = this.validateStep1();
+        let isStep2Valid = this.validateStep2();
 
-                 }else{
-                 this.loading = false
+        this.v$.step1.$touch();
 
-                 }
-         }else{
-           const stepData = this.collectStepData(this.currentStep);
-                
-                 localStorage.setItem('tempLeprimecare', JSON.stringify(stepData))
-               this.currentStep++;
-             window.scrollTo({ top: 0, behavior: "smooth" });
-         
-          
-         }
-       } else {
-           // Afficher un message d'erreur à l'utilisateur
-           console.log("Le formulaire contient des erreurs");
-            console.log("errroor222", this.v$.$errors);
-           window.scrollTo({ top: 0, behavior: "smooth" });
-                  this.loading = false;
-       }
-
-      
-   } catch (error) {
-       // Gérer les erreurs
-       console.log("errroor222", this.v$.$errors);
-
-       console.error("Une erreur s'est produite :", error);
-       console.log("errroor222", this.v$.$errors);
-       
-
-       window.scrollTo({ top: 0, behavior: "smooth" });
+        if (this.v$.$errors.length === 0 && isStep1Valid && isStep2Valid) {
+            console.log("Form is valid");
+            // Continue with form submission logic
+        } else {
+            console.log("Le formulaire contient des erreurs");
+            console.log("Errors:", this.v$.$errors);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            this.loading = false;
+        }
+    } catch (error) {
+        console.error("Une erreur s'est produite :", error);
+        window.scrollTo({ top: 0, behavior: "smooth" });
         this.loading = false;
-   }
-     },
-     async nextStep1() {
-   try {
-       // Valider les données de l'étape actuelle
-       this.v$[`step${this.currentStep}`].$touch();
-       if (this.v$.$errors.length === 0) {
-         
-           console.log('stepData', this.currentStep);
-           this.loading = true;
-           if( this.currentStep === 5){
-             
-              const stepData = this.collectStepData(this.currentStep);
-               console.log(stepData);
-                 const response = await this.updateMpmeDonnees(stepData) 
-                 console.log('eee',response);
-                 if (response === true) {
-                   this.loading = false;
-                   this.confirmDelete()
-               
-                 } else {
-                     console.error("Erreur lors de l'envoi des données :", response);
-                     window.scrollTo({ top: 0, behavior: "smooth" });
-                     this.loading = false;
-                 }
-
-           }else if(this.currentStep === 4 || this.currentStep === 5){
-                 
-                 const stepData = this.collectStepData(this.currentStep);
-                 console.log(stepData);
-                 localStorage.setItem('tempLeprimecare', JSON.stringify(stepData))
-                 const response = await this.updateMpmeDonnees(stepData) 
-                 console.log('eee',response);
-                 if (response === true) {
-                     this.currentStep++;
-                     window.scrollTo({ top: 0, behavior: "smooth" });
-                  this.loading = false;
-                 } else {
-                     console.error("Erreur lors de l'envoi des données :", response);
-                     window.scrollTo({ top: 0, behavior: "smooth" });
-                     this.loading = false;
-                 }
-           }else{
-             const stepData = this.collectStepData(this.currentStep);
-                 console.log(stepData);
-                 localStorage.setItem('tempLeprimecare', JSON.stringify(stepData));
-                 const response = await this.registeremployeeData(stepData) 
-                 console.log('eee',response);
-                 if (response === true) {
-                     this.currentStep++;
-                     window.scrollTo({ top: 0, behavior: "smooth" });
-                     this.loading = false;
-                 } else {
-                     console.error("Erreur lors de l'envoi des données :", response);
-                     window.scrollTo({ top: 0, behavior: "smooth" });
-                     this.loading = false;
-                 }
-
-           }
-
-           
-
-
-       } else {
-           // Afficher un message d'erreur à l'utilisateur
-           console.log("Le formulaire contient des erreurs");
-           window.scrollTo({ top: 0, behavior: "smooth" });
-                  this.loading = false;
-       }
-   } catch (error) {
-       // Gérer les erreurs
-       console.error("Une erreur s'est produite :", error);
-       window.scrollTo({ top: 0, behavior: "smooth" });
-        this.loading = false;
-   }
+    }
 },
-async registeremployeeData(employeeData) {
-   try {
-       const response = await axios.post('/employees', employeeData);
 
-       console.log("response", response);
-       if (response.data.status === 'success') {
-         
-           return response.data;
-       } else {
-           console.error("Erreur lors de la mise à ", response.data); 
-           // Passer à l'étape suivante si l'erreur n'est pas liée à l'étape en cours
-           this.error = "An error has occurred. Please try again later";
-           return false;
-       }
-   } catch (error) {
-     console.error("Erreur lors de la mise à ", error.response.data.errors);
-
-  
-         if(error.response.data.errors){
-           const errorKeys = Object.keys(error.response.data.errors);
-           const currentStepFields = Object.keys(employeeData);
-           const isCurrentStepError = errorKeys.some(key => currentStepFields.includes(key));
-
-      
-
-           if (isCurrentStepError === true) {
-               // Passer à l'étape suivante si l'erreur n'est pas liée à l'étape en cours
-               this.formatValidationErrors(error.response.data.errors);
-             return false;
-
-           }else{
-             return true;
-           }
-         }
-         else{
-
-           if (error.response) {
-               
-           } else {
-               // Afficher les erreurs à l'utilisateur
-               this.formatValidationErrors(error.response.data.errors);
-               this.loading = false;
-           }
-         }
-
-   }
+     validateStep1() {
+    let isValid = true;
+    this.errors.step1 = { Bailleurs: [] };
+    this.step1.Bailleurs.forEach((bailleur, index) => {
+        const bailleurErrors = {};
+        if (!bailleur.nom) {
+            bailleurErrors.nom = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        if (!bailleur.budget) {
+            bailleurErrors.budget = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        this.errors.step1.Bailleurs[index] = bailleurErrors;
+    });
+    return isValid;
 },
- 
+
+validateStep2() {
+    let isValid = true;
+    this.errors.step1 = { Objectifs: [] };
+    this.step1.Objectifs.forEach((objectif, index) => {
+        const objectifErrors = {};
+        if (!objectif.Intitule) {
+            objectifErrors.Intitule = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        if (!objectif.Visible) {
+            objectifErrors.Visible = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        this.errors.step1.Objectifs[index] = objectifErrors;
+    });
+    return isValid;
+},
 
  
-  
      async fetchDays() {
      try {
       
@@ -721,30 +442,7 @@ async registeremployeeData(employeeData) {
        
      }
    },
-   async fetchHonoraires() {
-     try {
-      
-       const response = await axios.get('/employees/detail/honoraires/emp');
-
-     
-       if (response.data.status === 'success') {
-         this.HonorairesOptions = response.data.data.map((el) => ({
-             label:el,
-             value: el,
-           }));
-       
-       }
-      
-     } catch (error) {
-       console.log("Erreur lors de la mise à jour des données MPME guinee :", error);
-     
-       
-     }
-   },
-  
-  
-
-   
+ 
      async formatValidationErrors(errors) {
      const formattedErrors = {};
 
@@ -791,24 +489,7 @@ async registeremployeeData(employeeData) {
 
 
 
-validateStep1() {
-     let isValid = true;
-     this.errors.step1 = { DaysHours: [] };
-     this.step1.DaysHours.forEach((day, index) => {
-       const dayErrors = {};
-       if (!day.day_id) {
-         dayErrors.day_id = 'Day is required';
-         isValid = false;
-       }
-       if (!day.available_hour) {
-         dayErrors.available_hour = 'Hour is required';
-         isValid = false;
-       }
-       this.errors.step1.DaysHours[index] = dayErrors;
-     });
 
-     return isValid;
-   },
   
     
 
@@ -823,7 +504,7 @@ validateStep1() {
      
      await Promise.all([
       this.fetchDays(),
-      this.fetchHonoraires(),
+     
 
       
      ]);

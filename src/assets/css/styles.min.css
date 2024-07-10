@@ -7767,7 +7767,7 @@
   font-size: 0.813rem;
 }
 .card.custom-card .card-body {
-  padding: 1.25rem;
+
   color: var(--default-text-color);
 }
 .card.custom-card .card-link {
@@ -12255,9 +12255,7 @@ caption {
 .tooltip.tooltip-light .tooltip-inner {
   color: var(--default-text-color);
 }
-.authentication {
-  min-height: 100vh;
-}
+
 .authentication .authentication-brand.desktop-logo {
   display: block;
 }

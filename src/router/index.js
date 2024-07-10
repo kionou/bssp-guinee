@@ -31,7 +31,13 @@ const router = createRouter({
       component: SignIn
     },
     {
-      path: '/bssp',
+      path: '/detail-projet1',
+      name: 'detail-projet1',
+     
+       component: ProjetsDetails
+    },
+    {
+      path: '/bspp',
       name: 'Accueil',
       component: Dashboard,
       meta: { requiresAuth: true },
@@ -72,12 +78,12 @@ const router = createRouter({
           meta: { requiresAuth: true },
            component: ProjetsSuivi
         },
-        {
-          path: 'detail-projet1',
-          name: 'detail-projet1',
-          meta: { requiresAuth: true },
-           component: ProjetsDetails
-        },
+        // {
+        //   path: 'detail-projet1',
+        //   name: 'detail-projet1',
+         
+        //    component: ProjetsDetails
+        // },
         {
           path: 'bailleurs',
           name: 'bailleurs',
@@ -128,11 +134,11 @@ router.beforeEach((to, from, next) => {
     // Si la route nécesite une authentification et l'utilisateur n'est pas connecté,
     // redirigez-le vers la page de connexion
     next("/");
-  } else if (to.name === "login" && isAuthenticated) {
+  } else if (to.name === "Connexion" && isAuthenticated) {
     // Si l'utilisateur est connecté et essaie d'accéder aux pages d'inscription ou de connexion,
     // redirigez-le vers la page mon_espace
    
-      next("/bssp");
+      next("/bspp");
     
   } else {
     next();

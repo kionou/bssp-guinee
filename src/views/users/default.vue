@@ -10,7 +10,7 @@
         <nav>
           <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item">
-              <a href="javascript:void(0);">BSSP</a>
+              <a href="javascript:void(0);">BSPP</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
               Utilisateurs
@@ -54,18 +54,24 @@
         </div>
       </div>
     </div>
-    <div class="row justify-content-center">
-      <div class="notificationCard">
-        <img src="@/assets/img/client.png" alt="" class="bellIcon" />
-        <p class="notificationHeading">Username</p>
-        <p class="notificationPara">Nom & prenom</p>
-        <p class="notificationPara">kionoumamadou?00@gmaiL.com</p>
-        <p class="notificationPara">+22460123435</p>
-        <div class="buttonContainer">
-          <button class="AllowBtn">Statut</button>
-        </div>
-        <div class="card-footer">
-                <div class="btn-list">
+    <div class="row task-card">
+                <div class="row">
+
+                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <div class="card custom-card task-pending-card border border-dark ">
+                    <div class="card-body">
+                        <div class="notificationCard">
+                    <img src="@/assets/img/client.png" alt="" class="bellIcon" />
+                    <p class="notificationHeading">Username</p>
+                    <p class="notificationPara">Nom & prenom</p>
+                    <p class="notificationPara">kionoumamadou?00@gmaiL.com</p>
+                    <p class="notificationPara">+22460123435</p>
+                    <div class="buttonContainer">
+                    <button class="AllowBtn">Statut</button>
+                    </div>
+                    <hr>
+                    
+                  <div class="btn-list">
                
                   <button class="btn btn-sm btn-icon btn-primary btn-wave">
                     <i class="ri-edit-line"></i>
@@ -76,99 +82,169 @@
                   </button>
                  
                 </div>
-              </div>
+              
         
-      </div>
+      </div>  
+                    </div>
+                </div>
+                    </div>
+                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <div class="card custom-card task-pending-card border border-dark ">
+                    <div class="card-body">
+                        <div class="notificationCard">
+                    <img src="@/assets/img/client.png" alt="" class="bellIcon" />
+                    <p class="notificationHeading">Username</p>
+                    <p class="notificationPara">Nom & prenom</p>
+                    <p class="notificationPara">kionoumamadou?00@gmaiL.com</p>
+                    <p class="notificationPara">+22460123435</p>
+                    <div class="buttonContainer">
+                    <button class="AllowBtn">Statut</button>
+                    </div>
+                    <hr>
+                    
+                  <div class="btn-list">
+               
+                  <button class="btn btn-sm btn-icon btn-primary btn-wave">
+                    <i class="ri-edit-line"></i>
+                  </button>
 
-      <div class="notificationCard">
-        <img src="@/assets/img/client.png" alt="" class="bellIcon" />
-        <p class="notificationHeading">Username</p>
-        <p class="notificationPara">Nom & prenom</p>
-        <p class="notificationPara">kionoumamadou?00@gmaiL.com</p>
-        <p class="notificationPara">+22460123435</p>
-        <div class="buttonContainer">
-          <button class="AllowBtn">Statut</button>
-        </div>
+                  <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                    <i class="ri-delete-bin-line"></i>
+                  </button>
+                 
+                </div>
+              
         
-      </div>
-      <div class="notificationCard">
-        <img src="@/assets/img/client.png" alt="" class="bellIcon" />
-        <p class="notificationHeading">Username</p>
-        <p class="notificationPara">Nom & prenom</p>
-        <p class="notificationPara">kionoumamadou?00@gmaiL.com</p>
-        <p class="notificationPara">+22460123435</p>
-        <div class="buttonContainer">
-          <button class="AllowBtn">Statut</button>
-        </div>
+      </div>  
+                    </div>
+                </div>
+                    </div>
+                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <div class="card custom-card task-pending-card border border-dark ">
+                    <div class="card-body">
+                        <div class="notificationCard">
+                    <img src="@/assets/img/client.png" alt="" class="bellIcon" />
+                    <p class="notificationHeading">Username</p>
+                    <p class="notificationPara">Nom & prenom</p>
+                    <p class="notificationPara">kionoumamadou?00@gmaiL.com</p>
+                    <p class="notificationPara">+22460123435</p>
+                    <div class="buttonContainer">
+                    <button class="AllowBtn">Statut</button>
+                    </div>
+                    <hr>
+                    
+                  <div class="btn-list">
+               
+                  <button class="btn btn-sm btn-icon btn-primary btn-wave">
+                    <i class="ri-edit-line"></i>
+                  </button>
+
+                  <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                    <i class="ri-delete-bin-line"></i>
+                  </button>
+                 
+                </div>
+              
         
-      </div>
-      <div class="notificationCard">
-        <img src="@/assets/img/client.png" alt="" class="bellIcon" />
-        <p class="notificationHeading">Username</p>
-        <p class="notificationPara">Nom & prenom</p>
-        <p class="notificationPara">kionoumamadou?00@gmaiL.com</p>
-        <p class="notificationPara">+22460123435</p>
-        <div class="buttonContainer">
-          <button class="AllowBtn">Statut</button>
-        </div>
+      </div>  
+                    </div>
+                </div>
+                    </div>
+                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <div class="card custom-card task-pending-card border border-dark ">
+                    <div class="card-body">
+                        <div class="notificationCard">
+                    <img src="@/assets/img/client.png" alt="" class="bellIcon" />
+                    <p class="notificationHeading">Username</p>
+                    <p class="notificationPara">Nom & prenom</p>
+                    <p class="notificationPara">kionoumamadou?00@gmaiL.com</p>
+                    <p class="notificationPara">+22460123435</p>
+                    <div class="buttonContainer">
+                    <button class="AllowBtn">Statut</button>
+                    </div>
+                    <hr>
+                    
+                  <div class="btn-list">
+               
+                  <button class="btn btn-sm btn-icon btn-primary btn-wave">
+                    <i class="ri-edit-line"></i>
+                  </button>
+
+                  <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                    <i class="ri-delete-bin-line"></i>
+                  </button>
+                 
+                </div>
+              
         
-      </div>
-      <div class="notificationCard">
-        <img src="@/assets/img/client.png" alt="" class="bellIcon" />
-        <p class="notificationHeading">Username</p>
-        <p class="notificationPara">Nom & prenom</p>
-        <p class="notificationPara">kionoumamadou?00@gmaiL.com</p>
-        <p class="notificationPara">+22460123435</p>
-        <div class="buttonContainer">
-          <button class="AllowBtn">Statut</button>
-        </div>
+      </div>  
+                    </div>
+                </div>
+                    </div>
+                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <div class="card custom-card task-pending-card border border-dark ">
+                    <div class="card-body">
+                        <div class="notificationCard">
+                    <img src="@/assets/img/client.png" alt="" class="bellIcon" />
+                    <p class="notificationHeading">Username</p>
+                    <p class="notificationPara">Nom & prenom</p>
+                    <p class="notificationPara">kionoumamadou?00@gmaiL.com</p>
+                    <p class="notificationPara">+22460123435</p>
+                    <div class="buttonContainer">
+                    <button class="AllowBtn">Statut</button>
+                    </div>
+                    <hr>
+                    
+                  <div class="btn-list">
+               
+                  <button class="btn btn-sm btn-icon btn-primary btn-wave">
+                    <i class="ri-edit-line"></i>
+                  </button>
+
+                  <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                    <i class="ri-delete-bin-line"></i>
+                  </button>
+                 
+                </div>
+              
         
-      </div>
-      <div class="notificationCard">
-        <img src="@/assets/img/client.png" alt="" class="bellIcon" />
-        <p class="notificationHeading">Username</p>
-        <p class="notificationPara">Nom & prenom</p>
-        <p class="notificationPara">kionoumamadou?00@gmaiL.com</p>
-        <p class="notificationPara">+22460123435</p>
-        <div class="buttonContainer">
-          <button class="AllowBtn">Statut</button>
-        </div>
-        
-      </div>
-      <div class="notificationCard">
-        <img src="@/assets/img/client.png" alt="" class="bellIcon" />
-        <p class="notificationHeading">Username</p>
-        <p class="notificationPara">Nom & prenom</p>
-        <p class="notificationPara">kionoumamadou?00@gmaiL.com</p>
-        <p class="notificationPara">+22460123435</p>
-        <div class="buttonContainer">
-          <button class="AllowBtn">Statut</button>
-        </div>
-        
-      </div>
-      <div class="notificationCard">
-        <img src="@/assets/img/client.png" alt="" class="bellIcon" />
-        <p class="notificationHeading">Username</p>
-        <p class="notificationPara">Nom & prenom</p>
-        <p class="notificationPara">kionoumamadou?00@gmaiL.com</p>
-        <p class="notificationPara">+22460123435</p>
-        <div class="buttonContainer">
-          <button class="AllowBtn">Statut</button>
-        </div>
-        
-      </div>
-      <div class="notificationCard">
-        <img src="@/assets/img/client.png" alt="" class="bellIcon" />
-        <p class="notificationHeading">Username</p>
-        <p class="notificationPara">Nom & prenom</p>
-        <p class="notificationPara">kionoumamadou?00@gmaiL.com</p>
-        <p class="notificationPara">+22460123435</p>
-        <div class="buttonContainer">
-          <button class="AllowBtn">Statut</button>
-        </div>
-        
-      </div>
-    </div>
+      </div>  
+                    </div>
+                </div>
+                    </div>
+                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <div class="card custom-card task-pending-card border border-dark ">
+                    <div class="card-body">
+                        <div class="notificationCard">
+                    <img src="@/assets/img/client.png" alt="" class="bellIcon" />
+                    <p class="notificationHeading">Username</p>
+                    <p class="notificationPara">Nom & prenom</p>
+                    <p class="notificationPara">kionoumamadou?00@gmaiL.com</p>
+                    <p class="notificationPara">+22460123435</p>
+                    <div class="buttonContainer">
+                    <button class="AllowBtn">Statut</button>
+                    </div>
+                    <hr>
+                    
+                  <div class="btn-list">
+               
+                  <button class="btn btn-sm btn-icon btn-primary btn-wave">
+                    <i class="ri-edit-line"></i>
+                  </button>
+
+                  <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                    <i class="ri-delete-bin-line"></i>
+                  </button>
+                 
+                </div>
+      </div>  
+                    </div>
+                </div>
+                    </div>
+                </div>
+                
+                
+ </div>
     <div class="row">
           <div class="col-lg-12">
             <div class="container_pagination">
@@ -464,12 +540,6 @@ export default {
      return this.step1.password === this.step1.password_confirmation;
     },
 
-   
-   
- 
-   
-   
-  
     filterByName() {
       this.currentPage = 1;
       if (this.control.name !== null) {
@@ -526,22 +596,17 @@ export default {
 </script>
 <style lang="css" scoped>
 .notificationCard {
-  width: 254px;
-  height: 280px;
+  
   background: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 10px 15px;
-  gap: 0;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    margin: 0 10Px 10px;
+
 }
 
-.bellIcon {
-  width: 75px;
+   .bellIcon {
+  width: 85px;
   margin: 10px 0px;
   border: 1px solid #d9dee3;
   padding: 1px;

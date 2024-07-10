@@ -336,70 +336,376 @@
        
         <!-- End::app-content --> 
 
-                                                       <div class="modal fade"  id="add_bailleur" tabindex="-1" aria-labelledby="add_bailleur" aria-hidden="true">
-                                                            <div class="modal-dialog  modal-dialog-centered">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h6 class="modal-title" id="staticBackdropLabel">Nouveau bailleur
-                                                                        </h6>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <div class="row gy-3">
-                                                                            <div class="col-xl-12">
-                                                                                <label for="fullname-new" class="form-label">Nom</label>
-                                                                                <input type="text" class="form-control" id="fullname-new" placeholder="Nom">
-                                                                            </div>
-                                                                            <div class="col-xl-12">
-                                                                                <label for="email-new" class="form-label">Budget</label>
-                                                                                <input type="text" class="form-control" id="email-new" placeholder="123">
-                                                                            </div>
-                                                                           
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                                        <button type="button" class="btn btn-success">Valider
-                                                                            </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                     
+      <!--add bailleur -->
+        <div
+      class="modal fade effect-rotate-bottom "
+      id="add_bailleur"
+      tabindex="-1"
+      aria-hidden="true"
+      data-bs-backdrop="static"
+      ref="add_bailleur"
+    >
+      <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+          <div
+            class="modal-header float-start text-center justify-content-center"
+            style="background-color: var(--primary-rgb); padding-bottom: 10px"
+          >
+            <h2
+              class="modal-title text-white text-center"
+              id="mail-ComposeLabel"
+              style="font-size: 22px !important"
+            >
+              <b class="text-center">Nouveau bailleur </b>
+            </h2>
+          </div>
+          <div class="modal-body px-4">
+            <div
+              class="row gy-2 justify-content-center"
+              style="
+                border-width: 1px;
+                border-style: solid;
+                border-radius: 6px;
+                border-color: rgb(0, 77, 134);
+              "
+            >
+              <div>
+                <div class="row mt-3 content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Nom <span class="text-danger">*</span></label
+                      >
+                      <MazInput
+                        v-model="bailleur.nom"
+                        color="info"
+                        name="nom"
+                        size="sm"
+                        rounded-size="sm"
+                        type="text"
+                      />
+                      <small v-if="v$.bailleur.nom.$error">{{
+                        v$.bailleur.nom.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['nom']">
+                        {{ resultError["nom"] }}
+                      </small>
+                    </div>
+                  </div>
+ 
+                </div>
+                <div class="row mt-3 content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Budget <span class="text-danger">*</span></label
+                      >
+                      <MazInput
+                        v-model="bailleur.budget"
+                        type="text"
+                        color="info"
+                        name="budget"
+                        size="sm"
+                        rounded-size="sm"
+                      />
+                      <small v-if="v$.bailleur.budget.$error">{{
+                        v$.bailleur.budget.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['budget']">
+                        {{ resultError["budget"] }}
+                      </small>
+                    </div>
+                  </div>
+                
 
-                                                        <div class="modal fade"  id="add_objectif" tabindex="-1" aria-labelledby="add_objectif" aria-hidden="true">
-                                                            <div class="modal-dialog  modal-dialog-centered">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h6 class="modal-title" id="staticBackdropLabel">Nouveau objectif
-                                                                        </h6>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <div class="row gy-3">
-                                                                            <div class="col-xl-12">
-                                                                                <label for="fullname-new" class="form-label">Intitulé</label>
-                                                                                <input type="text" class="form-control" id="fullname-new" placeholder="">
-                                                                            </div>
-                                                                            <div class="col-xl-12">
-                                                                                <label for="email-new" class="form-label">Visible</label>
-                                                                                <input type="text" class="form-control" id="email-new" placeholder="">
-                                                                            </div>
-                                                                           
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                                        <button type="button" class="btn btn-success">Valider
-                                                                            </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="boutton">
+                  <button class="" @click.prevent="submitBailleur('add_bailleur')">
+                    Valider
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <br />
+            <div class="modal-footer">
+              <div class="btn-group ms-auto">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- add objectifs -->
+      <div class="modal fade effect-rotate-bottom "
+      id="add_objectif"
+      tabindex="-1"
+      aria-hidden="true"
+      data-bs-backdrop="static"
+      ref="add_objectif"
+    >
+      <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+          <div
+            class="modal-header float-start text-center justify-content-center"
+            style="background-color: var(--primary-rgb); padding-bottom: 10px"
+          >
+            <h2
+              class="modal-title text-white text-center"
+              id="mail-ComposeLabel"
+              style="font-size: 22px !important"
+            >
+              <b class="text-center">Nouveau objectif </b>
+            </h2>
+          </div>
+          <div class="modal-body px-4">
+            <div
+              class="row gy-2 justify-content-center"
+              style="
+                border-width: 1px;
+                border-style: solid;
+                border-radius: 6px;
+                border-color: rgb(0, 77, 134);
+              "
+            >
+              <div>
+                <div class="row mt-3 content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Intitulé <span class="text-danger">*</span></label
+                      >
+                      <MazInput
+                        v-model="objectif.Intitule"
+                        color="info"
+                        name="Intitule"
+                        size="sm"
+                        rounded-size="sm"
+                        type="text"
+                      />
+                      <small v-if="v$.objectif.Intitule.$error">{{
+                        v$.objectif.Intitule.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['Intitule']">
+                        {{ resultError["Intitule"] }}
+                      </small>
+                    </div>
+                  </div>
+ 
+                </div>
+                <div class="row mt-3 content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Visible <span class="text-danger">*</span></label
+                      >
+                      <MazSelect
+                        v-model="objectif.Visible"
+                        type="text"
+                        color="info"
+                        name="Visible"
+                        size="sm"
+                        rounded-size="sm"
+                      />
+                      <small v-if="v$.objectif.Visible.$error">{{
+                        v$.objectif.Visible.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['Visible']">
+                        {{ resultError["Visible"] }}
+                      </small>
+                    </div>
+                  </div>
+                
+
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="boutton">
+                  <button class="" @click.prevent="submitObjectifs('add_bailleur')">
+                    Valider
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <br />
+            <div class="modal-footer">
+              <div class="btn-group ms-auto">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+ 
     </div>
 </template>
 <script>
+   import axios from "@/lib/axiosConfig";
+  import Loading from "@/components/others/loading.vue";
+  import useVuelidate from "@vuelidate/core";
+  import { require, lgmin, lgmax, ValidEmail } from "@/functions/rules";
+  import { successmsg } from "@/lib/modal.js";
+  import MazPhoneNumberInput from "maz-ui/components/MazPhoneNumberInput";
+  import Swal from "sweetalert2";
 export default {
+    components: {
+      Loading,
     
+      
+    },
+    computed: {
+      loggedInUser() {
+        return this.$store.getters["auth/myAuthenticatedUser"];
+      },
+    },
+  
+    data() {
+      return {
+        loading: false,
+       
+        bailleur: {
+             nom: "",
+             budget: "",
+        
+        },
+        objectif: {
+            Intitule: "",
+            Visible: "",
+        
+        },
+        resultError: {},
+        v$: useVuelidate(),
+        error: "",
+      };
+    },
+    validations: {
+      bailleur: {
+        nom: { require },
+        budget: { require }, 
+      },
+      objectif: {
+        Intitule: { require },
+        Visible: { require },
+       
+      },
+    },
+  
+    async mounted() {
+      console.log("loggedInUser", this.loggedInUser);
+      
+    },  
+
+    methods: {
+      async submitBailleur(modalId) {
+      this.v$.bailleur.$touch();
+      if (this.v$.$errors.length == 0) {
+        this.loading = true;
+       let data = {
+
+              nom:this.bailleur.nom,
+              budget:this.bailleur.budget
+       }
+       
+
+        console.log("data",data );
+
+        // try {
+        //   const response = await axios.post("/duties-services", data, {
+        //     headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
+           
+        //   }
+        //   });
+        //   console.log("Réponse du téléversement :", response);
+        //   if (response.data.status === "success") {
+        //     this.closeModal(modalId);
+        //     this.successmsg(
+        //         "Duty Created Successfully",
+        //         "The new duty has been successfully created!"
+        //       );
+        //     await this.fetchClients();
+        //   } else {
+        //   }
+        // } catch (error) {
+        //   console.log("response.login", error);
+
+        //   this.loading = false;
+        //   if (error.response.data.status === "error") {
+        //     return (this.error = error.response.data.message);
+        //   } else {
+        //     this.formatValidationErrors(error.response.data.errors);
+        //   }
+        // }
+      } else {
+        console.log("error", this.v$.$errors);
+      }
+    },
+
+    async submitObjectifs(modalId) {
+      this.v$.objectif.$touch();
+      if (this.v$.$errors.length == 0) {
+        this.loading = true;
+       let data = {
+
+              Intitule:this.objectif.Intitule,
+              Visible:this.objectif.Visible
+       }
+       
+
+        console.log("data",data );
+
+        // try {
+        //   const response = await axios.post("/duties-services", data, {
+        //     headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
+           
+        //   }
+        //   });
+        //   console.log("Réponse du téléversement :", response);
+        //   if (response.data.status === "success") {
+        //     this.closeModal(modalId);
+        //     this.successmsg(
+        //         "Duty Created Successfully",
+        //         "The new duty has been successfully created!"
+        //       );
+        //     await this.fetchClients();
+        //   } else {
+        //   }
+        // } catch (error) {
+        //   console.log("response.login", error);
+
+        //   this.loading = false;
+        //   if (error.response.data.status === "error") {
+        //     return (this.error = error.response.data.message);
+        //   } else {
+        //     this.formatValidationErrors(error.response.data.errors);
+        //   }
+        // }
+      } else {
+        console.log("error", this.v$.$errors);
+      }
+    },
+    },
 }
 </script>
 <style lang="css" scoped>

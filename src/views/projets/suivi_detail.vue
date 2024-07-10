@@ -8,7 +8,7 @@
           <nav>
             <ol class="breadcrumb mb-0">
               <li class="breadcrumb-item">
-                <a href="javascript:void(0);">BSSP</a>
+                <a href="javascript:void(0);">BSPP</a>
               </li>
               <li class="breadcrumb-item active" aria-current="page">
                 Projet-suivi
@@ -21,8 +21,8 @@
                         <div class="col-xl-3">
                             <div class="card border border-primary custom-card">
                                 <div class="card-body">
-                                    <p class="fs-20 fw-semibold mb-2 lh-1 text-muted">Date du suivi: </p>
-                                    <div class="d-flex flex-wrap gap-2 mb-4 fs-20 fw-semibold">
+                                    <p class="fs-16 fw-semibold mb-2 text-center lh-1 text-muted">Date du suivi: </p>
+                                    <div class="text-center  mt-4 fs-20 fw-semibold">
                                         20/12/2023
                                     </div>
                                   
@@ -32,10 +32,10 @@
                         <div class="col-xl-3">
                             <div class="card border border-primary custom-card">
                                 <div class="card-body">
-                                    <p class="fs-20 fw-semibold mb-2 lh-1 text-muted">Niveau d'execution:
+                                    <p class="fs-16 fw-semibold mb-2 lh-1 text-center text-muted">Niveau d'execution:
                                         
                                     </p>
-                                    <div class="d-flex flex-wrap gap-2 mb-4 fs-20 fw-semibold">
+                                    <div class=" text-center  mt-4 fs-20 fw-semibold">
                                         70%
                                     </div>
                                   
@@ -46,10 +46,10 @@
                         <div class="col-xl-3">
                             <div class="card border border-primary custom-card">
                                 <div class="card-body">
-                                    <p class="fs-20 fw-semibold mb-2 lh-1 text-muted">Taux Avancement Physique:
+                                    <p class="fs-16 fw-semibold mb-2 lh-1 text-center text-muted">Taux Avancement Physique:
                                         
                                     </p>
-                                    <div class="d-flex flex-wrap gap-2 mb-4 fs-20 fw-semibold">
+                                    <div class=" text-center    fs-20 fw-semibold">
                                         70%
 
                                     </div>
@@ -61,10 +61,10 @@
                         <div class="col-xl-3">
                             <div class="card border border-primary custom-card">
                                 <div class="card-body">
-                                    <p class="fs-20 fw-semibold mb-2 lh-1 text-muted">Taux de Decaissement:
+                                    <p class="fs-16 fw-semibold mb-2 lh-1 text-muted">Taux de Decaissement:
                                         
                                     </p>
-                                    <div class="d-flex flex-wrap gap-2 mb-4 fs-20 fw-semibold">
+                                    <div class=" text-center mt-4 fs-20 fw-semibold">
                                         70%
 
                                     </div>
@@ -80,7 +80,7 @@
         <div class="row">
             <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-12">
                 <div class="mb-4 card rounded border border-primary custom-card p-2">
-            <p class="fs-15 fw-semibold mb-1">Description :</p>
+            <p class="fs-15 fw-semibold mb-1">Observations :</p>
             <p class="text-muted mb-0 ">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati accusamus, quaerat nam quo optio reiciendis harum reprehenderit omnis tempora adipisci in iste aperiam unde, repellendus possimus explicabo veritatis? Dignissimos, id.
             </p>
@@ -90,10 +90,10 @@
             <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-12">
                 <div class="card border border-primary custom-card">
                                 <div class="card-body">
-                                    <p class="fs-20 fw-semibold mb-2 lh-1 text-muted">Etat du projet:
+                                    <p class="fs-16 text-center fw-semibold mb-2 lh-1 text-muted">Etat du projet:
                                         
                                     </p>
-                                    <div class="d-flex flex-wrap gap-2 mb-4 fs-20 fw-semibold">
+                                    <div class="text-center  mt-4 fs-20 fw-semibold">
                                         BON
                                     </div>
                                   

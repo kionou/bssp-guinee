@@ -10,7 +10,7 @@
                     <div class="ms-md-1 ms-0">
                         <nav>
                             <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a href="javascript:void(0);">BSSP</a></li>
+                                <li class="breadcrumb-item"><a href="javascript:void(0);">BSPP</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Candidate Details</li>
                             </ol>
                         </nav>
@@ -457,29 +457,39 @@
                                 <div class="row gy-3">
                                     <div class="col-xl-12">
                                         <label for="contact-mail" class="form-label">Date suivi</label>
-                                        <input type="date" class="form-control" id="contact-mail" >
+                                        <input type="date" class="form-control" id="contact-mail" v-model="step1.DateSuivi">
+                                        <small v-if="v$.step1.DateSuivi.$error">{{ v$.step1.DateSuivi.$errors[0].$message}}</small>
+                                        <small v-if="resultError['DateSuivi']"> {{ resultError["DateSuivi"] }} </small>
                                     </div>
                                     <div class="col-xl-12">
                                         <label for="deal-title" class="form-label">Images (3)</label>
-                                        <input class="form-control" type="file" id="input-file">
+                                        <input class="form-control" type="file" id="input-file" accept="image/*" multiple @change="handleFileUploadImages">
+                                        <small v-if="v$.step1.Photos.$error">{{ v$.step1.Photos.$errors[0].$message}}</small>
+                                        <small v-if="resultError['Photos']"> {{ resultError["Photos"] }} </small>
                                     </div>
                                     <div class="col-xl-12">
                                         <label for="contact-lead-score" class="form-label">Video</label>
-                                        <input class="form-control" type="file" id="input-file">
+                                        <input class="form-control" type="file" id="input-file" accept="video/*" @change="handleFileUploadVideo">
+                                        <small v-if="v$.step1.Videos.$error">{{ v$.step1.Videos.$errors[0].$message}}</small>
+                                        <small v-if="resultError['Videos']"> {{ resultError["Videos"] }} </small>
 
                                     </div>
                                    
                                     <div class="col-xl-12">
                                         <label for="contact-phone" class="form-label">Niveau Avancement</label>
-                                        <input type="number" class="form-control" id="contact-phone" placeholder="70">
+                                        <input type="number" class="form-control" id="contact-phone" placeholder="70" v-model="step1.NiveauAvancement">
+                                        <small v-if="v$.step1.NiveauAvancement.$error">{{ v$.step1.NiveauAvancement.$errors[0].$message}}</small>
+                                        <small v-if="resultError['NiveauAvancement']"> {{ resultError["NiveauAvancement"] }} </small>
                                     </div>
                                     <div class="col-xl-12">
                                         <label for="company-name" class="form-label">Decaissement</label>
-                                        <input type="text" class="form-control" id="company-name" placeholder="Decaissement">
+                                        <input type="text" class="form-control" id="company-name" placeholder="Decaissement" v-model="step1.Decaissement">
+                                        <small v-if="v$.step1.Decaissement.$error">{{ v$.step1.Decaissement.$errors[0].$message}}</small>
+                                        <small v-if="resultError['Decaissement']"> {{ resultError["Decaissement"] }} </small>
                                     </div>
                                    
                                     <div class="col-xl-12 text-center pt-1">
-                                        <button type="button" class="btn btn-primary">Valider</button>
+                                        <button type="button" class="btn btn-primary" @click="submitSuivi()">Valider</button>
 
                                     </div>
                                    
@@ -496,13 +506,54 @@
     </div>
 </template>
 <script>
+ import useVuelidate from "@vuelidate/core";
+ import { require, lgmin, lgmax, ValidNumeri } from "@/functions/rules";
+ import { useToast } from "vue-toastification";
+ import Loading from '@/components/others/loading.vue';
+ import axios from '@/lib/axiosConfig.js'
+ import MazPhoneNumberInput from 'maz-ui/components/MazPhoneNumberInput'
+ import Swal from 'sweetalert2'
 export default {
-
+    name: "ComponentlisteInfra",
+   setup() {
+  const toast = useToast();
+  return { toast }
+},
+components: { Loading , MazPhoneNumberInput},
+computed: {
+    loggedInUser() {
+      return this.$store.getters["auth/myAuthenticatedUser"];
+    },
+},
     data() {
         return {
-            
+            loading: false,
+       error: "",
+       resultError: {}, 
+       v$: useVuelidate(),
+       step1: {
+           DateSuivi: "",
+           Photos: "",
+           Videos: "",
+           NiveauAvancement:"",
+           Decaissement: "",
+             
+     },
+    
+         
+     
         }
     },
+    validations: {
+     step1: {
+           DateSuivi: {require},
+           Photos: {require},
+           Videos: {require},
+           NiveauAvancement:{require},
+           Decaissement: {require},
+           
+         }
+       },
     mounted() {
         var lightboxVideo = GLightbox({
         selector: '.glightbox'
@@ -513,6 +564,108 @@ export default {
 
         const { slideIndex, slideNode, slideConfig, player } = current;
     });
+    },
+    methods: {
+        async submitSuivi(modalId) {
+      this.v$.step1.$touch();
+      if (this.v$.$errors.length == 0) {
+        this.loading = true;
+        const formData = new FormData();
+        formData.append("FileNif",  this.step1.DateSuivi);
+        formData.append("FileNif",  this.step1.Photos);
+        formData.append("FileNif",  this.step1.Videos);
+
+        formData.append("FileNif",  this.step1.NiveauAvancement);
+        formData.append("FileNif",  this.step1.Decaissement);
+     
+
+
+
+    
+
+ 
+
+        // try {
+        //   const response = await axios.post("/clients", data, {
+        //     headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
+           
+        //   }
+        //   });
+        //   console.log("Réponse du téléversement :", response);
+        //   if (response.data.status === "success") {
+        //     this.closeModal(modalId);
+        //     this.successmsg(
+        //       "Client Created Successfully",
+        //       " The new client has been successfully created!"
+        //     );
+        //     await this.fetchClients();
+        //   } else {
+        //   }
+        // } catch (error) {
+        //   console.log("response.login", error);
+
+        //   this.loading = false;
+        //   if (error.response.data.status === "error") {
+        //     return (this.error = error.response.data.message);
+        //   } else {
+        //     this.formatValidationErrors(error.response.data.errors);
+        //   }
+        // }
+      } else {
+        console.log("error", this.v$.$errors);
+      }
+    },
+
+    async formatValidationErrors(errors) {
+     const formattedErrors = {};
+
+     for (const field in errors) {
+       const errorMessages = errors[field]; // Liste complète des messages d'erreur
+       const concatenatedError = errorMessages.join(", "); // Concaténer les messages d'erreur
+             formattedErrors[field] = concatenatedError; // Utilisez le nom du champ comme clé
+     }
+
+     this.resultError = formattedErrors; // Stockez les erreurs dans un objet
+     for (let key in this.resultError) {
+      if (this.resultError.hasOwnProperty(key)) {
+   // Construire le message d'erreur avec le nom du champ (clé) et son message (valeur)
+   let errorMessage = `${key}: ${this.resultError[key]}`;
+   // Afficher le toast pour chaque erreur
+   this.triggerToast(errorMessage);
+ }
+}
+   },
+   triggerToast(errorMessage) {
+   this.toast.error(errorMessage, {
+   position: "top-right",
+   timeout: 5000,
+   closeOnClick: true,
+   pauseOnFocusLoss: true,
+   pauseOnHover: true,
+   draggable: true,
+   draggablePercent: 0.6,
+   showCloseButtonOnHover: false,
+   hideProgressBar: true,
+   closeButton: "button",
+   icon: "mdi mdi-alert-circle-outline", // Modifier l'icône pour une icône d'erreur
+   rtl: false,
+   className: 'toast-error'
+ });
+},
+    handleFileUploadImages(event) {
+    console.log("File input change");
+    const file = event.target.files[0];
+    console.log("handleFileUploadLogo Selected file:", file);
+      this.step1.Photos = file
+
+  },
+  handleFileUploadVideo(event) {
+    console.log("File input change");
+    const file = event.target.files[0];
+    console.log("handleFileUploadLogo Selected file:", file);
+      this.step1.Videos = file
+
+  },
     },
     
 }

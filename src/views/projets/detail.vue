@@ -10,7 +10,7 @@
           <nav>
             <ol class="breadcrumb mb-0">
               <li class="breadcrumb-item">
-                <a href="javascript:void(0);">BSSP</a>
+                <a href="javascript:void(0);">BSPP</a>
               </li>
               <li class="breadcrumb-item active" aria-current="page">
                 Projet-detail
@@ -263,7 +263,7 @@
                             <div>
                                 <div class="btn-list ">
                                     <!-- <button class="btn btn-sm btn-icon btn-wave btn-success"><i class="ri-eye-line"></i></button> -->
-                                    <router-link to="/bssp/suivi-projet" 
+                                    <router-link to="/bspp/suivi-projet" 
                                               class="btn btn-sm btn-icon btn-success btn-wave">
                                               <i class="ri-eye-line"></i>
                                             </router-link>
@@ -463,7 +463,7 @@
           </div>
         </div>
 
-               
+               <!--add suivi projet  -->
         <div
       class="modal fade effect-rotate-bottom"
       id="add_suivi"
@@ -504,18 +504,18 @@
                         >Date <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step1.client_name"
+                        v-model="suivi.DateSuivi"
                         color="info"
-                        name="client_name"
+                        name="DateSuivi"
                         size="sm"
                         rounded-size="sm"
                         type="date"
                       />
-                      <small v-if="v$.step1.client_name.$error">{{
-                        v$.step1.client_name.$errors[0].$message
+                      <small v-if="v$.suivi.DateSuivi.$error">{{
+                        v$.suivi.DateSuivi.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['client_name']">
-                        {{ resultError["client_name"] }}
+                      <small v-if="resultError['DateSuivi']">
+                        {{ resultError["DateSuivi"] }}
                       </small>
                     </div>
                   </div>
@@ -525,329 +525,155 @@
                         >Niveau d'execution global<span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step1.address"
+                        v-model="suivi.NiveauExecutionGlobal"
                         color="info"
-                        name="address"
+                        name="NiveauExecutionGlobal"
                         size="sm"
                         rounded-size="sm"
                         type="text"
                       />
-                      <small v-if="v$.step1.address.$error">{{
-                        v$.step1.address.$errors[0].$message
+                      <small v-if="v$.suivi.NiveauExecutionGlobal.$error">{{
+                        v$.suivi.NiveauExecutionGlobal.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['address']">
-                        {{ resultError["address"] }}
+                      <small v-if="resultError['NiveauExecutionGlobal']">
+                        {{ resultError["NiveauExecutionGlobal"] }}
                       </small>
                     </div>
                   </div>
-                  
-
-                  
-                </div>
-                <div class="row mt-3 content-group">
                   <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
                         >Statut du projet <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step1.state"
+                        v-model="suivi.StatutProjet"
                         type="text"
                         color="info"
-                        name="state"
+                        name="StatutProjet"
                         size="sm"
                         rounded-size="sm"
                       />
-                      <small v-if="v$.step1.state.$error">{{
-                        v$.step1.state.$errors[0].$message
+                      <small v-if="v$.suivi.StatutProjet.$error">{{
+                        v$.suivi.StatutProjet.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['state']">
-                        {{ resultError["state"] }}
+                      <small v-if="resultError['StatutProjet']">
+                        {{ resultError["StatutProjet"] }}
                       </small>
                     </div>
                   </div>
-                
 
+                  
                 </div>
-
+            
                 <div class="row mt-3 content-group">
                  
                 <div class="col">
                     <div class="mb-3 position-relative">
                         <label for="password">Taux avancement physique </label>
-                        <MazInput v-model="step1.password"  type="text" name="password" color="info" placeholder="Abc123@!"  size="sm" rounded-size="sm" />
-                        <small v-if="v$.step1.password.$error">{{v$.step1.password.$errors[0].$message}}</small>
-                        <small v-if="resultError['password']">{{resultError['password']}}</small>
+                        <MazInput v-model="suivi.TauxAvancementPhysique"  type="text" name="TauxAvancementPhysique" color="info" placeholder="Abc123@!"  size="sm" rounded-size="sm" />
+                        <small v-if="v$.suivi.TauxAvancementPhysique.$error">{{v$.suivi.TauxAvancementPhysique.$errors[0].$message}}</small>
+                        <small v-if="resultError['TauxAvancementPhysique']">{{resultError['TauxAvancementPhysique']}}</small>
                     </div>
                 </div>
                                                 
                                              
                 <div class="col">
                     <div class="mb-3 position-relative">
-                        <label for="password_confirmation">Taux de decaissement</label>
-                        <MazInput v-model="step1.password_confirmation"  type="text" name="password_confirmation" color="info" placeholder="Abc123@!"   size="sm" rounded-size="sm"/>
-                        <small v-if="v$.step1.password_confirmation.$error">{{v$.step1.password_confirmation.$errors[0].$message}}</small>
-                        <small v-if="resultError['password_confirmation']">{{resultError['password_confirmation']}}</small>
+                        <label for="TauxDecaissement">Taux de decaissement</label>
+                        <MazInput v-model="suivi.TauxDecaissement"  type="text" name="TauxDecaissement" color="info" placeholder="Abc123@!"   size="sm" rounded-size="sm"/>
+                        <small v-if="v$.suivi.TauxDecaissement.$error">{{v$.suivi.TauxDecaissement.$errors[0].$message}}</small>
+                        <small v-if="resultError['TauxDecaissement']">{{resultError['TauxDecaissement']}}</small>
                       
                     </div>
                 </div>
                                                 
                          
                 </div>
-
-              
-
                  <div class="row mt-3 content-group">
-                 
                  <div class="col">
            <div class="input-groupe">
              <label for="employment_date_begin">Observation <span class="text-danger">*</span></label>
-             <MazTextarea v-model="step1.password_confirmatio1n" type="date" color="info" name="employment_date_begin" size="sm" rounded-size="sm"  />
-           
+             <MazTextarea v-model="suivi.Observations" type="date" color="info" name="Observations" size="sm" rounded-size="sm"  />
+             <small v-if="v$.suivi.Observations.$error">{{v$.suivi.Observations.$errors[0].$message}}</small>
+             <small v-if="resultError['Observations']">{{resultError['Observations']}}</small>
            </div>
          </div>
                      
               </div>
+              <p class="titre">Les Contraintes</p>
 
-              </div>
-              <div class="row mb-3">
-                <div class="boutton">
-                  <button class="" @click.prevent="submitClient('add_client')">
-                    Valider
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <br />
-            <div class="modal-footer">
-              <div class="btn-group ms-auto">
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                >
-                  Fermer
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
-
-      <div
-      class="modal fade effect-rotate-bottom "
-      id="add_contrainte"
-      tabindex="-1"
-      aria-hidden="true"
-      data-bs-backdrop="static"
-      ref="add_contrainte"
-    >
-      <div class="modal-dialog modal-dialog-centered ">
-        <div class="modal-content">
-          <div
-            class="modal-header float-start text-center justify-content-center"
-            style="background-color: var(--primary-rgb); padding-bottom: 10px"
-          >
-            <h2
-              class="modal-title text-white text-center"
-              id="mail-ComposeLabel"
-              style="font-size: 22px !important"
-            >
-              <b class="text-center">Ajouter une contrainte </b>
-            </h2>
-          </div>
-          <div class="modal-body px-4">
-            <div
-              class="row gy-2 justify-content-center"
-              style="
-                border-width: 1px;
-                border-style: solid;
-                border-radius: 6px;
-                border-color: rgb(0, 77, 134);
-              "
-            >
-              <div>
-                <div class="row mt-3 content-group">
-                  <div class="col">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >code <span class="text-danger">*</span></label
-                      >
-                      <MazInput
-                        v-model="step1.client_name"
-                        color="info"
-                        name="client_name"
-                        size="sm"
-                        rounded-size="sm"
-                        type="text"
-                      />
-                      <small v-if="v$.step1.client_name.$error">{{
-                        v$.step1.client_name.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['client_name']">
-                        {{ resultError["client_name"] }}
-                      </small>
-                    </div>
-                  </div>
+<div class="row mb-3 mt-3 content-group">
+  <div class="btn-list" style="position:absolute" >
+<div class="bouttons" style="position:relative">
+<div class="boutton"   style="max-width: 34px; width: 100%;padding: 6px; margin-top: 20px; display: flex;
+      flex-direction: column;  align-items: center; justify-content: center; right: -47.5%; top: -16px; position: relative; z-index:1000" @click="AddformDataContraintes" ><i  class="ri-add-line"></i></div>
+</div>
+</div>
+<div  v-for="(contrainte, index) in suivi.Contraintes" :key="contrainte.id">
+  <div  class="row mb-3 mt-3 content-group" >
+<div class="col">
+<div class="input-groupe">
+<label for="userpassword">Code <span class="text-danger">*</span></label>
+<MazInput
  
-                </div>
-                <div class="row mt-3 content-group">
-                  <div class="col">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Intitulé <span class="text-danger">*</span></label
-                      >
-                      <MazInput
-                        v-model="step1.state"
-                        type="text"
-                        color="info"
-                        name="state"
-                        size="sm"
-                        rounded-size="sm"
-                      />
-                      <small v-if="v$.step1.state.$error">{{
-                        v$.step1.state.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['state']">
-                        {{ resultError["state"] }}
-                      </small>
-                    </div>
-                  </div>
-                
+v-model="contrainte.Code"
+name="Code"  listPosition="left" 
+color="info"
+@input="clearError(index, 'Code')"
+size="sm" rounded-size="sm" />  
+</div>
+<small v-if="errors.suivi.Contraintes && errors.suivi.Contraintes[index] && errors.suivi.Contraintes[index].Code">{{ errors.suivi.Contraintes[index].Code }}</small>
+<small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small>
+</div>
 
-                </div>
+<div class="col   ">
+<div class="input-groupe ">
+<div >
+<label for="userpassword">Type <span class="text-danger">*</span></label>
+<MazSelect  v-model="contrainte.Type" type="text"  color="info" @click="clearErrorObjectifs(index, 'Type')"  name="contrainte.Type" size="sm" rounded-size="sm" />
+</div>
+<small v-if="errors.suivi.Contraintes && errors.suivi.Contraintes[index] && errors.suivi.Contraintes[index].Type">{{ errors.suivi.Contraintes[index].Type }}</small>
+<small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small>
+</div>
+</div>
+</div> 
 
-                <div class="row mt-3 content-group">                            
-                <div class="col">
-                    <div class="mb-3 position-relative">
-                        <label for="password_confirmation">Type</label>
-                        <MazInput v-model="step1.password_confirmation"  type="text" name="password_confirmation" color="info" placeholder="Abc123@!"   size="sm" rounded-size="sm"/>
-                        <small v-if="v$.step1.password_confirmation.$error">{{v$.step1.password_confirmation.$errors[0].$message}}</small>
-                        <small v-if="resultError['password_confirmation']">{{resultError['password_confirmation']}}</small>
-                      
-                    </div>
-                </div>
-                                                
-                         
-                </div>
-
-              </div>
-              <div class="row mb-3">
-                <div class="boutton">
-                  <button class="" @click.prevent="submitClient('add_client')">
-                    Valider
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <br />
-            <div class="modal-footer">
-              <div class="btn-group ms-auto">
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                >
-                  Fermer
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
-
-      <div
-      class="modal fade effect-rotate-bottom "
-      id="add_bailleur"
-      tabindex="-1"
-      aria-hidden="true"
-      data-bs-backdrop="static"
-      ref="add_bailleur"
-    >
-      <div class="modal-dialog modal-dialog-centered ">
-        <div class="modal-content">
-          <div
-            class="modal-header float-start text-center justify-content-center"
-            style="background-color: var(--primary-rgb); padding-bottom: 10px"
-          >
-            <h2
-              class="modal-title text-white text-center"
-              id="mail-ComposeLabel"
-              style="font-size: 22px !important"
-            >
-              <b class="text-center">Ajouter un suivi bailleur </b>
-            </h2>
-          </div>
-          <div class="modal-body px-4">
-            <div
-              class="row gy-2 justify-content-center"
-              style="
-                border-width: 1px;
-                border-style: solid;
-                border-radius: 6px;
-                border-color: rgb(0, 77, 134);
-              "
-            >
-              <div>
-                <div class="row mt-3 content-group">
-                  <div class="col">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Nom bailleur <span class="text-danger">*</span></label
-                      >
-                      <MazSelect
-                        v-model="step1.client_name"
-                        color="info"
-                        name="client_name"
-                        size="sm"
-                        rounded-size="sm"
-                        type="text"
-                      />
-                      <small v-if="v$.step1.client_name.$error">{{
-                        v$.step1.client_name.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['client_name']">
-                        {{ resultError["client_name"] }}
-                      </small>
-                    </div>
-                  </div>
+<div  class="row mb-3 mt-3 content-group" >
+<div class="col  d-flex align-items-center">
+<div class="input-groupe w-100 me-2">
+<label for="userpassword">Intitule Contrainte <span class="text-danger">*</span></label>
+<MazTextarea
  
-                </div>
-                <div class="row mt-3 content-group">
-                  <div class="col">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Montant decaissé <span class="text-danger">*</span></label
-                      >
-                      <MazInput
-                        v-model="step1.state"
-                        type="text"
-                        color="info"
-                        name="state"
-                        size="sm"
-                        rounded-size="sm"
-                      />
-                      <small v-if="v$.step1.state.$error">{{
-                        v$.step1.state.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['state']">
-                        {{ resultError["state"] }}
-                      </small>
-                    </div>
-                  </div>
-                
+v-model="contrainte.IntituleContrainte"
+name="IntituleContrainte"  listPosition="left" 
+color="info"
+@input="clearError(index, 'IntituleContrainte')"
+size="sm" rounded-size="sm" /> 
+<small v-if="errors.suivi.Contraintes && errors.suivi.Contraintes[index] && errors.suivi.Contraintes[index].IntituleContrainte">{{ errors.suivi.Contraintes[index].IntituleContrainte }}</small>
+<small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small> 
+</div>
+<div class="btn-list mt-8">
+<div class="bouttons" style="position:relative;">
+<div class="boutton"   style=" padding:6px 10px !important ; background:red;margin-top:0 !important" @click="deleteRowContraintes(index)" ><i class="ri-delete-bin-line"></i></div>
+</div>
+<!-- <a aria-label="anchor"  @click="deleteRowDays(index)" href="javascript:void(0);" class="btn btn-icon btn-sm btn-danger-light"><i class="ri-delete-bin-line"></i></a> -->
+</div>
 
-                </div>
+</div>
+
+
+</div> 
+<hr>
+</div >
+ 
+
+
+</div>
+
               </div>
               <div class="row mb-3">
                 <div class="boutton">
-                  <button class="" @click.prevent="submitClient('add_client')">
+                  <button class="" @click.prevent="submitSuivi('add_client')">
                     Valider
                   </button>
                 </div>
@@ -871,8 +697,7 @@
         </div>
       </div>
       </div>
-
-      <!-- contrainte -->
+      <!-- add indicateur -->
 
       <div
       class="modal fade effect-rotate-bottom "
@@ -914,18 +739,18 @@
                         >Intitulé <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step1.client_name"
+                        v-model="indicateur.Intitule"
                         color="info"
-                        name="client_name"
+                        name="Intitule"
                         size="sm"
                         rounded-size="sm"
                         type="text"
                       />
-                      <small v-if="v$.step1.client_name.$error">{{
-                        v$.step1.client_name.$errors[0].$message
+                      <small v-if="v$.indicateur.Intitule.$error">{{
+                        v$.indicateur.Intitule.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['client_name']">
-                        {{ resultError["client_name"] }}
+                      <small v-if="resultError['Intitule']">
+                        {{ resultError["Intitule"] }}
                       </small>
                     </div>
                   </div>
@@ -938,18 +763,18 @@
                         >Cible fin projet <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step1.state"
+                        v-model="indicateur.CibleFinProjet"
                         type="text"
                         color="info"
-                        name="state"
+                        name="CibleFinProjet"
                         size="sm"
                         rounded-size="sm"
                       />
-                      <small v-if="v$.step1.state.$error">{{
-                        v$.step1.state.$errors[0].$message
+                      <small v-if="v$.indicateur.CibleFinProjet.$error">{{
+                        v$.indicateur.CibleFinProjet.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['state']">
-                        {{ resultError["state"] }}
+                      <small v-if="resultError['CibleFinProjet']">
+                        {{ resultError["CibleFinProjet"] }}
                       </small>
                     </div>
                   </div>
@@ -959,7 +784,7 @@
               </div>
               <div class="row mb-3">
                 <div class="boutton">
-                  <button class="" @click.prevent="submitClient('add_client')">
+                  <button class="" @click.prevent="submitIndicateur('add_client')">
                     Valider
                   </button>
                 </div>
@@ -984,6 +809,7 @@
       </div>
       </div>
 
+      <!--  add suivi indicateur -->
       <div
       class="modal fade effect-rotate-bottom "
       id="add_indicateur_suivi"
@@ -1024,18 +850,18 @@
                         >Date <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step1.client_name"
+                        v-model="suiviIndicateur.DateSuivi"
                         color="info"
-                        name="client_name"
+                        name="DateSuivi"
                         size="sm"
                         rounded-size="sm"
                         type="date"
                       />
-                      <small v-if="v$.step1.client_name.$error">{{
-                        v$.step1.client_name.$errors[0].$message
+                      <small v-if="v$.suiviIndicateur.DateSuivi.$error">{{
+                        v$.suiviIndicateur.DateSuivi.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['client_name']">
-                        {{ resultError["client_name"] }}
+                      <small v-if="resultError['DateSuivi']">
+                        {{ resultError["DateSuivi"] }}
                       </small>
                     </div>
                   </div>
@@ -1048,18 +874,18 @@
                         >Realisation <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step1.state"
+                        v-model="suiviIndicateur.Realisation"
                         type="text"
                         color="info"
-                        name="state"
+                        name="Realisation"
                         size="sm"
                         rounded-size="sm"
                       />
-                      <small v-if="v$.step1.state.$error">{{
-                        v$.step1.state.$errors[0].$message
+                      <small v-if="v$.suiviIndicateur.Realisation.$error">{{
+                        v$.suiviIndicateur.Realisation.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['state']">
-                        {{ resultError["state"] }}
+                      <small v-if="resultError['Realisation']">
+                        {{ resultError["Realisation"] }}
                       </small>
                     </div>
                   </div>
@@ -1069,7 +895,7 @@
               </div>
               <div class="row mb-3">
                 <div class="boutton">
-                  <button class="" @click.prevent="submitClient('add_client')">
+                  <button class="" @click.prevent="submitSuiviIndicateur('add_client')">
                     Valider
                   </button>
                 </div>
@@ -1093,6 +919,7 @@
         </div>
       </div>
       </div>
+
       </div>
 
 
@@ -1125,21 +952,29 @@
     data() {
       return {
         loading: false,
-        data: "",
-        workDays: [
-        { id: 1, date: '2023-06-01', niveau: 'Niveau 1', decaissement: 100, decaissement_phy: 100, statut: 'Validé', observation: 'RAS' },
-        { id: 2, date: '2023-06-02', niveau: 'Niveau 2', decaissement: 200, decaissement_phy: 100, statut: 'En attente', observation: 'Vérifier' },
-        { id: 3, date: '2023-06-03', niveau: 'Niveau 3', decaissement: 300, decaissement_phy: 100, statut: 'Rejeté', observation: 'Erreur' },
-        { id: 3, date: '2023-06-03', niveau: 'Niveau 3', decaissement: 300, decaissement_phy: 100, statut: 'Rejeté', observation: 'Erreur' },
-        // Ajoutez d'autres données fictives si nécessaire
-      ],
-      step1: {
-          client_name: "",
-          address: "",
-          state: "",
-          phone: "",
-          password:'',
-          password_confirmation:'',
+        errors: {
+          suivi: { 
+            Contraintes: [] ,
+       
+       },
+        },
+      suivi: {
+        DateSuivi: "",
+        NiveauExecutionGlobal: "",
+        StatutProjet: "",
+        TauxAvancementPhysique: "",
+        TauxDecaissement:'',
+        Observations:'',
+        Contraintes:[{ Code:'', IntituleContrainte:'', Type:''}],
+        },
+        indicateur: {
+          Intitule: "",
+          CibleFinProjet: "",
+ 
+      },
+        suiviIndicateur: {
+          DateSuivi: "",
+          Realisation: "",
         },
         resultError: {},
   
@@ -1148,29 +983,23 @@
       };
     },
     validations: {
-      step1: {
-        client_name: { require },
-        address: { require },
-        state: { require },
-        phone: { require },
-        password: {
-              require,
-              lgmin: lgmin(8),
-              lgmax: lgmax(100),
-         },
-         password_confirmation: {
-              require,
-              lgmin: lgmin(8),
-              lgmax: lgmax(100),
-         },
-        
+      suivi: {
+        DateSuivi:{ require },
+        NiveauExecutionGlobal:{ require },
+        StatutProjet:{ require },
+        TauxAvancementPhysique:{ require },
+        TauxDecaissement:{ require },
+        Observations:{ require },
+        },
+        indicateur: {
+          Intitule: { require },
+          CibleFinProjet: { require },
+ 
       },
-      step2: {
-        client_name: { require },
-        address: { require },
-        state: { require },
-        phone: { require },
-      },
+      suiviIndicateur: {
+          DateSuivi: { require },
+          Realisation: { require },
+        },
     },
   
     async mounted() {
@@ -1179,7 +1008,139 @@
     },
   
     methods: {
-     
+      AddformDataContraintes() {
+       this.suivi.Contraintes.push({ Code:'', IntituleContrainte:'', Type:'',});
+   },
+   deleteRowContraintes(index) {
+  
+   if(index !== 0){
+     this.suivi.Contraintes.splice(index, 1);
+   }
+  },
+  clearError(index, field) {   
+     if (this.errors.suivi.Contraintes[index]) {
+       this.errors.suivi.Contraintes[index][field] = null;
+     }
+   },
+ 
+  validateStep1() {
+    let isValid = true;
+    this.errors.suivi = { Contraintes: [] };
+    this.suivi.Contraintes.forEach((contrainte, index) => {
+        const contrainteErrors = {};
+        if (!contrainte.Code) {
+          contrainteErrors.Code = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        if (!contrainte.IntituleContrainte) {
+          contrainteErrors.IntituleContrainte = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        if (!contrainte.Type) {
+          contrainteErrors.Type = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        this.errors.suivi.Contraintes[index] = contrainteErrors;
+    });
+    return isValid;
+},
+
+      async submitSuivi(modalId) {
+      this.v$.suivi.$touch();
+      if (this.validateStep1() && this.v$.$errors.length == 0) {
+        this.loading = true;
+      
+      
+      } else {
+        console.log("error", this.v$.$errors);
+      }
+    },
+    async submitIndicateur(modalId) {
+      this.v$.indicateur.$touch();
+      if (this.v$.$errors.length == 0) {
+        this.loading = true;
+       let data = {
+
+              Intitule:this.indicateur.Intitule,
+              CibleFinProjet:this.indicateur.CibleFinProjet
+       }
+       
+
+        console.log("data",data );
+
+        // try {
+        //   const response = await axios.post("/duties-services", data, {
+        //     headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
+           
+        //   }
+        //   });
+        //   console.log("Réponse du téléversement :", response);
+        //   if (response.data.status === "success") {
+        //     this.closeModal(modalId);
+        //     this.successmsg(
+        //         "Duty Created Successfully",
+        //         "The new duty has been successfully created!"
+        //       );
+        //     await this.fetchClients();
+        //   } else {
+        //   }
+        // } catch (error) {
+        //   console.log("response.login", error);
+
+        //   this.loading = false;
+        //   if (error.response.data.status === "error") {
+        //     return (this.error = error.response.data.message);
+        //   } else {
+        //     this.formatValidationErrors(error.response.data.errors);
+        //   }
+        // }
+      } else {
+        console.log("error", this.v$.$errors);
+      }
+    },
+    async submitSuiviIndicateur(modalId) {
+      this.v$.suiviIndicateur.$touch();
+      if (this.v$.$errors.length == 0) {
+        this.loading = true;
+       let data = {
+
+              DateSuivi:this.suiviIndicateur.DateSuivi,
+              Realisation:this.suiviIndicateur.Realisation
+       }
+       
+
+        console.log("data",data );
+
+        // try {
+        //   const response = await axios.post("/duties-services", data, {
+        //     headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
+           
+        //   }
+        //   });
+        //   console.log("Réponse du téléversement :", response);
+        //   if (response.data.status === "success") {
+        //     this.closeModal(modalId);
+        //     this.successmsg(
+        //         "Duty Created Successfully",
+        //         "The new duty has been successfully created!"
+        //       );
+        //     await this.fetchClients();
+        //   } else {
+        //   }
+        // } catch (error) {
+        //   console.log("response.login", error);
+
+        //   this.loading = false;
+        //   if (error.response.data.status === "error") {
+        //     return (this.error = error.response.data.message);
+        //   } else {
+        //     this.formatValidationErrors(error.response.data.errors);
+        //   }
+        // }
+      } else {
+        console.log("error", this.v$.$errors);
+      }
+    },
     
     },
   };
