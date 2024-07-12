@@ -975,14 +975,33 @@
               </li>
               <!-- End::slide -->
 
-              <!-- Start::slide -->
-              <li class="slide">
-                <router-link to="/bspp/utilisateurs" class="side-menu__item">
+              <li class="slide has-sub">
+                <a href="javascript:void(0);" class="side-menu__item settings">
                   <i class="bx bx-group side-menu__icon"></i>
-                  <span class="side-menu__label">Utilisateurs</span>
-                </router-link>
+                  <span class="side-menu__label">Gestion des users</span>
+                  <i class="fe fe-chevron-right side-menu__angle"></i>
+                </a>
+                <ul class="slide-menu child1">
+                  <li class="slide side-menu__label1">
+                    <a href="javascript:void(0)"> Gestion des users</a>
+                  </li>
+                  <li class="slide">
+                    <router-link to="/bspp/utilisateurs" class="side-menu__item"
+                      >Utilisateurs</router-link
+                    >
+                  </li>
+                  <li class="slide">
+                    <router-link
+                      to="/bspp/roles-permissions"
+                      class="side-menu__item"
+                      >Rôles et permissions</router-link
+                    >
+                  </li>
+                  <li class="slide">
+                    <router-link to="/bspp/zones" class="side-menu__item">Droits</router-link>
+                  </li>
+                </ul>
               </li>
-              <!-- End::slide -->
 
               <!-- Start::slide -->
               <li class="slide">

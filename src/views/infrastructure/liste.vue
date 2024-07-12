@@ -194,7 +194,7 @@
                                
                             </div>
                             <div class="modal-body px-4">
-                                <div class="row gy-3">
+                                <div class="row gy-3" style=" text-align: justify;">
                                     <div class="col-xl-4">
                                         <label for="contact-mail" class="form-label">Code</label>
                                         <input type="text" class="form-control" id="contact-mail" v-model="step1.code" placeholder="00170">
@@ -320,6 +320,7 @@
                                         <small v-if="resultError['Difficultes']"> {{ resultError["Difficultes"] }} </small>
 
                                     </div>
+                                  
                                    
                                     <div class="col-xl-12 text-center pt-1">
                                         <button type="button" class="btn btn-primary" @click="submitInfrastructure()">Valider</button>
@@ -414,7 +415,7 @@ export default {
        },
          
    mounted() {
-    
+      
    }, 
    methods: {
     handleFileUploadLogo(event) {

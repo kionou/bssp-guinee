@@ -1945,12 +1945,7 @@ progress {
     -webkit-overflow-scrolling: touch;
   }
 }
-.form-label {
-  margin-bottom: 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: #566a7f;
-}
+
 
 .col-form-label {
   padding-top: calc(0.4375rem + 1px);
@@ -9350,20 +9345,7 @@ html:not([dir=rtl]) .nav-align-top .nav-tabs:not(.nav-fill) ~ .tab-content {
   border-right-color: #fff;
 }
 
-.form-label,
-.col-form-label {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: inherit;
-}
 
-.form-label-lg {
-  font-size: 1rem;
-}
-
-.form-label-sm {
-  font-size: 0.75rem;
-}
 
 .form-control::-moz-placeholder, .form-control:focus::-moz-placeholder {
   -moz-transition: all 0.25s ease;

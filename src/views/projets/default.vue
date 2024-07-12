@@ -52,18 +52,21 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between flex-wrap flex-column ">
                             <div>
-                             
+                             <header>
+                              <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
+                             </header>
                                 <div class="row align-items-center px-2">
+                      
                                     <div class="date-box" >
-                                <img  src="@/assets/img/projet1.jpg" alt=""> 
+                                <img  src="@/assets/img/projet1.jpg" alt="" > 
                                 </div>
-                                    <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
+                                   
                                     </div>
                           
-                                <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-primary fw-semibold">20/03/2024</span></p>
-                                <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1 text-muted fw-semibold" >20/03/2024</span></p>
-                                <p class="mb-2 fw-semibold"> Zones  :<span class="fs-14 mb-1 text-muted fw-semibold">Grand Conakry</span></p>
-                                <p class="mb-2 fw-semibold">  Budget  :<span class="fs-14 mb-1 text-muted fw-semibold">223 (M GNF)</span></p>
+                                <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-warning fw-semibold">20/03/2024</span></p>
+                                <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1  fw-semibold " style="color:red;" >20/03/2024</span></p>
+                                <p class="mb-2 fw-semibold">Zones  :<span class="fs-14 mb-1 text-muted fw-semibold">Grand Conakry</span></p>
+                                <p class="mb-2 fw-semibold">Budget  :<span class="fs-14 mb-1  fw-semibold" style="color:#05b305;">223 (M GNF)</span></p>
                                 
                             </div>
                             <div>
@@ -769,7 +772,7 @@ display: inline-block;
   transition: all 0.5s ease-in-out;
   top: -41px;
   right: 24px;
-  width: 70%;
+  width: 100%;
   
 }
 
@@ -781,16 +784,18 @@ transform: translate3d(0px, 0px, 60px);
 
 .date-box {
 
-height: 60px;
-width: 30%;
+height: 80px;
+width: 80Px;
 border: 1px solid #fff;
 padding:0 !important;
+border-radius:50%;
 
 }
 
 .date-box img {
 width: 100%;
 height: 100%;
+border-radius:50%;
 }
   
   </style>

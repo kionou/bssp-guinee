@@ -6,6 +6,7 @@ import Dashboard from '../views/dashboard/default.vue'
 import SignIn from '../views/auth/signIn.vue'
 
 import Users from '../views/users/default.vue'
+import RolesPermissions from '../views/users/role.vue'
 
 import Projets from '../views/projets/default.vue'
 import ProjetsAdd from '../views/projets/add.vue'
@@ -53,6 +54,12 @@ const router = createRouter({
           name: 'utilisateurs',
           meta: { requiresAuth: true },
            component: Users
+        },
+        {
+          path: 'roles-permissions',
+          name: 'roles-permissions',
+          meta: { requiresAuth: true },
+           component: RolesPermissions
         },
         {
           path: 'projets',

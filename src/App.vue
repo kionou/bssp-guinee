@@ -18,6 +18,7 @@
   import "@/assets/libs/glightbox/css/glightbox.min.css"
   import "@/assets/libs/choices.js/public/assets/styles/choices.min.css"
   import "@/assets/libs/prismjs/themes/prism-coy.min.css"
+  import "@/assets/libs/choices.js/public/assets/styles/choices.min.css"
  
   import "@/assets/libs/choices.js/public/assets/scripts/choices.min.js"
   import "@/assets/js/main.js"
@@ -27,7 +28,12 @@
   import "@/assets/libs/glightbox/js/glightbox.min.js"
   import "@/assets/libs/prismjs/prism.js"
   import "@/assets/js/prism-custom.js"
+  // import "@/assets/js/select2.js"
   // import"@/assets/js/choices.js"
+
+ 
+
+   
 
 
        

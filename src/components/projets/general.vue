@@ -54,7 +54,7 @@
                                                     <div class="me-2 fw-semibold">
                                                         Code :
                                                     </div>
-                                                    <span class="fs-12 text-muted">0001</span>
+                                                    <span class="fs-12 fw-semibold " style="color:#05b305;">0001</span>
                                                 </div>
                                             </li>
                                             <li class="list-group-item">
@@ -62,7 +62,7 @@
                                                     <div class="me-2 fw-semibold">
                                                         Sigle :
                                                     </div>
-                                                    <span class="fs-12 text-muted">ENA</span>
+                                                    <span class="fs-12 fw-semibold " style="color:#05b305;">ENA</span>
                                                 </div>
                                             </li>
                                             <li class="list-group-item">
@@ -70,7 +70,7 @@
                                                     <div class="me-2 fw-semibold">
                                                         Debut :
                                                     </div>
-                                                    <span class="fs-12 text-muted">12/34/3433</span>
+                                                    <span class="fs-12 fw-semibold text-warning">12/34/3433</span>
                                                 </div>
                                             </li>
                                             <li class="list-group-item">
@@ -78,7 +78,7 @@
                                                     <div class="me-2 fw-semibold">
                                                         Fin :
                                                     </div>
-                                                    <span class="fs-12 text-muted">12/34/3433</span>
+                                                    <span class="fs-12 fw-semibold text-warning" >12/34/3433</span>
                                                 </div>
                                             </li>
                                             <li class="list-group-item">
@@ -86,7 +86,7 @@
                                                     <div class="me-2 fw-semibold">
                                                         Durée :
                                                     </div>
-                                                    <span class="fs-12 text-muted">28 ans 2 jours</span>
+                                                    <span class="fs-12 fw-semibold " style="color:red;">28 ans 2 jours</span>
                                                 </div>
                                             </li>
                                             <li class="list-group-item">
@@ -94,7 +94,7 @@
                                                     <div class="me-2 fw-semibold">
                                                         Budget :
                                                     </div>
-                                                    <span class="fs-12 text-muted">10234  (M GNF)</span>
+                                                    <span class="fs-12 fw-semibold " style="color:#05b305;" >10234  (M GNF)</span>
                                                 </div>
                                             </li>
                                             <li class="list-group-item">
@@ -102,7 +102,7 @@
                                                     <div class="me-2 fw-semibold">
                                                         Financement :
                                                     </div>
-                                                    <span class="fs-12 text-muted">10234  (M GNF)</span>
+                                                    <span class="fs-12 fw-semibold " style="color:#05b305;" >10234  (M GNF)</span>
                                                 </div>
                                             </li>
                                         </ul>
