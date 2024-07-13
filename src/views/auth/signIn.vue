@@ -76,8 +76,8 @@
                     <div class="white-panel">
                         <div class="login-show" style="margin-top:30px">
                             <small>{{ error  }}</small>
-                                    <h2 style="font-size:20px !important;">Bienvenue chez BSSP ! </h2>
-                                     <p>Connectez-vous pour continuer sur la plateforme BSSP .</p>
+                                    <h2 style="font-size:20px !important;">Bienvenue chez BSPP ! </h2>
+                                     <p>Connectez-vous pour continuer sur la plateforme BSPP .</p>
                             
                             <div class="mb-6">
                                 <MazInput  v-model="step1.email" type="email"  label="Adresse Email" color="info" name="email"   size="md" rounded-size="sm" />
@@ -281,7 +281,7 @@ this.InfoUser = response.data.data
 this.setMyAuthenticatedUser(this.InfoUser);
 this.loading = false
 
-      this.$router.push('/bssp'); 
+      this.$router.push('/bspp'); 
 
 } else {
 
