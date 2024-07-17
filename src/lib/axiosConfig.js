@@ -6,9 +6,9 @@ import axios from 'axios';
 
 // Créez une instance d'Axios avec la configuration souhaitée
 // https://cors-proxy.fringe.zone/
-// https://api.leprimecare.care
+
 const axiosInstance = axios.create({
-  baseURL: 'https://api.leprimecare.care/api',
+  baseURL: 'https://project-files.org/bspp/public/api/',
   headers: {
     // 'Content-Type': 'application/json', 
     // 'Content-Type': 'multipart/form-data',

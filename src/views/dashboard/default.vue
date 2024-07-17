@@ -894,7 +894,7 @@
                 <li>
                   <router-link
                     class="dropdown-item d-flex"
-                    to="/dashboard/profil"
+                    to="/bspp/profil"
                     ><i class="ti ti-user-circle fs-18 me-2 op-7"></i
                     >Profil</router-link
                   >
@@ -998,7 +998,7 @@
                     >
                   </li>
                   <li class="slide">
-                    <router-link to="/bspp/zones" class="side-menu__item">Droits</router-link>
+                    <router-link to="/bspp/droits" class="side-menu__item">Droits</router-link>
                   </li>
                 </ul>
               </li>
@@ -1037,10 +1037,15 @@
                     >
                   </li>
                   <li class="slide">
+                    <router-link to="/bspp/mode-financements" class="side-menu__item"
+                      >Mode financement</router-link
+                    >
+                  </li>
+                  <li class="slide">
                     <router-link
                       to="/bspp/types-infrastructures"
                       class="side-menu__item"
-                      >Infrastructures</router-link
+                      >Types infrastructures</router-link
                     >
                   </li>
                   <li class="slide">
@@ -1533,7 +1538,6 @@ export default {
     }
 
     function menuClose() {
-      console.log("ee");
       let html = document.querySelector("html");
       // html.setAttribute("data-toggled", "close");
       // document.querySelector("#responsive-overlay").classList.remove("active");
@@ -1706,7 +1710,6 @@ export default {
         }
       } else {
         if (html.getAttribute("data-toggled") === "close") {
-          console.log("have to open");
           html.setAttribute("data-toggled", "open");
           let i = document.createElement("div");
           i.id = "responsive-overlay";
@@ -1739,7 +1742,7 @@ export default {
           //   });
           // }, 100);
         } else {
-          console.log("have to close");
+          // console.log("have to close");
           html.setAttribute("data-toggled", "close");
         }
       }
@@ -2285,12 +2288,10 @@ export default {
   methods: {
     async logout() {
       try {
-        console.log("deconnexion");
         await this.$store.dispatch("auth/clearMyAuthenticatedUser"); // Appel de l'action pour déconnecter l'utilisateur
         this.$router.push("/");
         location.reload();
       } catch (error) {
-        console.error("Erreur lors de la déconnexion :", error);
       }
     },
   },

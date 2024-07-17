@@ -39,21 +39,28 @@
               </button>
             </div>
   
-            <div class="btn btn-icon btn-primary ms-2" @click="$router.push({ path: '/bspp/ajouter-projets' })">
+            <!-- <div class="btn btn-icon btn-primary ms-2" @click="$router.push({ path: '/bspp/ajouter-projets' })">
+              <i class="ri-add-line"> </i>
+            </div> -->
+            <div class="btn btn-icon btn-primary ms-2" data-bs-title="Add Contact"
+            data-bs-toggle="modal" data-bs-target="#add_projet">
               <i class="ri-add-line"> </i>
             </div>
           </div>
         </div>
       </div>
       <div class="row task-card">
-                <div class="row">
-                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div v-if="paginatedItems.length === 0" class="noresul">
+        <span> Vous n'avez pas encore de projet , vous pouvez également en ajouter un !! </span>
+      </div>
+                <div class="row" v-else>
+                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12" v-for="projet  in paginatedItems" :key="projet.id">
                         <div class="card custom-card task-pending-card border border-dark ">
                     <div class="card-body">
                         <div class="d-flex justify-content-between flex-wrap flex-column ">
                             <div>
                              <header>
-                              <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
+                              <span class="carde-title " >{{projet.NomProjet}} </span>
                              </header>
                                 <div class="row align-items-center px-2">
                       
@@ -63,19 +70,16 @@
                                    
                                     </div>
                           
-                                <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-warning fw-semibold">20/03/2024</span></p>
-                                <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1  fw-semibold " style="color:red;" >20/03/2024</span></p>
-                                <p class="mb-2 fw-semibold">Zones  :<span class="fs-14 mb-1 text-muted fw-semibold">Grand Conakry</span></p>
-                                <p class="mb-2 fw-semibold">Budget  :<span class="fs-14 mb-1  fw-semibold" style="color:#05b305;">223 (M GNF)</span></p>
+                                <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-warning fw-semibold">{{projet.DateDebut}}</span></p>
+                                <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1  fw-semibold " style="color:red;" >{{projet.DateFin}}</span></p>
+                                <p class="mb-2 fw-semibold">Financement :<span class="fs-14 mb-1 text-muted fw-semibold">{{projet.ModeFinancement}}</span></p>
+                                <p class="mb-2 fw-semibold">Budget :<span class="fs-14 mb-1  fw-semibold" style="color:#05b305;">{{projet.ModeFinancement}} (M GNF)</span></p>
                                 
                             </div>
                             <div>
                                 <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
                                 <div class="btn-list">
-                                    <router-link to="/bspp/detail-projet"
-                                        
-                                        class="btn btn-sm btn-icon btn-success btn-wave"
-                                    >
+                                    <router-link :to="{ name: 'detail-projet', params: { id: projet.CodeProjet }}"   class="btn btn-sm btn-icon btn-success btn-wave">
                                         <i class="ri-eye-line"></i>
                                     </router-link>
                                 
@@ -99,300 +103,8 @@
                     </div>
                 </div>
                     </div>
-                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                        <div class="card custom-card task-pending-card border border-dark ">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between flex-wrap flex-column ">
-                            <div>
-                             
-                                <div class="row align-items-center px-2">
-                                    <div class="date-box" >
-                                <img  src="@/assets/img/projet1.jpg" alt=""> 
-                                </div>
-                                    <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
-                                    </div>
-                          
-                                <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-primary fw-semibold">20/03/2024</span></p>
-                                <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1 text-muted fw-semibold" >20/03/2024</span></p>
-                                <p class="mb-2 fw-semibold"> Zones  :<span class="fs-14 mb-1 text-muted fw-semibold">Grand Conakry</span></p>
-                                <p class="mb-2 fw-semibold">  Budget  :<span class="fs-14 mb-1 text-muted fw-semibold">223 (M GNF)</span></p>
-                                
-                            </div>
-                            <div>
-                                <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
-                                <div class="btn-list">
-                                    <router-link to="/bspp/detail-projet"
-                                        
-                                        class="btn btn-sm btn-icon btn-success btn-wave"
-                                    >
-                                        <i class="ri-eye-line"></i>
-                                    </router-link>
-                                
-                                <button class="btn btn-sm btn-icon btn-primary btn-wave">
-                                    <i class="ri-edit-line"></i>
-                                </button>
 
-                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                                    <i class="ri-delete-bin-line"></i>
-                                </button>
-
-                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                                    <i class="ri-shut-down-line"></i>
-                                </button>
-                                
-                                </div>
-                                </div>
-                                    
-                            </div>
-                        </div> 
-                    </div>
-                </div>
-                    </div>
-                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                        <div class="card custom-card task-pending-card border border-dark ">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between flex-wrap flex-column ">
-                            <div>
-                             
-                                <div class="row align-items-center px-2">
-                                    <div class="date-box" >
-                                <img  src="@/assets/img/projet1.jpg" alt=""> 
-                                </div>
-                                    <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
-                                    </div>
-                          
-                                <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-primary fw-semibold">20/03/2024</span></p>
-                                <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1 text-muted fw-semibold" >20/03/2024</span></p>
-                                <p class="mb-2 fw-semibold"> Zones  :<span class="fs-14 mb-1 text-muted fw-semibold">Grand Conakry</span></p>
-                                <p class="mb-2 fw-semibold">  Budget  :<span class="fs-14 mb-1 text-muted fw-semibold">223 (M GNF)</span></p>
-                                
-                            </div>
-                            <div>
-                                <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
-                                <div class="btn-list">
-                                    <router-link to="/bspp/detail-projet"
-                                        
-                                        class="btn btn-sm btn-icon btn-success btn-wave"
-                                    >
-                                        <i class="ri-eye-line"></i>
-                                    </router-link>
-                                
-                                <button class="btn btn-sm btn-icon btn-primary btn-wave">
-                                    <i class="ri-edit-line"></i>
-                                </button>
-
-                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                                    <i class="ri-delete-bin-line"></i>
-                                </button>
-
-                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                                    <i class="ri-shut-down-line"></i>
-                                </button>
-                                
-                                </div>
-                                </div>
-                                    
-                            </div>
-                        </div> 
-                    </div>
-                </div>
-                    </div>
-                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                        <div class="card custom-card task-pending-card border border-dark ">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between flex-wrap flex-column ">
-                            <div>
-                             
-                                <div class="row align-items-center px-2">
-                                    <div class="date-box" >
-                                <img  src="@/assets/img/projet1.jpg" alt=""> 
-                                </div>
-                                    <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
-                                    </div>
-                          
-                                <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-primary fw-semibold">20/03/2024</span></p>
-                                <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1 text-muted fw-semibold" >20/03/2024</span></p>
-                                <p class="mb-2 fw-semibold"> Zones  :<span class="fs-14 mb-1 text-muted fw-semibold">Grand Conakry</span></p>
-                                <p class="mb-2 fw-semibold">  Budget  :<span class="fs-14 mb-1 text-muted fw-semibold">223 (M GNF)</span></p>
-                                
-                            </div>
-                            <div>
-                                <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
-                                <div class="btn-list">
-                                    <router-link to="/bspp/detail-projet"
-                                        
-                                        class="btn btn-sm btn-icon btn-success btn-wave"
-                                    >
-                                        <i class="ri-eye-line"></i>
-                                    </router-link>
-                                
-                                <button class="btn btn-sm btn-icon btn-primary btn-wave">
-                                    <i class="ri-edit-line"></i>
-                                </button>
-
-                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                                    <i class="ri-delete-bin-line"></i>
-                                </button>
-
-                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                                    <i class="ri-shut-down-line"></i>
-                                </button>
-                                
-                                </div>
-                                </div>
-                                    
-                            </div>
-                        </div> 
-                    </div>
-                </div>
-                    </div>
-                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                        <div class="card custom-card task-pending-card border border-dark ">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between flex-wrap flex-column ">
-                            <div>
-                             
-                                <div class="row align-items-center px-2">
-                                    <div class="date-box" >
-                                <img  src="@/assets/img/projet1.jpg" alt=""> 
-                                </div>
-                                    <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
-                                    </div>
-                          
-                                <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-primary fw-semibold">20/03/2024</span></p>
-                                <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1 text-muted fw-semibold" >20/03/2024</span></p>
-                                <p class="mb-2 fw-semibold"> Zones  :<span class="fs-14 mb-1 text-muted fw-semibold">Grand Conakry</span></p>
-                                <p class="mb-2 fw-semibold">  Budget  :<span class="fs-14 mb-1 text-muted fw-semibold">223 (M GNF)</span></p>
-                                
-                            </div>
-                            <div>
-                                <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
-                                <div class="btn-list">
-                                    <router-link to="/bspp/detail-projet"
-                                        
-                                        class="btn btn-sm btn-icon btn-success btn-wave"
-                                    >
-                                        <i class="ri-eye-line"></i>
-                                    </router-link>
-                                
-                                <button class="btn btn-sm btn-icon btn-primary btn-wave">
-                                    <i class="ri-edit-line"></i>
-                                </button>
-
-                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                                    <i class="ri-delete-bin-line"></i>
-                                </button>
-
-                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                                    <i class="ri-shut-down-line"></i>
-                                </button>
-                                
-                                </div>
-                                </div>
-                                    
-                            </div>
-                        </div> 
-                    </div>
-                </div>
-                    </div>
-                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                        <div class="card custom-card task-pending-card border border-dark ">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between flex-wrap flex-column ">
-                            <div>
-                             
-                                <div class="row align-items-center px-2">
-                                    <div class="date-box" >
-                                <img  src="@/assets/img/projet1.jpg" alt=""> 
-                                </div>
-                                    <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
-                                    </div>
-                          
-                                <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-primary fw-semibold">20/03/2024</span></p>
-                                <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1 text-muted fw-semibold" >20/03/2024</span></p>
-                                <p class="mb-2 fw-semibold"> Zones  :<span class="fs-14 mb-1 text-muted fw-semibold">Grand Conakry</span></p>
-                                <p class="mb-2 fw-semibold">  Budget  :<span class="fs-14 mb-1 text-muted fw-semibold">223 (M GNF)</span></p>
-                                
-                            </div>
-                            <div>
-                                <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
-                                <div class="btn-list">
-                                    <router-link to="/bspp/detail-projet"
-                                        
-                                        class="btn btn-sm btn-icon btn-success btn-wave"
-                                    >
-                                        <i class="ri-eye-line"></i>
-                                    </router-link>
-                                
-                                <button class="btn btn-sm btn-icon btn-primary btn-wave">
-                                    <i class="ri-edit-line"></i>
-                                </button>
-
-                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                                    <i class="ri-delete-bin-line"></i>
-                                </button>
-
-                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                                    <i class="ri-shut-down-line"></i>
-                                </button>
-                                
-                                </div>
-                                </div>
-                                    
-                            </div>
-                        </div> 
-                    </div>
-                </div>
-                    </div>
-                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                        <div class="card custom-card task-pending-card border border-dark ">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between flex-wrap flex-column ">
-                            <div>
-                             
-                                <div class="row align-items-center px-2">
-                                    <div class="date-box" >
-                                <img  src="@/assets/img/projet1.jpg" alt=""> 
-                                </div>
-                                    <span class="carde-title " >TRAVAUX DE CONSTRUCTION DE LA ROUTE LE PRINCE KAGBELEN-KOURIAH  </span>
-                                    </div>
-                          
-                                <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-primary fw-semibold">20/03/2024</span></p>
-                                <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1 text-muted fw-semibold" >20/03/2024</span></p>
-                                <p class="mb-2 fw-semibold"> Zones  :<span class="fs-14 mb-1 text-muted fw-semibold">Grand Conakry</span></p>
-                                <p class="mb-2 fw-semibold">  Budget  :<span class="fs-14 mb-1 text-muted fw-semibold">223 (M GNF)</span></p>
-                                
-                            </div>
-                            <div>
-                                <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
-                                <div class="btn-list">
-                                    <router-link to="/bspp/detail-projet"
-                                        
-                                        class="btn btn-sm btn-icon btn-success btn-wave"
-                                    >
-                                        <i class="ri-eye-line"></i>
-                                    </router-link>
-                                
-                                <button class="btn btn-sm btn-icon btn-primary btn-wave">
-                                    <i class="ri-edit-line"></i>
-                                </button>
-
-                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                                    <i class="ri-delete-bin-line"></i>
-                                </button>
-
-                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                                    <i class="ri-shut-down-line"></i>
-                                </button>
-                                
-                                </div>
-                                </div>
-                                    
-                            </div>
-                        </div> 
-                    </div>
-                </div>
-                    </div>
+                  
 
                     
                     
@@ -415,13 +127,13 @@
           
         <div
       class="modal fade effect-rotate-bottom"
-      id="add_client"
+      id="add_projet"
       tabindex="-1"
       aria-hidden="true"
       data-bs-backdrop="static"
-      ref="add_client"
+      ref="add_projet"
     >
-      <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
           <div
             class="modal-header float-start text-center justify-content-center"
@@ -453,18 +165,18 @@
                         >Code <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step1.client_name"
+                        v-model="step1.CodeProjet"
                         color="info"
-                        name="client_name"
+                        name="CodeProjet"
                         size="sm"
                         rounded-size="sm"
                         type="text"
                       />
-                      <small v-if="v$.step1.client_name.$error">{{
-                        v$.step1.client_name.$errors[0].$message
+                      <small v-if="v$.step1.CodeProjet.$error">{{
+                        v$.step1.CodeProjet.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['client_name']">
-                        {{ resultError["client_name"] }}
+                      <small v-if="resultError['CodeProjet']">
+                        {{ resultError["CodeProjet"] }}
                       </small>
                     </div>
                   </div>
@@ -474,109 +186,92 @@
                         >Sigle<span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step1.address"
+                        v-model="step1.Sigle"
                         color="info"
-                        name="address"
+                        name="Sigle"
                         size="sm"
                         rounded-size="sm"
                         type="text"
                       />
-                      <small v-if="v$.step1.address.$error">{{
-                        v$.step1.address.$errors[0].$message
+                      <small v-if="v$.step1.Sigle.$error">{{
+                        v$.step1.Sigle.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['address']">
-                        {{ resultError["address"] }}
+                      <small v-if="resultError['Sigle']">
+                        {{ resultError["Sigle"] }}
                       </small>
                     </div>
                   </div>
                   
-
-                  
-                </div>
-                <div class="row mt-3 content-group">
                   <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
                         >Nom <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step1.state"
+                        v-model="step1.NomProjet"
                         type="text"
                         color="info"
-                        name="state"
+                        name="NomProjet"
                         size="sm"
                         rounded-size="sm"
                       />
-                      <small v-if="v$.step1.state.$error">{{
-                        v$.step1.state.$errors[0].$message
+                      <small v-if="v$.step1.NomProjet.$error">{{
+                        v$.step1.NomProjet.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['state']">
-                        {{ resultError["state"] }}
+                      <small v-if="resultError['NomProjet']">
+                        {{ resultError["NomProjet"] }}
                       </small>
                     </div>
                   </div>
+                  
+                </div>
+            
+                <div class="row mt-3 content-group">
                   <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Visible<span class="text-danger">*</span></label
+                        >Mode de financement<span class="text-danger">*</span></label
                       >
                       <MazSelect
-                        v-model="step1.address"
+                        v-model="step1.ModeFinancement"
                         color="info"
-                        name="address"
+                        name="ModeFinancement"
                         size="sm"
                         rounded-size="sm"
                         type="text"
+                        :options="FinancementOptions"
                       />
-                      <small v-if="v$.step1.address.$error">{{
-                        v$.step1.address.$errors[0].$message
+                      <small v-if="v$.step1.ModeFinancement.$error">{{
+                        v$.step1.ModeFinancement.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['address']">
-                        {{ resultError["address"] }}
+                      <small v-if="resultError['ModeFinancement']">
+                        {{ resultError["ModeFinancement"] }}
                       </small>
                     </div>
                   </div>
-
-                </div>
-
-                <div class="row mt-3 content-group">
-                 
-                <div class="col">
-                    <div class="mb-3 position-relative">
-                        <label for="password">Budget </label>
-                        <MazInput v-model="step1.password"  type="text" name="password" color="info" placeholder="Abc123@!"  size="sm" rounded-size="sm" />
-                        <small v-if="v$.step1.password.$error">{{v$.step1.password.$errors[0].$message}}</small>
-                        <small v-if="resultError['password']">{{resultError['password']}}</small>
-                    </div>
-                </div>
-                                                
-                                             
-                <div class="col">
-                    <div class="mb-3 position-relative">
-                        <label for="password_confirmation">Mode de financement</label>
-                        <MazInput v-model="step1.password_confirmation"  type="text" name="password_confirmation" color="info" placeholder="Abc123@!"   size="sm" rounded-size="sm"/>
-                        <small v-if="v$.step1.password_confirmation.$error">{{v$.step1.password_confirmation.$errors[0].$message}}</small>
-                        <small v-if="resultError['password_confirmation']">{{resultError['password_confirmation']}}</small>
-                      
-                    </div>
-                </div>
-                                                
-                         
-                </div>
-
-                <div class="row mt-3 content-group">
-                 
                     <div class="col">
               <div class="input-groupe">
                 <label for="employment_date_begin">Date debut <span class="text-danger">*</span></label>
-                <MazInput v-model="step1.password_confirmatio1n" type="date" color="info" name="employment_date_begin" size="sm" rounded-size="sm"  />
+                <MazInput v-model="step1.DateDebut" type="date" color="info" name="DateDebut" size="sm" rounded-size="sm"  />
+                <small v-if="v$.step1.DateDebut.$error">{{
+                        v$.step1.DateDebut.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['DateDebut']">
+                        {{ resultError["DateDebut"] }}
+                      </small>
               
               </div>
             </div>
             <div class="col">
               <div class="input-groupe">
                 <label for="employment_date_end">Date fin <span class="text-danger">*</span></label>
-                <MazInput v-model="step1.password_confirmation" type="date" :min="step1.password_confirmatio1n" color="info" name="employment_date_end" size="sm" rounded-size="sm" @input="clearErrorExp(index, 'employment_date_end')" />
+                <MazInput v-model="step1.DateFin" type="date" :min="step1.DateDebut" color="info" name="DateFin" size="sm" rounded-size="sm" />
+                <small v-if="v$.step1.DateFin.$error">{{
+                        v$.step1.DateFin.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['DateFin']">
+                        {{ resultError["DateFin"] }}
+                      </small>
              
               </div>
             </div>             
@@ -587,7 +282,13 @@
                  <div class="col">
            <div class="input-groupe">
              <label for="employment_date_begin">Description <span class="text-danger">*</span></label>
-             <MazTextarea v-model="step1.password_confirmatio1n" type="date" color="info" name="employment_date_begin" size="sm" rounded-size="sm"  />
+             <MazTextarea v-model="step1.Description" type="text" color="info" name="Description" size="sm" rounded-size="sm"  />
+             <small v-if="v$.step1.Description.$error">{{
+                        v$.step1.Description.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['Description']">
+                        {{ resultError["Description"] }}
+                      </small>
            
            </div>
          </div>
@@ -597,7 +298,7 @@
               </div>
               <div class="row mb-3">
                 <div class="boutton">
-                  <button class="" @click.prevent="submitClient('add_client')">
+                  <button class="" @click.prevent="submitProjet('add_projet')">
                     Valider
                   </button>
                 </div>
@@ -642,13 +343,24 @@
       loggedInUser() {
         return this.$store.getters["auth/myAuthenticatedUser"];
       },
+      totalPages() {
+      return Math.ceil(this.projetssOptions.length / this.itemsPerPage);
+    },
+    paginatedItems() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.projetssOptions.slice(startIndex, endIndex);
+    },
+
      
     },
     data() {
       return {
-        loading: false,
-        ClientOptions: [],
+        loading: true,
+        projetssOptions: [],
+        FinancementOptions:[],
         data: [],
+        search: "",
         currentPage: 1,
         itemsPerPage: 12,
         totalPageArray: [],
@@ -657,12 +369,13 @@
         profil: "",
         ToId: "",
         step1: {
-          client_name: "",
-          address: "",
-          state: "",
-          phone: "",
-          password:'',
-          password_confirmation:'',
+          CodeProjet: "",
+          Sigle: "",
+          NomProjet: "",
+          ModeFinancement:"",
+          DateDebut: "",
+          DateFin:'',
+          Description:'',
         },
   
         v$: useVuelidate(),
@@ -671,20 +384,13 @@
     },
     validations: {
       step1: {
-        client_name: { require },
-        address: { require },
-        state: { require },
-        phone: { require },
-        password: {
-              require,
-              lgmin: lgmin(8),
-              lgmax: lgmax(100),
-         },
-         password_confirmation: {
-              require,
-              lgmin: lgmin(8),
-              lgmax: lgmax(100),
-         },
+         CodeProjet: { require },
+          Sigle: { require },
+          NomProjet: { require },
+          ModeFinancement: { require },
+          DateDebut: { require },
+          DateFin:{ require },
+          Description:{ require },
         
       },
       step2: {
@@ -697,6 +403,8 @@
    
     async mounted() {
       console.log("loggedInUser", this.loggedInUser);
+      await this.fetchProjets()
+      await this.fetchFinancement()
      
     },
   
@@ -705,12 +413,133 @@
       validatePasswordsMatch() {
        return this.step1.password === this.step1.password_confirmation;
       },
+      async fetchProjets() {
+      try {
+        const response = await axios.get('/projets', {
+          headers: { Authorization: `Bearer ${this.loggedInUser.token}`, },
+          param:{for_con_user:false}
+        });
+        console.log(response.data);
+        this.data = response.data.data;
+        this.projetssOptions = this.data;
+        console.log("this.usersOptions",   this.projetssOptions);
+        this.loading = false;
+
+      } catch (error) {
+        console.error('errorqqqqq', error);
+
+        if (error.response.data.message === "Vous n'êtes pas autorisé." || error.response.status === 401) {
+          await this.$store.dispatch('auth/clearMyAuthenticatedUser');
+          this.$router.push("/");  //a revoir
+        }
+      }
+    },
+    async fetchFinancement() {
+      try {
+        const response = await axios.get( '/mode-financements',
+          {
+            headers: {
+              Authorization: `Bearer ${this.loggedInUser.token}`,
+            },
+            params:{
+              statut:false
+            }
+          }
+        );
+
+        console.log("responseclienteschools-level", response.data);
+        if (response.data.status === "success") {
+           
+           this.FinancementOptions = response.data.data.map(item => ({
+          label: item.Intitule,
+          value: item.Code,
+        }));
+          this.loading =  false
+        }
+      } catch (error) {
+        console.log(
+          "Erreur lors de la mise à jour des données MPME guinee :",
+          error
+        );
+        if (error.response.data.status === "error") {
+          console.log("aut", error.response.data.status === "error");
+
+          if (
+            error.response.data.message === "Vous n'êtes pas autorisé." ||
+            error.response.status === 401
+          ) {
+            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+            this.$router.push("/"); //a revoir
+          }
+        } else {
+          this.formatValidationErrors(error.response.data.errors);
+          this.loading = false;
+          return false;
+        }
+      }
+    },
+    async submitProjet(modalId) {
+      this.error = '',
+        this.resultError = '',
+        this.v$.step1.$touch()
+      if (this.v$.$errors.length == 0) {
+        this.loading = true
+        let DataUser = {
+          CodeProjet: this.step1.CodeProjet,
+          Sigle: this.step1.Sigle,
+          NomProjet: this.step1.NomProjet,
+          ModeFinancement: this.step1.ModeFinancement,
+          DateDebut: this.step1.DateDebut,
+          DateFin: this.step1.DateFin,
+          Description: this.step1.Description,
+          Visible: false
+
+        }
+        console.log("eeeee", DataUser);
+        try {
+
+          const response = await axios.post('/projets', DataUser, {
+            headers: {
+              Authorization: `Bearer ${this.loggedInUser.token}`,
+            },
+
+
+          });
+          console.log('response.login', response.data);
+          if (response.data.status === "success") {
+            this.closeModal(modalId);
+            this.successmsg("Création de projet", 'Votre projet a été crée avec succès !')
+            await this.fetchProjets()
+
+          } else {
+
+          }
+
+
+
+        } catch (error) {
+          console.log('response.login', error);
+
+          this.loading = false
+          if (error.response.data.status === "error") {
+            return this.error = error.response.data.message
+
+          } else {
+            this.formatValidationErrors(error.response.data.errors);
+          }
+        }
+      } else {
+
+        console.log('pas bon', this.v$.$errors);
+
+      }
+    },
       filterByName() {
         this.currentPage = 1;
         if (this.control.name !== null) {
           const tt = this.control.name;
           const searchValue = tt.toLowerCase();
-          this.ClientOptions = this.data.filter((user) => {
+          this.projetssOptions = this.data.filter((user) => {
             const Nom = user.client_name || "";
             const Address = user.address || "";
             const State = user.state || "";
@@ -721,7 +550,7 @@
             );
           });
         } else {
-          this.ClientOptions = [...this.data];
+          this.projetssOptions = [...this.data];
         }
       },
       closeModal(modalId) {
@@ -756,7 +585,22 @@
         // Maintenant, this.resultError est un objet où les clés sont les noms des champs
         console.log("resultError", this.resultError);
       },
+      
+    updateCurrentPage(pageNumber) {
+      this.currentPage = pageNumber;
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth', // Utilisez 'auto' pour un défilement instantané
+      });
     },
+    updatePaginatedItems() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.projetssOptions.slice(startIndex, endIndex);
+    },
+  },
+   
   };
   </script>
   <style lang="css" scoped>

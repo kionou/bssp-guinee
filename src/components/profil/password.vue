@@ -18,7 +18,7 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="mb-3 position-relative">
-                                                            <label for="old_password">Old Password</label>
+                                                            <label for="old_password">Ancien mot de passe</label>
                                                             <MazInput v-model="step1.old_password"  type="password" name="old_password" color="info" placeholder="Abc123@!"  size="sm" rounded-size="sm" />
                                                             <small v-if="v$.step1.old_password.$error">{{v$.step1.old_password.$errors[0].$message}}</small>
                                                             <small v-if="resultError['old_password']">{{resultError['old_password']}}</small>
@@ -28,7 +28,7 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="mb-3 position-relative">
-                                                            <label for="password">New Password</label>
+                                                            <label for="password">Nouveau mot de passe</label>
                                                             <MazInput v-model="step1.password"  type="password" name="password" color="info" placeholder="Abc123@!"  size="sm" rounded-size="sm" />
                                                             <small v-if="v$.step1.password.$error">{{v$.step1.password.$errors[0].$message}}</small>
                                                             <small v-if="resultError['password']">{{resultError['password']}}</small>
@@ -38,18 +38,18 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="mb-3 position-relative">
-                                                            <label for="password_confirmation">Confirm password</label>
+                                                            <label for="password_confirmation">Confirmer le mot de passe</label>
                                                             <MazInput v-model="step1.password_confirmation"  type="password" name="password_confirmation" color="info" placeholder="Abc123@!"   size="sm" rounded-size="sm"/>
                                                             <small v-if="v$.step1.password_confirmation.$error">{{v$.step1.password_confirmation.$errors[0].$message}}</small>
                                                             <small v-if="resultError['password_confirmation']">{{resultError['password_confirmation']}}</small>
-                                                            <small v-if="!validatePasswordsMatch()">Passwords do not match.</small>
+                                                            <small v-if="!validatePasswordsMatch()">Les mots de passe ne correspondent pas.</small>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-0">
                                                     <div class="col-12 text-end">
                                                         <div class="button">
-                                                            <button class="btn btn-primary" @click.prevent="HamdleAddUser()">To validate</button>
+                                                            <button class="btn btn-primary" @click.prevent="HamdleAddUser()">Valider</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -147,14 +147,14 @@
         if (this.v$.$errors.length == 0 ) {
             // Affichez une boîte de dialogue Sweet Alert pour confirmer la suppression
             const result = await Swal.fire({
-            title: 'Are you sure?',
-            text: 'You won’t be able to revert this!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, modify!',
-            cancelButtonText: 'No, cancel!',
-            reverseButtons: true
-          });
+              title: "Êtes-vous sûr ?",
+              text: "Vous ne pourrez pas revenir en arrière !",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "Oui, supprimez-le !",
+              cancelButtonText: "Non, annulez !",
+              reverseButtons: true,
+            });
     
          // Si l'utilisateur confirme la suppression
          if (result.isConfirmed) {
@@ -183,8 +183,8 @@
              if (response.data.status === "success") { 
                
                this.loading = false
-               this.successmsg("Password Modification", 'Your password has been successfully modified!')
-              this.$router.push({ path: '/dashboard/profil' })
+               this.successmsg("Modification du mot de passe", "Votre mot de passe a été modifié avec succès !");
+              this.$router.push({ path: '/bspp/profil' })
 
              } else {
     

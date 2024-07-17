@@ -5,7 +5,7 @@
     <div
       class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb"
     >
-      <h1 class="page-title fw-semibold fs-18 mb-0">Zones</h1>
+      <h1 class="page-title fw-semibold fs-18 mb-0">Modes de financement</h1>
       <div class="ms-md-1 ms-0">
         <nav>
           <ol class="breadcrumb mb-0">
@@ -13,7 +13,7 @@
               <a href="javascript:void(0);">BSPP</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                Zones
+                Modes de financement
             </li>
           </ol>
         </nav>
@@ -26,7 +26,7 @@
                                         <div class="h5 fw-semibold mb-0"></div>
                                         <div class="d-flex mt-sm-0 mt-2 align-items-center">
                                             <div class="input-group">
-                                                <input type="text" class="form-control bg-light border-0" placeholder="Recherchez..." aria-describedby="search-member" v-model="search" @input="filterByName" >
+                                                <input type="text" class="form-control bg-light border-0" placeholder="Recherchez..." aria-describedby="search-member" v-model="control.name" @input="filterByName" >
                                                 <button class="btn btn-light" type="button" id="search-contact-member"><i class="ri-search-line text-muted"></i></button>
                                             </div>
                                            
@@ -49,7 +49,7 @@
                                 <div class="card custom-card">
                                     <div class="card-header justify-content-between">
                                         <div class="card-title">
-                                          Liste des zones 
+                                          Liste des Modes de financement 
                                         </div>
                                        
                                     </div>
@@ -58,9 +58,9 @@
                                             <table class="table text-nowrap table-hover border table-bordered table-striped">
                                                 <thead>
                                                     <tr>
-                                                       
+                                                        <th scope="row" class="ps-4">N°</th>
                                                         <th scope="col">Code </th>
-                                                        <th scope="col">Nom</th>
+                                                        <th scope="col">Intitule</th>
                                                         <th scope="col">Etat</th>
                                                         <th scope="col">Action</th>
                                                     </tr>
@@ -70,40 +70,40 @@
                                                   <td colspan="18">
                                                     <div
                                                       class="badge bg-warning-transparent"
-                                                      style="width: 100%; font-size: 15px"
+                                                      style="width: 100%; font-size: 14px"
                                                     >
-                                                      Pas de données
+                                                    Vous n'avez pas encore de mode de financement, vous pouvez également en ajouter un !!
                                                     </div>
                                                   </td>
                                                 </tr>
                                               </tbody>
                                                 <tbody v-else>
-                                                    <tr v-for="(data) in paginatedItems" :key="data.id">
-                                                        
+                                                    <tr v-for="(data , index) in paginatedItems" :key="data.id">
+                                                        <th scope="row" class="ps-4">{{ (currentPage - 1) * itemsPerPage + index + 1 }}</th>
                                                         <td>
                                                         
                                                                 <span class="">
-                                                                  {{ data.CodeRegion }}
+                                                                  {{ data.Code }}
                                                                 </span>
                                                          
                                                         </td>
                                                         <td>
                                                         
                                                         <span class="">
-                                                          {{ data.NomRegion }}
+                                                          {{ data.Intitule }}
                                                         </span>
                                                  
                                                 </td>
                                                         <td>
                                                            
-                                                            <span  v-if="data.Statut === '1'" class="badge bg-success">Activer</span>
+                                                            <span  v-if="data.Visible === '1'" class="badge bg-success">Activer</span>
                                                             <span  v-else class="badge bg-danger">Desactiver</span>
                                                         </td>
                                                         <td>
                                                             <div class="hstack gap-2 fs-15">
-                                                                <button  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-primary-light"  data-bs-toggle="modal"  data-bs-target="#update_client" @click="HandleIdUpdate(data.CodeRegion)"><i class="ri-edit-line"></i></button>
-                                                                <button  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-danger"  
-                                                                     @click="HandleIdDelete(data.CodeRegion)"><i class="ri-delete-bin-line"></i></button>
+                                                                <button  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-primary-light"  data-bs-toggle="modal"  data-bs-target="#update_client" @click="HandleIdUpdate(data.id)"><i class="ri-edit-line"></i></button>
+                                                                <button  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-danger-light"  
+                                                                     @click="HandleIdDelete(data.id)"><i class="ri-delete-bin-line"></i></button>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -149,7 +149,7 @@
               style="font-size: 22px !important"
             >
               <b class="text-center"
-                >Ajputer une zone</b
+                >Ajouter un mode de financement</b
               >
             </h2>
           </div>
@@ -169,20 +169,20 @@
                         > Code <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step1.CodeRegion"
+                        v-model="step1.CodeBailleur"
                         color="info"
-                        name="CodeRegion"
+                        name="CodeBailleur"
                         size="sm"
                         rounded-size="sm"
                         type="text"
                         
                         
                       />
-                      <small v-if="v$.step1.CodeRegion.$error">{{
-                        v$.step1.CodeRegion.$errors[0].$message
+                      <small v-if="v$.step1.CodeBailleur.$error">{{
+                        v$.step1.CodeBailleur.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['CodeRegion']">
-                        {{ resultError["CodeRegion"] }}
+                      <small v-if="resultError['CodeBailleur']">
+                        {{ resultError["CodeBailleur"] }}
                       </small>
                     </div>
                   </div>
@@ -192,28 +192,59 @@
                   <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Nom
+                        >Intitule
                         <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step1.NomRegion"
+                        v-model="step1.NomBailleur"
                         type="text"
                         color="info"
-                        name="NomRegion"
+                        name="NomBailleur"
                         size="sm"
                         rounded-size="sm"
                        
                       />
-                      <small v-if="v$.step1.NomRegion.$error">{{
-                        v$.step1.NomRegion.$errors[0].$message
+                      <small v-if="v$.step1.NomBailleur.$error">{{
+                        v$.step1.NomBailleur.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['NomRegion']">
-                        {{ resultError["NomRegion"] }}
+                      <small v-if="resultError['NomBailleur']">
+                        {{ resultError["NomBailleur"] }}
                       </small>
                     </div>
                   </div>
               
                 </div>
+
+                <div class="row mt-3 content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Visible
+                        <span class="text-danger">*</span></label
+                      >
+                      <MazSelect
+                        v-model="step1.Visible"
+                        type="text"
+                        color="info"
+                        name="Visible"
+                        size="sm"
+                        rounded-size="sm"
+                         :options="choix"
+                       
+                      />
+                      <small v-if="v$.step1.Visible.$error">{{
+                        v$.step1.Visible.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['Visible']">
+                        {{ resultError["Visible"] }}
+                      </small>
+                    </div>
+                  </div>
+              
+                </div>
+              
+
+              
               </div>
               <div class="row mb-3">
               <div class="boutton">
@@ -264,7 +295,7 @@
               style="font-size: 22px !important"
             >
               <b class="text-center"
-                >Modifier une zone</b
+                >Modifier un bailleur</b
               >
             </h2>
           </div>
@@ -284,20 +315,20 @@
                         > Code <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step2.CodeRegion"
+                        v-model="step2.CodeBailleur"
                         color="info"
-                        name="CodeRegion"
+                        name="CodeBailleur"
                         size="sm"
                         rounded-size="sm"
                         type="text"
                         
                         
                       />
-                      <small v-if="v$.step2.CodeRegion.$error">{{
-                        v$.step2.CodeRegion.$errors[0].$message
+                      <small v-if="v$.step2.CodeBailleur.$error">{{
+                        v$.step2.CodeBailleur.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['CodeRegion']">
-                        {{ resultError["CodeRegion"] }}
+                      <small v-if="resultError['CodeBailleur']">
+                        {{ resultError["CodeBailleur"] }}
                       </small>
                     </div>
                   </div>
@@ -307,23 +338,51 @@
                   <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Nom
+                        >Intitule
                         <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step2.NomRegion"
+                        v-model="step2.NomBailleur"
                         type="text"
                         color="info"
-                        name="NomRegion"
+                        name="NomBailleur"
                         size="sm"
                         rounded-size="sm"
                        
                       />
-                      <small v-if="v$.step2.NomRegion.$error">{{
-                        v$.step2.NomRegion.$errors[0].$message
+                      <small v-if="v$.step2.NomBailleur.$error">{{
+                        v$.step2.NomBailleur.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['NomRegion']">
-                        {{ resultError["NomRegion"] }}
+                      <small v-if="resultError['NomBailleur']">
+                        {{ resultError["NomBailleur"] }}
+                      </small>
+                    </div>
+                  </div>
+              
+                </div>
+
+                <div class="row mt-3 content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Visible
+                        <span class="text-danger">*</span></label
+                      >
+                      <MazSelect
+                        v-model="step2.Visible"
+                        type="text"
+                        color="info"
+                        name="Visible"
+                        size="sm"
+                        rounded-size="sm"
+                        :options="choix"
+                       
+                      />
+                      <small v-if="v$.step2.Visible.$error">{{
+                        v$.step2.Visible.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['Visible']">
+                        {{ resultError["Visible"] }}
                       </small>
                     </div>
                   </div>
@@ -356,7 +415,7 @@
           
         </div>
       </div>
-         </div>
+                               </div>
                            
     </div>
 </template>
@@ -397,7 +456,7 @@ export default {
       currentPage: 1,
       itemsPerPage: 10,
       totalPageArray: [],
-      search: "",
+      control: { name: '',},
       resultError: {},
       photo:"",
       ToId:"",
@@ -407,13 +466,15 @@ export default {
         ],
 
       step1: {
-        CodeRegion:"",
-        NomRegion:"",
+        CodeBailleur:"",
+        NomBailleur:"",
+        Visible:"",
        
       },
       step2: {
-        CodeRegion:"",
-        NomRegion:"",
+        CodeBailleur:"",
+        NomBailleur:"",
+        Visible:"",
        
       },
       v$: useVuelidate(),
@@ -423,18 +484,20 @@ export default {
   },
   validations: {
     step1: {
-      CodeRegion:{require},
-      NomRegion:{require},
+        CodeBailleur:{require},
+        NomBailleur:{require},
+        Visible:{require},
     },
     step2: {
-      CodeRegion:{require},
-      NomRegion:{require},
+        CodeBailleur:{require},
+        NomBailleur:{require},
+        Visible:{require},
     },
    
    
   },
   async mounted() {
-   
+    console.log("loggedInUser", this.loggedInUser);
     await this.fetchClients();
 
   },
@@ -456,24 +519,31 @@ export default {
     },
     async fetchClients() {
       try {
-        const response = await axios.get( '/regions',
+        const response = await axios.get( '/mode-financements',
           {
             headers: {
               Authorization: `Bearer ${this.loggedInUser.token}`,
             },
+            params:{
+              statut:false
+            }
           }
         );
 
-   
+        console.log("responseclienteschools-level", response.data);
         if (response.data.status === "success") {
-            this.data  = response.data.data.data ;
+            this.data  = response.data.data ;
               this.ClientOptions = this.data
-          
+          console.log("this.DaysOptions", this.ClientOptions);
           this.loading =  false
         }
       } catch (error) {
-      
+        console.log(
+          "Erreur lors de la mise à jour des données MPME guinee :",
+          error
+        );
         if (error.response.data.status === "error") {
+          console.log("aut", error.response.data.status === "error");
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -490,34 +560,39 @@ export default {
       }
     },
 
- 
+   
   async submitClient(modalId) {
       this.v$.step1.$touch();
       if (this.v$.$errors.length == 0) {
         this.loading = true;
        let data = {
-            CodeRegion:this.step1.CodeRegion,
-            NomRegion:this.step1.NomRegion,
-            Statut:1
+
+            Code:this.step1.CodeBailleur,
+            Intitule:this.step1.NomBailleur,
+            Visible:this.step1.Visible
        }
        
 
+        console.log("data",data );
+
         try {
-          const response = await axios.post("/regions", data, {
+          const response = await axios.post("/mode-financements", data, {
             headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
            
           }
           });
+          console.log("Réponse du téléversement :", response);
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.successmsg(
-              "Région créée avec succès",
-              "La nouvelle région a été créée avec succès !"
-            );
+                "Création de mode de financement",
+                "Votre mode de financement a été crée avec succès !"
+              );
             await this.fetchClients();
           } else {
           }
         } catch (error) {
+          console.log("response.login", error);
 
           this.loading = false;
           if (error.response.data.status === "error") {
@@ -527,30 +602,37 @@ export default {
           }
         }
       } else {
+        console.log("error", this.v$.$errors);
       }
     },
   async  HandleIdUpdate(id){
     this.loading = true;
 
       try {
-        const response = await axios.get(`/regions/${id}`, {
+        const response = await axios.get(`/duties-services/detail/${id}`, {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`
           }
         });
 
+        // console.log("response", response);
         if (response.data.status === "success") {
+          console.log("responsedata", response.data.data);
           let data =  response.data.data
-          this.step2.CodeRegion = data.CodeRegion,
-          this.step2.NomRegion = data.NomRegion,
+          this.step2.duty_name = data.duty_name,
+          this.step2.descriptions = data.descriptions,
         
-          this.ToId = data.CodeRegion
+          this.ToId = data.id
           this.loading = false;
         
         }
       } catch (error) {
-       
+        console.log(
+          "Erreur lors de la mise à jour des données MPME guinee :",
+          error
+        );
         if (error.response.data.status === "error") {
+          console.log("aut", error.response.data.status === "error");
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -577,32 +659,35 @@ export default {
        this.loading = true;
        let data = {
 
-            CodeRegion:this.step2.CodeRegion,
-            NomRegion:this.step2.NomRegion,
-            Statut:1
+            duty_name:this.step2.duty_name,
+            descriptions:this.step2.descriptions,
+            id:this.ToId
             }
 
 
+            console.log("data",data );
  
       try {
-        const response = await axios.put(`/regions/${this.ToId}`,data, {
+        const response = await axios.put(`/duties-services/${this.ToId}`,data, {
           headers: {
            
             Authorization: `Bearer ${this.loggedInUser.token}`,
           
           },
         });
+        console.log("Réponse du téléversement :", response);
         if (response.data.status === "success") {
           this.closeModal(modalId);
           this.successmsg(
-              "Données de la région mises à jour",
-              "Les données de la région ont été mises à jour avec succès !"
-            );
+                  "Duty Data Updated",
+                  "The duty's data has been successfully updated!"
+                );
             await this.fetchClients();
          
           
         } 
       } catch (error) {
+        console.error("Erreur lors du téléversement :", error);
        
         if (error.response.data.message==="Vous n'êtes pas autorisé." || error.response.status === 401) {
               await this.$store.dispatch('auth/clearMyAuthenticatedUser');
@@ -615,6 +700,7 @@ export default {
      }
       }
     } else {
+      console.log("cest pas bon ", this.v$.$errors);
       this.loading = false;
 
     }
@@ -655,7 +741,7 @@ export default {
          
          try {
            // Faites une requête pour supprimer l'élément avec l'ID itemId
-           const response = await axios.delete(`/regions/${id}`, {
+           const response = await axios.delete(`/duties-services/${id}`, {
              headers: {
                Authorization: `Bearer ${this.loggedInUser.token}`,
                
@@ -664,18 +750,21 @@ export default {
    
    
            });
+           console.log('Réponse de suppression:', response);
            if (response.data.status === 'success') {
              this.loading = false
              this.successmsg(
-              "Région supprimée",
-              "La région a été supprimée avec succès."
+              "Duty Deleted",
+              "The duty has been successfully deleted."
             );
             await this.fetchClients();
    
            } else {
+             console.log('error', response.data)
              this.loading = false
            }
          } catch (error) {
+           console.error('Erreur lors de la suppression:', error);
           
            if (error.response.data.message==="Vous n'êtes pas autorisé." || error.response.status === 401) {
                 await this.$store.dispatch('auth/clearMyAuthenticatedUser');
@@ -687,14 +776,14 @@ export default {
        },
     filterByName() {
 this.currentPage = 1;
-if (this.search !== null) {
-   const tt = this.search;
+if (this.control.name !== null) {
+   const tt = this.control.name;
   const  searchValue = tt.toLowerCase()
   this.ClientOptions =this.data.filter(user => {
-    const Nom = user.NomRegion || '';
-    const CodeRegion = user.CodeRegion || '';
+    const Nom = user.duty_name || '';
+    const Descriptions = user.descriptions || '';
    
-    return Nom.toLowerCase().includes(searchValue) || CodeRegion.toLowerCase().includes(searchValue) ;
+    return Nom.toLowerCase().includes(searchValue) || Descriptions.toLowerCase().includes(searchValue) ;
   });
 
 } else {
@@ -718,13 +807,22 @@ closeModal(modalId) {
 
       for (const field in errors) {
         const errorMessages = errors[field]; // Liste complète des messages d'erreur
+        console.log(" errorMessages", errorMessages, typeof errorMessages);
 
         const concatenatedError = errorMessages.join(", "); // Concaténer les messages d'erreur
+        console.log(
+          " concatenatedError",
+          concatenatedError,
+          typeof concatenatedError
+        );
+
         formattedErrors[field] = concatenatedError; // Utilisez le nom du champ comme clé
       }
+
       this.resultError = formattedErrors; // Stockez les erreurs dans un objet
 
       // Maintenant, this.resultError est un objet où les clés sont les noms des champs
+      console.log("resultError", this.resultError);
     },
   }
 }

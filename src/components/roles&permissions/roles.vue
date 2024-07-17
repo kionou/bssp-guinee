@@ -1,11 +1,12 @@
-<template lang>
+<template >
     <div>
+      <Loading v-if="loading" style="z-index: 99999"></Loading>
         <div class="row">
                     <div class="col-xl-12">
                         <div class="card custom-card">
                             <div class="card-header justify-content-between">
                                 <div class="card-title">
-                                    Liste des roles
+                                    Liste des rôles
                                 </div>
                                 <div class="d-flex flex-wrap">
                                     <div class="me-3 my-1">
@@ -14,7 +15,7 @@
                                         class="form-control bg-light border-0"
                                         placeholder="Recherchez..."
                                         aria-describedby="search-member"
-                                        v-model="control"
+                                        v-model="search"
                                         @input="filterByName"
                                     />
                                     </div>
@@ -25,39 +26,37 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="table-responsive">
+                              <div v-if="paginatedItems.length === 0" class="noresul">
+                              <span> Vous n'avez pas encore de rôle, vous pouvez également en ajouter un !! </span>
+                            </div>
+    
+                                <div class="table-responsive" v-else>
                                     <table class="table text-nowrap table-bordered">
                                         <thead>
                                             <tr>
                                                 <th scope="col">N</th>
                                                 <th scope="col">Nom</th>
-                                                <th scope="col">Permissions</th>
                                                 <th scope="col">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
+                                            <tr v-for="(user , index) in paginatedItems" :key="user.id">
                                                 <td>
-                                                    1
+                                                    {{index + 1}}
                                                 </td>
                                                 <td>
                                                     <div class="d-flex align-items-center lh-1">
                                                         
-                                                        <div>Super admin</div>
+                                                        <div>{{ user.name }}</div>
                                                     </div>
                                                 </td>
-                                                <td class="text-warning">
-                                                    <div class="btn  btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#create-infrastructure">
-                                                            detail
-                                                     </div>
-                                                </td>
-                                             
+                                              
                                                
                                                 <td>
                                                     <div class="hstack gap-2 fs-1">
                                                       
-                                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-info btn-wave waves-effect "><i class="ri-edit-line"></i></a>
-                                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-danger btn-wave waves-effect waves-light"><i class="ri-delete-bin-line"></i></a>
+                                                        <div class="btn btn-icon btn-sm btn-info btn-wave waves-effect " data-bs-toggle="modal" data-bs-target="#update_role"  @click="HandleIdUpdate(user.id)"><i class="ri-edit-line"></i></div>
+                                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-danger btn-wave waves-effect waves-light"><i class="ri-delete-bin-line" @click="HandleIdDelete(user.id)"></i></a>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -68,33 +67,15 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <div class="d-flex flex-wrap align-items-center">
-                                  
-                                    <div class="ms-auto">
-                                        <nav aria-label="Page navigation" class="pagination-style-4">
-                                            <ul class="pagination mb-0">
-                                                <li class="page-item disabled">
-                                                    <a class="page-link" href="javascript:void(0);">
-                                                        Prev
-                                                    </a>
-                                                </li>
-                                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
-                                                <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                                                <li class="page-item">
-                                                    <a class="page-link text-primary" href="javascript:void(0);">
-                                                        next
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                </div>
+                              <div class="container_pagination">
+                            <Pag :current-page="currentPage" :total-pages="totalPages" @page-change="updateCurrentPage" />
+                          </div>
                             </div>
                         </div>
                     </div>
         </div>
 
-        <div
+                             <div
       class="modal fade effect-rotate-bottom"
       id="create-role"
       tabindex="-1"
@@ -114,7 +95,7 @@
               style="font-size: 22px !important"
             >
               <b class="text-center"
-                >Ajputer un role</b
+                >Ajouter un Rôle</b
               >
             </h2>
           </div>
@@ -131,7 +112,7 @@
                   <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        > Role <span class="text-danger">*</span></label
+                        > Rôle <span class="text-danger">*</span></label
                       >
                       <MazInput
                         v-model="step1.role"
@@ -156,7 +137,7 @@
               </div>
               <div class="row mb-3">
               <div class="boutton">
-                <button class="" @click.prevent="submitClient('add_client')">
+                <button class="" @click.prevent="SubmitRole('create-role')">
                   Valider
                 </button>
               </div>
@@ -185,11 +166,11 @@
                                
                                <div
       class="modal fade effect-rotate-bottom"
-      id="update_client"
+      id="update_role"
       tabindex="-1"
       aria-hidden="true"
       data-bs-backdrop="static"
-      ref="update_client"
+      ref="update_role"
     >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -203,7 +184,7 @@
               style="font-size: 22px !important"
             >
               <b class="text-center"
-                >Modifier un role</b
+                >Modifier un rôle</b
               >
             </h2>
           </div>
@@ -220,7 +201,7 @@
                   <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        > Role <span class="text-danger">*</span></label
+                        > Rôle <span class="text-danger">*</span></label
                       >
                       <MazInput
                         v-model="step2.role"
@@ -246,7 +227,7 @@
               </div>
               <div class="row mb-3">
               <div class="boutton">
-                <button class="" @click.prevent="submitUpdate('update_client')">
+                <button class="" @click.prevent="submitUpdate('update_role')">
                   Valider
                 </button>
               </div>
@@ -293,36 +274,32 @@ export default {
       return this.$store.getters["auth/myAuthenticatedUser"];
     },
     totalPages() {
-      return Math.ceil(this.ClientOptions.length / this.itemsPerPage);
+      return Math.ceil(this.RolesOptions.length / this.itemsPerPage);
     },
     paginatedItems() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.ClientOptions.slice(startIndex, endIndex);
+      return this.RolesOptions.slice(startIndex, endIndex);
     },
   
   },
   data(){
     return{
         loading: true,
-      
+        RolesOptions: [],
+        data:[],
+        search:"",
       currentPage: 1,
       itemsPerPage: 10,
       totalPageArray: [],
-      control: { name: '',},
       resultError: {},
       ToId:"",
-      
-
       step1: {
         role:"",
-       
        
       },
       step2: {
         role:"",
-    
-       
       },
       v$: useVuelidate(),
       error: "",
@@ -342,10 +319,227 @@ export default {
    
   },
   async mounted() {
-    console.log("loggedInUser", this.loggedInUser);
-    // await this.fetchClients();
-
+    await this.fetchRoles();
   },
+  methods: {
+    successmsg:successmsg,
+        async fetchRoles() {
+            try {
+              const response = await axios.get('/roles', {
+              headers: {
+                Authorization: `Bearer ${this.loggedInUser.token}`,
+                
+              },
+    
+            });
+
+               this.data = response.data.data
+              this.RolesOptions =  this.data ;
+
+
+              this.loading = false;
+            
+            } catch (error) {           
+              if (error.response.data.message==="Vous n'êtes pas autorisé." || error.response.status === 401) {
+                await this.$store.dispatch('user/clearLoggedInUser');
+              this.$router.push("/");  //a revoir
+            }
+            }
+          },
+          async SubmitRole(modalId){
+    
+      this.v$.step1.$touch();
+      if (this.v$.$errors.length == 0) {
+         this.loading = true;
+        const dataCath = {
+          name:this.step1.role,
+         
+        }
+        try {
+          const response = await axios.post("/roles", dataCath, {
+            headers: {
+              
+              Authorization: `Bearer ${this.loggedInUser.token}`,
+            },
+          });
+          if (response.data.status === "success") {
+           this.closeModal(modalId);
+          this.successmsg("Création d'un rôle",'Votre rôle a été crée avec succès !')
+          await this.fetchRoles()
+            
+          } 
+        } catch (error) {
+          if (error.response.data.message==="Vous n'êtes pas autorisé." || error.response.status === 401) {
+            await this.$store.dispatch('user/clearLoggedInUser');
+          this.$router.push("/");  //a revoir
+        }
+        }
+      } else {
+      }
+  },
+  async HandleIdUpdate(id) {
+      this.loading = true;
+
+      try {
+          const response = this.RolesOptions.find(item => item.id === id);
+        if (response) {
+          let data = response;
+            this.step2.role = data.name,
+            this.ToId = data.id;
+            this.loading = false;
+        }
+      } catch (error) {
+        if (error.response.data.status === "error") {
+          if (
+            error.response.data.message === "Vous n'êtes pas autorisé." ||
+            error.response.status === 401
+          ) {
+            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+            this.$router.push("/"); //a revoir
+          }
+        } else {
+          this.formatValidationErrors(error.response.data.errors);
+          this.loading = false;
+          return false;
+        }
+      }
+    },
+    async submitUpdate(modalId) {
+      this.v$.step2.$touch();
+
+      if (this.v$.$errors.length == 0) {
+        this.loading = true;
+        const data = {
+          name:this.step2.role,
+         
+        }
+             
+        try {
+          const response = await axios.put(`roles/${this.ToId}`, data, {
+            headers: {
+              Authorization: `Bearer ${this.loggedInUser.token}`
+              
+            },
+          });
+          if (response.data.status === "success") {
+            this.closeModal(modalId);
+            this.successmsg(
+            "Données du rôle mises à jour",
+            "Les données du rôle ont été mises à jour avec succès !"
+          );
+            await this.fetchRoles();
+          }
+        } catch (error) {
+          if (
+            error.response.data.message === "Vous n'êtes pas autorisé." ||
+            error.response.status === 401
+          ) {
+            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+            this.$router.push("/"); //a revoir
+          } else {
+            this.formatValidationErrors(error.response.data.errors);
+            this.loading = false;
+          }
+        }
+      } else {
+        this.loading = false;
+      }
+    },
+    async HandleIdDelete(id) {
+      // Affichez une boîte de dialogue Sweet Alert pour confirmer la suppression
+      const result = await Swal.fire({
+      title: "Êtes-vous sûr ?",
+      text: "Vous ne pourrez pas revenir en arrière !",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Oui, supprimez-le !",
+      cancelButtonText: "Non, annulez !",
+      reverseButtons: true,
+    });
+
+      // Si l'utilisateur confirme la suppression
+      if (result.isConfirmed) {
+        this.ConfirmeDelete(id);
+      }
+    },
+    async ConfirmeDelete(id) {
+      this.loading = true;
+
+      try {
+        // Faites une requête pour supprimer l'élément avec l'ID itemId
+        const response = await axios.delete(`/roles/${id}`, {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+        });
+        if (response.data.status === "success") {
+          this.loading = false;
+          this.successmsg(
+          "Rôle supprimé",
+          "Le rôle a été supprimé avec succès."
+        );
+          await this.fetchRoles();
+        } else {
+          this.loading = false;
+        }
+      } catch (error) {
+        if (
+          error.response.data.message === "Vous n'êtes pas autorisé." ||
+          error.response.status === 401
+        ) {
+          await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+          this.$router.push("/"); //a revoir
+        }
+      }
+    },
+  filterByName() {
+      this.currentPage = 1;
+      if (this.search !== null) {
+        const tt = this.search;
+        const searchValue = tt.toLowerCase();
+        this.RolesOptions = this.data.filter((user) => {
+          const Nom = user.name || "";
+         
+          return (
+            Nom.toLowerCase().includes(searchValue) 
+            
+          );
+        });
+      } else {
+        this.RolesOptions = [...this.data];
+      }
+    },
+    closeModal(modalId) {
+      let modalElement = this.$refs[modalId];
+      modalElement.classList.remove("show");
+      modalElement.style.display = "none";
+      document.body.classList.remove("modal-open");
+      let modalBackdrop = document.querySelector(".modal-backdrop");
+      if (modalBackdrop) {
+        modalBackdrop.parentNode.removeChild(modalBackdrop);
+      }
+    },
+
+        updateCurrentPage(pageNumber) {
+          this.currentPage = pageNumber;
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth', // Utilisez 'auto' pour un défilement instantané
+          });
+        },
+        updatePaginatedItems() {
+          const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+         
+          const endIndex = startIndex + this.itemsPerPage;
+          return  this.RolesOptions.slice(startIndex, endIndex);
+        },
+    
+      
+   
+   
+        
+    
+      },
 }
 </script>
 <style lang="css" scoped>

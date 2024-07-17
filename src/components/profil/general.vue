@@ -60,6 +60,26 @@
                                 </div>
                               </div>
                             </div>
+                            <div class="row mb-3 mt-3 content-group">
+                              <div class="col">
+                                <div class="input-group">
+                                  <label
+                                    class="font-weight-600 text-color-orange"
+                                    for="emailAddress"
+                                    >Pseudo</label
+                                  >
+                                  <MazInput
+                                    v-model="username"
+                                    
+                                    color="info"
+                                    type="text" size="sm" rounded-size="sm"
+                                  />
+                                  <small v-if="v$.username.$error">{{
+                                    v$.username.$errors[0].$message
+                                  }}</small>
+                                </div>
+                              </div>
+                            </div>
 
                             <div class="row mb-3 mt-3 content-group">
                               <div class="col">
@@ -81,6 +101,26 @@
                                 </div>
                               </div>
                             </div>
+                            <div class="row mb-3 mt-3 content-group">
+                              <div class="col">
+                                <div class="input-group">
+                                  <label
+                                    class="font-weight-600 text-color-orange"
+                                    for="emailAddress"
+                                    >Region</label
+                                  >
+                                  <MazSelect
+                                    v-model="region"
+                                    :options="regionOptions"
+                                    color="info"
+                                    type="region" size="sm" rounded-size="sm"
+                                  />
+                                  <small v-if="v$.region.$error">{{
+                                    v$.email.$errors[0].$message
+                                  }}</small>
+                                </div>
+                              </div>
+                            </div>
 
                             <div class="row mb-3 mt-3 content-group">
                               <div class="col">
@@ -95,7 +135,7 @@
                                     show-code-on-list
                                     
                                     color="info"
-                                    defaultCountryCode="US"
+                                    defaultCountryCode="GN"
                                     :ignored-countries="['AC']"
                                     @update="results = $event"
                                     :success="results?.isValid"
@@ -115,7 +155,7 @@
                                     class="btn btn-primary"
                                     @click.prevent="HamdlePassword"
                                   >
-                                  To validate
+                                  Valider
                                   </button>
                                 </div>
                               </div>
@@ -134,7 +174,7 @@
             <div class="profile-pic text-center">
               <label class="-label" for="file">
                 <span class="glyphicon glyphicon-camera"></span>
-                <i class="ri-edit-line"></i> <span>Update</span>
+                <i class="ri-edit-line"></i> <span>Modifier</span>
               </label>
               <input id="file" type="file" @change="loadFile" />
               <img
@@ -176,11 +216,13 @@ export default {
       isOpen: false,
       loading: true,
       isOpenPassword: false,
+      regionOptions:[],
       password: "",
       email: "",
       phoneNumber: "",
       nom: "",
       prenom: "",
+      username: "",
       v$: useVuelidate(),
       errorPassword: "",
       error: "",
@@ -205,10 +247,19 @@ export default {
       require,
       lgmin: lgmin(2),
     },
+    username: {
+      require,
+      lgmin: lgmin(2),
+    },
+    region: {
+      require,
+      
+    },
   },
   computed: {
     loggedInUser() {
       return this.$store.getters["auth/myAuthenticatedUser"];
+      
     },
   },
   async mounted() {
@@ -217,6 +268,7 @@ export default {
       behavior: "smooth",
     });
     await this.fetchUserDetail();
+    await this.fetchRegionOptions()
     console.log("dataespace", this.loggedInUser);
   },
   methods: {
@@ -236,10 +288,12 @@ export default {
           console.log(selectedActualites);
           this.nom = selectedActualites.Nom;
           this.prenom = selectedActualites.Prenoms;
+          this.username= selectedActualites.username;
           this.email = selectedActualites.email;
           this.phoneNumber = selectedActualites.Whatsapp;
+          this.region = selectedActualites.region;
           this.id = selectedActualites.id;
-          (this.image = selectedActualites.profile),
+          this.image = selectedActualites.photo,
             
           this.loading = false;
         }
@@ -254,6 +308,28 @@ export default {
         }
       }
     },
+    async fetchRegionOptions() {
+      // Renommez la méthode pour refléter qu'elle récupère les options de pays
+      try {
+        await this.$store.dispatch("fetchRegionOptions");
+        const options = JSON.parse(
+          JSON.stringify(this.$store.getters["getRegionOptions2"])
+         
+        ); // Accéder aux options des pays via le getter
+        console.log(options);
+        this.regionOptions = options.map(region => ({
+        label: region.NomRegion,
+        value: region.CodeRegion,
+      }));;
+        // Affecter les options à votre propriété sortedCountryOptions
+        this.loading = false
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération des options des pays :",
+          error.message
+        );
+      }
+    },
 
     async HamdleSign() {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -264,12 +340,13 @@ export default {
         email: this.email,
         Nom: this.nom,
         Prenoms: this.prenom,
+        username: this.username,
         Whatsapp: this.phoneNumber,
         
       };
       console.log("data", DataUser);
       try {
-        const response = await axios.put("/system-user/modify", DataUser, {
+        const response = await axios.put("/auth-user-update", DataUser, {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },
@@ -302,8 +379,8 @@ export default {
 
           this.loading = false;
           this.successmsg(
-            "Account Modification",
-           "Your account has been successfully updated!"
+            "Modification du compte",
+            "Votre compte a été mis à jour avec succès !"
           );
         } else {
           this.loading = false;
@@ -352,9 +429,10 @@ export default {
           this.fetchUserDetail(); // Assurez-vous que cette fonction est correctement définie
           this.loading = false;
           this.successmsg(
-            "Account Modification",
-            "Your account has been successfully updated!"
+            "Modification du compte",
+            "Votre compte a été mis à jour avec succès !"
           );
+
         } else {
           console.log("errorrr", response.data);
           this.errorImage = "L'enregistrement a échoué !!!";

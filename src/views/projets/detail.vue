@@ -786,7 +786,7 @@ size="sm" rounded-size="sm" />
   import Swal from "sweetalert2";
 
   export default {
-   
+    props:['id'],
     components: {
       Loading,
       General

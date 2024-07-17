@@ -21,6 +21,7 @@ import MazSwitch from 'maz-ui/components/MazSwitch'
  import MazCheckbox from 'maz-ui/components/MazCheckbox'
  import MazAccordion from 'maz-ui/components/MazAccordion'
  import MazInputCode from 'maz-ui/components/MazInputCode'
+ import MazRadioButtons from 'maz-ui/components/MazRadioButtons'
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 const app = createApp(App)
@@ -40,6 +41,7 @@ const app = createApp(App)
   app.component('MazCheckbox', MazCheckbox)
   app.component('MazAccordion', MazAccordion)
   app.component('MazInputCode', MazInputCode)
+  app.component('MazRadioButtons', MazRadioButtons)
 
 
 
