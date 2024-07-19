@@ -863,7 +863,7 @@
                 <div class="d-flex align-items-center" v-if="loggedInUser">
                   <div class="me-sm-2 me-0">
                     <img
-                      v-if="loggedInUser.profile === null"
+                      v-if="!loggedInUser.profile || !loggedInUser.profile.startsWith('https')"
                       src="@/assets/img/client.png"
                       alt="img"
                       width="32"

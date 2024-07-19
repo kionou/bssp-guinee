@@ -30,7 +30,7 @@
                 class="form-control bg-light border-0"
                 placeholder="Recherchez..."
                 aria-describedby="search-member"
-                v-model="control"
+                v-model="search"
                 @input="filterByName"
               />
               <button class="btn btn-light" type="button" id="search-contact-member" >
@@ -73,27 +73,37 @@
                                 <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-warning fw-semibold">{{projet.DateDebut}}</span></p>
                                 <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1  fw-semibold " style="color:red;" >{{projet.DateFin}}</span></p>
                                 <p class="mb-2 fw-semibold">Financement :<span class="fs-14 mb-1 text-muted fw-semibold">{{projet.ModeFinancement}}</span></p>
-                                <p class="mb-2 fw-semibold">Budget :<span class="fs-14 mb-1  fw-semibold" style="color:#05b305;">{{projet.ModeFinancement}} (M GNF)</span></p>
+                                <p class="mb-2 fw-semibold">Zones :<span class="fs-14 mb-1  fw-semibold" style="color:#05b305;">
+                                  <span v-for="region  in projet.regions" :key="region.id">
+                                      {{region.region.NomRegion}} ,
+                                  </span>
+                                </span></p>
                                 
                             </div>
                             <div>
                                 <div class="w-100 d-flex justify-content-center" style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
-                                <div class="btn-list">
-                                    <router-link :to="{ name: 'detail-projet', params: { id: projet.CodeProjet }}"   class="btn btn-sm btn-icon btn-success btn-wave">
+                                <div class="btn-list w-100 d-flex justify-content-center">
+                                    <router-link :to="{ name: 'detail-projet', params: { id: projet.id }}"   class="btn btn-sm btn-icon btn-success btn-wave">
                                         <i class="ri-eye-line"></i>
                                     </router-link>
                                 
-                                <button class="btn btn-sm btn-icon btn-primary btn-wave">
+                                <button class="btn btn-sm btn-icon btn-info btn-wave" data-bs-title="Add Contact"
+                                data-bs-toggle="modal" data-bs-target="#update_projet" @click="HandleIdUpdate(projet.id)">
                                     <i class="ri-edit-line"></i>
                                 </button>
 
-                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
+                                <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(projet.id)">
                                     <i class="ri-delete-bin-line"></i>
                                 </button>
-
-                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                                    <i class="ri-shut-down-line"></i>
-                                </button>
+                                  <div>
+                                    <button class="btn btn-sm btn-icon btn-success btn-wave" v-if="projet.Visible === '1'">
+                                    <i class="ri-lock-unlock-line"></i>
+                                   </button>
+                                    <button class="btn btn-sm btn-icon btn-warning btn-wave" v-else>
+                                    <i class="ri-lock-2-line"></i>
+                                  </button>
+                                  </div>
+                                
                                 
                                 </div>
                                 </div>
@@ -201,7 +211,10 @@
                       </small>
                     </div>
                   </div>
-                  
+
+                </div>
+
+                <div class="row mt-3 content-group">
                   <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
@@ -223,10 +236,32 @@
                       </small>
                     </div>
                   </div>
-                  
-                </div>
-            
-                <div class="row mt-3 content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Visible<span class="text-danger">*</span></label
+                      >
+                      <MazSelect
+                        v-model="step1.Visible"
+                        color="info"
+                        name="Visible"
+                        size="sm"
+                        rounded-size="sm"
+                        type="text"
+                        :options="choix"
+                      />
+                      <small v-if="v$.step1.Visible.$error">{{
+                        v$.step1.Visible.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['Visible']">
+                        {{ resultError["Visible"] }}
+                      </small>
+                    </div>
+                  </div>
+         
+                 </div>
+
+                 <div class="row mt-3 content-group">
                   <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
@@ -248,7 +283,34 @@
                         {{ resultError["ModeFinancement"] }}
                       </small>
                     </div>
-                  </div>
+                  </div>  
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Zone d'intervention<span class="text-danger">*</span></label
+                      >
+                      <MazSelect
+                        v-model="step1.zones"
+                        color="info"
+                        name="zones"
+                        size="sm"
+                        rounded-size="sm"
+                        type="text"
+                        :options="RegionsOptions"
+                        multiple
+                      />
+                      <small v-if="v$.step1.zones.$error">{{
+                        v$.step1.zones.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['zones']">
+                        {{ resultError["zones"] }}
+                      </small>
+                    </div>
+                  </div>            
+                 </div>
+
+                <div class="row mt-3 content-group">
+
                     <div class="col">
               <div class="input-groupe">
                 <label for="employment_date_begin">Date debut <span class="text-danger">*</span></label>
@@ -261,27 +323,27 @@
                       </small>
               
               </div>
-            </div>
-            <div class="col">
-              <div class="input-groupe">
-                <label for="employment_date_end">Date fin <span class="text-danger">*</span></label>
-                <MazInput v-model="step1.DateFin" type="date" :min="step1.DateDebut" color="info" name="DateFin" size="sm" rounded-size="sm" />
-                <small v-if="v$.step1.DateFin.$error">{{
-                        v$.step1.DateFin.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['DateFin']">
-                        {{ resultError["DateFin"] }}
-                      </small>
-             
-              </div>
-            </div>             
+                   </div>
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="employment_date_end">Date fin <span class="text-danger">*</span></label>
+                      <MazInput v-model="step1.DateFin" type="date" :min="step1.DateDebut" color="info" name="DateFin" size="sm" rounded-size="sm" />
+                      <small v-if="v$.step1.DateFin.$error">{{
+                              v$.step1.DateFin.$errors[0].$message
+                            }}</small>
+                            <small v-if="resultError['DateFin']">
+                              {{ resultError["DateFin"] }}
+                            </small>
+                  
+                    </div>
+                  </div>             
                  </div>
 
                  <div class="row mt-3 content-group">
                  
                  <div class="col">
            <div class="input-groupe">
-             <label for="employment_date_begin">Description <span class="text-danger">*</span></label>
+             <label for="employment_date_begin">Description </label>
              <MazTextarea v-model="step1.Description" type="text" color="info" name="Description" size="sm" rounded-size="sm"  />
              <small v-if="v$.step1.Description.$error">{{
                         v$.step1.Description.$errors[0].$message
@@ -293,12 +355,264 @@
            </div>
          </div>
                      
-              </div>
+                </div>
 
               </div>
               <div class="row mb-3">
                 <div class="boutton">
                   <button class="" @click.prevent="submitProjet('add_projet')">
+                    Valider
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <br />
+            <div class="modal-footer">
+              <div class="btn-group ms-auto">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- update projet -->
+
+    <div
+      class="modal fade effect-rotate-bottom"
+      id="update_projet"
+      tabindex="-1"
+      aria-hidden="true"
+      data-bs-backdrop="static"
+      ref="update_projet"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+          <div
+            class="modal-header float-start text-center justify-content-center"
+            style="background-color: var(--primary-rgb); padding-bottom: 10px"
+          >
+            <h2
+              class="modal-title text-white text-center"
+              id="mail-ComposeLabel"
+              style="font-size: 22px !important"
+            >
+              <b class="text-center">Modifier un projet</b>
+            </h2>
+          </div>
+          <div class="modal-body px-4">
+            <div
+              class="row gy-2 justify-content-center"
+              style="
+                border-width: 1px;
+                border-style: solid;
+                border-radius: 6px;
+                border-color: rgb(0, 77, 134);
+              "
+            >
+              <div>
+                <div class="row mt-3 content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Code <span class="text-danger">*</span></label
+                      >
+                      <MazInput
+                        v-model="step2.CodeProjet"
+                        color="info"
+                        name="CodeProjet"
+                        size="sm"
+                        rounded-size="sm"
+                        type="text"
+                      />
+                      <small v-if="v$.step2.CodeProjet.$error">{{
+                        v$.step2.CodeProjet.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['CodeProjet']">
+                        {{ resultError["CodeProjet"] }}
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Sigle<span class="text-danger">*</span></label
+                      >
+                      <MazInput
+                        v-model="step2.Sigle"
+                        color="info"
+                        name="Sigle"
+                        size="sm"
+                        rounded-size="sm"
+                        type="text"
+                      />
+                      <small v-if="v$.step2.Sigle.$error">{{
+                        v$.step2.Sigle.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['Sigle']">
+                        {{ resultError["Sigle"] }}
+                      </small>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row mt-3 content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Nom <span class="text-danger">*</span></label
+                      >
+                      <MazInput
+                        v-model="step2.NomProjet"
+                        type="text"
+                        color="info"
+                        name="NomProjet"
+                        size="sm"
+                        rounded-size="sm"
+                      />
+                      <small v-if="v$.step2.NomProjet.$error">{{
+                        v$.step2.NomProjet.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['NomProjet']">
+                        {{ resultError["NomProjet"] }}
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Visible<span class="text-danger">*</span></label
+                      >
+                      <MazSelect
+                        v-model="step2.Visible"
+                        color="info"
+                        name="Visible"
+                        size="sm"
+                        rounded-size="sm"
+                        type="text"
+                        :options="choix"
+                      />
+                      <small v-if="v$.step2.Visible.$error">{{
+                        v$.step2.Visible.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['Visible']">
+                        {{ resultError["Visible"] }}
+                      </small>
+                    </div>
+                  </div>
+         
+                 </div>
+
+                 <div class="row mt-3 content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Mode de financement<span class="text-danger">*</span></label
+                      >
+                      <MazSelect
+                        v-model="step2.ModeFinancement"
+                        color="info"
+                        name="ModeFinancement"
+                        size="sm"
+                        rounded-size="sm"
+                        type="text"
+                        :options="FinancementOptions"
+                      />
+                      <small v-if="v$.step2.ModeFinancement.$error">{{
+                        v$.step2.ModeFinancement.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['ModeFinancement']">
+                        {{ resultError["ModeFinancement"] }}
+                      </small>
+                    </div>
+                  </div>  
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Zone d'intervention<span class="text-danger">*</span></label
+                      >
+                      <MazSelect
+                        v-model="step2.zones"
+                        color="info"
+                        name="zones"
+                        size="sm"
+                        rounded-size="sm"
+                        type="text"
+                        :options="RegionsOptions"
+                        multiple
+                      />
+                      <small v-if="v$.step2.zones.$error">{{
+                        v$.step2.zones.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['zones']">
+                        {{ resultError["zones"] }}
+                      </small>
+                    </div>
+                  </div>            
+                 </div>
+
+                <div class="row mt-3 content-group">
+
+                    <div class="col">
+              <div class="input-groupe">
+                <label for="employment_date_begin">Date debut <span class="text-danger">*</span></label>
+                <MazInput v-model="step2.DateDebut" type="date" color="info" name="DateDebut" size="sm" rounded-size="sm"  />
+                <small v-if="v$.step2.DateDebut.$error">{{
+                        v$.step2.DateDebut.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['DateDebut']">
+                        {{ resultError["DateDebut"] }}
+                      </small>
+              
+              </div>
+                   </div>
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="employment_date_end">Date fin <span class="text-danger">*</span></label>
+                      <MazInput v-model="step2.DateFin" type="date" :min="step2.DateDebut" color="info" name="DateFin" size="sm" rounded-size="sm" />
+                      <small v-if="v$.step2.DateFin.$error">{{
+                              v$.step2.DateFin.$errors[0].$message
+                            }}</small>
+                            <small v-if="resultError['DateFin']">
+                              {{ resultError["DateFin"] }}
+                            </small>
+                  
+                    </div>
+                  </div>             
+                 </div>
+
+                 <div class="row mt-3 content-group">
+                 
+                 <div class="col">
+           <div class="input-groupe">
+             <label for="employment_date_begin">Description </label>
+             <MazTextarea v-model="step2.Description" type="text" color="info" name="Description" size="sm" rounded-size="sm"  />
+             <small v-if="v$.step2.Description.$error">{{
+                        v$.step2.Description.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['Description']">
+                        {{ resultError["Description"] }}
+                      </small>
+           
+           </div>
+         </div>
+                     
+                </div>
+
+              </div>
+              <div class="row mb-3">
+                <div class="boutton">
+                  <button class="" @click.prevent="submitUpdate('update_projet')">
                     Valider
                   </button>
                 </div>
@@ -359,25 +673,41 @@
         loading: true,
         projetssOptions: [],
         FinancementOptions:[],
+        RegionsOptions:[],
         data: [],
         search: "",
         currentPage: 1,
         itemsPerPage: 12,
-        totalPageArray: [],
-        control: { name: "" },
+        totalPageArray: [],    
         resultError: {},
         profil: "",
         ToId: "",
+        choix: [
+          { label: "Oui", value: true },
+          { label: "Non", value: false },
+        ],
         step1: {
           CodeProjet: "",
           Sigle: "",
           NomProjet: "",
           ModeFinancement:"",
+          Visible:"",
           DateDebut: "",
           DateFin:'',
+          zones:[],
           Description:'',
-        },
-  
+        }, 
+        step2: {
+          CodeProjet: "",
+          Sigle: "",
+          NomProjet: "",
+          ModeFinancement:"",
+          Visible:"",
+          DateDebut: "",
+          DateFin:'',
+          zones:[],
+          Description:'',
+        }, 
         v$: useVuelidate(),
         error: "",
       };
@@ -388,16 +718,23 @@
           Sigle: { require },
           NomProjet: { require },
           ModeFinancement: { require },
+          Visible: { require },
           DateDebut: { require },
           DateFin:{ require },
-          Description:{ require },
+          zones:{ require },
+          Description:{  },
         
       },
       step2: {
-        client_name: { require },
-        address: { require },
-        state: { require },
-        phone: { require },
+        CodeProjet: { require },
+          Sigle: { require },
+          NomProjet: { require },
+          ModeFinancement: { require },
+          Visible: { require },
+          DateDebut: { require },
+          DateFin:{ require },
+          zones:{ require },
+          Description:{  },
       },
     },
    
@@ -405,6 +742,7 @@
       console.log("loggedInUser", this.loggedInUser);
       await this.fetchProjets()
       await this.fetchFinancement()
+      await this.fetchRegionOptions()
      
     },
   
@@ -417,7 +755,7 @@
       try {
         const response = await axios.get('/projets', {
           headers: { Authorization: `Bearer ${this.loggedInUser.token}`, },
-          param:{for_con_user:false}
+          param:{for_con_user:1}
         });
         console.log(response.data);
         this.data = response.data.data;
@@ -478,6 +816,28 @@
         }
       }
     },
+    async fetchRegionOptions() {
+      // Renommez la méthode pour refléter qu'elle récupère les options de pays
+      try {
+        await this.$store.dispatch("fetchRegionOptions");
+        const options = JSON.parse(
+          JSON.stringify(this.$store.getters["getRegionOptions2"])
+
+        ); // Accéder aux options des pays via le getter
+        console.log(options);
+        this.RegionsOptions = options.map(item => ({
+          label: item.NomRegion,
+          value: item.CodeRegion,
+        }));;
+        // Affecter les options à votre propriété sortedCountryOptions
+        this.loading = false
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération des options des pays :",
+          error.message
+        );
+      }
+    },
     async submitProjet(modalId) {
       this.error = '',
         this.resultError = '',
@@ -492,7 +852,8 @@
           DateDebut: this.step1.DateDebut,
           DateFin: this.step1.DateFin,
           Description: this.step1.Description,
-          Visible: false
+          zones: this.step1.zones,
+          Visible: this.step1.Visible
 
         }
         console.log("eeeee", DataUser);
@@ -534,19 +895,187 @@
 
       }
     },
+    async HandleIdUpdate(id) {
+      this.loading = true;
+
+      try {
+        const response = await axios.get(`/projets/detail/${id}`, {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+        });
+
+        console.log("response", response);
+        if (response) {
+          console.log("responsedata", response);
+          let data = response.data.data;
+            this.step2.CodeProjet = data.CodeProjet,
+            this.step2.Sigle = data.Sigle,
+            this.step2.NomProjet = data.NomProjet,
+            this.step2.ModeFinancement = data.ModeFinancement,
+            this.step2.Visible = (data.Visible === "1") ? true : false,
+            this.step2.DateDebut = data.DateDebut,
+            this.step2.DateFin = data.DateFin,
+            this.step2.Description = data.Description
+            const ZonesIds = data.regions.map(zone => zone.CodeRegion);
+            console.log('zz', ZonesIds);
+            this.step2.zones = ZonesIds
+            this.ToId = data.id;
+          this.loading = false;
+        }
+      } catch (error) {
+        console.log(
+          "Erreur lors de la mise à jour des données MPME guinee :",
+          error
+        );
+        if (error.response.data.status === "error") {
+          console.log("aut", error.response.data.status === "error");
+
+          if (
+            error.response.data.message === "Vous n'êtes pas autorisé." ||
+            error.response.status === 401
+          ) {
+            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+            this.$router.push("/"); //a revoir
+          }
+        } else {
+          this.formatValidationErrors(error.response.data.errors);
+          this.loading = false;
+          return false;
+        }
+      }
+    },
+
+    async submitUpdate(modalId) {
+      this.v$.step2.$touch();
+
+      if (this.v$.$errors.length == 0) {
+        this.loading = true
+        const data = {
+          projet:this.step2.CodeProjet,
+          CodeProjet: this.step2.CodeProjet,
+          Sigle: this.step2.Sigle,
+          NomProjet: this.step2.NomProjet,
+          ModeFinancement: this.step2.ModeFinancement,
+          DateDebut: this.step2.DateDebut,
+          DateFin: this.step2.DateFin,
+          Description: this.step2.Description,
+          zones: this.step2.zones,
+          Visible: this.step2.Visible
+        }
+
+        console.log(data);
+        try {
+        const response = await axios.put(`/projets/${ this.ToId}`,data, {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+         
+        });
+
+        console.log("usersOptions", response.data);
+        if (response.data.status === "success") {
+          this.closeModal(modalId);
+          this.successmsg(
+            "Données du projet mises à jour",
+            "Les données du projet ont été mises à jour avec succès !"
+          );
+          await this.fetchProjets();
+          this.loading = false;
+        }
+      } catch (error) {
+        console.log(
+          "Erreur lors de la mise à jour des données MPME guinee :",
+          error
+        );
+        if (error.response.data.status === "error") {
+          console.log("aut", error.response.data.status === "error");
+
+          if (
+            error.response.data.message === "Vous n'êtes pas autorisé." ||
+            error.response.status === 401
+          ) {
+            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+            this.$router.push("/"); //a revoir
+          }
+        } else {
+          this.formatValidationErrors(error.response.data.errors);
+          this.loading = false;
+          return false;
+        }
+      }
+        
+
+
+      } else {
+        console.log("cest pas bon ", this.v$.$errors);
+        this.loading = false;
+      }
+    },
+    async HandleIdDelete(id) {
+      // Affichez une boîte de dialogue Sweet Alert pour confirmer la suppression
+      const result = await Swal.fire({
+        title: "Êtes-vous sûr ?",
+        text: "Vous ne pourrez pas revenir en arrière !",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Oui, supprimez-le !",
+        cancelButtonText: "Non, annulez !",
+        reverseButtons: true,
+      });
+
+      // Si l'utilisateur confirme la suppression
+      if (result.isConfirmed) {
+        this.ConfirmeDelete(id);
+      }
+    },
+    async ConfirmeDelete(id) {
+      this.loading = true;
+
+      try {
+        // Faites une requête pour supprimer l'élément avec l'ID itemId
+        const response = await axios.delete(`/projets/${id}`, {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+        });
+        console.log("Réponse de suppression:", response);
+        if (response.data.status === "success") {
+          this.loading = false;
+          this.successmsg(
+            "Projet supprimé",
+            "Projet  a été supprimé avec succès."
+          );
+          await this.fetchProjets();
+        } else {
+          console.log("error", response.data);
+          this.loading = false;
+        }
+      } catch (error) {
+        console.error("Erreur lors de la suppression:", error);
+
+        if (
+          error.response.data.message === "Vous n'êtes pas autorisé." ||
+          error.response.status === 401
+        ) {
+          await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+          this.$router.push("/"); //a revoir
+        }
+      }
+    },
       filterByName() {
         this.currentPage = 1;
-        if (this.control.name !== null) {
-          const tt = this.control.name;
+        if (this.search !== null) {
+          const tt = this.search;
           const searchValue = tt.toLowerCase();
           this.projetssOptions = this.data.filter((user) => {
-            const Nom = user.client_name || "";
-            const Address = user.address || "";
-            const State = user.state || "";
+            const Nom = user.NomProjet || "";
+            const Code = user.CodeProjet || "";
+            const Sigle = user.Sigle || "";
             return (
               Nom.toLowerCase().includes(searchValue) ||
-              Address.toLowerCase().includes(searchValue) ||
-              State.toLowerCase().includes(searchValue)
+              Code.toLowerCase().includes(searchValue) ||
+              Sigle.toLowerCase().includes(searchValue)
             );
           });
         } else {

@@ -125,22 +125,22 @@
                                 </div>
                                 <div class="card-body d-flex flex-wrap gap-2">
                                     <span class="avatar me-2 avatar-rounded bg-white shadow-sm border p-2">
-                                        <img src="../assets/images/company-logos/1.png" alt="">
+                                        <img src="@/assets/images/company-logos/1.png" alt="">
                                     </span>
                                     <span class="avatar me-2 avatar-rounded bg-white shadow-sm border p-2">
-                                        <img src="../assets/images/company-logos/2.png" alt="">
+                                        <img src="@/assets/images/company-logos/2.png" alt="">
                                     </span>
                                     <span class="avatar me-2 avatar-rounded bg-white shadow-sm border p-2">
-                                        <img src="../assets/images/company-logos/3.png" alt="">
+                                        <img src="@/assets/images/company-logos/3.png" alt="">
                                     </span>
                                     <span class="avatar me-2 avatar-rounded bg-white shadow-sm border p-2">
-                                        <img src="../assets/images/company-logos/4.png" alt="">
+                                        <img src="@/assets/images/company-logos/4.png" alt="">
                                     </span>
                                     <span class="avatar me-2 avatar-rounded bg-white shadow-sm border p-2">
-                                        <img src="../assets/images/company-logos/5.png" alt="">
+                                        <img src="@/assets/images/company-logos/5.png" alt="">
                                     </span>
                                     <span class="avatar avatar-rounded bg-white shadow-sm border p-2">
-                                        <img src="../assets/images/company-logos/6.png" alt="">
+                                        <img src="@/assets/images/company-logos/6.png" alt="">
                                     </span>
                                 </div>
                             </div>

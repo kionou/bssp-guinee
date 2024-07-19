@@ -21,6 +21,7 @@
       </div>
     </div>
     <div class="row task-card">
+        {{data.objectifs}}
       <div v-if="paginatedItems.length === 0" class="noresul">
         <span> Vous n'avez pas encore d'incateur, vous pouvez également en ajouter un !! </span>
       </div>
@@ -476,7 +477,7 @@ import Pag from "@/components/others/pagination.vue";
   import MazPhoneNumberInput from "maz-ui/components/MazPhoneNumberInput";
   import Swal from "sweetalert2";
 export default {
-  props:['indicateursOptions'],
+  props:['data'],
     components: {
       Loading, Pag,
         
@@ -495,19 +496,14 @@ export default {
     },
     filteredIndicateurs() {
       if (!this.search) {
-        return this.indicateursOptions;
+        return this.data.objectifs;
       }
       const searchValue = this.search.toLowerCase();
-      return this.indicateursOptions.filter((user) => {
-        const Nom = user.IntituleIndicateur || "";
-        const Prenoms = user.CodeIndicateur || "";
-        const Pseudo = user.CibleFinProjet || "";
-        const Email = user.CodeProjet || "";
+      return this.data.objectifs.filter((user) => {
+        const Nom = user.Intitule || "";
+       
         return (
-          Nom.toLowerCase().includes(searchValue) ||
-          Prenoms.toLowerCase().includes(searchValue) ||
-          Email.toLowerCase().includes(searchValue) ||
-          Pseudo.toLowerCase().includes(searchValue)
+          Nom.toLowerCase().includes(searchValue)
         );
       });
     },
@@ -518,7 +514,6 @@ export default {
         loading: false,
         Code:"",
         search: "",
-        data:this.indicateursOptions,
         currentPage: 1,
         itemsPerPage: 12,
         totalPageArray: [],
@@ -616,8 +611,8 @@ export default {
         console.log("usersOptionys", response.data.data);
         if (response.data.status === "success") {
           this.data = response.data.data;
-          this.indicateursOptions =  this.data
-        console.log("usersOptionys",  this.indicateursOptions);
+          this.objectifsOptions =  this.data
+        console.log("usersOptionys",  this.objectifsOptions);
           this.loading = false;
           
         }
@@ -997,7 +992,7 @@ export default {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
 
       const endIndex = startIndex + this.itemsPerPage;
-      return this.indicateursOptions.slice(startIndex, endIndex);
+      return this.data.objectifs.slice(startIndex, endIndex);
     },
     
     },

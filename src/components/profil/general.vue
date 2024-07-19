@@ -369,6 +369,7 @@ export default {
           email: updatedUser.email,
           Whatsapp: updatedUser.Whatsapp,
           profile: updatedUser.profile,
+          username:updatedUser.username,
         },
         roles: role_id,
         expires_in: this.loggedInUser.tokenExpiration - Math.floor(Date.now() / 1000),

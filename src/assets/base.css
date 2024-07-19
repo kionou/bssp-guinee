@@ -211,3 +211,12 @@ width: 100%;
   width: 100%;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
 }
+.nombre{
+
+  color:#fff;
+  background-color:var( --secondary-rgb);
+  border-radius:50%;
+  padding: 2px 8px;
+  font-size: 16px;
+  z-index: 10; 
+}

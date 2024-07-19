@@ -26,7 +26,7 @@
                                         <div class="h5 fw-semibold mb-0"></div>
                                         <div class="d-flex mt-sm-0 mt-2 align-items-center">
                                             <div class="input-group">
-                                                <input type="text" class="form-control bg-light border-0" placeholder="Recherchez..." aria-describedby="search-member" v-model="control.name" @input="filterByName" >
+                                                <input type="text" class="form-control bg-light border-0" placeholder="Recherchez..." aria-describedby="search-member" v-model="search" @input="filterByName" >
                                                 <button class="btn btn-light" type="button" id="search-contact-member"><i class="ri-search-line text-muted"></i></button>
                                             </div>
                                            
@@ -34,7 +34,7 @@
                                              data-bs-placement="top"
                                               data-bs-title="Add Contact"
                                               data-bs-toggle="modal"
-                                               data-bs-target="#add_client"
+                                               data-bs-target="#add_bailleur"
                                               >
                                                 <i class="ri-add-line">
                                                     </i></button>
@@ -58,7 +58,7 @@
                                             <table class="table text-nowrap table-hover border table-bordered table-striped">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="row" class="ps-4">N°</th>
+                                                    
                                                         <th scope="col">Code </th>
                                                         <th scope="col">Nom</th>
                                                         <th scope="col">Etat</th>
@@ -69,40 +69,40 @@
                                                 <tr>
                                                   <td colspan="18">
                                                     <div
-                                                      class="badge bg-info-transparent"
-                                                      style="width: 100%; font-size: 25px"
+                                                      class="badge bg-warning-transparent"
+                                                      style="width: 100%; font-size: 14px"
                                                     >
-                                                      No records found
+                                                      Pas de données !
                                                     </div>
                                                   </td>
                                                 </tr>
                                               </tbody>
                                                 <tbody v-else>
-                                                    <tr v-for="(data , index) in paginatedItems" :key="data.id">
-                                                        <th scope="row" class="ps-4">{{ (currentPage - 1) * itemsPerPage + index + 1 }}</th>
+                                                    <tr v-for="data  in paginatedItems" :key="data.id">
+                                                       
                                                         <td>
                                                         
                                                                 <span class="">
-                                                                  {{ data.duty_name }}
+                                                                  {{ data.CodeBailleur }}
                                                                 </span>
                                                          
                                                         </td>
                                                         <td>
                                                         
                                                         <span class="">
-                                                          {{ data.duty_name }}
+                                                          {{ data.NomBailleur }}
                                                         </span>
                                                  
                                                 </td>
                                                         <td>
                                                            
-                                                            <span  v-if="data.isActive === '1'" class="badge bg-success-transparent">Activer</span>
-                                                            <span  v-else class="badge bg-danger-transparent">Desactiver</span>
+                                                            <span  v-if="data.Visible === '1'" class="badge bg-success">Activer</span>
+                                                            <span  v-else class="badge bg-warning">Desactiver</span>
                                                         </td>
                                                         <td>
                                                             <div class="hstack gap-2 fs-15">
-                                                                <button  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-primary-light"  data-bs-toggle="modal"  data-bs-target="#update_client" @click="HandleIdUpdate(data.id)"><i class="ri-edit-line"></i></button>
-                                                                <button  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-danger-light"  
+                                                                <button  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-info"  data-bs-toggle="modal"  data-bs-target="#update_bailleur" @click="HandleIdUpdate(data.id)"><i class="ri-edit-line"></i></button>
+                                                                <button  class="btn btn-icon btn-wave waves-effect btn-sm btn-danger"  
                                                                      @click="HandleIdDelete(data.id)"><i class="ri-delete-bin-line"></i></button>
                                                             </div>
                                                         </td>
@@ -129,15 +129,17 @@
                                 </div>
                             </div>
 
-                                <div
-      class="modal fade effect-rotate-bottom"
-      id="add_client"
+                               <!-- add indicateur -->
+
+      <div
+      class="modal fade effect-rotate-bottom "
+      id="add_bailleur"
       tabindex="-1"
       aria-hidden="true"
       data-bs-backdrop="static"
-      ref="add_client"
+      ref="add_bailleur"
     >
-      <div class="modal-dialog modal-dialog-centered ">
+      <div class="modal-dialog modal-dialog-centered  modal-lg">
         <div class="modal-content">
           <div
             class="modal-header float-start text-center justify-content-center"
@@ -148,113 +150,108 @@
               id="mail-ComposeLabel"
               style="font-size: 22px !important"
             >
-              <b class="text-center"
-                >Ajouter un bailleur</b
-              >
+              <b class="text-center">Ajouter un bailleur </b>
             </h2>
           </div>
           <div class="modal-body px-4">
-            <div class="row gy-2 justify-content-center"
-                style="
-                  border-width: 1px;
-                  border-style: solid;
-                  border-radius: 6px;
-                  border-color: rgb(0, 77, 134);
-                ">
-              <div >
-                <div class="row mt-3 content-group">
+            <div
+              class="row gy-2 justify-content-center"
+              style="
+                border-width: 1px;
+                border-style: solid;
+                border-radius: 6px;
+                border-color: rgb(0, 77, 134);
+              "
+            >
+              <div>
+                <div class="btn-list" style="position:absolute ; right: 7px; top: 5px;" >
+          <div class="bouttons" >
+        <div class="boutton" style=" width: 38px; z-index:1000" @click="AddformDataBailleurs" ><i  class="ri-add-line"></i></div>
+        </div>
+          </div>
+                <div class="row align-items-center p-2  border-bottom " v-for="(bailleur, index) in Bailleurs" :key="bailleur.id">
+                  <div class="col-11">
+                    <span class="nombre">
+                            {{index + 1}}
+                        </span>
+                        <div class="row  content-group">
                   <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        > Code <span class="text-danger">*</span></label
+                        >Code <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step1.CodeBailleur"
+                        v-model="bailleur.CodeBailleur"
                         color="info"
                         name="CodeBailleur"
                         size="sm"
                         rounded-size="sm"
                         type="text"
-                        
-                        
+                        @input="clearErrorBailleurs(index, 'CodeBailleur')"
                       />
-                      <small v-if="v$.step1.CodeBailleur.$error">{{
-                        v$.step1.CodeBailleur.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['CodeBailleur']">
-                        {{ resultError["CodeBailleur"] }}
-                      </small>
+                      <small v-if="errors.Bailleurs && errors.Bailleurs[index] && errors.Bailleurs[index].CodeBailleur">{{ errors.Bailleurs[index].CodeBailleur }}</small>
+                      <small v-if="resultError['Bailleurs']"> {{ resultError["Bailleurs"] }} </small>
                     </div>
                   </div>
-                
-                </div>
-                <div class="row mt-3 content-group">
                   <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Nom
-                        <span class="text-danger">*</span></label
+                        >Nom <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step1.NomBailleur"
-                        type="text"
+                        v-model="bailleur.NomBailleur"
                         color="info"
                         name="NomBailleur"
                         size="sm"
                         rounded-size="sm"
-                       
+                        type="text"
+                        @input="clearErrorBailleurs(index, 'NomBailleur')"
+
                       />
-                      <small v-if="v$.step1.NomBailleur.$error">{{
-                        v$.step1.NomBailleur.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['NomBailleur']">
-                        {{ resultError["NomBailleur"] }}
-                      </small>
+                      <small v-if="errors.Bailleurs && errors.Bailleurs[index] && errors.Bailleurs[index].NomBailleur">{{ errors.Bailleurs[index].NomBailleur }}</small>
+                      <small v-if="resultError['Bailleurs']"> {{ resultError["Bailleurs"] }} </small>
                     </div>
                   </div>
-              
-                </div>
-
-                <div class="row mt-3 content-group">
                   <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Visible
-                        <span class="text-danger">*</span></label
+                        >Visible <span class="text-danger">*</span></label
                       >
                       <MazSelect
-                        v-model="step1.Visible"
-                        type="text"
+                        v-model="bailleur.Visible"
                         color="info"
                         name="Visible"
                         size="sm"
                         rounded-size="sm"
-                         :options="choix"
-                       
+                        :options="choix"
+                        @click="clearErrorBailleurs(index, 'Visible')"
                       />
-                      <small v-if="v$.step1.Visible.$error">{{
-                        v$.step1.Visible.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['Visible']">
-                        {{ resultError["Visible"] }}
-                      </small>
+                      <small v-if="errors.Bailleurs && errors.Bailleurs[index] && errors.Bailleurs[index].Visible">{{ errors.Bailleurs[index].Visible }}</small>
+                      <small v-if="resultError['Bailleurs']"> {{ resultError["Bailleurs"] }} </small>
                     </div>
                   </div>
-              
+ 
                 </div>
-              
+                  </div>
+                  <div class="col-1" style="position: relative">
+                    
+                      <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="deleteRowBailleurs(index)"  style=" position:absolute !important ; top: 18px !important; background:red;">
+                       <i class="ri-delete-bin-line"></i>
+                      </button>
+                  </div>
 
-              
+                </div>
+               
               </div>
               <div class="row mb-3">
-              <div class="boutton">
-                <button class="" @click.prevent="submitClient('add_client')">
-                  Valider
-                </button>
+                <div class="boutton">
+                  <button class="" @click.prevent="submitBailleur('add_bailleur')">
+                    Valider
+                  </button>
+                </div>
               </div>
             </div>
-            </div>
-         
+
             <br />
             <div class="modal-footer">
               <div class="btn-group ms-auto">
@@ -264,24 +261,23 @@
                   data-bs-dismiss="modal"
                   aria-label="Close"
                 >
-                  Close
+                  Fermer
                 </button>
               </div>
             </div>
           </div>
-          
         </div>
       </div>
-                               </div>
+      </div>
 
                                
                                <div
       class="modal fade effect-rotate-bottom"
-      id="update_client"
+      id="update_bailleur"
       tabindex="-1"
       aria-hidden="true"
       data-bs-backdrop="static"
-      ref="update_client"
+      ref="update_bailleur"
     >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -369,17 +365,17 @@
                         <span class="text-danger">*</span></label
                       >
                       <MazSelect
-                        v-model="step2.Visible"
+                        v-model="step2.Visibles"
                         type="text"
                         color="info"
-                        name="Visible"
+                        name="Visibles"
                         size="sm"
                         rounded-size="sm"
                         :options="choix"
                        
                       />
-                      <small v-if="v$.step2.Visible.$error">{{
-                        v$.step2.Visible.$errors[0].$message
+                      <small v-if="v$.step2.Visibles.$error">{{
+                        v$.step2.Visibles.$errors[0].$message
                       }}</small>
                       <small v-if="resultError['Visible']">
                         {{ resultError["Visible"] }}
@@ -391,7 +387,7 @@
               </div>
               <div class="row mb-3">
               <div class="boutton">
-                <button class="" @click.prevent="submitUpdate('update_client')">
+                <button class="" @click.prevent="submitUpdateBailleur('update_bailleur')">
                   Valider
                 </button>
               </div>
@@ -450,31 +446,31 @@ export default {
   },
   data(){
     return{
-        loading: true,
-        ClientOptions: [],
-        data:[],
+      loading: true,
+      ClientOptions: [],
+      data:[],
       currentPage: 1,
       itemsPerPage: 10,
       totalPageArray: [],
-      control: { name: '',},
+      search: "",
       resultError: {},
-      photo:"",
       ToId:"",
       choix: [
           { label: "Oui", value: true },
           { label: "Non", value: false },
         ],
-
-      step1: {
-        CodeBailleur:"",
+        errors: {Bailleurs: [] , },
+        Bailleurs:[
+        {
+         CodeBailleur:"",
         NomBailleur:"",
         Visible:"",
-       
-      },
+      }
+        ],
       step2: {
         CodeBailleur:"",
         NomBailleur:"",
-        Visible:"",
+        Visibles:"",
        
       },
       v$: useVuelidate(),
@@ -483,15 +479,11 @@ export default {
     }
   },
   validations: {
-    step1: {
-        CodeBailleur:{require},
-        NomBailleur:{require},
-        Visible:{require},
-    },
+    
     step2: {
         CodeBailleur:{require},
         NomBailleur:{require},
-        Visible:{require},
+        Visibles:{require},
     },
    
    
@@ -504,22 +496,94 @@ export default {
 
   methods:{
     successmsg:successmsg,
-    updateCurrentPage(pageNumber) {
-      this.currentPage = pageNumber;
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth", // Utilisez 'auto' pour un défilement instantané
-      });
-    },
-    updatePaginatedItems() {
-      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    AddformDataBailleurs() {
+     this.Bailleurs.push({ CodeBailleur:'', NomBailleur:'', Visible:'',});
+   },
+   deleteRowBailleurs(index) {
+  
+   if(index !== 0){
+     this.Bailleurs.splice(index, 1);
+   }
+  },
+  clearErrorBailleurs(index, field) {   
+     if (this.errors.Bailleurs[index]) {
+       this.errors.Bailleurs[index][field] = null;
+     }
+   },
+   validateBailleurs() {
+    let isValid = true;
+    this.errors = { Bailleurs: [] };
+    this.Bailleurs.forEach((bailleur, index) => {
+        const bailleurErrors = {};
+        if (!bailleur.CodeBailleur) {
+            bailleurErrors.CodeBailleur = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        if (!bailleur.NomBailleur) {
+            bailleurErrors.NomBailleur = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        if (!bailleur.Visible) {
+            bailleurErrors.Visible = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        if (bailleur.Visible === null || bailleur.Visible === undefined) {
+      bailleurErrors.Visible = 'Ce champ est obligatoire!';
+      isValid = false;
+    }
+        this.errors.Bailleurs[index] = bailleurErrors;
+    });
+    return isValid;
+},
+async submitBailleur(modalId) {
+      
+      if (this.validateBailleurs()) {
+        this.loading = true;
+      
+    const dataToSend = {
+             bailleurs: this.Bailleurs
+        };
+      console.log("data", dataToSend);
 
-      const endIndex = startIndex + this.itemsPerPage;
-      return this.ClientOptions.slice(startIndex, endIndex);
+
+        try {
+          const response = await axios.post("/bailleurs", dataToSend, {
+            headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
+           
+          }
+          });
+          console.log("Réponse du téléversement :", response);
+          if (response.data.status === "success") {
+            this.closeModal(modalId);
+            this.successmsg(
+              "Bailleurs créés avec succès",
+              "Les nouveaux bailleurs ont été créés avec succès !"
+            );
+            await this.fetchClients()
+            this.loading = false
+           
+
+          } else {
+          }
+        } catch (error) {
+          console.log("response.login", error);
+
+          this.loading = false;
+          if (error.response.data.status === "error") {
+            return (this.error = error.response.data.message);
+          } else {
+            this.formatValidationErrors(error.response.data.errors);
+          }
+        }
+      } else {
+        console.log("error", this.v$.$errors);
+      }
     },
+
+   
     async fetchClients() {
       try {
-        const response = await axios.get( '/duties-services',
+        const response = await axios.get( '/bailleurs',
           {
             headers: {
               Authorization: `Bearer ${this.loggedInUser.token}`,
@@ -557,22 +621,15 @@ export default {
       }
     },
 
-    handleFileUploadPhoto(event) {
-    console.log("File input change");
-    const file = event.target.files[0];
-    console.log("handleFileUploadPhoto Selected file:", file);
-    
-    this.photo = file
-
-  },
   async submitClient(modalId) {
       this.v$.step1.$touch();
       if (this.v$.$errors.length == 0) {
         this.loading = true;
        let data = {
 
-            duty_name:this.step1.duty_name,
-            descriptions:this.step2.descriptions
+            CodeBailleur:this.step1.CodeBailleur,
+            NomBailleur:this.step1.NomBailleur,
+            Visible:this.step1.Visible,
        }
        
 
@@ -612,7 +669,7 @@ export default {
     this.loading = true;
 
       try {
-        const response = await axios.get(`/duties-services/detail/${id}`, {
+        const response = await axios.get(`/bailleurs/detail/${id}`, {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`
           }
@@ -622,9 +679,9 @@ export default {
         if (response.data.status === "success") {
           console.log("responsedata", response.data.data);
           let data =  response.data.data
-          this.step2.duty_name = data.duty_name,
-          this.step2.descriptions = data.descriptions,
-        
+          this.step2.CodeBailleur = data.CodeBailleur,
+          this.step2.NomBailleur = data.NomBailleur,
+          this.step2.Visibles = (data.Visible === "1")?true:false,      
           this.ToId = data.id
           this.loading = false;
         
@@ -652,7 +709,7 @@ export default {
       }
 
     },
-    async  submitUpdate(modalId){
+    async  submitUpdateBailleur(modalId){
    
    this.v$.step2.$touch();
 
@@ -660,18 +717,22 @@ export default {
     if (this.v$.$errors.length == 0) {
     
        this.loading = true;
-       let data = {
-
-            duty_name:this.step2.duty_name,
-            descriptions:this.step2.descriptions,
+       let dataSend = {
+        bailleurs:[
+          {
+            CodeBailleur:this.step2.CodeBailleur,
+            NomBailleur:this.step2.NomBailleur,
+            Visible:this.step2.Visibles,
             id:this.ToId
-            }
+          }
+        ]
+         }
 
 
-            console.log("data",data );
+            console.log("data",dataSend );
  
       try {
-        const response = await axios.put(`/duties-services/${this.ToId}`,data, {
+        const response = await axios.put('/bailleurs/update',dataSend, {
           headers: {
            
             Authorization: `Bearer ${this.loggedInUser.token}`,
@@ -682,9 +743,9 @@ export default {
         if (response.data.status === "success") {
           this.closeModal(modalId);
           this.successmsg(
-                  "Duty Data Updated",
-                  "The duty's data has been successfully updated!"
-                );
+            "Données du bailleur mises à jour",
+            "Les données du bailleur ont été mises à jour avec succès !"
+          );
             await this.fetchClients();
          
           
@@ -708,21 +769,7 @@ export default {
 
     }
    },
-
-    updateCurrentPage(pageNumber) {
-      this.currentPage = pageNumber;
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth", // Utilisez 'auto' pour un défilement instantané
-      });
-    },
-    updatePaginatedItems() {
-      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-
-      const endIndex = startIndex + this.itemsPerPage;
-      return this.ClientOptions.slice(startIndex, endIndex);
-    },
-    async HandleIdDelete(id) {
+   async HandleIdDelete(id) {
      // Affichez une boîte de dialogue Sweet Alert pour confirmer la suppression
      const result = await Swal.fire({
         title: 'Êtes-vous sûr ?',
@@ -744,7 +791,7 @@ export default {
          
          try {
            // Faites une requête pour supprimer l'élément avec l'ID itemId
-           const response = await axios.delete(`/duties-services/${id}`, {
+           const response = await axios.delete(`/bailleurs/${id}`, {
              headers: {
                Authorization: `Bearer ${this.loggedInUser.token}`,
                
@@ -757,9 +804,9 @@ export default {
            if (response.data.status === 'success') {
              this.loading = false
              this.successmsg(
-              "Duty Deleted",
-              "The duty has been successfully deleted."
-            );
+                  "Données du bailleur supprimées",
+                  "Les données du bailleur ont été supprimées avec succès !"
+              );
             await this.fetchClients();
    
            } else {
@@ -777,14 +824,29 @@ export default {
          }
    
        },
+
+    updateCurrentPage(pageNumber) {
+      this.currentPage = pageNumber;
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth", // Utilisez 'auto' pour un défilement instantané
+      });
+    },
+    updatePaginatedItems() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.ClientOptions.slice(startIndex, endIndex);
+    },
+   
     filterByName() {
 this.currentPage = 1;
-if (this.control.name !== null) {
-   const tt = this.control.name;
+if (this.search !== null) {
+   const tt = this.search;
   const  searchValue = tt.toLowerCase()
   this.ClientOptions =this.data.filter(user => {
-    const Nom = user.duty_name || '';
-    const Descriptions = user.descriptions || '';
+    const Nom = user.CodeBailleur || '';
+    const Descriptions = user.NomBailleur || '';
    
     return Nom.toLowerCase().includes(searchValue) || Descriptions.toLowerCase().includes(searchValue) ;
   });
@@ -795,6 +857,19 @@ this.ClientOptions = [...this.data];
 }
 
 },
+updateCurrentPage(pageNumber) {
+      this.currentPage = pageNumber;
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth", // Utilisez 'auto' pour un défilement instantané
+      });
+    },
+    updatePaginatedItems() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.ClientOptions.slice(startIndex, endIndex);
+    },
 closeModal(modalId) {
       let modalElement = this.$refs[modalId];
       modalElement.classList.remove("show");

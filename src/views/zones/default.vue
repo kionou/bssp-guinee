@@ -97,11 +97,11 @@
                                                         <td>
                                                            
                                                             <span  v-if="data.Statut === '1'" class="badge bg-success">Activer</span>
-                                                            <span  v-else class="badge bg-danger">Desactiver</span>
+                                                            <span  v-else class="badge bg-warning">Desactiver</span>
                                                         </td>
                                                         <td>
                                                             <div class="hstack gap-2 fs-15">
-                                                                <button  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-primary-light"  data-bs-toggle="modal"  data-bs-target="#update_client" @click="HandleIdUpdate(data.CodeRegion)"><i class="ri-edit-line"></i></button>
+                                                                <button  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-info"  data-bs-toggle="modal"  data-bs-target="#update_client" @click="HandleIdUpdate(data.CodeRegion)"><i class="ri-edit-line"></i></button>
                                                                 <button  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-danger"  
                                                                      @click="HandleIdDelete(data.CodeRegion)"><i class="ri-delete-bin-line"></i></button>
                                                             </div>

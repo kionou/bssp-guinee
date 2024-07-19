@@ -42,7 +42,7 @@
         <span> Vous n'avez pas encore d'utilisateur, vous pouvez également en ajouter un !! </span>
       </div>
       <div class="table-responsive" v-else>
-        <table class="table table-hover text-nowrap table-bordered table-striped">
+        <table class="table table-hover text-nowrap table-bordered ">
           <thead>
             <tr>
               <th scope="col">Nom & Prenoms</th>
@@ -60,8 +60,16 @@
                 <div class="d-flex align-items-center lh-1">
                   <div class="me-2">
                     <span class="avatar avatar-md avatar-rounded">
-                      <img v-if="user.photo === null" src="@/assets/img/client.png" alt="">
-                      <img v-else :src="user.photo" alt="">
+                      <img
+                        v-if="!user.photo || !user.photo.startsWith('https')"
+                        src="@/assets/img/client.png"
+                        alt="Image par défaut"
+                      />
+                      <img
+                        v-else
+                        :src="user.photo"
+                        alt="Image utilisateur"
+                      />
                     </span>
                   </div>
                   <div>
@@ -83,19 +91,25 @@
                 {{user.roles[0]?.name}}
               </td>
               <td>
-                {{user.region}}
+                {{user.region.NomRegion}}
               </td>
-              <td>
-                projet1
+              <td >
+                <div class="d-flex" >
+                  <span v-for="projet  in user.projects" :key="projet.id">
+                    {{ projet.projet?.Sigle }},
+                  </span>
+                   
+                </div>
+              
               </td>
   
               <td>
                 <div class="btn-list w-100 d-flex justify-content-center">
                   <div>
-                    <button class="btn btn-sm  btn-success btn-wave" v-if="user.Statut === '1'"
+                    <div class="btn btn-sm  btn-success btn-wave" v-if="user.Statut === '1'"
                       @click="HandleIdStatut(user.id)">
                       <i class="ri-lock-unlock-line"></i> Activer
-                    </button>
+                    </div>
                     <button class="btn btn-sm  btn-warning btn-wave" v-if="user.Statut === '0'"
                       @click="HandleIdStatut(user.id)">
                       <i class="ri-lock-2-line"></i> Desactiver
@@ -107,7 +121,7 @@
               <td>
                 <div class="btn-list w-100 d-flex justify-content-center">
   
-                  <button class="btn btn-sm btn-icon btn-primary btn-wave " data-bs-toggle="modal"
+                  <button class="btn btn-sm btn-icon btn-info btn-wave " data-bs-toggle="modal"
                     data-bs-target="#update_user" @click="HandleIdUpdate(user.id)">
                     <i class="ri-edit-line"></i>
                   </button>
@@ -843,7 +857,9 @@ export default {
             this.step2.email = data.email,
             this.step2.Whatsapp = data.Whatsapp,
             this.step2.role = data.roles[0]?.id,
-            this.step2.region = data.region,
+            this.step2.region = data.region.CodeRegion
+            const projetsIds = data.projects.map(projet => projet.CodeProjet);
+            this.step2.projets = projetsIds
             this.ToId = data.id;
           this.loading = false;
         }

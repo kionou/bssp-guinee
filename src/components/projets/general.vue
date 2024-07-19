@@ -54,7 +54,7 @@
                                                     <div class="me-2 fw-semibold">
                                                         Code :
                                                     </div>
-                                                    <span class="fs-12 fw-semibold " style="color:#05b305;">0001</span>
+                                                    <span class="fs-12 fw-semibold " style="color:#05b305;">{{data.CodeProjet}}</span>
                                                 </div>
                                             </li>
                                             <li class="list-group-item">
@@ -62,7 +62,7 @@
                                                     <div class="me-2 fw-semibold">
                                                         Sigle :
                                                     </div>
-                                                    <span class="fs-12 fw-semibold " style="color:#05b305;">ENA</span>
+                                                    <span class="fs-12 fw-semibold " style="color:#05b305;">{{ data.Sigle }}</span>
                                                 </div>
                                             </li>
                                             <li class="list-group-item">
@@ -70,7 +70,7 @@
                                                     <div class="me-2 fw-semibold">
                                                         Debut :
                                                     </div>
-                                                    <span class="fs-12 fw-semibold text-warning">12/34/3433</span>
+                                                    <span class="fs-12 fw-semibold text-warning">{{ data.DateDebut }}</span>
                                                 </div>
                                             </li>
                                             <li class="list-group-item">
@@ -78,7 +78,7 @@
                                                     <div class="me-2 fw-semibold">
                                                         Fin :
                                                     </div>
-                                                    <span class="fs-12 fw-semibold text-warning" >12/34/3433</span>
+                                                    <span class="fs-12 fw-semibold text-warning" >{{ data.DateFin }}</span>
                                                 </div>
                                             </li>
                                             <li class="list-group-item">
@@ -86,23 +86,27 @@
                                                     <div class="me-2 fw-semibold">
                                                         Durée :
                                                     </div>
-                                                    <span class="fs-12 fw-semibold " style="color:red;">28 ans 2 jours</span>
+                                                    <span class="fs-12 fw-semibold " style="color:red;">{{ tempsEcoule  }}</span>
                                                 </div>
                                             </li>
                                             <li class="list-group-item">
                                                 <div class="d-flex flex-wrap align-items-center">
                                                     <div class="me-2 fw-semibold">
-                                                        Budget :
+                                                       Mode Financement :
                                                     </div>
-                                                    <span class="fs-12 fw-semibold " style="color:#05b305;" >10234  (M GNF)</span>
+                                                    <span class="fs-12 fw-semibold " style="color:#05b305;" >{{ data.ModeFinancement }}</span>
                                                 </div>
                                             </li>
                                             <li class="list-group-item">
                                                 <div class="d-flex flex-wrap align-items-center">
                                                     <div class="me-2 fw-semibold">
-                                                        Financement :
+                                                        Zones d'intervention :
                                                     </div>
-                                                    <span class="fs-12 fw-semibold " style="color:#05b305;" >10234  (M GNF)</span>
+                                                    <span class="fs-12 fw-semibold " style="color:#05b305;" >
+                                                      <span v-for="region  in data.regions" :key="region.id">
+                                                          {{region.CodeRegion}} ,
+                                                          </span>
+                                                    </span>
                                                 </div>
                                             </li>
                                         </ul>
@@ -145,23 +149,15 @@
                                             </div>
                                             <div class="col-xl-8 mt-xxl-0 mt-3">
                                                 <div>
-                                                    <p class="fs-18 fw-semibold mb-0">Orange Watch Series 4 (GPS + Cellular, 44mm) - Colored Aluminium Case with Multiple Featured Sports Band - Regular</p> 
+                                                    <p class="fs-18 fw-semibold mb-0">{{data.NomProjet}}</p> 
                                                     <hr>
                                                     <div class="mb-4 rounded border p-2">
                                                         <p class="fs-15 fw-semibold mb-1">Description :</p>
                                                         <p class="text-muted mb-0 ">
-                                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati accusamus, quaerat nam quo optio reiciendis harum reprehenderit omnis tempora adipisci in iste aperiam unde, repellendus possimus explicabo veritatis? Dignissimos, id.
+                                                              {{  data.Description}}
                                                         </p>
                                                     </div>
 
-                                                    <div class="mb-4 rounded border p-2">
-                                                        <p class="fs-15 fw-semibold mb-1">Zone d'intervention :</p>
-                                                        <p class="text-muted mb-0 ">
-                                                           Conakry, Boke
-                                                        </p>
-                                                    </div>
-                                                   
-                                                   
                                                     <div class="mb-4">
                                                         <p class="fs-15 fw-semibold mb-2">Autre Details :</p>
                                                         <div class="row">
@@ -249,56 +245,8 @@
                                                 </div>
                                                 <div class="tab-pane fade p-0 border-0" id="posts-tab-pane"
                                                     role="tabpanel" aria-labelledby="posts-tab" tabindex="0">
-                                                    <div class="table-responsive">
-                                                        <button type="button" class="btn btn-primary btn-sm mb-2" style="float: right;"  data-bs-toggle="modal" data-bs-target="#add_objectif"><i class="ri-add-line me-1 align-middle fs-14 fw-semibold d-inline-block"></i>Objectif</button>
 
-                                <table class="table text-nowrap table-bordered border-primary">
-                                    <thead >
-                                        <tr>
-                                            <th scope="col">N</th>
-                                            <th scope="col">Intitulé</th>
-                                            <th scope="col">Etat</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Intitulé1</td>
-                                        <td>1234</td>
-                                        <td>
-                                            <div class="hstack gap-2 fs-15">
-                                                
-                                                <a href="javascript:void(0);"
-                                                    class="btn btn-icon btn-sm btn-info-transparent rounded-pill"><i
-                                                        class="ri-edit-line"></i></a>
-                                                <a href="javascript:void(0);"
-                                                    class="btn btn-icon btn-sm btn-danger-transparent rounded-pill"><i
-                                                        class="ri-delete-bin-line"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Intitulé1</td>
-                                        <td>1234</td>
-                                        <td>
-                                            <div class="hstack gap-2 fs-15">
-                                                
-                                                <a href="javascript:void(0);"
-                                                    class="btn btn-icon btn-sm btn-info-transparent rounded-pill"><i
-                                                        class="ri-edit-line"></i></a>
-                                                <a href="javascript:void(0);"
-                                                    class="btn btn-icon btn-sm btn-danger-transparent rounded-pill"><i
-                                                        class="ri-delete-bin-line"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                   
-
-                                            </tbody>
-                                        </table>
-                                                   </div>
+                                                   <!-- <Objectif :data="data"></Objectif> -->
                                                 </div>
                                                 
                                             </div>    
@@ -565,25 +513,47 @@
    import axios from "@/lib/axiosConfig";
   import Loading from "@/components/others/loading.vue";
   import useVuelidate from "@vuelidate/core";
+  import Objectif from '@/components/projets/objectif.vue'
   import { require, lgmin, lgmax, ValidEmail } from "@/functions/rules";
   import { successmsg } from "@/lib/modal.js";
   import MazPhoneNumberInput from "maz-ui/components/MazPhoneNumberInput";
   import Swal from "sweetalert2";
 export default {
+  props:['data'],
     components: {
-      Loading,
-    
-      
+      Loading, Objectif
     },
     computed: {
       loggedInUser() {
         return this.$store.getters["auth/myAuthenticatedUser"];
       },
+      tempsEcoule() {
+      const dateDebut = new Date(this.data.DateDebut);
+      const dateFin = new Date(this.data.DateFin);
+
+      let years = dateFin.getFullYear() - dateDebut.getFullYear();
+      let months = dateFin.getMonth() - dateDebut.getMonth();
+      let days = dateFin.getDate() - dateDebut.getDate();
+
+      if (days < 0) {
+        months -= 1;
+        days += new Date(dateFin.getFullYear(), dateFin.getMonth(), 0).getDate();
+      }
+
+      if (months < 0) {
+        years -= 1;
+        months += 12;
+      }
+
+      const monthsTotal = years * 12 + months;
+      return `${monthsTotal} mois et ${days} jours`;
+    },
     },
   
     data() {
       return {
         loading: false,
+        objectifsOptions:this.data.objectifs,
        
         bailleur: {
              nom: "",

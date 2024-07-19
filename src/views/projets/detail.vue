@@ -61,7 +61,7 @@
               <div class="tab-pane fade show active " id="step1" role="tabpanel">
                 <div class="row ttb ">
                   <div class=" col-xl-12 col-lg-12 col-md-12 py-2 ttb1">
-                    <General></General>
+                    <General :data="data" ></General>
                   </div>
                 </div>
               </div>
@@ -226,84 +226,7 @@
               <div class="tab-pane fade" id="step3" role="tabpanel">
                 <div class="row ttb ">
                   <div class=" col-xl-12 col-lg-12 col-md-12 py-2 ttb1">
-                    <div class="rounded-lg mt-3">
-                      <div class="card custom-card">
-                            <div class="card-header justify-content-between">
-                                <div class="card-title">
-                                    Liste indicateurs
-                                </div>
-                                <div class="d-flex">
-                                    <div class="me-3">
-                                        <input class="form-control form-control-sm" type="text" placeholder="Search Here" aria-label=".form-control-sm example">
-                                    </div>
-                                    <button type="button" class="btn btn-primary btn-sm mb-2" style="float: right;"  data-bs-toggle="modal" data-bs-target="#add_indicateur"><i class="ri-add-line me-1 align-middle fs-14 fw-semibold d-inline-block"></i>Indicateur</button>
-                                   
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table text-nowrap table-hover border table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th scope="row" class="ps-4">N</th>
-                                                <th scope="col">Intitulé</th>
-                                                <th scope="col">cible fin projet</th>
-                                                <th scope="col">suivi indicateur</th>
-                                                <th scope="col">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <th scope="row" class="ps-4">1</th>
-                                                <td>
-                                                    Indicateur 1
-                                                </td>
-                                                <td>Manufacture</td>
-                                                <td>
-                                                    <button class="btn btn-sm btn-primary d-flex align-items-center justify-content-center btn-wave waves-light"
-                                                            data-bs-toggle="modal" data-bs-target="#add_indicateur_suivi">
-                                                            <i class="ri-add-circle-line align-middle me-1"></i>indicateur
-                                                        </button>
-                                                </td>
-                                                
-                                             
-                                                <td>
-                                                    <div class="hstack gap-2 fs-15">
-                                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-success-light"><i class="ri-download-2-line"></i></a>
-                                                        <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-primary-light"><i class="ri-edit-line"></i></a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                           
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <div class="d-flex align-items-center">
-                                   
-                                    <div class="ms-auto">
-                                        <nav aria-label="Page navigation" class="pagination-style-4">
-                                            <ul class="pagination mb-0">
-                                                <li class="page-item disabled">
-                                                    <a class="page-link" href="javascript:void(0);">
-                                                        Prev
-                                                    </a>
-                                                </li>
-                                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
-                                                <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                                                <li class="page-item">
-                                                    <a class="page-link text-primary" href="javascript:void(0);">
-                                                        next
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <Indicateur  :indicateursOptions="indicateursOptions"  @indicateur-updated="handleIndicateurUpdated"  ></Indicateur>
                   </div>
                 </div>
               </div>
@@ -546,228 +469,7 @@ size="sm" rounded-size="sm" />
         </div>
       </div>
       </div>
-      <!-- add indicateur -->
-
-      <div
-      class="modal fade effect-rotate-bottom "
-      id="add_indicateur"
-      tabindex="-1"
-      aria-hidden="true"
-      data-bs-backdrop="static"
-      ref="add_indicateur"
-    >
-      <div class="modal-dialog modal-dialog-centered ">
-        <div class="modal-content">
-          <div
-            class="modal-header float-start text-center justify-content-center"
-            style="background-color: var(--primary-rgb); padding-bottom: 10px"
-          >
-            <h2
-              class="modal-title text-white text-center"
-              id="mail-ComposeLabel"
-              style="font-size: 22px !important"
-            >
-              <b class="text-center">Ajouter un indicateur </b>
-            </h2>
-          </div>
-          <div class="modal-body px-4">
-            <div
-              class="row gy-2 justify-content-center"
-              style="
-                border-width: 1px;
-                border-style: solid;
-                border-radius: 6px;
-                border-color: rgb(0, 77, 134);
-              "
-            >
-              <div>
-                <div class="row mt-3 content-group">
-                  <div class="col">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Intitulé <span class="text-danger">*</span></label
-                      >
-                      <MazInput
-                        v-model="indicateur.Intitule"
-                        color="info"
-                        name="Intitule"
-                        size="sm"
-                        rounded-size="sm"
-                        type="text"
-                      />
-                      <small v-if="v$.indicateur.Intitule.$error">{{
-                        v$.indicateur.Intitule.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['Intitule']">
-                        {{ resultError["Intitule"] }}
-                      </small>
-                    </div>
-                  </div>
- 
-                </div>
-                <div class="row mt-3 content-group">
-                  <div class="col">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Cible fin projet <span class="text-danger">*</span></label
-                      >
-                      <MazInput
-                        v-model="indicateur.CibleFinProjet"
-                        type="text"
-                        color="info"
-                        name="CibleFinProjet"
-                        size="sm"
-                        rounded-size="sm"
-                      />
-                      <small v-if="v$.indicateur.CibleFinProjet.$error">{{
-                        v$.indicateur.CibleFinProjet.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['CibleFinProjet']">
-                        {{ resultError["CibleFinProjet"] }}
-                      </small>
-                    </div>
-                  </div>
-                
-
-                </div>
-              </div>
-              <div class="row mb-3">
-                <div class="boutton">
-                  <button class="" @click.prevent="submitIndicateur('add_client')">
-                    Valider
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <br />
-            <div class="modal-footer">
-              <div class="btn-group ms-auto">
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                >
-                  Fermer
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
-
-      <!--  add suivi indicateur -->
-      <div
-      class="modal fade effect-rotate-bottom "
-      id="add_indicateur_suivi"
-      tabindex="-1"
-      aria-hidden="true"
-      data-bs-backdrop="static"
-      ref="add_indicateur_suivi"
-    >
-      <div class="modal-dialog modal-dialog-centered ">
-        <div class="modal-content">
-          <div
-            class="modal-header float-start text-center justify-content-center"
-            style="background-color: var(--primary-rgb); padding-bottom: 10px"
-          >
-            <h2
-              class="modal-title text-white text-center"
-              id="mail-ComposeLabel"
-              style="font-size: 22px !important"
-            >
-              <b class="text-center">Ajouter un suivi indicateur </b>
-            </h2>
-          </div>
-          <div class="modal-body px-4">
-            <div
-              class="row gy-2 justify-content-center"
-              style="
-                border-width: 1px;
-                border-style: solid;
-                border-radius: 6px;
-                border-color: rgb(0, 77, 134);
-              "
-            >
-              <div>
-                <div class="row mt-3 content-group">
-                  <div class="col">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Date <span class="text-danger">*</span></label
-                      >
-                      <MazInput
-                        v-model="suiviIndicateur.DateSuivi"
-                        color="info"
-                        name="DateSuivi"
-                        size="sm"
-                        rounded-size="sm"
-                        type="date"
-                      />
-                      <small v-if="v$.suiviIndicateur.DateSuivi.$error">{{
-                        v$.suiviIndicateur.DateSuivi.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['DateSuivi']">
-                        {{ resultError["DateSuivi"] }}
-                      </small>
-                    </div>
-                  </div>
- 
-                </div>
-                <div class="row mt-3 content-group">
-                  <div class="col">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Realisation <span class="text-danger">*</span></label
-                      >
-                      <MazInput
-                        v-model="suiviIndicateur.Realisation"
-                        type="text"
-                        color="info"
-                        name="Realisation"
-                        size="sm"
-                        rounded-size="sm"
-                      />
-                      <small v-if="v$.suiviIndicateur.Realisation.$error">{{
-                        v$.suiviIndicateur.Realisation.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['Realisation']">
-                        {{ resultError["Realisation"] }}
-                      </small>
-                    </div>
-                  </div>
-                
-
-                </div>
-              </div>
-              <div class="row mb-3">
-                <div class="boutton">
-                  <button class="" @click.prevent="submitSuiviIndicateur('add_client')">
-                    Valider
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <br />
-            <div class="modal-footer">
-              <div class="btn-group ms-auto">
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                >
-                  Fermer
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
+    
 
       </div>
 
@@ -779,6 +481,7 @@ size="sm" rounded-size="sm" />
   import axios from "@/lib/axiosConfig";
   import Loading from "@/components/others/loading.vue";
   import General from "@/components/projets/general.vue"
+  import Indicateur from "@/components/projets/indicateur.vue"
   import useVuelidate from "@vuelidate/core";
   import { require, lgmin, lgmax, ValidEmail } from "@/functions/rules";
   import { successmsg } from "@/lib/modal.js";
@@ -789,7 +492,8 @@ size="sm" rounded-size="sm" />
     props:['id'],
     components: {
       Loading,
-      General
+      General,
+      Indicateur
       
     },
     computed: {
@@ -800,11 +504,13 @@ size="sm" rounded-size="sm" />
   
     data() {
       return {
-        loading: false,
+        loading: true,
+        data:'',
+        code:"",
+        indicateursOptions:[],
         errors: {
           suivi: { 
             Contraintes: [] ,
-       
        },
         },
       suivi: {
@@ -853,10 +559,90 @@ size="sm" rounded-size="sm" />
   
     async mounted() {
       console.log("loggedInUser", this.loggedInUser);
+      await this.fetchDetailProjet()
+
       
     },
   
     methods: {
+
+      async fetchDetailProjet() {
+      try {
+        const response = await axios.get(`projets/detail/${this.id}`, {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+        });
+
+        console.log("usersOptions", response.data);
+        if (response.data.status === "success") {
+          this.data = response.data.data;
+          this.code = this.data.CodeProjet
+          await this.fetchIndicateur(this.code)
+          this.loading = false;
+           localStorage.setItem('CodeProjet', this.data.CodeProjet);
+          // localStorage.setItem('reload', 'true'); 
+        }
+      } catch (error) {
+        console.log(
+          "Erreur lors de la mise à jour des données MPME guinee :",
+          error
+        );
+        if (error.response.data.status === "error") {
+          console.log("aut", error.response.data.status === "error");
+
+          if (
+            error.response.data.message === "Vous n'êtes pas autorisé." ||
+            error.response.status === 401
+          ) {
+            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+            this.$router.push("/"); //a revoir
+          }
+        } else {
+          this.formatValidationErrors(error.response.data.errors);
+          this.loading = false;
+          return false;
+        }
+      }
+    },
+    async fetchIndicateur(Code) {
+    
+      try {
+        const response = await axios.get('/indicateurs', {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+          params:{projet:Code}
+        });
+        if (response.data.status === "success") {
+          this.indicateursOptions = response.data.data 
+          console.log('this.indicateursOptions',this.indicateursOptions);        }
+      } catch (error) {
+        console.log(
+          "Erreur lors de la mise à jour des données MPME guinee :",
+          error
+        );
+        if (error.response.data.status === "error") {
+          console.log("aut", error.response.data.status === "error");
+
+          if (
+            error.response.data.message === "Vous n'êtes pas autorisé." ||
+            error.response.status === 401
+          ) {
+            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+            this.$router.push("/"); //a revoir
+          }
+        } else {
+          this.formatValidationErrors(error.response.data.errors);
+          this.loading = false;
+          return false;
+        }
+      }
+    },
+    handleIndicateurUpdated() {
+      this.fetchIndicateur(this.code);
+    },
+
       AddformDataContraintes() {
        this.suivi.Contraintes.push({ Code:'', IntituleContrainte:'', Type:'',});
    },

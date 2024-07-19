@@ -58,7 +58,7 @@
                                             <table class="table text-nowrap table-hover border table-bordered table-striped">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="row" class="ps-4">N°</th>
+                                                       
                                                         <th scope="col">Code </th>
                                                         <th scope="col">Intitule</th>
                                                         <th scope="col">Etat</th>
@@ -72,14 +72,14 @@
                                                       class="badge bg-warning-transparent"
                                                       style="width: 100%; font-size: 14px"
                                                     >
-                                                    Vous n'avez pas encore de mode de financement, vous pouvez également en ajouter un !!
+                                                    Pas de données !!
                                                     </div>
                                                   </td>
                                                 </tr>
                                               </tbody>
                                                 <tbody v-else>
-                                                    <tr v-for="(data , index) in paginatedItems" :key="data.id">
-                                                        <th scope="row" class="ps-4">{{ (currentPage - 1) * itemsPerPage + index + 1 }}</th>
+                                                    <tr v-for="data  in paginatedItems" :key="data.id">
+                                                     
                                                         <td>
                                                         
                                                                 <span class="">
@@ -97,12 +97,12 @@
                                                         <td>
                                                            
                                                             <span  v-if="data.Visible === '1'" class="badge bg-success">Activer</span>
-                                                            <span  v-else class="badge bg-danger">Desactiver</span>
+                                                            <span  v-else class="badge bg-warning">Desactiver</span>
                                                         </td>
                                                         <td>
                                                             <div class="hstack gap-2 fs-15">
-                                                                <button  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-primary-light"  data-bs-toggle="modal"  data-bs-target="#update_client" @click="HandleIdUpdate(data.id)"><i class="ri-edit-line"></i></button>
-                                                                <button  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-danger-light"  
+                                                                <button  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-info"  data-bs-toggle="modal"  data-bs-target="#update_client" @click="HandleIdUpdate(data.id)"><i class="ri-edit-line"></i></button>
+                                                                <button  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-danger"  
                                                                      @click="HandleIdDelete(data.id)"><i class="ri-delete-bin-line"></i></button>
                                                             </div>
                                                         </td>
@@ -295,7 +295,7 @@
               style="font-size: 22px !important"
             >
               <b class="text-center"
-                >Modifier un bailleur</b
+                >Modifier un mode de financement</b
               >
             </h2>
           </div>
@@ -315,20 +315,20 @@
                         > Code <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step2.CodeBailleur"
+                        v-model="step2.Code"
                         color="info"
-                        name="CodeBailleur"
+                        name="Code"
                         size="sm"
                         rounded-size="sm"
                         type="text"
                         
                         
                       />
-                      <small v-if="v$.step2.CodeBailleur.$error">{{
-                        v$.step2.CodeBailleur.$errors[0].$message
+                      <small v-if="v$.step2.Code.$error">{{
+                        v$.step2.Code.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['CodeBailleur']">
-                        {{ resultError["CodeBailleur"] }}
+                      <small v-if="resultError['Code']">
+                        {{ resultError["Code"] }}
                       </small>
                     </div>
                   </div>
@@ -342,19 +342,19 @@
                         <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step2.NomBailleur"
+                        v-model="step2.Intitule"
                         type="text"
                         color="info"
-                        name="NomBailleur"
+                        name="Intitule"
                         size="sm"
                         rounded-size="sm"
                        
                       />
-                      <small v-if="v$.step2.NomBailleur.$error">{{
-                        v$.step2.NomBailleur.$errors[0].$message
+                      <small v-if="v$.step2.Intitule.$error">{{
+                        v$.step2.Intitule.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['NomBailleur']">
-                        {{ resultError["NomBailleur"] }}
+                      <small v-if="resultError['Intitule']">
+                        {{ resultError["Intitule"] }}
                       </small>
                     </div>
                   </div>
@@ -472,8 +472,8 @@ export default {
        
       },
       step2: {
-        CodeBailleur:"",
-        NomBailleur:"",
+        Code:"",
+        Intitule:"",
         Visible:"",
        
       },
@@ -489,8 +489,8 @@ export default {
         Visible:{require},
     },
     step2: {
-        CodeBailleur:{require},
-        NomBailleur:{require},
+        Code:{require},
+        Intitule:{require},
         Visible:{require},
     },
    
@@ -609,7 +609,7 @@ export default {
     this.loading = true;
 
       try {
-        const response = await axios.get(`/duties-services/detail/${id}`, {
+        const response = await axios.get(`/mode-financements/detail/${id}`, {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`
           }
@@ -619,9 +619,9 @@ export default {
         if (response.data.status === "success") {
           console.log("responsedata", response.data.data);
           let data =  response.data.data
-          this.step2.duty_name = data.duty_name,
-          this.step2.descriptions = data.descriptions,
-        
+          this.step2.Code = data.Code,
+          this.step2.Intitule = data.Intitule,
+          this.step2.Visible = (data.Visible === "1") ? true : false,
           this.ToId = data.id
           this.loading = false;
         
@@ -659,8 +659,9 @@ export default {
        this.loading = true;
        let data = {
 
-            duty_name:this.step2.duty_name,
-            descriptions:this.step2.descriptions,
+            Code:this.step2.Code,
+            Intitule:this.step2.Intitule,
+            Visible:this.step2.Visible,
             id:this.ToId
             }
 
@@ -668,7 +669,7 @@ export default {
             console.log("data",data );
  
       try {
-        const response = await axios.put(`/duties-services/${this.ToId}`,data, {
+        const response = await axios.put(`/mode-financements/${this.ToId}`,data, {
           headers: {
            
             Authorization: `Bearer ${this.loggedInUser.token}`,
@@ -679,9 +680,9 @@ export default {
         if (response.data.status === "success") {
           this.closeModal(modalId);
           this.successmsg(
-                  "Duty Data Updated",
-                  "The duty's data has been successfully updated!"
-                );
+            "Données du financement mises à jour",
+            "Les données du financement ont été mises à jour avec succès !"
+          );
             await this.fetchClients();
          
           
@@ -741,7 +742,7 @@ export default {
          
          try {
            // Faites une requête pour supprimer l'élément avec l'ID itemId
-           const response = await axios.delete(`/duties-services/${id}`, {
+           const response = await axios.delete(`/mode-financements/${id}`, {
              headers: {
                Authorization: `Bearer ${this.loggedInUser.token}`,
                
@@ -754,9 +755,9 @@ export default {
            if (response.data.status === 'success') {
              this.loading = false
              this.successmsg(
-              "Duty Deleted",
-              "The duty has been successfully deleted."
-            );
+                  "Données du mode de financement supprimées",
+                  "Les données du mode de financement ont été supprimées avec succès !"
+              );
             await this.fetchClients();
    
            } else {
