@@ -2,7 +2,7 @@
   <div>
     <Loading v-if="loading" style="z-index: 99999"></Loading>
     <!-- Page Header -->
-    <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
+    <div class="d-md-flex pt-12  d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
       <h1 class="page-title fw-semibold fs-18 mb-0">Utilisateurs</h1>
       <div class="ms-md-1 ms-0">
         <nav>
@@ -23,9 +23,9 @@
         <div class="h5 fw-semibold mb-0"></div>
         <div class="d-flex mt-sm-0 mt-2 align-items-center">
           <div class="input-group">
-            <input type="text" class="form-control bg-light border-0" placeholder="Recherchez..."
-              aria-describedby="search-member" v-model="search" @input="filterByName" />
-            <button class="btn btn-light" type="button" id="search-contact-member">
+            <input  class="form-control bg-light border-0" placeholder="Recherchez..."
+              v-model="searchuser" @input="filterByName" autocomplete="off"  name="rech"/>
+            <button class="btn btn-light" type="button" >
               <i class="ri-search-line text-muted"></i>
             </button>
           </div>
@@ -42,7 +42,7 @@
         <span> Vous n'avez pas encore d'utilisateur, vous pouvez également en ajouter un !! </span>
       </div>
       <div class="table-responsive" v-else>
-        <table class="table table-hover text-nowrap table-bordered ">
+        <table class="table  text-nowrap table-hover border table-bordered table-striped">
           <thead>
             <tr>
               <th scope="col">Nom & Prenoms</th>
@@ -74,7 +74,7 @@
                   </div>
                   <div>
                     <span class="d-block fw-semibold mb-1">{{user.Nom}} {{user.Prenoms}}</span>
-                    <span class="text-muted fs-12">{{user.username}}</span>
+                    <span class="text-warning fs-12">{{user.username}}</span>
                   </div>
                 </div>
               </td>
@@ -93,15 +93,18 @@
               <td>
                 {{user.region.NomRegion}}
               </td>
-              <td >
-                <div class="d-flex" >
-                  <span v-for="projet  in user.projects" :key="projet.id">
-                    {{ projet.projet?.Sigle }},
-                  </span>
-                   
-                </div>
-              
-              </td>
+              <td>
+        <div>
+          <template v-for="(group, index) in formatProjectsInGroups(user)" :key="index">
+            <div>
+              <span v-for="(project, idx) in group" :key="idx">
+                {{ project }}<span v-if="idx < group.length - 1">, </span>
+              </span>
+            </div>
+            <br v-if="index < formatProjectsInGroups(user).length - 1">
+          </template>
+        </div>
+      </td>
   
               <td>
                 <div class="btn-list w-100 d-flex justify-content-center">
@@ -119,14 +122,17 @@
                 </div>
               </td>
               <td>
-                <div class="btn-list w-100 d-flex justify-content-center">
+                <div class="btn-list w-100 d-flex justify-content-center" v-if="user.roles.length">
   
                   <button class="btn btn-sm btn-icon btn-info btn-wave " data-bs-toggle="modal"
                     data-bs-target="#update_user" @click="HandleIdUpdate(user.id)">
                     <i class="ri-edit-line"></i>
                   </button>
   
-                  <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(user.id)">
+                  <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(user.id)" v-if="user.roles[0]?.name ==='Administrateur'" disabled>
+                    <i class="ri-delete-bin-line"></i>
+                  </button>
+                  <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(user.id)" v-else>
                     <i class="ri-delete-bin-line"></i>
                   </button>
   
@@ -170,7 +176,7 @@
                 ">
               <div>
                 <div class="row mt-3 content-group">
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword">Nom <span class="text-danger">*</span></label>
                       <MazInput v-model="step1.Nom" color="info" name="Nom" size="sm" rounded-size="sm" type="text" />
@@ -182,7 +188,7 @@
                       </small>
                     </div>
                   </div>
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword">Prenom<span class="text-danger">*</span></label>
                       <MazInput v-model="step1.Prenoms" color="info" name="Prenoms" size="sm" rounded-size="sm"
@@ -195,7 +201,12 @@
                       </small>
                     </div>
                   </div>
-                  <div class="col">
+                  
+  
+  
+                </div>
+                <div class="row mt-3 content-group">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword">Pseudo<span class="text-danger">*</span></label>
                       <MazInput v-model="step1.username" color="info" name="username" size="sm" rounded-size="sm"
@@ -209,10 +220,19 @@
                     </div>
                   </div>
   
-  
-                </div>
+  <div class="col col-md-6 col-sm-12">
+    <div class="mb-3 position-relative">
+      <label for="password">Role </label>
+      <MazSelect v-model="step1.role" type="role" name="text" color="info" placeholder="Admin" size="sm"
+        rounded-size="sm" :options="rolesOptions" search />
+      <small v-if="v$.step1.role.$error">{{v$.step1.role.$errors[0].$message}}</small>
+      <small v-if="resultError['role']">{{resultError['role']}}</small>
+    </div>
+  </div>
+</div>
+                
                 <div class="row mt-3 content-group">
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword">Adresse Email <span class="text-danger">*</span></label>
                       <MazInput v-model="step1.email" type="text" color="info" name="email" size="sm" rounded-size="sm" />
@@ -224,7 +244,7 @@
                       </small>
                     </div>
                   </div>
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword">Telephone <span class="text-danger">*</span></label>
                       <MazPhoneNumberInput v-model="step1.Whatsapp" size="sm" rounded-size="sm" show-code-on-list
@@ -242,22 +262,22 @@
   
                 <div class="row mt-3 content-group">
   
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="mb-3 position-relative">
-                      <label for="password">Role </label>
-                      <MazSelect v-model="step1.role" type="role" name="text" color="info" placeholder="Admin" size="sm"
-                        rounded-size="sm" :options="rolesOptions" />
-                      <small v-if="v$.step1.role.$error">{{v$.step1.role.$errors[0].$message}}</small>
-                      <small v-if="resultError['role']">{{resultError['role']}}</small>
+                      <label for="password">liste des Projets </label>
+                      <MazSelect v-model="step1.projets" type="text" name="text" color="info" placeholder="" size="sm"
+                        rounded-size="sm" :options="projetssOptions"  multiple search/>
+                      <small v-if="v$.step1.projets.$error">{{v$.step1.projets.$errors[0].$message}}</small>
+                      <small v-if="resultError['projets']">{{resultError['projets']}}</small>
                     </div>
                   </div>
   
   
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="mb-3 position-relative">
                       <label for="password_confirmation">Region</label>
                       <MazSelect v-model="step1.region" type="text" name="region" color="info" placeholder="Conakry"
-                        size="sm" rounded-size="sm" :options="regionOptions" />
+                        size="sm" rounded-size="sm" :options="regionOptions" search />
                       <small v-if="v$.step1.region.$error">{{v$.step1.region.$errors[0].$message}}</small>
                       <small v-if="resultError['region']">{{resultError['region']}}</small>
   
@@ -269,18 +289,18 @@
   
                 <div class="row mt-3 content-group">
   
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="mb-3 position-relative">
                       <label for="password">Mot de passe </label>
                       <MazInput v-model="step1.password" type="password" name="password" color="info"
-                        placeholder="Abc123@!" size="sm" rounded-size="sm" />
+                        placeholder="Abc123@!" size="sm" rounded-size="sm" autocomplete="new-password" />
                       <small v-if="v$.step1.password.$error">{{v$.step1.password.$errors[0].$message}}</small>
                       <small v-if="resultError['password']">{{resultError['password']}}</small>
                     </div>
                   </div>
   
   
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="mb-3 position-relative">
                       <label for="region">Confirmer le mot de passe</label>
                       <MazInput v-model="step1.password_confirmation" type="password" name="password_confirmation"
@@ -336,7 +356,7 @@
                 ">
               <div>
                 <div class="row mt-3 content-group">
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword">Nom <span class="text-danger">*</span></label>
                       <MazInput v-model="step2.Nom" color="info" name="Nom" size="sm" rounded-size="sm" type="text" />
@@ -348,7 +368,7 @@
                       </small>
                     </div>
                   </div>
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword">Prenom<span class="text-danger">*</span></label>
                       <MazInput v-model="step2.Prenoms" color="info" name="Prenoms" size="sm" rounded-size="sm"
@@ -361,7 +381,12 @@
                       </small>
                     </div>
                   </div>
-                  <div class="col">
+                 
+  
+  
+                </div>
+                <div class="row mt-3 content-group">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword">Pseudo<span class="text-danger">*</span></label>
                       <MazInput v-model="step2.username" color="info" name="username" size="sm" rounded-size="sm"
@@ -374,11 +399,23 @@
                       </small>
                     </div>
                   </div>
-  
-  
+  <div class="col col-md-6 col-sm-12">
+    <div class="mb-3 position-relative">
+      <label for="password">Role </label>
+      <MazSelect v-model="step2.role" type="role" name="text" color="info" placeholder="" size="sm"
+        rounded-size="sm" :options="rolesOptions" search />
+      <small v-if="v$.step2.role.$error">{{v$.step2.role.$errors[0].$message}}</small>
+      <small v-if="resultError['role']">{{resultError['role']}}</small>
+    </div>
+  </div>
+
+
+ 
+
                 </div>
+
                 <div class="row mt-3 content-group">
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword">Adresse Email <span class="text-danger">*</span></label>
                       <MazInput v-model="step2.email" type="text" color="info" name="email" size="sm" rounded-size="sm" />
@@ -390,7 +427,7 @@
                       </small>
                     </div>
                   </div>
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword">Telephone <span class="text-danger">*</span></label>
                       <MazPhoneNumberInput v-model="step2.Whatsapp" size="sm" rounded-size="sm" show-code-on-list
@@ -405,25 +442,24 @@
                     </div>
                   </div>
                 </div>
-  
+              
                 <div class="row mt-3 content-group">
-  
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="mb-3 position-relative">
-                      <label for="password">Role </label>
-                      <MazSelect v-model="step2.role" type="role" name="text" color="info" placeholder="Admin" size="sm"
-                        rounded-size="sm" :options="rolesOptions" />
-                      <small v-if="v$.step2.role.$error">{{v$.step2.role.$errors[0].$message}}</small>
-                      <small v-if="resultError['role']">{{resultError['role']}}</small>
+                      <label for="password">Liste des projets </label>
+                      <MazSelect v-model="step2.projets" type="text" name="projets" color="info" placeholder="projets" multiple
+                        size="sm" rounded-size="sm" :options="projetssOptions" search />
+                      <small v-if="v$.step2.projets.$error">{{v$.step2.projets.$errors[0].$message}}</small>
+                      <small v-if="resultError['projets']">{{resultError['projets']}}</small>
                     </div>
                   </div>
   
   
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="mb-3 position-relative">
                       <label for="password_confirmation">Region</label>
                       <MazSelect v-model="step2.region" type="text" name="region" color="info" placeholder="Conakry"
-                        size="sm" rounded-size="sm" :options="regionOptions" />
+                        size="sm" rounded-size="sm" :options="regionOptions" search />
                       <small v-if="v$.step2.region.$error">{{v$.step2.region.$errors[0].$message}}</small>
                       <small v-if="resultError['region']">{{resultError['region']}}</small>
   
@@ -432,22 +468,6 @@
   
   
                 </div>
-                <div class="row mt-3 content-group">
-  
-                  <div class="col">
-                    <div class="mb-3 position-relative">
-                      <label for="password">Liste des projets </label>
-                      <MazSelect v-model="step2.projets" type="text" name="projets" color="info" placeholder="projets" multiple
-                        size="sm" rounded-size="sm" :options="projetssOptions" />
-                      <small v-if="v$.step2.projets.$error">{{v$.step2.projets.$errors[0].$message}}</small>
-                      <small v-if="resultError['projets']">{{resultError['projets']}}</small>
-                    </div>
-                  </div>
-  
-  
-                </div>
-  
-  
               </div>
               <div class="row mb-3">
                 <div class="boutton">
@@ -561,7 +581,7 @@ export default {
   data() {
     return {
       loading: true,
-      search: "",
+      searchuser: null,
       data: [],
       regionOptions: [],
       projetssOptions:[],
@@ -582,6 +602,7 @@ export default {
         Whatsapp: '',
         region: '',
         role: '',
+        projets:[],
         password: '',
         password_confirmation: '',
       },
@@ -612,6 +633,7 @@ export default {
       Whatsapp: { require },
       region: { require },
       role: { require },
+      projets: { require },
       password: { require },
       password_confirmation: { require },
 
@@ -682,6 +704,21 @@ export default {
         }
       }
     },
+    formatProjectsInGroups(user) {
+    if (!user || !user.projects) {
+      return [];
+    }
+    const projects = user.projects
+      .map(projet => projet.projet?.Sigle)
+      .filter(sigle => sigle); // Filtrer les valeurs falsy comme undefined ou null
+
+    // Diviser en groupes de trois
+    const groups = [];
+    for (let i = 0; i < projects.length; i += 3) {
+      groups.push(projects.slice(i, i + 3));
+    }
+    return groups;
+  },
     async fetchRegionOptions() {
       // Renommez la méthode pour refléter qu'elle récupère les options de pays
       try {
@@ -690,11 +727,15 @@ export default {
           JSON.stringify(this.$store.getters["getRegionOptions2"])
 
         ); // Accéder aux options des pays via le getter
-        console.log(options);
-        this.regionOptions = options.map(item => ({
-          label: item.NomRegion,
-          value: item.CodeRegion,
-        }));;
+        const filteredOptions = options.filter(item => item.Statut === '1');
+
+// Convertir les options filtrées en format attendu
+          this.regionOptions = filteredOptions.map(item => ({
+            label: item.NomRegion,
+            value: item.CodeRegion,
+          }));
+        console.log(this.regionOptions);
+       ;
         // Affecter les options à votre propriété sortedCountryOptions
         this.loading = false
       } catch (error) {
@@ -760,6 +801,7 @@ export default {
           Whatsapp: this.step1.Whatsapp,
           region: this.step1.region,
           role: this.step1.role,
+          projets: this.step1.projets,
           password: this.step1.password,
           password_confirmation: this.step1.password_confirmation,
 
@@ -1060,18 +1102,17 @@ export default {
     },
     filterByName() {
       this.currentPage = 1;
-      if (this.search !== null) {
-        const tt = this.search;
+      if (this.searchuser !== null) {
+        const tt = this.searchuser;
         const searchValue = tt.toLowerCase();
         this.usersOptions = this.data.filter((user) => {
           const Nom = user.Nom || "";
           const Prenoms = user.Prenoms || "";
           const Pseudo = user.username || "";
-          const Email = user.email || "";
+          // const Email = user.email || "";
           return (
             Nom.toLowerCase().includes(searchValue) ||
             Prenoms.toLowerCase().includes(searchValue) ||
-            Email.toLowerCase().includes(searchValue) ||
             Pseudo.toLowerCase().includes(searchValue)
           );
         });

@@ -31,10 +31,10 @@
                             </div>
     
                                 <div class="table-responsive" v-else>
-                                    <table class="table text-nowrap table-bordered">
+                                    <table class="table text-nowrap table-bordered table-striped">
                                         <thead>
                                             <tr>
-                                                <th scope="col">N</th>
+                                                <th scope="col">N°</th>
                                                 <th scope="col">Nom</th>
                                                 <th scope="col">Actions</th>
                                             </tr>

@@ -1,292 +1,525 @@
 <template >
-    <div>
-          <!-- Start::app-content -->
-         
-            <div class="container-fluid">
-
-                <!-- Start::row-1 -->
-                <div class="row">
-                    <div class="col-xl-12">
+  <div>
+    <!-- Start::app-content -->
+    <Loading v-if="loading" style="z-index: 99999"></Loading>
+              <div class="row p-2">
+                <div class="col-xxl-12 col-xl-12">
+                  <div class="row ">
+                    <div class="col-xl-4 mt-xxl-0 mt-3">
+                      <div class="mb-0">
                         <div class="card custom-card">
-                            <div class="card-body">
-                                <div class="row gx-5">
-                                   
-                                    <div class="col-xxl-9 col-xl-12">
-                                        <div class="row gx-5">
-                                            <div class="col-xl-4 mt-xxl-0 mt-3">
-                                                <div class="mb-5">
-                                                    <!-- <div class="table-responsive">
-                                                                    <table class="table table-bordered text-nowrap table-striped">
-                                                                        <tbody >
-                                                                            <tr>
-                                                                                <th scope="row" class="fw-semibold"> Code </th>
-                                                                                <td>0001</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <th scope="row" class="fw-semibold">Sigle </th>
-                                                                                <td> ENA</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <th scope="row" class="fw-semibold"> Debut </th>
-                                                                                <td> 01/02/3033 </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <th scope="row" class="fw-semibold">Fin</th>
-                                                                                <td> 01/02/3033 </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <th scope="row" class="fw-semibold">
-                                                                                    Durée
-                                                                                </th>
-                                                                                <td>
-                                                                                    3 ans 3 jours
-                                                                                </td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                   </div>  -->
-                                                   <div class="card custom-card">
-                                   
-                                  
-                                        <ul class="list-group">
-                                            <li class="list-group-item">
-                                                <div class="d-flex flex-wrap align-items-center">
-                                                    <div class="me-2 fw-semibold">
-                                                        Code :
-                                                    </div>
-                                                    <span class="fs-12 fw-semibold " style="color:#05b305;">{{data.CodeProjet}}</span>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <div class="d-flex flex-wrap align-items-center">
-                                                    <div class="me-2 fw-semibold">
-                                                        Sigle :
-                                                    </div>
-                                                    <span class="fs-12 fw-semibold " style="color:#05b305;">{{ data.Sigle }}</span>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <div class="d-flex flex-wrap align-items-center">
-                                                    <div class="me-2 fw-semibold">
-                                                        Debut :
-                                                    </div>
-                                                    <span class="fs-12 fw-semibold text-warning">{{ data.DateDebut }}</span>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <div class="d-flex flex-wrap align-items-center">
-                                                    <div class="me-2 fw-semibold">
-                                                        Fin :
-                                                    </div>
-                                                    <span class="fs-12 fw-semibold text-warning" >{{ data.DateFin }}</span>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <div class="d-flex flex-wrap align-items-center">
-                                                    <div class="me-2 fw-semibold">
-                                                        Durée :
-                                                    </div>
-                                                    <span class="fs-12 fw-semibold " style="color:red;">{{ tempsEcoule  }}</span>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <div class="d-flex flex-wrap align-items-center">
-                                                    <div class="me-2 fw-semibold">
-                                                       Mode Financement :
-                                                    </div>
-                                                    <span class="fs-12 fw-semibold " style="color:#05b305;" >{{ data.ModeFinancement }}</span>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <div class="d-flex flex-wrap align-items-center">
-                                                    <div class="me-2 fw-semibold">
-                                                        Zones d'intervention :
-                                                    </div>
-                                                    <span class="fs-12 fw-semibold " style="color:#05b305;" >
-                                                      <span v-for="region  in data.regions" :key="region.id">
-                                                          {{region.CodeRegion}} ,
-                                                          </span>
-                                                    </span>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                   
-                                                   </div>
-                                                   <div class="mb-4">
-                                                        <div class="row justify-content-center">
-                                                            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                                                <div class="ecommerce-assurance">
-                                                                    <p class="mb-3">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 168 168"><path fill="#0bceb2" d="M82.002 44.119a29 29 0 1 0 28.999 29 29.033 29.033 0 0 0-28.999-29Zm0 53.999a25 25 0 1 1 25-24.999 25.027 25.027 0 0 1-25 24.999Z"/><path fill="#2d4356" d="m95.281 68.305-7.95-1.121-3.546-6.972a2 2 0 0 0-3.566 0l-3.545 6.972-7.95 1.12a2 2 0 0 0-1.095 3.434l5.716 5.41L72 84.77a2 2 0 0 0 2.879 2.13l7.124-3.636 7.125 3.635a2 2 0 0 0 2.879-2.129l-1.347-7.622 5.717-5.41a2 2 0 0 0-1.095-3.433Zm-8.153 6.677a1.998 1.998 0 0 0-.596 1.8l.836 4.73-4.457-2.275a1.999 1.999 0 0 0-1.818 0l-4.457 2.275.836-4.73a1.998 1.998 0 0 0-.596-1.8l-3.483-3.296 4.871-.687a2 2 0 0 0 1.504-1.074l2.234-4.394 2.235 4.394a2 2 0 0 0 1.503 1.074l4.871.687Z"/><path fill="#2d4356" d="M92.169 114.835c.753-.176 2.427.598 3.833 1.292v-4.408a7.799 7.799 0 0 0-4.741-.78c-2.28.532-3.913 2.719-5.493 4.834-.992 1.328-2.492 3.336-3.291 3.345h-.004c-.791 0-2.385-2.042-3.337-3.263-1.628-2.086-3.311-4.243-5.61-4.73a4.846 4.846 0 0 0-1.014-.104c-1.953 0-3.996 1.07-5.983 2.11-1.504.788-3.783 1.978-4.537 1.63-.657-.303-1.174-2.773-1.484-4.25-.547-2.608-1.112-5.306-3.013-6.758-1.888-1.443-4.68-1.329-7.387-1.217-1.45.061-4.155.17-4.622-.387-.495-.596.153-3.107.54-4.61.653-2.528 1.326-5.143.29-7.205-1.05-2.08-3.594-3.155-6.056-4.195-1.348-.57-3.855-1.63-4.03-2.345-.173-.712 1.574-2.762 2.512-3.862 1.72-2.018 3.496-4.104 3.473-6.43-.026-2.31-1.842-4.351-3.599-6.326-.966-1.086-2.766-3.11-2.606-3.836.155-.7 2.625-1.8 3.952-2.39 2.45-1.092 4.984-2.221 6-4.333.994-2.063.27-4.654-.429-7.16-.42-1.502-1.122-4.016-.625-4.64.52-.65 3.217-.593 4.83-.555 2.634.06 5.35.117 7.126-1.3 1.85-1.476 2.359-4.166 2.851-6.768.283-1.494.756-3.996 1.427-4.32.73-.353 3.11.833 4.53 1.543 2.368 1.182 4.811 2.404 7.074 1.879 2.277-.532 3.91-2.717 5.49-4.831.992-1.33 2.493-3.338 3.294-3.346h.005c.79 0 2.383 2.041 3.335 3.263 1.627 2.085 3.31 4.242 5.608 4.73 2.263.48 4.666-.785 7-2.008 1.504-.788 3.772-1.973 4.532-1.632.66.304 1.177 2.777 1.487 4.254.547 2.608 1.112 5.305 3.014 6.759 1.887 1.44 4.678 1.32 7.382 1.214 1.454-.063 4.156-.172 4.623.388.497.594-.151 3.108-.538 4.609-.652 2.528-1.326 5.143-.289 7.204 1.049 2.079 3.595 3.156 6.058 4.197 1.346.57 3.854 1.63 4.028 2.343.173.71-1.574 2.761-2.513 3.862-1.719 2.018-3.496 4.103-3.471 6.427.025 2.313 1.842 4.356 3.6 6.33.965 1.087 2.764 3.108 2.602 3.835-.154.7-2.625 1.802-3.953 2.393-.31.138-.62.276-.929.417.267.094.534.191.794.308a10.034 10.034 0 0 1 3.223 2.26c2.25-1.064 4.286-2.315 4.772-4.514.602-2.722-1.495-5.078-3.522-7.357-1.089-1.223-2.579-2.899-2.588-3.715-.008-.826 1.45-2.538 2.517-3.79 1.972-2.313 4.01-4.705 3.354-7.402-.65-2.668-3.551-3.895-6.357-5.081-1.543-.653-3.656-1.546-4.044-2.313-.36-.717.19-2.849.591-4.405.726-2.813 1.547-6-.263-8.17-1.729-2.075-4.846-1.946-7.86-1.823-1.712.07-4.052.166-4.788-.396-.721-.55-1.188-2.776-1.529-4.401-.61-2.91-1.24-5.92-3.729-7.066-2.544-1.166-5.347.3-8.06 1.721-1.466.768-3.474 1.82-4.312 1.64-.873-.186-2.268-1.974-3.286-3.28-1.853-2.374-3.763-4.814-6.535-4.8-2.78.028-4.65 2.53-6.458 4.951-.986 1.32-2.338 3.129-3.193 3.33-.852.192-2.892-.821-4.38-1.563-2.73-1.364-5.554-2.774-8.055-1.566-2.486 1.2-3.062 4.24-3.617 7.179-.307 1.618-.726 3.833-1.417 4.384-.645.514-2.898.464-4.544.428-3.09-.067-6.29-.138-8.044 2.06-1.773 2.222-.884 5.404-.1 8.21.405 1.45 1.017 3.643.677 4.35-.38.79-2.486 1.728-4.024 2.412-2.771 1.236-5.637 2.512-6.229 5.18-.602 2.723 1.495 5.08 3.523 7.36 1.088 1.223 2.578 2.897 2.587 3.71.009.828-1.45 2.541-2.517 3.792-1.972 2.313-4.01 4.706-3.355 7.403.652 2.67 3.554 3.897 6.36 5.083 1.542.651 3.655 1.545 4.041 2.31.36.717-.19 2.851-.59 4.408-.726 2.811-1.548 5.999.261 8.17 1.732 2.073 4.848 1.944 7.858 1.822 1.71-.07 4.054-.168 4.793.398.72.55 1.187 2.776 1.527 4.4.61 2.91 1.24 5.92 3.728 7.063 2.544 1.175 5.35-.298 8.064-1.72 1.463-.766 3.468-1.818 4.311-1.637.872.185 2.268 1.973 3.287 3.279 1.842 2.361 3.747 4.801 6.49 4.801h.046c2.778-.03 4.646-2.532 6.454-4.95.987-1.322 2.34-3.132 3.196-3.332Z"/><path fill="#0bceb2" d="M135.223 107.7a5.607 5.607 0 0 0-5.074-8.45l-3.526-.003a7.575 7.575 0 0 0 .11-1.693c-.188-1.712-.686-6.222-4.445-7.884a6.181 6.181 0 0 0-2.532-.552q-.144 0-.287.007a6.004 6.004 0 0 0-3.442 1.333 6.53 6.53 0 0 0-2.207 5.82c.008.146.017.29.017.432v.493c-.523 1.062-2.03 3.422-2.562 4.254l-.027.042c-.308.092-.659.194-1.02.298a3.977 3.977 0 0 0-2.227-.68h-4a4.004 4.004 0 0 0-4 4v12a4.004 4.004 0 0 0 4 4h4a3.961 3.961 0 0 0 2.534-.93c.073.001.142.005.217.005.352 0 .77-.013 1.189-.026l.6-.018a6.76 6.76 0 0 0 1.831.824 4.002 4.002 0 0 0 1.032.137l12.003.003a5.81 5.81 0 0 0 5.848-5.756v-.094a5.671 5.671 0 0 0 1.146-3.42c0-.162-.007-.321-.02-.476a5.654 5.654 0 0 0 .881-3.036 5.111 5.111 0 0 0-.039-.63Zm-27.222 9.418h-4v-12h4Zm22.148-10.525s1.113.854 1.113 1.737a1.806 1.806 0 0 1-1.853 1.756 2.742 2.742 0 0 1 .992 1.756 1.805 1.805 0 0 1-1.848 1.759 3.065 3.065 0 0 1 .703 1.755 1.803 1.803 0 0 1-1.85 1.756l-11.996-.003c-.644-.173-1.12-.684-1.737-.903a2.998 2.998 0 0 0-.78-.062c-.269 0-.579.009-.892.018v-10.715a14.837 14.837 0 0 0 1.888-.619c.238-.502 3.948-5.935 3.948-7.007V96.71c0-1.096-.3-2.336.675-3.118a2.039 2.039 0 0 1 1.157-.472l.088-.002a2.262 2.262 0 0 1 .914.21c1.572.696 1.926 3.208 2.085 4.65a23.823 23.823 0 0 1-1.29 5.265l8.683.007a1.67 1.67 0 0 1 1.851 1.585 1.806 1.806 0 0 1-1.85 1.758Z"/><circle cx="2" cy="149.119" r="2" fill="#2d4356"/><path fill="#2d4356" d="M11 147.119H8a2 2 0 0 0 0 4h3a2 2 0 0 0 0-4zm149 0h-3a2 2 0 0 0 0 4h3a2 2 0 0 0 0-4z"/><circle cx="166" cy="149.119" r="2" fill="#2d4356"/><path fill="#0bceb2" d="M118.154 155.119h-8.308a2.006 2.006 0 0 0 0 4h8.308a2.006 2.006 0 0 0 0-4zm-60 0h-8.308a2.006 2.006 0 0 0 0 4h8.308a2.006 2.006 0 0 0 0-4zm45.846 0H64a2 2 0 0 0 0 4h15.94v2H72a2 2 0 0 0 0 4h25a2 2 0 0 0 0-4h-8.94v-2H104a2 2 0 0 0 0-4z"/><path fill="#2d4356" d="M150.721 147.119h-39.734l.14-12.338 15.307 3.372a1.846 1.846 0 0 0 .193.032 3.002 3.002 0 0 0 2.996-1.498 2.918 2.918 0 0 0-.348-3.356l-6.785-7.632-3.267-.004h-2.034l7.088 7.973-14.682-3.234a2.032 2.032 0 0 0-1.68.373 1.942 1.942 0 0 0-.76 1.513l-.146 12.933-16.497-21.92a15.311 15.311 0 0 1-2.934 2.699l15.872 21.087H60.56l16.196-21.521a18.709 18.709 0 0 1-2.847-2.816L57 145.256l-.147-12.936a1.942 1.942 0 0 0-.76-1.513 2.04 2.04 0 0 0-1.68-.373l-14.681 3.234 14.254-16.035a25.407 25.407 0 0 1-1.286-4.514l-18.004 20.255a2.902 2.902 0 0 0-.31 3.314 3.009 3.009 0 0 0 2.994 1.497 1.846 1.846 0 0 0 .194-.032l15.306-3.373.142 12.339H17.279a2.017 2.017 0 1 0 0 4H150.72a2.017 2.017 0 1 0 0-4zM114 26.119a3 3 0 1 0-3-3 3.003 3.003 0 0 0 3 3zm0-4.5a1.5 1.5 0 1 1-1.5 1.5 1.501 1.501 0 0 1 1.5-1.5zm26 29.378a2 2 0 1 0 2 2 2.002 2.002 0 0 0-2-2zm0 3a1 1 0 1 1 1-1 1.001 1.001 0 0 1-1 1zM6 36.119a2 2 0 1 0 2 2 2.002 2.002 0 0 0-2-2zm0 3a1 1 0 1 1 1-1 1.001 1.001 0 0 1-1 1zm136-35.5a2 2 0 1 0 2 2 2.002 2.002 0 0 0-2-2zm0 3a1 1 0 1 1 1-1 1.001 1.001 0 0 1-1 1zM30 50.997a2 2 0 1 0-2 2 2.002 2.002 0 0 0 2-2zm-3 0a1 1 0 1 1 1 1 1.001 1.001 0 0 1-1-1z"/><path fill="#0bceb2" d="m12.72 5.368 1.487-1.955-.939-.532-.954 2.19h-.032l-.97-2.175-.955.548 1.471 1.909v.031l-2.301-.297v1.064l2.317-.297v.031l-1.487 1.908.892.564 1.017-2.206h.031l.939 2.19.986-.563L12.72 5.9v-.031l2.362.282V5.087L12.72 5.4v-.032zM44.258 19.07l-.856 1.099.513.325.586-1.271h.018l.541 1.262.568-.325-.865-1.081v-.018l1.36.162v-.613l-1.36.181v-.018l.856-1.127-.541-.306-.55 1.261h-.018l-.558-1.252-.55.315.847 1.1v.018l-1.325-.172v.613l1.334-.171v.018zM164.724 30.786v-1.044l-2.317.307v-.031l1.459-1.918-.921-.521-.936 2.148h-.032l-.95-2.133-.938.537 1.444 1.872v.031l-2.257-.292v1.044l2.272-.291v.03l-1.459 1.872.875.553.999-2.164h.029l.921 2.148.968-.552-1.474-1.842v-.03l2.317.276zM80.004 5.407l1.258-1.655-.795-.45-.807 1.853h-.027l-.82-1.84-.809.464 1.245 1.615v.026l-1.946-.251v.9l1.959-.251v.026l-1.258 1.615.755.477.861-1.867h.026l.794 1.853.835-.476-1.271-1.589v-.026l1.998.238v-.9l-1.998.264v-.026z"/></svg>
-                                                                    </p>
-                                                                    <p class="fs-14 fw-semibold mb-0">Assured Quality</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  mt-3">
-                                                                <div class="ecommerce-assurance">
-                                                                    <p class="mb-3">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><linearGradient id="a" x1="32" x2="32" y1="63.723" y2=".835" gradientTransform="matrix(1 0 0 -1 0 63.89)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2ab793"/><stop offset="1" stop-color="#2c98b5"/></linearGradient><path fill="url(#a)" d="M53 26V13.4L32 1.9 11 13.4v25.2l21 11.6 21-11.5V33h-2v4.4L32 47.9l-13-7.2V19l12 6.6V45h2V25.6l18-9.9V26h2zm-3.1-12L32 23.9l-11.9-6.6 17.7-10L49.9 14zM35.6 6.1 18 16.2 14.1 14 32 4.1l3.6 2zM17 39.6l-4-2.2V15.7l4 2.2v21.7z"/><linearGradient id="b" x1="35.769" x2="35.769" y1="63.723" y2=".835" gradientTransform="matrix(1 0 0 -1 0 63.89)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2ab793"/><stop offset="1" stop-color="#2c98b5"/></linearGradient><path fill="url(#b)" d="M38 26v2h6c7.2 0 13 5.8 13 13s-5.8 13-13 13H16.4l5.3-5.3-1.4-1.4-7.8 7.7 8.8 7.7 1.3-1.5-6-5.2H44c8.3 0 15-6.7 15-15s-6.7-15-15-15h-6z"/></svg>
-                                                                    </p>
-                                                                    <p class="fs-14 fw-semibold mb-0">
-                                                                        Easy Exchange
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
-                                                                <div class="ecommerce-assurance">
-                                                                    <p class="mb-3">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 168 168"><path fill="#2d4356" d="M56 93.534V80.415a1.862 1.862 0 0 1 .473-1.23l12.984-14.73a2.121 2.121 0 0 1 1.596-.705H107v18.13h-3.027a2 2 0 0 0-1.56.75A29.22 29.22 0 0 1 89.9 91.785a1.995 1.995 0 0 0-.937.617l-8.99 10.59a2.299 2.299 0 0 1-3.001.354c-1.639-1.12-1.74-1.597-1.425-3.029a10.313 10.313 0 0 1 2.33-4.47l4.987-5.749a1.998 1.998 0 0 0 .445-1.726l-1.85-8.706a2.869 2.869 0 0 0-1.852-1.834l-9.285-1.814a1.996 1.996 0 0 0-1.873.628l-6.613 7.378a2 2 0 0 0-.51 1.335v5.321a17.844 17.844 0 0 1 4-.846v-3.71l5.343-5.962 7.1 1.387 1.42 6.68-4.333 4.997a15.351 15.351 0 0 0-1.503 2.058A13.993 13.993 0 1 0 81 107.75c0-.206-.022-.406-.03-.61a6.051 6.051 0 0 0 2.051-1.558l8.638-10.174a33.3 33.3 0 0 0 13.256-9.528h2.098A3.998 3.998 0 0 0 111 89.75h12a4.005 4.005 0 0 0 4-4v-24a4.005 4.005 0 0 0-4-4h-12a3.987 3.987 0 0 0-3.444 2H71.053a6.124 6.124 0 0 0-4.597 2.06L53.472 76.54A5.86 5.86 0 0 0 52 80.415v17.407a18.127 18.127 0 0 1 4-4.288zm11 24.216a10 10 0 0 1 0-20 9.884 9.884 0 0 1 4.765 1.228c-.046.172-.094.343-.133.516-.846 3.86.981 5.72 3.075 7.15a6.172 6.172 0 0 0 2.284.955c0 .051.009.1.009.151a10.011 10.011 0 0 1-10 10zm44-56h12v24h-12zm-24.942-17.5a3 3 0 1 0-3-3 3.003 3.003 0 0 0 3 3zm0-4.5a1.5 1.5 0 1 1-1.5 1.5 1.501 1.501 0 0 1 1.5-1.5zm39-20.5a2 2 0 1 0 2 2 2.002 2.002 0 0 0-2-2zm0 3a1 1 0 1 1 1-1 1.001 1.001 0 0 1-1 1zm-64-6a2 2 0 1 0 2 2 2.002 2.002 0 0 0-2-2zm0 3a1 1 0 1 1 1-1 1.001 1.001 0 0 1-1 1zm74 18a2 2 0 1 0 2 2 2.002 2.002 0 0 0-2-2zm0 3a1 1 0 1 1 1-1 1.001 1.001 0 0 1-1 1zm-118 31a2 2 0 1 0-2 2 2.002 2.002 0 0 0 2-2zm-3 0a1 1 0 1 1 1 1 1.001 1.001 0 0 1-1-1z"/><path fill="#0bceb2" d="m45.641 41.261 1.487-1.955-.939-.532-.954 2.19h-.032l-.97-2.175-.955.548 1.471 1.909v.031l-2.301-.297v1.064l2.316-.297v.031l-1.486 1.908.891.564 1.018-2.206h.031l.939 2.19.986-.563-1.502-1.878v-.031l2.362.282V40.98l-2.362.312v-.031zM8.834 29.317l-.856 1.099.514.324.586-1.27h.017l.541 1.261.568-.324-.865-1.082v-.018l1.36.163v-.613l-1.36.18v-.018l.856-1.126-.54-.306-.55 1.261h-.018l-.559-1.253-.55.316.848 1.099v.018l-1.325-.171v.613l1.333-.171v.018zM159.058 61.963V60.92l-2.317.307v-.031l1.458-1.918-.921-.522-.936 2.148h-.031l-.951-2.133-.937.538 1.443 1.872v.031l-2.257-.292v1.043l2.272-.291v.031l-1.458 1.872.875.553.998-2.165h.03l.921 2.149.967-.552-1.473-1.842v-.031l2.317.276zM158.501 19.836l1.258-1.655-.794-.45-.808 1.853h-.027l-.82-1.84-.809.464 1.245 1.615v.026l-1.946-.251v.9l1.959-.252v.027l-1.258 1.615.755.477.861-1.867h.026l.795 1.853.834-.476-1.271-1.589v-.027l1.998.239v-.9l-1.998.264v-.026z"/><circle cx="2" cy="135.75" r="2" fill="#2d4356"/><path fill="#2d4356" d="M11 133.75H8a2 2 0 0 0 0 4h3a2 2 0 0 0 0-4zm149 0h-3a2 2 0 0 0 0 4h3a2 2 0 0 0 0-4z"/><circle cx="166" cy="135.75" r="2" fill="#2d4356"/><path fill="#0bceb2" d="M118.154 141.75h-8.308a2.006 2.006 0 0 0 0 4h8.308a2.006 2.006 0 0 0 0-4zm-60 0h-8.308a2.006 2.006 0 0 0 0 4h8.308a2.006 2.006 0 0 0 0-4zm45.846 0H64a2 2 0 0 0 0 4h15.94v2H72a2 2 0 0 0 0 4h25a2 2 0 0 0 0-4h-8.94v-2H104a2 2 0 0 0 0-4z"/><path fill="#2d4356" d="M150.721 133.75h-6.932a14 14 0 1 0-19.578 0H17.28a2.017 2.017 0 1 0 0 4H150.72a2.017 2.017 0 1 0 0-4Zm-26.721-10a10 10 0 1 1 10 10 10.011 10.011 0 0 1-10-10Z"/><path fill="#0bceb2" d="M26 133.75a2.002 2.002 0 0 1-2-2v-16a2.002 2.002 0 0 1 2-2h16a2.002 2.002 0 0 1 2 2v16a2.002 2.002 0 0 1-2 2h5.65a5.96 5.96 0 0 0 .35-2v-16a6.007 6.007 0 0 0-6-6H26a6.007 6.007 0 0 0-6 6v16a5.96 5.96 0 0 0 .35 2zm66 0a2.002 2.002 0 0 1-2-2v-16a2.002 2.002 0 0 1 2-2h16a2.002 2.002 0 0 1 2 2v16a2.002 2.002 0 0 1-2 2h5.65a5.96 5.96 0 0 0 .35-2v-16a6.007 6.007 0 0 0-6-6H92a6.007 6.007 0 0 0-6 6v16a5.96 5.96 0 0 0 .35 2z"/></svg>
-                                                                    </p>
-                                                                    <p class="fs-14 fw-semibold mb-0">
-                                                                        Hand Picked
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                               
-                                            </div>
-                                            <div class="col-xl-8 mt-xxl-0 mt-3">
-                                                <div>
-                                                    <p class="fs-18 fw-semibold mb-0">{{data.NomProjet}}</p> 
-                                                    <hr>
-                                                    <div class="mb-4 rounded border p-2">
-                                                        <p class="fs-15 fw-semibold mb-1">Description :</p>
-                                                        <p class="text-muted mb-0 ">
-                                                              {{  data.Description}}
-                                                        </p>
-                                                    </div>
-
-                                                    <div class="mb-4">
-                                                        <p class="fs-15 fw-semibold mb-2">Autre Details :</p>
-                                                        <div class="row">
-                                                            <div class="col-xl-12">
-                                                                <div class="row">
-                            <div class="col-xl-12">
-                                <div class="card custom-card ">
-                                    <div class="card-body p-0">
-                                        <div class="p-3 border-bottom border-block-end-dashed d-flex align-items-center justify-content-between">
-                                            <div>
-                                                <ul class="nav nav-tabs mb-0 tab-style-6 justify-content-start" id="myTab" role="tablist">
-                                                    <li class="nav-item" role="presentation">
-                                                        <button class="nav-link active" id="activity-tab" data-bs-toggle="tab"
-                                                            data-bs-target="#activity-tab-pane" type="button" role="tab"
-                                                            aria-controls="activity-tab-pane" aria-selected="true"><i
-                                                                class="ri-gift-line me-1 align-middle d-inline-block"></i>Bailleur</button>
-                                                    </li>
-                                                    <li class="nav-item" role="presentation">
-                                                        <button class="nav-link" id="posts-tab" data-bs-toggle="tab"
-                                                            data-bs-target="#posts-tab-pane" type="button" role="tab"
-                                                            aria-controls="posts-tab-pane" aria-selected="false"><i
-                                                                class="ri-bill-line me-1 align-middle d-inline-block"></i>Objectif</button>
-                                                    </li>
-                                                   
-                                                   
-                                                </ul>
-                                            </div>   
-                                            
-                                        </div>
-                                        <div class="p-2">
-                                            <div class="tab-content" id="myTabContent">
-                                                <div class="tab-pane show active fade p-0 border-0" id="activity-tab-pane"
-                                                    role="tabpanel" aria-labelledby="activity-tab" tabindex="0">
-                                                    <div class="table-responsive">
-                                                        <button type="button" class="btn btn-primary btn-sm mb-2" style="float: right;"  data-bs-toggle="modal" data-bs-target="#add_bailleur"><i class="ri-add-line me-1 align-middle fs-14 fw-semibold d-inline-block"></i>Bailleur</button>
-
-                                <table class="table text-nowrap table-bordered border-primary">
-                                    <thead >
-                                        <tr>
-                                            <th scope="col">N</th>
-                                            <th scope="col">Nom bailleur</th>
-                                            <th scope="col">Budget</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>bailleur1</td>
-                                        <td>1234</td>
-                                        <td>
-                                            <div class="hstack gap-2 fs-15">
-                                                
-                                                <a href="javascript:void(0);"
-                                                    class="btn btn-icon btn-sm btn-info-transparent rounded-pill"><i
-                                                        class="ri-edit-line"></i></a>
-                                                <a href="javascript:void(0);"
-                                                    class="btn btn-icon btn-sm btn-danger-transparent rounded-pill"><i
-                                                        class="ri-delete-bin-line"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>bailleur1</td>
-                                        <td>1234</td>
-                                        <td>
-                                            <div class="hstack gap-2 fs-15">
-                                                
-                                                <a href="javascript:void(0);"
-                                                    class="btn btn-icon btn-sm btn-info-transparent rounded-pill"><i
-                                                        class="ri-edit-line"></i></a>
-                                                <a href="javascript:void(0);"
-                                                    class="btn btn-icon btn-sm btn-danger-transparent rounded-pill"><i
-                                                        class="ri-delete-bin-line"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                   
-
-                                            </tbody>
-                                        </table>
-                                                   </div>
-                                                 
-                                                </div>
-                                                <div class="tab-pane fade p-0 border-0" id="posts-tab-pane"
-                                                    role="tabpanel" aria-labelledby="posts-tab" tabindex="0">
-
-                                                   <!-- <Objectif :data="data"></Objectif> -->
-                                                </div>
-                                                
-                                            </div>    
-                                        </div>
-                                    </div>
+  
+  
+                          <ul class="list-group">
+                            <li class="list-group-item">
+                              <div class="d-flex flex-wrap align-items-center">
+                                <div class="me-2 fw-semibold">
+                                  Code :
                                 </div>
-                            </div>
-
+                                <span class="fs-12  fw-semibold " style="color:#05b305;">{{data.CodeProjet}}</span>
+                              </div>
+                            </li>
+                            <li class="list-group-item">
+                              <div class="d-flex flex-wrap align-items-center">
+                                <div class="me-2 fw-semibold">
+                                  Sigle :
+                                </div>
+                                <span class="fs-12 fw-semibold " style="color:#05b305;">{{ data.Sigle }}</span>
+                              </div>
+                            </li>
+                            <li class="list-group-item">
+                              <div class="d-flex flex-wrap align-items-center">
+                                <div class="me-2 fw-semibold">
+                                  Debut :
+                                </div>
+                                <span class="fs-12 fw-semibold text-warning">{{  formatDate(data.DateDebut) }}</span>
+                              </div>
+                            </li>
+                            <li class="list-group-item">
+                              <div class="d-flex flex-wrap align-items-center">
+                                <div class="me-2 fw-semibold">
+                                  Fin :
+                                </div>
+                                <span class="fs-12 fw-semibold text-warning">{{  formatDate(data.DateFin)}}</span>
+                              </div>
+                            </li>
+                            <li class="list-group-item">
+                              <div class="d-flex flex-wrap align-items-center">
+                                <div class="me-2 fw-semibold">
+                                  Durée :
+                                </div>
+                                <span class="fs-12 fw-semibold " style="color:red;">{{ tempsEcoule }}</span>
+                              </div>
+                            </li>
+                            <li class="list-group-item">
+                              <div class="d-flex flex-wrap align-items-center">
+                                <div class="me-2 fw-semibold">
+                                  Mode Financement :
+                                </div>
+                                <span class="fs-12 fw-semibold " style="color:#05b305;">{{ data.ModeFinancement }}</span>
+                              </div>
+                            </li>
+                            <li class="list-group-item">
+                              <div class="d-flex flex-wrap align-items-center">
+                                <div class="me-2 fw-semibold">
+                                  Zones d'intervention :
+                                </div>
+                                <span class="fs-12 fw-semibold " style="color:#05b305;">
+                                  {{ formattedRegions }}
+                                </span>
+                              </div>
+                            </li>
+                          </ul>
+  
                         </div>
-
-                                                               
-                                                            </div>
-                                                        </div>
-                                </div>
-                                                    
-                                                </div>
-                                            </div>
-                                           
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                              
-                                                   
-                            </div>
-                        </div>
+  
+                      </div>
+  
                     </div>
-                </div>
-                <!--End::row-1 -->
-
-                
-
+                    <div class="col-xl-8 mt-xxl-0 mt-3">
+                      <div>
+                        <p class="fs-18 fw-semibold mb-0 text-center">{{data.NomProjet}}</p>
+                        <hr>
+                        <div class="row mb-4">
+                   <div class="col-xl-7">
+                    <div class="fs-16 fw-semibold mb-2  lh-1 text-muted"> <b>LES RESPONSABLES:</b> </div>
+                    <div class=" fs-14 fw-semibold lh-1 " >
+                      <span class="mt-4 fs-14 fw-semibold lh-1 text-success " v-if="data.responsables?.length ===0"  >
+                             Aucun responsable rattaché à ce projet.
+                                  </span>
+                                    <span class="mt-4 fs-14 fw-semibold text-success responsables-text" v-else>
+                                      <span class="mb-4 fs-14 fw-semibold text-success" v-html="formattedResponsables"></span>
+                                    </span>       
+                        </div>
+               
             </div>
-       
-        <!-- End::app-content --> 
+            <div class="col-xl-5">
+              <div class="fs-16 fw-semibold mb-2 text-center  lh-1 text-muted"> <b>BUDGET (GNF):</b> </div>
+                    <div class=" fs-16 fw-bolder text-center  lh-1 " >
+                          <span class="mt-4  fs-18 fw-bolder lh-1  " style="color:red">
+                            {{ totalBudget  || 0}} 
+                                  </span>
+                                  
+                        </div>
+               
+             
+            </div>
+                   </div> 
+                        <div class="card mb-4">
+                          <div class="card-header fs-15 fw-semibold mb-1 ">
+                            Description
+                          </div>
+                          <div class="card-body text-muted">
+                            {{ data.Description}}
+                          </div>
+                        </div>
+                       
+                      </div>
+                     
+                  
+                    
+                    </div>
+                   
+                   
+  
+                  </div>
+                </div>
+              </div>
+              <div class="mb-4"> 
+                          <p class="fs-15 fw-semibold mb-2">Autre informations :</p>
 
-                                                     
-      <!--add bailleur -->
-        <div
+                               <div class="tab-menu-heading border-0 p-0 ms-auto mt-sm-0 mt-2">
+                                    <div class="tabs-menu-task me-3">
+                                        <ul class="nav nav-tabs panel-tabs-task border-0 " role="tablist">
+                                            <li><button type="button" class="btn btn-secondaire my-1 me-2 active fw-semibold" data-bs-toggle="tab" data-bs-target="#Active" role="tab" aria-selected="true">Objectifs <span class="badge ms-2 bg-danger">{{ ObjectisOptions.length }}</span></button></li>
+                                            <li><button type="button" class="btn btn-secondaire my-1 me-2" data-bs-toggle="tab" data-bs-target="#Complete" role="tab" aria-selected="false">  Bailleurs <span class="badge ms-2 bg-danger">{{ BailleursOptions.length }}</span></button></li>
+                                            <!-- <li><span class="fw-semibold" data-bs-toggle="tab" data-bs-target="#Complete" role="tab" aria-selected="false">Bailleurs </span></li> -->
+                                            <li><button type="button" class="btn btn-secondaire my-1 me-2"  data-bs-toggle="tab" data-bs-target="#indicateur" role="tab" aria-selected="false">Indicateurs <span class="badge ms-2 bg-danger">{{indicateursOptions.length}}</span> </button></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <hr>
+                           <div class="card-body p-0">
+                                <div class="tab-content p-0">
+                                    <div class="tab-pane active p-0 border-0" id="Active">
+                                   <div class=" mb-3  px-1">
+                          <div class="d-sm-flex d-block align-items-center justify-content-between">
+                            <div class="h5 fw-semibold mb-0"></div>
+                            <div class="d-flex mt-sm-0 mt-2 align-items-center">
+                              <div class="input-group">
+                                <input type="text" class="form-control bg-light border-0" placeholder="Recherchez..."
+                                  aria-describedby="search-member" v-model="searchObjectif" @input="filterByName" />
+                                <button class="btn btn-light" type="button" id="search-contact-member">
+                                  <i class="ri-search-line text-muted"></i>
+                                </button>
+                              </div>
+                      
+                              <button class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
+                                data-bs-toggle="modal" data-bs-target="#add_objectif">
+                                <i class="ri-add-line"> </i>
+                              </button>
+                            </div>
+                          </div>
+                                    </div>
+                          <div class="row task-card">
+                              <div v-if="paginatedObjectifs.length === 0" class="noresul">
+                                <span> Vous n'avez pas encore d'objectif, vous pouvez également en ajouter un !! </span>
+                              </div>
+                              <div class="table-responsive" v-else>
+                                <table class="table table-hover  table-bordered table-striped">
+                                  <thead>
+                                    <tr>
+                                      <th scope="row" class="ps-4 fw-semibold">
+                                        <span class="float-right">N°</span>
+                                      </th>
+                                      <th scope="col"  class="text-left"> <span class="fw-semibold" >Intitule</span></th>
+                                      <th scope="col"  class="text-center"> <span class="fw-semibold" >Etat</span></th>
+                                      <th scope="col">Actions</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr v-for="(item , index)  in paginatedObjectifs" :key="item.id">
+                                      <th   style="width: 30px;" scope="row" class="ps-4">{{ (currentPageObjectifs - 1) * itemsPerPage + index + 1 }}</th>
+                                      <td ><span class="d-block fw-semibold mb-1 text-left"> {{item.Intitule}}</span></td>
+                                      <td style="width: 130px;" class="text-center">
+                                        <span  v-if="item.Visible === '1'" class="badge bg-success">Activer</span>
+                                        <span  v-else class="badge bg-warning">Desactiver</span>
+                                      </td>
+                                      <td style="width: 120px;">
+                                        <div class="btn-list w-25 d-flex ">
+                                          <button class="btn btn-sm btn-icon btn-info btn-wave " data-bs-toggle="modal"
+                                            data-bs-target="#update_objectif" @click="HandleIdUpdateObjectif(item.id)">
+                                            <i class="ri-edit-line"></i>
+                                          </button>
+                          
+                                          <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(item.id)">
+                                            <i class="ri-delete-bin-line"></i>
+                                          </button>
+                          
+                          
+                                        </div>
+                                      </td>
+                                    </tr>
+                          
+                          
+                          
+                                  </tbody>
+                                </table>
+                              </div>
+                                    </div>
+                          <div class="row">
+                            <div class="col-lg-12">
+                              <div class="container_pagination">
+                                <Pag  :current-page="currentPageObjectifs"  :total-pages="totalPagesObjectifs"
+                                     
+                                      @page-change="updateCurrentPageObjectifs"
+                                    />
+                              </div>
+                            </div>
+                          </div>
+                                    </div>
+
+                                    <div class="tab-pane p-0 border-0" id="Complete">
+                                      <div class=" mb-3 px-1">
+
+                                <div class="d-sm-flex d-block align-items-center justify-content-between">
+                                  <div class="h5 fw-semibold mb-0"></div>
+                                  <div class="d-flex mt-sm-0 mt-2 align-items-center">
+                                    <div class="input-group">
+                                      <input type="text" class="form-control bg-light border-0" placeholder="Recherchez..."
+                                        aria-describedby="search-member" v-model="searchBailleur" @input="filterByName" />
+                                      <button class="btn btn-light" type="button" id="search-contact-member">
+                                        <i class="ri-search-line text-muted"></i>
+                                      </button>
+                                    </div>
+
+                                    <button class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
+                                      data-bs-toggle="modal" data-bs-target="#add_bailleur">
+                                      <i class="ri-add-line"> </i>
+                                    </button>
+                                  </div>
+                                </div>
+                                </div>
+                                <div class="row task-card">
+                                <div v-if="paginatedBailleurs.length === 0" class="noresul">
+                                <span> Vous n'avez pas encore de bailleur, vous pouvez également en ajouter un !! </span>
+                                </div>
+                                <div class="table-responsive" v-else>
+                                <table class="table table-hover text-nowrap table-bordered table-striped">
+                                  <thead>
+                                    <tr >
+                                      <th scope="row" class="ps-4 fw-semibold">
+                                        <span class="float-right">N°</span>
+                                      </th>
+                                      <th scope="col" class="text-left"> <span class="fw-semibold" >Nom</span> </th>
+                                      <th scope="col"  class="text-center">  <span class="fw-semibold" >Budget</span></th>
+                                      <th scope="col" class="text-center">
+                                        <span class="fw-semibold">Montant Décaissé</span>
+                                      </th>
+                                      <th scope="col" class="text-center">
+                                        <span class="fw-semibold">Taux de Décaissement</span>
+                                      </th>
+                                      <th scope="col">Actions</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr v-for="(item , index)  in paginatedBailleurs" :key="item.id">
+                                      <th  style="width: 30px;" scope="row" class="ps-4 ">{{ (currentPageBailleurs - 1) * itemsPerPage + index + 1 }}</th>
+                                      <td><span class="d-block fw-semibold mb-1 text-left"> {{item.CodeBailleur}}</span></td>
+                                      <td style="width: 180px;" class="text-center"><span class="d-block fw-semibold mb-1 "> {{ formatBudget(item.Budget) || 0 }} </span></td>
+                                      <td style="width: 180px;" class="text-center">
+                                          <span class="d-block fw-semibold mb-1" v-if="item.decaissement.length === 0">0 GNF</span>
+                                          <span class="d-block fw-semibold mb-1" v-else>{{ formatBudget(item.decaissement[0]?.montant_decaisser) }}</span>
+            </td>
+            <td style="width: 130px;" class="text-center">
+              <span class="d-block text-center text-danger fw-bold mb-1">
+                {{ tauxDecaissement(item).toFixed(2) }}%
+              </span>
+        
+              <div class="progress mb-3" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                <div
+                  class="progress-bar progress-bar-striped"
+                 :class="getProgressClass(tauxDecaissement(item))"
+                  :style="{ width: tauxDecaissement(item) + '%' }"
+                    :aria-valuenow=" tauxDecaissement(item)"
+                  
+                >
+                </div>
+              </div>
+            </td>
+                                      <td class="" style="width: 130px;">
+                                        <div class="btn-list w-25 d-flex">
+
+                                          <button class="btn btn-sm btn-icon btn-info btn-wave " data-bs-toggle="modal"
+                                            data-bs-target="#update_bailleur" @click="HandleIdUpdateBailleur(data.id , item.id)">
+                                            <i class="ri-edit-line"></i>
+                                          </button>
+
+                                          <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDeleteBailleur(item.id)">
+                                            <i class="ri-delete-bin-line"></i>
+                                          </button>
+
+
+                                        </div>
+                                      </td>
+                
+                                    </tr>
+                                  </tbody>
+                                  <tfoot>
+        <tr>
+          <td colspan="2"><strong>Total général</strong></td>
+          <td  class="text-center"> <strong  style="color:red;">{{ totalBudget }} GNF</strong></td>
+          <td  class="text-center"> <strong  style="color:red;">{{ totalMontantDecaisse }} GNF</strong></td>
+          <td class="text-center">
+            <span class="progress-text fw-bold text-danger ">{{ tauxDecaissementTotal }}%</span>
+           
+
+            <div class="progress mb-3" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                <div
+                  class="progress-bar progress-bar-striped"
+                  :class="{
+                  'bg-danger': tauxDecaissementTotal <= 30,
+                  'bg-warning': tauxDecaissementTotal > 30 && tauxDecaissementTotal <= 75,
+                  'bg-success': tauxDecaissementTotal > 75
+                }"
+                :style="{ width: tauxDecaissementTotal + '%' }"
+                    :aria-valuenow=" tauxDecaissementTotal"
+                  
+                >
+                </div>
+              </div>
+          </td>
+          <td></td>
+        </tr>
+      </tfoot>
+                                </table>
+                                </div>
+
+                                </div>
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <div class="container_pagination">
+                                      <Pag :current-page="currentPageBailleurs"  :total-pages="totalPagesBailleurs"
+                                     
+                                     @page-change="updateCurrentPageBailleurs"
+                                        
+                                        />
+                                    </div>
+                                  </div>
+                                </div>
+                                                                        
+                                    </div>
+
+                                    <div class="tab-pane p-0 border-0" id="indicateur">
+                                      <div class=" mb-3  px-1">
+                          <div class="d-sm-flex d-block align-items-center justify-content-between">
+                            <div class="h5 fw-semibold mb-0"></div>
+                            <div class="d-flex mt-sm-0 mt-2 align-items-center">
+                              <div class="input-group">
+                                <input type="text" class="form-control bg-light border-0" placeholder="Recherchez..."
+                                  aria-describedby="search-member" v-model="search" @input="filterByName" />
+                                <button class="btn btn-light" type="button" id="search-contact-member">
+                                  <i class="ri-search-line text-muted"></i>
+                                </button>
+                              </div>
+                      
+                              <button class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
+                                data-bs-toggle="modal" data-bs-target="#add_indicateur">
+                                <i class="ri-add-line"> </i>
+                              </button>
+                            </div>
+                          </div>
+                                    </div>
+
+                                    <div class="row task-card">
+      
+      <div v-if="paginatedItems.length === 0" class="noresul">
+        <span> Vous n'avez pas encore d'incateur, vous pouvez également en ajouter un !! </span>
+      </div>
+      <div class="table-responsive" v-else>
+        <table class="table table-hover text-nowrap table-bordered table-striped ">
+          <thead>
+            <tr class="text-center">
+              <th scope="row" class="ps-4 ">
+                <span class="float-left fw-semibold">Code</span>
+              </th>
+              <th scope="col" class="text-left"> <span class="fw-semibold" >Intitule</span> </th>
+              <th scope="col " class="text-center"> <span class="fw-semibold" >Valeur Cible</span> </th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item  in paginatedItems" :key="item.id">
+              <th style="width: 30px;" scope="row" class="ps-4">{{item.CodeIndicateur}}</th>
+              <td><span class="d-block fw-semibold mb-1 text-left"> {{item.IntituleIndicateur}}</span></td>
+              <td style="width: 130px;" class="text-center"><span class="d-block fw-semibold mb-1 " style="color:red"> {{item.CibleFinProjet}}
+              </span></td>
+              <!-- <td class="text-center"> <button class="btn btn-warning btn-sm ">suivi</button>
+              </td> -->
+            
+              
+  
+            
+              <td style="width: 130px;">
+                <div class="btn-list w-25 d-flex ">
+  
+                  <button class="btn btn-sm btn-icon btn-info btn-wave " data-bs-placement="top" data-bs-title="Add Contact" data-bs-toggle="modal"
+                    data-bs-target="#update_indicateurs" @click="HandleIdUpdateIndicateur(item.id)">
+                    <i class="ri-edit-line"></i>
+                  </button>
+  
+                  <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDeleteIndicateur(item.id)">
+                    <i class="ri-delete-bin-line"></i>
+                  </button>
+  
+  
+                </div>
+              </td>
+            </tr>
+  
+  
+  
+          </tbody>
+        </table>
+      </div>
+  
+  
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="container_pagination">
+          <Pag :current-page="currentPage" :total-pages="totalPages" @page-change="updateCurrentPage" />
+        </div>
+      </div>
+    </div>
+
+                                    </div>
+                                </div>
+                           </div>
+                          
+                     
+                        </div>
+  
+  
+ 
+  
+    <!--add bailleur -->
+    <!-- <div class="modal fade effect-rotate-bottom " id="add_bailleur" tabindex="-1" aria-hidden="true"
+      data-bs-backdrop="static" ref="add_bailleur">
+      <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+          <div class="modal-header float-start text-center justify-content-center"
+            style="background-color: var(--primary-rgb); padding-bottom: 10px">
+            <h2 class="modal-title text-white text-center" id="mail-ComposeLabel" style="font-size: 22px !important">
+              <b class="text-center">Attribuer des bailleurs au projet </b>
+            </h2>
+          </div>
+          <div class="modal-body px-4">
+            <div class="row gy-2 justify-content-center" style="
+                  border-width: 1px;
+                  border-style: solid;
+                  border-radius: 6px;
+                  border-color: rgb(0, 77, 134);
+                ">
+              <div>
+                <div class="row mt-3 content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword">Nom <span class="text-danger">*</span></label>
+                      <MazInput v-model="bailleur.nom" color="info" name="nom" size="sm" rounded-size="sm" type="text" />
+                      <small v-if="v$.bailleur.nom.$error">{{
+                        v$.bailleur.nom.$errors[0].$message
+                        }}</small>
+                      <small v-if="resultError['nom']">
+                        {{ resultError["nom"] }}
+                      </small>
+                    </div>
+                  </div>
+  
+                </div>
+                <div class="row mt-3 content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword">Budget <span class="text-danger">*</span></label>
+                      <MazInput v-model="bailleur.budget" type="text" color="info" name="budget" size="sm"
+                        rounded-size="sm" />
+                      <small v-if="v$.bailleur.budget.$error">{{
+                        v$.bailleur.budget.$errors[0].$message
+                        }}</small>
+                      <small v-if="resultError['budget']">
+                        {{ resultError["budget"] }}
+                      </small>
+                    </div>
+                  </div>
+  
+  
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="boutton">
+                  <button class="" @click.prevent="submitBailleur('add_bailleur')">
+                    Valider
+                  </button>
+                </div>
+              </div>
+            </div>
+  
+            <br />
+            <div class="modal-footer">
+              <div class="btn-group ms-auto">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+
+    <!-- add bailleur -->
+    <div
       class="modal fade effect-rotate-bottom "
       id="add_bailleur"
       tabindex="-1"
@@ -294,7 +527,7 @@
       data-bs-backdrop="static"
       ref="add_bailleur"
     >
-      <div class="modal-dialog modal-dialog-centered ">
+      <div class="modal-dialog modal-dialog-centered  modal-lg">
         <div class="modal-content">
           <div
             class="modal-header float-start text-center justify-content-center"
@@ -305,7 +538,7 @@
               id="mail-ComposeLabel"
               style="font-size: 22px !important"
             >
-              <b class="text-center">Nouveau bailleur </b>
+              <b class="text-center">Attribuer des bailleurs au projet </b>
             </h2>
           </div>
           <div class="modal-body px-4">
@@ -319,59 +552,73 @@
               "
             >
               <div>
-                <div class="row mt-3 content-group">
+                <div class="btn-list" style="position:absolute ; right: 7px; top: 5px;" >
+          <div class="bouttons" >
+        <div class="boutton" style=" width: 38px; z-index:1000" @click="AddformDataBailleurs" ><i  class="ri-add-line"></i></div>
+        </div>
+          </div>
+                <div class="row align-items-center p-2  border-bottom " v-for="(bailleur, index) in Bailleurs" :key="bailleur.id">
+                  <div class="col-11">
+                    <span class="nombre">
+                            {{index + 1}}
+                        </span>
+                        <div class="row  content-group">
                   <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Nom <span class="text-danger">*</span></label
+                        >Nom Bailleur <span class="text-danger">*</span></label
                       >
-                      <MazInput
-                        v-model="bailleur.nom"
+                      
+                      <MazSelect
+                        v-model="bailleur.CodeBailleur"
                         color="info"
-                        name="nom"
+                        name="CodeBailleur"
                         size="sm"
                         rounded-size="sm"
                         type="text"
+                        @click="clearErrorBailleurs(index, 'CodeBailleur')"
+                        :options="BailleursOption"
+
                       />
-                      <small v-if="v$.bailleur.nom.$error">{{
-                        v$.bailleur.nom.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['nom']">
-                        {{ resultError["nom"] }}
-                      </small>
+                      <small v-if="errors.Bailleurs && errors.Bailleurs[index] && errors.Bailleurs[index].CodeBailleur">{{ errors.Bailleurs[index].CodeBailleur }}</small>
+                      <small v-if="resultError['Bailleurs']"> {{ resultError["Bailleurs"] }} </small>
                     </div>
                   </div>
- 
-                </div>
-                <div class="row mt-3 content-group">
                   <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
                         >Budget <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="bailleur.budget"
-                        type="text"
+                        v-model="bailleur.Budget"
                         color="info"
-                        name="budget"
+                        name="Budget"
                         size="sm"
                         rounded-size="sm"
+                        type="text"
+                        @input="clearErrorBailleurs(index, 'Budget')"
                       />
-                      <small v-if="v$.bailleur.budget.$error">{{
-                        v$.bailleur.budget.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['budget']">
-                        {{ resultError["budget"] }}
-                      </small>
+                      <small v-if="errors.Bailleurs && errors.Bailleurs[index] && errors.Bailleurs[index].Budget">{{ errors.Bailleurs[index].Budget }}</small>
+                      <small v-if="resultError['Bailleurs']"> {{ resultError["Bailleurs"] }} </small>
                     </div>
                   </div>
-                
+                 
+ 
+                </div>
+                  </div>
+                  <div class="col-1" style="position: relative">
+                    
+                      <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="deleteRowBailleurs(index)"  style=" position:absolute !important ; top: 18px !important; background:red;">
+                       <i class="ri-delete-bin-line"></i>
+                      </button>
+                  </div>
 
                 </div>
+               
               </div>
               <div class="row mb-3">
                 <div class="boutton">
-                  <button class="" @click.prevent="submitBailleur('add_bailleur')">
+                  <button class="" @click.prevent="submitBailleurs('add_bailleur')">
                     Valider
                   </button>
                 </div>
@@ -394,17 +641,18 @@
           </div>
         </div>
       </div>
-      </div>
+    </div>
 
-      <!-- add objectifs -->
-      <div class="modal fade effect-rotate-bottom "
-      id="add_objectif"
+     <!-- update bailleur -->
+     <div
+      class="modal fade effect-rotate-bottom "
+      id="update_bailleur"
       tabindex="-1"
       aria-hidden="true"
       data-bs-backdrop="static"
-      ref="add_objectif"
+      ref="update_bailleur"
     >
-      <div class="modal-dialog modal-dialog-centered ">
+      <div class="modal-dialog modal-dialog-centered  ">
         <div class="modal-content">
           <div
             class="modal-header float-start text-center justify-content-center"
@@ -415,7 +663,7 @@
               id="mail-ComposeLabel"
               style="font-size: 22px !important"
             >
-              <b class="text-center">Nouveau objectif </b>
+              <b class="text-center">Modifier le budget du bailleur </b>
             </h2>
           </div>
           <div class="modal-body px-4">
@@ -429,7 +677,131 @@
               "
             >
               <div>
-                <div class="row mt-3 content-group">
+               
+                <div class="row align-items-center p-2  border-bottom " >
+                  <div class="col-12">
+                    
+                        <div class="row  content-group">
+                  <div class="col-12">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Nom Bailleur <span class="text-danger">*</span></label
+                      >
+                      
+                      <MazSelect
+                        v-model="bailleurUpdate.CodeBailleur"
+                        color="info"
+                        name="CodeBailleur"
+                        size="sm"
+                        rounded-size="sm"
+                        type="text"
+                        :options="BailleursOption"
+                        disabled
+
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Budget <span class="text-danger">*</span></label
+                      >
+                      <MazInput
+                        v-model="bailleurUpdate.Budget"
+                        color="info"
+                        name="Budget"
+                        size="sm"
+                        rounded-size="sm"
+                        type="text"
+                        
+                      />
+                      <small v-if="v$.bailleurUpdate.Budget.$error">{{
+                        v$.bailleurUpdate.Budget.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['Budget']">
+                        {{ resultError["Budget"] }}
+                      </small>
+                    </div>
+                  </div>
+                 
+ 
+                </div>
+                  </div>
+                </div>
+               
+              </div>
+              <div class="row mb-3">
+                <div class="boutton">
+                  <button class="" @click.prevent="submitUpdateBaileurs('update_bailleur')">
+                    Valider
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <br />
+            <div class="modal-footer">
+              <div class="btn-group ms-auto">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!-- add Objectif -->
+
+      <div
+      class="modal fade effect-rotate-bottom "
+      id="add_objectif"
+      tabindex="-1"
+      aria-hidden="true"
+      data-bs-backdrop="static"
+      ref="add_objectif"
+    >
+      <div class="modal-dialog modal-dialog-centered  modal-lg">
+        <div class="modal-content">
+          <div
+            class="modal-header float-start text-center justify-content-center"
+            style="background-color: var(--primary-rgb); padding-bottom: 10px"
+          >
+            <h2
+              class="modal-title text-white text-center"
+              id="mail-ComposeLabel"
+              style="font-size: 22px !important"
+            >
+              <b class="text-center">Ajouter des objectifs </b>
+            </h2>
+          </div>
+          <div class="modal-body px-4">
+            <div
+              class="row gy-2 justify-content-center"
+              style="
+                border-width: 1px;
+                border-style: solid;
+                border-radius: 6px;
+                border-color: rgb(0, 77, 134);
+              "
+            >
+              <div>
+                <div class="btn-list" style="position:absolute ; right: 7px; top: 5px;" >
+          <div class="bouttons" >
+        <div class="boutton" style=" width: 38px; z-index:1000" @click="AddformDataObjectifs" ><i  class="ri-add-line"></i></div>
+        </div>
+          </div>
+                <div class="row align-items-center p-2  border-bottom " v-for="(objectif, index) in Objectifs" :key="objectif.id">
+                  <div class="col-11">
+                    <span class="nombre">
+                            {{index + 1}}
+                        </span>
+                        <div class="row  content-group">
                   <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
@@ -442,18 +814,12 @@
                         size="sm"
                         rounded-size="sm"
                         type="text"
+                        @input="clearErrorObjectifs(index, 'Intitule')"
                       />
-                      <small v-if="v$.objectif.Intitule.$error">{{
-                        v$.objectif.Intitule.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['Intitule']">
-                        {{ resultError["Intitule"] }}
-                      </small>
+                      <small v-if="errors.Objectifs && errors.Objectifs[index] && errors.Objectifs[index].Intitule">{{ errors.Objectifs[index].Intitule }}</small>
+                      <small v-if="resultError['Objectifs']"> {{ resultError["Objectifs"] }} </small>
                     </div>
                   </div>
- 
-                </div>
-                <div class="row mt-3 content-group">
                   <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
@@ -461,27 +827,253 @@
                       >
                       <MazSelect
                         v-model="objectif.Visible"
-                        type="text"
                         color="info"
                         name="Visible"
                         size="sm"
                         rounded-size="sm"
+                        type="text"
+                        @click="clearErrorObjectifs(index, 'Visible')"
+                        :options="choix"
+
                       />
+                      <small v-if="errors.Objectifs && errors.Objectifs[index] && errors.Objectifs[index].Visible">{{ errors.Objectifs[index].Visible }}</small>
+                      <small v-if="resultError['Objectifs']"> {{ resultError["Objectifs"] }} </small>
+                    </div>
+                  </div>
+                 
+ 
+                </div>
+                  </div>
+                  <div class="col-1" style="position: relative">
+                    
+                      <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="deleteRowObjectifs(index)"  style=" position:absolute !important ; top: 18px !important; background:red;">
+                       <i class="ri-delete-bin-line"></i>
+                      </button>
+                  </div>
+
+                </div>
+               
+              </div>
+              <div class="row mb-3">
+                <div class="boutton">
+                  <button class="" @click.prevent="submitObjectifs('add_objectif')">
+                    Valider
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <br />
+            <div class="modal-footer">
+              <div class="btn-group ms-auto">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+  
+    <!-- update objectifs -->
+    <div class="modal fade effect-rotate-bottom " id="update_objectif" tabindex="-1" aria-hidden="true"
+      data-bs-backdrop="static" ref="update_objectif">
+      <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+          <div class="modal-header float-start text-center justify-content-center"
+            style="background-color: var(--primary-rgb); padding-bottom: 10px">
+            <h2 class="modal-title text-white text-center" id="mail-ComposeLabel" style="font-size: 22px !important">
+              <b class="text-center">Modifier un  objectif </b>
+            </h2>
+          </div>
+          <div class="modal-body px-4">
+            <div class="row gy-2 justify-content-center" style="
+                  border-width: 1px;
+                  border-style: solid;
+                  border-radius: 6px;
+                  border-color: rgb(0, 77, 134);
+                ">
+              <div>
+                <div class="row mt-3 content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword">Intitulé <span class="text-danger">*</span></label>
+                      <MazInput v-model="objectif.Intitule" color="info" name="Intitule" size="sm" rounded-size="sm"
+                        type="text" />
+                      <small v-if="v$.objectif.Intitule.$error">{{
+                        v$.objectif.Intitule.$errors[0].$message
+                        }}</small>
+                      <small v-if="resultError['Intitule']">
+                        {{ resultError["Intitule"] }}
+                      </small>
+                    </div>
+                  </div>
+  
+                </div>
+                <div class="row mt-3 content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword">Visible <span class="text-danger">*</span></label>
+                      <MazSelect v-model="objectif.Visible" type="text" color="info" name="Visible" size="sm" :options="choix"
+                        rounded-size="sm" />
                       <small v-if="v$.objectif.Visible.$error">{{
                         v$.objectif.Visible.$errors[0].$message
-                      }}</small>
+                        }}</small>
                       <small v-if="resultError['Visible']">
                         {{ resultError["Visible"] }}
                       </small>
                     </div>
                   </div>
-                
-
+  
+  
                 </div>
               </div>
               <div class="row mb-3">
                 <div class="boutton">
-                  <button class="" @click.prevent="submitObjectifs('add_bailleur')">
+                  <button class="" @click.prevent="submitUpdateObjectifs('update_objectif')">
+                    Valider
+                  </button>
+                </div>
+              </div>
+            </div>
+  
+            <br />
+            <div class="modal-footer">
+              <div class="btn-group ms-auto">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <!-- add indicateur -->
+
+        <div
+      class="modal fade effect-rotate-bottom "
+      id="add_indicateur"
+      tabindex="-1"
+      aria-hidden="true"
+      data-bs-backdrop="static"
+      ref="add_indicateur"
+    >
+      <div class="modal-dialog modal-dialog-centered  modal-lg">
+        <div class="modal-content">
+          <div
+            class="modal-header float-start text-center justify-content-center"
+            style="background-color: var(--primary-rgb); padding-bottom: 10px"
+          >
+            <h2
+              class="modal-title text-white text-center"
+              id="mail-ComposeLabel"
+              style="font-size: 22px !important"
+            >
+              <b class="text-center">Ajouter un indicateur </b>
+            </h2>
+          </div>
+          <div class="modal-body px-4">
+            <div
+              class="row gy-2 justify-content-center"
+              style="
+                border-width: 1px;
+                border-style: solid;
+                border-radius: 6px;
+                border-color: rgb(0, 77, 134);
+              "
+            >
+              <div>
+                <div class="btn-list" style="position:absolute ; right: 7px; top: 5px;" >
+          <div class="bouttons" >
+        <div class="boutton" style=" width: 38px; z-index:1000" @click="AddformDataIndicateurs" ><i  class="ri-add-line"></i></div>
+        </div>
+          </div>
+                <div class="row align-items-center p-2  border-bottom " v-for="(indicateur, index) in Indicateurs" :key="indicateur.id">
+                  <div class="col-11">
+                    <span class="nombre">
+                            {{index + 1}}
+                        </span>
+                        <div class="row  content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Code <span class="text-danger">*</span></label
+                      >
+                      <MazInput
+                        v-model="indicateur.CodeIndicateur"
+                        color="info"
+                        name="CodeIndicateur"
+                        size="sm"
+                        rounded-size="sm"
+                        type="text"
+                        @input="clearErrorIndicateurs(index, 'CodeIndicateur')"
+                      />
+                      <small v-if="errors.Indicateurs && errors.Indicateurs[index] && errors.Indicateurs[index].CodeIndicateur">{{ errors.Indicateurs[index].CodeIndicateur }}</small>
+                      <small v-if="resultError['Indicateurs']"> {{ resultError["Indicateurs"] }} </small>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Intitulé <span class="text-danger">*</span></label
+                      >
+                      <MazInput
+                        v-model="indicateur.IntituleIndicateur"
+                        color="info"
+                        name="IntituleIndicateur"
+                        size="sm"
+                        rounded-size="sm"
+                        type="text"
+                        @input="clearErrorIndicateurs(index, 'IntituleIndicateur')"
+
+                      />
+                      <small v-if="errors.Indicateurs && errors.Indicateurs[index] && errors.Indicateurs[index].IntituleIndicateur">{{ errors.Indicateurs[index].IntituleIndicateur }}</small>
+                      <small v-if="resultError['Indicateurs']"> {{ resultError["Indicateurs"] }} </small>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Valeur cible <span class="text-danger">*</span></label
+                      >
+                      <MazInput
+                        v-model="indicateur.CibleFinProjet"
+                        type="number"
+                        min="0"
+                        color="info"
+                        name="CibleFinProjet"
+                        size="sm"
+                        rounded-size="sm"
+                        @input="clearErrorIndicateurs(index, 'CibleFinProjet')"
+                      />
+                      <small v-if="errors.Indicateurs && errors.Indicateurs[index] && errors.Indicateurs[index].CibleFinProjet">{{ errors.Indicateurs[index].CibleFinProjet }}</small>
+                      <small v-if="resultError['Indicateurs']"> {{ resultError["Indicateurs"] }} </small>
+                    </div>
+                  </div>
+ 
+                </div>
+                  </div>
+                  <div class="col-1" style="position: relative">
+                    
+                      <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="deleteRowIndicateurs(index)"  style=" position:absolute !important ; top: 18px !important; background:red;">
+                       <i class="ri-delete-bin-line"></i>
+                      </button>
+                  </div>
+
+                </div>
+               
+              </div>
+              <div class="row mb-3">
+                <div class="boutton">
+                  <button class="" @click.prevent="submitIndicateur('add_indicateur')">
                     Valider
                   </button>
                 </div>
@@ -506,178 +1098,1330 @@
       </div>
       </div>
 
+      <!-- update indicateur -->
+      <div
+      class="modal fade effect-rotate-bottom "
+      id="update_indicateurs"
+      tabindex="-1"
+      aria-hidden="true"
+      data-bs-backdrop="static"
+      ref="update_indicateurs"
+    >
+      <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+          <div
+            class="modal-header float-start text-center justify-content-center"
+            style="background-color: var(--primary-rgb); padding-bottom: 10px"
+          >
+            <h2
+              class="modal-title text-white text-center"
+              id="mail-ComposeLabel"
+              style="font-size: 22px !important"
+            >
+              <b class="text-center">Modifier un  indicateur </b>
+            </h2>
+          </div>
+          <div class="modal-body px-4">
+            <div
+              class="row gy-2 justify-content-center"
+              style="
+                border-width: 1px;
+                border-style: solid;
+                border-radius: 6px;
+                border-color: rgb(0, 77, 134);
+              "
+            >
+              <div>
+                <div class="row mt-3 content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Code <span class="text-danger">*</span></label
+                      >
+                      <MazInput
+                        v-model="indicateur.CodeIndicateur"
+                        color="info"
+                        name="CodeIndicateur"
+                        size="sm"
+                        rounded-size="sm"
+                        type="text"
+                      />
+                      <small v-if="v$.indicateur.CodeIndicateur.$error">{{
+                        v$.indicateur.CodeIndicateur.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['CodeIndicateur']">
+                        {{ resultError["CodeIndicateur"] }}
+                      </small>
+                    </div>
+                  </div>
  
-    </div>
+                </div>
+                <div class="row mt-3 content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Intitulé <span class="text-danger">*</span></label
+                      >
+                      <MazInput
+                        v-model="indicateur.IntituleIndicateur"
+                        type="text"
+                        color="info"
+                        name="IntituleIndicateur"
+                        size="sm"
+                        rounded-size="sm"
+                      />
+                      <small v-if="v$.indicateur.IntituleIndicateur.$error">{{
+                        v$.indicateur.IntituleIndicateur.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['IntituleIndicateur']">
+                        {{ resultError["IntituleIndicateur"] }}
+                      </small>
+                    </div>
+                  </div>
+                
+
+                </div>
+                <div class="row mt-3 content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Cible fin projet <span class="text-danger">*</span></label
+                      >
+                      <MazInput
+                        v-model="indicateur.CibleFinProjet"
+                        type="text"
+                        color="info"
+                        name="CibleFinProjet"
+                        size="sm"
+                        rounded-size="sm"
+                      />
+                      <small v-if="v$.indicateur.CibleFinProjet.$error">{{
+                        v$.indicateur.CibleFinProjet.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['CibleFinProjet']">
+                        {{ resultError["CibleFinProjet"] }}
+                      </small>
+                    </div>
+                  </div>
+                
+
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="boutton">
+                  <button class="" @click.prevent="submitUpdateIndicateur('update_indicateurs')">
+                    Valider
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <br />
+            <div class="modal-footer">
+              <div class="btn-group ms-auto">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+  
+  
+  </div>
 </template>
 <script>
-   import axios from "@/lib/axiosConfig";
-  import Loading from "@/components/others/loading.vue";
-  import useVuelidate from "@vuelidate/core";
-  import Objectif from '@/components/projets/objectif.vue'
-  import { require, lgmin, lgmax, ValidEmail } from "@/functions/rules";
-  import { successmsg } from "@/lib/modal.js";
-  import MazPhoneNumberInput from "maz-ui/components/MazPhoneNumberInput";
-  import Swal from "sweetalert2";
+import axios from "@/lib/axiosConfig";
+import Loading from "@/components/others/loading.vue";
+import Pag from "@/components/others/pagination.vue";
+
+import useVuelidate from "@vuelidate/core";
+import Objectif from '@/components/projets/objectif.vue'
+import { require, lgmin, lgmax, ValidEmail } from "@/functions/rules";
+import { successmsg } from "@/lib/modal.js";
+import MazPhoneNumberInput from "maz-ui/components/MazPhoneNumberInput";
+import Swal from "sweetalert2";
 export default {
-  props:['data'],
-    components: {
-      Loading, Objectif
+  props: {
+    data: {
+      type:Object ,
+      required: true
     },
-    computed: {
-      loggedInUser() {
-        return this.$store.getters["auth/myAuthenticatedUser"];
-      },
-      tempsEcoule() {
-      const dateDebut = new Date(this.data.DateDebut);
-      const dateFin = new Date(this.data.DateFin);
-
-      let years = dateFin.getFullYear() - dateDebut.getFullYear();
-      let months = dateFin.getMonth() - dateDebut.getMonth();
-      let days = dateFin.getDate() - dateDebut.getDate();
-
-      if (days < 0) {
-        months -= 1;
-        days += new Date(dateFin.getFullYear(), dateFin.getMonth(), 0).getDate();
+    ObjectisOptions: {
+      type:  Array,
+      required: true
+    },
+    BailleursOptions: {
+      type:  Array,
+      required: true
+    },
+    indicateursOptions: {
+      type:  Array,
+      required: true
+    },
+  },
+  components: {
+    Loading, Objectif , Pag
+  },
+  computed: {
+    loggedInUser() {
+      return this.$store.getters["auth/myAuthenticatedUser"];
+    },
+    formattedRegions() {
+      if (!this.data || !this.data.regions) {
+        return '';
       }
-
-      if (months < 0) {
-        years -= 1;
-        months += 12;
-      }
-
-      const monthsTotal = years * 12 + months;
-      return `${monthsTotal} mois et ${days} jours`;
+      return this.data.regions
+        .map(region => region.region?.NomRegion)
+        .filter(Boolean) // Filtre pour enlever les valeurs indéfinies ou nulles
+        .join(', ');
     },
-    },
+    formattedResponsables() {
+    if (!this.data || !this.data.responsables) {
+      return '';
+    }
+    return this.data.responsables
+      .map(responsable => {
+        const nom = responsable.user?.Nom || '';
+        const prenoms = responsable.user?.Prenoms || '';
+        return `${nom} ${prenoms}`;
+      })
+      .filter(name => name.trim() !== '') // Filtre pour enlever les noms vides
+      .join(', '); // Using non-breaking space here
+  },
   
-    data() {
-      return {
-        loading: false,
-        objectifsOptions:this.data.objectifs,
-       
-        bailleur: {
-             nom: "",
-             budget: "",
-        
-        },
-        objectif: {
-            Intitule: "",
-            Visible: "",
-        
-        },
-        resultError: {},
-        v$: useVuelidate(),
-        error: "",
-      };
+   // Pour ObjectisOptions
+   totalPagesObjectifs() {
+    return Math.ceil(this.filteredObjectifs.length / this.itemsPerPage);
+  },
+  paginatedObjectifs() {
+    const startIndex = (this.currentPageObjectifs - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.filteredObjectifs.slice(startIndex, endIndex);
+  },
+  filteredObjectifs() {
+    if (!this.searchObjectif) {
+      return this.ObjectisOptions;
+    }
+    const searchValue = this.searchObjectif.toLowerCase();
+    return this.ObjectisOptions.filter((objectif) => {
+      const nom = objectif.Intitule || "";
+      return nom.toLowerCase().includes(searchValue);
+    });
+  },
+
+
+  // Pour BailleursOptions
+  totalPagesBailleurs() {
+    return Math.ceil(this.filteredBailleurs.length / this.itemsPerPage);
+  },
+  paginatedBailleurs() {
+    const startIndex = (this.currentPageBailleurs - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.filteredBailleurs.slice(startIndex, endIndex);
+  },
+  filteredBailleurs() {
+    if (!this.searchBailleur) {
+      console.log('this.BailleursOptions',this.BailleursOptions);
+      return this.BailleursOptions;
+    }
+    const searchValue = this.searchBailleur.toLowerCase();
+    return this.BailleursOptions.filter((bailleur) => {
+      const code = bailleur.CodeBailleur || "";
+      return code.toLowerCase().includes(searchValue);
+    });
+  },
+  totalBudget() {
+    return this.BailleursOptions.reduce((total, bailleur) => {
+      return total + parseFloat(bailleur.Budget || 0);
+    }, 0).toLocaleString(); // Formatage avec séparateurs de milliers
+  },
+
+  // Calcul du montant total décaissé
+  totalMontantDecaisse() {
+    return this.BailleursOptions.reduce((total, item) => {
+      return total + parseFloat((item.decaissement && item.decaissement[0] && item.decaissement[0].montant_decaisser) || 0);
+    }, 0).toLocaleString(); // Formatage avec séparateurs de milliers
+  },
+
+  // Calcul du taux de décaissement total en pourcentage
+  tauxDecaissementTotal() {
+    const totalBudgetValue = this.BailleursOptions.reduce((total, bailleur) => {
+      return total + parseFloat(bailleur.Budget || 0);
+    }, 0);
+    const totalMontantDecaisseValue = this.BailleursOptions.reduce((total, item) => {
+      return total + parseFloat((item.decaissement && item.decaissement[0] && item.decaissement[0].montant_decaisser) || 0);
+    }, 0);
+    if (totalBudgetValue === 0) return 0;
+    return ((totalMontantDecaisseValue / totalBudgetValue) * 100).toFixed(2);
+  },
+
+  // pour indicateur
+  totalPages() {
+      return Math.ceil(this.filteredIndicateurs.length / this.itemsPerPage);
     },
-    validations: {
-      bailleur: {
-        nom: { require },
-        budget: { require }, 
-      },
-      objectif: {
-        Intitule: { require },
-        Visible: { require },
-       
-      },
+    paginatedItems() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.filteredIndicateurs.slice(startIndex, endIndex);
     },
-  
-    async mounted() {
-      console.log("loggedInUser", this.loggedInUser);
+    filteredIndicateurs() {
+      if (!this.search) {
       
-    },  
+        return this.indicateursOptions;
+      }
+      const searchValue = this.search.toLowerCase();
+      return this.indicateursOptions.filter((user) => {
+        const Nom = user.IntituleIndicateur || "";
+        const Prenoms = user.CodeIndicateur || "";
+        const Pseudo = user.CibleFinProjet || "";
+        const Email = user.CodeProjet || "";
+        return (
+          Nom.toLowerCase().includes(searchValue) ||
+          Prenoms.toLowerCase().includes(searchValue) ||
+          Email.toLowerCase().includes(searchValue) ||
+          Pseudo.toLowerCase().includes(searchValue)
+        );
+      });
+    },
 
-    methods: {
-      async submitBailleur(modalId) {
-      this.v$.bailleur.$touch();
-      if (this.v$.$errors.length == 0) {
+    tempsEcoule() {
+  const dateDebut = new Date(this.data.DateDebut);
+  const dateFin = new Date(this.data.DateFin);
+
+  let years = dateFin.getFullYear() - dateDebut.getFullYear();
+  let months = dateFin.getMonth() - dateDebut.getMonth();
+  let days = dateFin.getDate() - dateDebut.getDate();
+
+  if (days < 0) {
+    months -= 1;
+    days += new Date(dateFin.getFullYear(), dateFin.getMonth(), 0).getDate();
+  }
+
+  if (months < 0) {
+    years -= 1;
+    months += 12;
+  }
+
+  if (years > 0) {
+    return `${years} année${years > 1 ? 's' : ''} et ${months} mois`;
+  } else {
+    return `${months} mois et ${days} jour${days > 1 ? 's' : ''}`;
+  }
+}
+
+  },
+
+  data() {
+    return {
+      loading: false,
+      Code:"",
+        searchBailleur: "",
+        searchObjectif: "",
+        search: "",
+        currentPageObjectifs: 1,
+       currentPageBailleurs: 1,
+       currentPage: 1,
+        itemsPerPage: 6,
+        totalPageArray: [],
+        BailleursOption:[],
+        // totalMontantDecaisse: 0,
+        // totalBudget: 0,
+        // tauxDecaissementTotal: 0,
+        choix: [
+         { label: "Oui", value: true },
+         { label: "Non", value: 'non' },
+       ],
+       errors: {
+        Objectifs: [] ,
+        Bailleurs: [] ,
+        Indicateurs: [] ,
+
+        },
+        Objectifs:[
+              {
+                Intitule:"",
+                Visible: "",
+            }
+        ],
+        Bailleurs:[
+              {
+                CodeBailleur:"",
+                Budget: "",
+            }
+        ],
+
+        Indicateurs:[
+        {
+          CodeIndicateur:"",
+          IntituleIndicateur: "",
+          CibleFinProjet: "",
+      }
+        ],
+        indicateur:{
+          CodeIndicateur:"",
+          IntituleIndicateur: "",
+          CibleFinProjet: "",
+        },
+      bailleur: {
+        CodeBailleur: "",
+        Budget: "",
+
+      },
+
+      objectif: {
+        Intitule: "",
+        Visible: "",
+
+      },
+      bailleurUpdate:{
+        CodeBailleur: "",
+        Budget: "",
+      },
+      resultError: {},
+      v$: useVuelidate(),
+      error: "",
+    };
+  },
+  validations: {
+    bailleur: {
+      CodeBailleur: { require },
+      Budget: { require },
+    },
+    objectif: {
+      Intitule: { require },
+      Visible: { require },
+
+    },
+    indicateur:{
+          CodeIndicateur:{ require },
+          IntituleIndicateur: { require },
+          CibleFinProjet: { require },
+        },
+        bailleurUpdate:{
+        CodeBailleur:{  },
+        Budget:{ require },
+      },
+  },
+  watch: {
+    data: {
+      handler(newVal) {
+        console.log('newVal',newVal);
+        this.Code = newVal.CodeProjet;
+        localStorage.setItem('CodeProjet', newVal.CodeProjet);
+      },
+      deep: true,
+      immediate: true
+    }
+  },
+
+  async mounted() {
+    console.log("loggedInUser", this.loggedInUser);
+    this.Code = localStorage.getItem('CodeProjet');
+    console.log("loggedInUser",  this.Code);
+
+    
+    await this.fetchBailleurs();
+
+
+  },
+
+  methods: {
+    successmsg:successmsg,
+  
+    async fetchBailleurs() {
+      try {
+        const response = await axios.get( '/bailleurs',
+          {
+            headers: {
+              Authorization: `Bearer ${this.loggedInUser.token}`,
+            },
+            params:{statut:null}
+          }
+        );
+
+        console.log("responseclienteschools-level", response.data);
+        if (response.data.status === "success") {
+          const filteredOptions = response.data.data.filter(item => item.Visible === '1');
+              this.BailleursOption = filteredOptions.map(item => ({
+                label: item.NomBailleur,
+                value: item.CodeBailleur,
+        }))
+          console.log("this.DaysOptions", filteredOptions);
+          this.loading =  false
+        }
+      } catch (error) {
+        console.log(
+          "Erreur lors de la mise à jour des données MPME guinee :",
+          error
+        );
+        if (error.response.data.status === "error") {
+          console.log("aut", error.response.data.status === "error");
+
+          if (
+            error.response.data.message === "Vous n'êtes pas autorisé." ||
+            error.response.status === 401
+          ) {
+            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+            this.$router.push("/"); //a revoir
+          }
+        } else {
+          this.formatValidationErrors(error.response.data.errors);
+          this.loading = false;
+          return false;
+        }
+      }
+    },
+
+    AddformDataObjectifs() {
+     this.Objectifs.push({ Intitule:'', Visible:''});
+   },
+   deleteRowObjectifs(index) {
+  
+   if(index !== 0){
+     this.Objectifs.splice(index, 1);
+   }
+  },
+  clearErrorObjectifs(index, field) {   
+     if (this.errors.Objectifs[index]) {
+       this.errors.Objectifs[index][field] = null;
+     }
+   },
+   validateObjectifs() {
+    let isValid = true;
+    this.errors = { Objectifs: [] };
+    this.Objectifs.forEach((objectif, index) => {
+        const objectifErrors = {};
+        if (!objectif.Intitule) {
+            objectifErrors.Intitule = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        if (!objectif.Visible) {
+            objectifErrors.Visible = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        
+        this.errors.Objectifs[index] = objectifErrors;
+    });
+    return isValid;
+},
+async submitObjectifs(modalId) {
+      
+      if (this.validateObjectifs()) {
         this.loading = true;
-       let data = {
+        this.Objectifs.forEach(objectif => {
+          if (objectif.Visible === 'non') {
+            objectif.Visible = false;
+          }
+        });
+    const dataToSend = {
+             projet:this.Code,
+             objectives: this.Objectifs
+        };
+    console.log("data", dataToSend);
 
-              nom:this.bailleur.nom,
-              budget:this.bailleur.budget
-       }
-       
 
-        console.log("data",data );
-
-        // try {
-        //   const response = await axios.post("/duties-services", data, {
-        //     headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
+        try {
+          const response = await axios.post("/projet-objectifs", dataToSend, {
+            headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
            
-        //   }
-        //   });
-        //   console.log("Réponse du téléversement :", response);
-        //   if (response.data.status === "success") {
-        //     this.closeModal(modalId);
-        //     this.successmsg(
-        //         "Duty Created Successfully",
-        //         "The new duty has been successfully created!"
-        //       );
-        //     await this.fetchClients();
-        //   } else {
-        //   }
-        // } catch (error) {
-        //   console.log("response.login", error);
+          }
+          });
+          console.log("Réponse du téléversement :", response);
+          if (response.data.status === "success") {
+            this.closeModal(modalId);
+            this.successmsg(
+              "Objectifs créés avec succès",
+              "Les nouveaux objectifs ont été créés avec succès !"
+            );
+            this.loading = false
+            this.$emit('indicateur-updated');
 
-        //   this.loading = false;
-        //   if (error.response.data.status === "error") {
-        //     return (this.error = error.response.data.message);
-        //   } else {
-        //     this.formatValidationErrors(error.response.data.errors);
-        //   }
-        // }
+          } else {
+          }
+        } catch (error) {
+          console.log("response.login", error);
+
+          this.loading = false;
+          if (error.response.data.status === "error") {
+            return (this.error = error.response.data.message);
+          } else {
+            this.formatValidationErrors(error.response.data.errors);
+          }
+        }
       } else {
         console.log("error", this.v$.$errors);
       }
     },
+    async HandleIdUpdateObjectif(id) {
+      this.loading = true;
 
-    async submitObjectifs(modalId) {
+      try {
+        const response = await axios.get(`/projet-objectifs/detail/${id}`, {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+        });
+
+        console.log("response", response);
+        if (response) {
+          console.log("responsedata", response.data.data);
+          let data = response.data.data;
+            this.objectif.Intitule = data.Intitule,
+            this.objectif.Visible = (data.Visible === "1") ? true :'non',
+            this.ToId = data.id;
+          this.loading = false;
+        }
+      } catch (error) {
+        console.log(
+          "Erreur lors de la mise à jour des données MPME guinee :",
+          error
+        );
+        if (error.response.data.status === "error") {
+          console.log("aut", error.response.data.status === "error");
+
+          if (
+            error.response.data.message === "Vous n'êtes pas autorisé." ||
+            error.response.status === 401
+          ) {
+            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+            this.$router.push("/"); //a revoir
+          }
+        } else {
+          this.formatValidationErrors(error.response.data.errors);
+          this.loading = false;
+          return false;
+        }
+      }
+    },
+    async submitUpdateObjectifs(modalId) {
       this.v$.objectif.$touch();
+
       if (this.v$.$errors.length == 0) {
+        this.loading = true
+        const dataSend = {
+          projet:this.Code,
+          objectives:[    
+            {
+                id:this.ToId,
+                Intitule:this.objectif.Intitule,
+                Visible: this.objectif.Visible === 'non' ? false : this.objectif.Visible,
+            }
+          ]
+
+         
+        }
+
+        console.log(dataSend);
+        try {
+        const response = await axios.put('projet-objectifs/update',dataSend, {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+         
+        });
+
+        console.log("usersOptions", response.data);
+        if (response.data.status === "success") {
+          this.closeModal(modalId);
+          this.successmsg(
+            "Données de l'objectif mises à jour",
+            "Les données de l'objectif ont été mises à jour avec succès !"
+          );
+          this.loading = false;
+          this.$emit('indicateur-updated');
+        }
+      } catch (error) {
+        console.log(
+          "Erreur lors de la mise à jour des données MPME guinee :",
+          error
+        );
+        if (error.response.data.status === "error") {
+          console.log("aut", error.response.data.status === "error");
+
+          if (
+            error.response.data.message === "Vous n'êtes pas autorisé." ||
+            error.response.status === 401
+          ) {
+            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+            this.$router.push("/"); //a revoir
+          }
+        } else {
+          this.formatValidationErrors(error.response.data.errors);
+          this.loading = false;
+          return false;
+        }
+      }
+
+      } else {
+        console.log("cest pas bon ", this.v$.$errors);
+        this.loading = false;
+      }
+    },
+    async HandleIdDelete(id) {
+      // Affichez une boîte de dialogue Sweet Alert pour confirmer la suppression
+      const result = await Swal.fire({
+        title: "Êtes-vous sûr ?",
+        text: "Vous ne pourrez pas revenir en arrière !",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Oui, supprimez-le !",
+        cancelButtonText: "Non, annulez !",
+        reverseButtons: true,
+      });
+
+      // Si l'utilisateur confirme la suppression
+      if (result.isConfirmed) {
+        this.ConfirmeDelete(id);
+      }
+    },
+    async ConfirmeDelete(id) {
+      this.loading = true;
+
+      try {
+        // Faites une requête pour supprimer l'élément avec l'ID itemId
+        const response = await axios.delete(`/projet-objectifs/${id}`, {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+        });
+        console.log("Réponse de suppression:", response);
+        if (response.data.status === "success") {
+          this.loading = false;
+          this.successmsg(
+            "Objectif supprimé",
+            "Objectif  a été supprimé avec succès."
+          );
+          this.loading = false;
+          this.$emit('indicateur-updated');
+        } else {
+          console.log("error", response.data);
+          this.loading = false;
+        }
+      } catch (error) {
+        console.error("Erreur lors de la suppression:", error);
+
+        if (
+          error.response.data.message === "Vous n'êtes pas autorisé." ||
+          error.response.status === 401
+        ) {
+          await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+          this.$router.push("/"); //a revoir
+        }
+      }
+    },
+
+   
+
+    // debut bailleur
+
+    AddformDataBailleurs() {
+     this.Bailleurs.push({ Intitule:'', Visible:''});
+   },
+   deleteRowBailleurs(index) {
+  
+   if(index !== 0){
+     this.Bailleurs.splice(index, 1);
+   }
+  },
+  clearErrorBailleurs(index, field) {   
+     if (this.errors.Bailleurs[index]) {
+       this.errors.Bailleurs[index][field] = null;
+     }
+   },
+   validateBailleurs() {
+    let isValid = true;
+    this.errors = { Bailleurs: [] };
+    this.Bailleurs.forEach((bailleur, index) => {
+        const bailleurErrors = {};
+        if (!bailleur.CodeBailleur) {
+            bailleurErrors.CodeBailleur = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        if (!bailleur.Budget) {
+            bailleurErrors.Budget = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        
+        this.errors.Bailleurs[index] = bailleurErrors;
+    });
+    return isValid;
+},
+async submitBailleurs(modalId) {
+      
+      if (this.validateBailleurs()) {
         this.loading = true;
-       let data = {
+      
+    const dataToSend = {
+             projet:this.Code,
+             bailleurs: this.Bailleurs
+        };
+    console.log("data", dataToSend);
 
-              Intitule:this.objectif.Intitule,
-              Visible:this.objectif.Visible
-       }
-       
 
-        console.log("data",data );
-
-        // try {
-        //   const response = await axios.post("/duties-services", data, {
-        //     headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
+        try {
+          const response = await axios.post("/projets/assigner-bailleurs/projet", dataToSend, {
+            headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
            
-        //   }
-        //   });
-        //   console.log("Réponse du téléversement :", response);
-        //   if (response.data.status === "success") {
-        //     this.closeModal(modalId);
-        //     this.successmsg(
-        //         "Duty Created Successfully",
-        //         "The new duty has been successfully created!"
-        //       );
-        //     await this.fetchClients();
-        //   } else {
-        //   }
-        // } catch (error) {
-        //   console.log("response.login", error);
+          }
+          });
+          console.log("Réponse du téléversement :", response);
+          if (response.data.status === "success") {
+            this.closeModal(modalId);
+            this.successmsg(
+                "Bailleurs et budgets attribués avec succès",
+                "Les bailleurs et leurs budgets ont été attribués au projet avec succès !"
+            );
+            this.loading = false
+            this.$emit('indicateur-updated');
 
-        //   this.loading = false;
-        //   if (error.response.data.status === "error") {
-        //     return (this.error = error.response.data.message);
-        //   } else {
-        //     this.formatValidationErrors(error.response.data.errors);
-        //   }
-        // }
+          } else {
+          }
+        } catch (error) {
+          console.log("response.login", error);
+
+          this.loading = false;
+          if (error.response.data.status === "error") {
+            return (this.error = error.response.data.message);
+          } else {
+            this.formatValidationErrors(error.response.data.errors);
+          }
+        }
       } else {
         console.log("error", this.v$.$errors);
       }
     },
+    async HandleIdUpdateBailleur(id , Idbailleur) {
+      this.loading = true;
+
+      try {
+        const response = await axios.get(`/projets/detail/${id}`, {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+        });
+
+        console.log("response", response);
+       
+    if (response) {
+      console.log("responsedata", response.data.data.bailleurs);
+      let data = response.data.data.bailleurs;
+      let selectedBailleur = data.find(bailleur => bailleur.id === Idbailleur);
+
+      if (selectedBailleur) {
+        console.log("Bailleur trouvé :", selectedBailleur);
+        this.bailleurUpdate.CodeBailleur = selectedBailleur.CodeBailleur,
+        this.bailleurUpdate.Budget = selectedBailleur.Budget
+        this.ToId = selectedBailleur.id
+      } else {
+        console.log("Bailleur non trouvé pour l'ID :", Idbailleur);
+      }
+          this.loading = false;
+        }
+      } catch (error) {
+        console.log(
+          "Erreur lors de la mise à jour des données MPME guinee :",
+          error
+        );
+        if (error.response.data.status === "error") {
+          console.log("aut", error.response.data.status === "error");
+
+          if (
+            error.response.data.message === "Vous n'êtes pas autorisé." ||
+            error.response.status === 401
+          ) {
+            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+            this.$router.push("/"); //a revoir
+          }
+        } else {
+          this.formatValidationErrors(error.response.data.errors);
+          this.loading = false;
+          return false;
+        }
+      }
     },
+    async submitUpdateBaileurs(modalId) {
+      this.v$.bailleurUpdate.$touch();
+
+      if (this.v$.$errors.length == 0) {
+        this.loading = true
+        const dataSend = {
+          projet:this.Code,
+          bailleurs:[    
+            {
+                id:this.ToId,
+                CodeBailleur:this.bailleurUpdate.CodeBailleur,
+                Budget: this.bailleurUpdate.Budget
+            }
+          ]
+
+         
+        }
+
+        console.log(dataSend);
+        try {
+        const response = await axios.post('/projets/assigner-bailleurs/projet',dataSend, {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+         
+        });
+
+        console.log("usersOptions", response.data);
+        if (response.data.status === "success") {
+          this.closeModal(modalId);
+          this.successmsg(
+            "Données du bailleur mises à jour",
+            "Les données du bailleur ont été mises à jour avec succès !"
+          );
+          this.loading = false;
+          this.$emit('indicateur-updated');
+        }
+      } catch (error) {
+        console.log(
+          "Erreur lors de la mise à jour des données MPME guinee :",
+          error
+        );
+        if (error.response.data.status === "error") {
+          console.log("aut", error.response.data.status === "error");
+
+          if (
+            error.response.data.message === "Vous n'êtes pas autorisé." ||
+            error.response.status === 401
+          ) {
+            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+            this.$router.push("/"); //a revoir
+          }
+        } else {
+          this.formatValidationErrors(error.response.data.errors);
+          this.loading = false;
+          return false;
+        }
+      }
+
+      } else {
+        console.log("cest pas bon ", this.v$.$errors);
+        this.loading = false;
+      }
+    },
+    async HandleIdDeleteBailleur(id) {
+      // Affichez une boîte de dialogue Sweet Alert pour confirmer la suppression
+      const result = await Swal.fire({
+        title: "Êtes-vous sûr ?",
+        text: "Vous ne pourrez pas revenir en arrière !",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Oui, supprimez-le !",
+        cancelButtonText: "Non, annulez !",
+        reverseButtons: true,
+      });
+
+      // Si l'utilisateur confirme la suppression
+      if (result.isConfirmed) {
+        this.ConfirmeDeleteBailleur(id);
+      }
+    },
+    async ConfirmeDeleteBailleur(id) {
+      this.loading = true;
+
+      try {
+        // Faites une requête pour supprimer l'élément avec l'ID itemId
+        const response = await axios.delete(`/projets/assigner-bailleurs/projet/${id}`, {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+        });
+        console.log("Réponse de suppression:", response);
+        if (response.data.status === "success") {
+          this.loading = false;
+          this.successmsg(
+            "Bailleur supprimé",
+            "Bailleur  a été supprimé avec succès."
+          );
+          this.loading = false;
+          this.$emit('indicateur-updated');
+        } else {
+          console.log("error", response.data);
+          this.loading = false;
+        }
+      } catch (error) {
+        console.error("Erreur lors de la suppression:", error);
+
+        if (
+          error.response.data.message === "Vous n'êtes pas autorisé." ||
+          error.response.status === 401
+        ) {
+          await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+          this.$router.push("/"); //a revoir
+        }
+      }
+    },
+
+    formatBudget(budget) {
+      return new Intl.NumberFormat('fr-FR', {
+        style: 'currency',
+        currency: 'GNF',
+        minimumFractionDigits: 0
+      }).format(budget);
+    },
+    tauxDecaissement(item) {
+      const montantDecaisse = parseFloat(item.decaissement[0].montant_decaisser || 0);
+      const budget = parseFloat(item.Budget || 0);
+      return budget ? (montantDecaisse / budget) * 100 : 0;
+    },
+    getProgressClass(percentage) {
+      if (percentage <= 30) {
+        return 'bg-danger';
+      } else if (percentage <= 75) {
+        return 'bg-warning';
+      } else {
+        return 'bg-success';
+      }
+    },
+    tauxDecaissement(item) {
+      const montantDecaisse = item.decaissement && item.decaissement[0] && item.decaissement[0].montant_decaisser || 0;
+      if (!item.Budget) return 0;
+      return (parseFloat(montantDecaisse) / parseFloat(item.Budget)) * 100;
+    },
+    // fin bailleur
+
+    // debut indicateur
+
+    AddformDataIndicateurs() {
+     this.Indicateurs.push({ CodeIndicateur:'', IntituleIndicateur:'', CibleFinProjet:'',});
+   },
+   deleteRowIndicateurs(index) {
+  
+   if(index !== 0){
+     this.Indicateurs.splice(index, 1);
+   }
+  },
+  clearErrorIndicateurs(index, field) {   
+     if (this.errors.Indicateurs[index]) {
+       this.errors.Indicateurs[index][field] = null;
+     }
+   },
+   validateIndicateur() {
+    let isValid = true;
+    this.errors = { Indicateurs: [] };
+    this.Indicateurs.forEach((indicateur, index) => {
+        const indicateurErrors = {};
+        if (!indicateur.CodeIndicateur) {
+            indicateurErrors.CodeIndicateur = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        if (!indicateur.IntituleIndicateur) {
+            indicateurErrors.IntituleIndicateur = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        if (!indicateur.CibleFinProjet) {
+            indicateurErrors.CibleFinProjet = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        this.errors.Indicateurs[index] = indicateurErrors;
+    });
+    return isValid;
+},
+async submitIndicateur(modalId) {
+      
+      if (this.validateIndicateur()) {
+        this.loading = true;
+      
+        this.Indicateurs.forEach(indicateur => {
+      indicateur.CodeProjet = this.Code;
+    });
+
+    const dataToSend = {
+             indicateurs: this.Indicateurs
+        };
+    console.log("data", dataToSend);
+
+
+        try {
+          const response = await axios.post("/indicateurs", dataToSend, {
+            headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
+           
+          }
+          });
+          console.log("Réponse du téléversement :", response);
+          if (response.data.status === "success") {
+            this.closeModal(modalId);
+            this.successmsg(
+              "Indicateurs créés avec succès",
+              "Les nouveaux indicateurs ont été créés avec succès !"
+            );
+            this.loading = false
+            this.$emit('indicateur-updated');
+
+          } else {
+          }
+        } catch (error) {
+          console.log("response.login", error);
+
+          this.loading = false;
+          if (error.response.data.status === "error") {
+            return (this.error = error.response.data.message);
+          } else {
+            this.formatValidationErrors(error.response.data.errors);
+          }
+        }
+      } else {
+        console.log("error", this.v$.$errors);
+      }
+    },
+    async HandleIdUpdateIndicateur(id) {
+      this.loading = true;
+
+      try {
+        const response = await axios.get(`/indicateurs/detail/${id}`, {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+        });
+
+        console.log("response", response);
+        if (response) {
+          console.log("responsedata", response.data.data);
+          let data = response.data.data;
+            this.indicateur.CodeIndicateur = data.CodeIndicateur,
+            this.indicateur.IntituleIndicateur = data.IntituleIndicateur,
+            this.indicateur.CibleFinProjet = data.CibleFinProjet,
+            this.ToId = data.id;
+          this.loading = false;
+        }
+      } catch (error) {
+        console.log(
+          "Erreur lors de la mise à jour des données MPME guinee :",
+          error
+        );
+        if (error.response.data.status === "error") {
+          console.log("aut", error.response.data.status === "error");
+
+          if (
+            error.response.data.message === "Vous n'êtes pas autorisé." ||
+            error.response.status === 401
+          ) {
+            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+            this.$router.push("/"); //a revoir
+          }
+        } else {
+          this.formatValidationErrors(error.response.data.errors);
+          this.loading = false;
+          return false;
+        }
+      }
+    },
+
+    async submitUpdateIndicateur(modalId) {
+      this.v$.indicateur.$touch();
+
+      if (this.v$.$errors.length == 0) {
+        this.loading = true
+        const dataSend = {
+          indicateurs:[
+            {
+                id:this.ToId,
+                CodeIndicateur:this.indicateur.CodeIndicateur,
+                IntituleIndicateur: this.indicateur.IntituleIndicateur,
+                CibleFinProjet: this.indicateur.CibleFinProjet,
+                CodeProjet: this.Code,
+            }
+          ]
+
+         
+        }
+
+        console.log(dataSend);
+        try {
+        const response = await axios.put('/indicateurs/update',dataSend, {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+         
+        });
+
+        console.log("usersOptions", response.data);
+        if (response.data.status === "success") {
+          this.closeModal(modalId);
+          this.successmsg(
+            "Données d'indicateurs mises à jour",
+            "Les données de l'indicateurs ont été mises à jour avec succès !"
+          );
+          this.loading = false;
+          this.$emit('indicateur-updated');
+        }
+      } catch (error) {
+        console.log(
+          "Erreur lors de la mise à jour des données MPME guinee :",
+          error
+        );
+        if (error.response.data.status === "error") {
+          console.log("aut", error.response.data.status === "error");
+
+          if (
+            error.response.data.message === "Vous n'êtes pas autorisé." ||
+            error.response.status === 401
+          ) {
+            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+            this.$router.push("/"); //a revoir
+          }
+        } else {
+          this.formatValidationErrors(error.response.data.errors);
+          this.loading = false;
+          return false;
+        }
+      }
+        
+
+
+      } else {
+        console.log("cest pas bon ", this.v$.$errors);
+        this.loading = false;
+      }
+    },
+    async HandleIdDeleteIndicateur(id) {
+      // Affichez une boîte de dialogue Sweet Alert pour confirmer la suppression
+      const result = await Swal.fire({
+        title: "Êtes-vous sûr ?",
+        text: "Vous ne pourrez pas revenir en arrière !",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Oui, supprimez-le !",
+        cancelButtonText: "Non, annulez !",
+        reverseButtons: true,
+      });
+
+      // Si l'utilisateur confirme la suppression
+      if (result.isConfirmed) {
+        this.ConfirmeDeleteIndicateur(id);
+      }
+    },
+    async ConfirmeDeleteIndicateur(id) {
+      this.loading = true;
+
+      try {
+        // Faites une requête pour supprimer l'élément avec l'ID itemId
+        const response = await axios.delete(`/indicateurs/${id}`, {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+        });
+        console.log("Réponse de suppression:", response);
+        if (response.data.status === "success") {
+          this.loading = false;
+          this.successmsg(
+            "Indicateur supprimé",
+            "Indicateur  a été supprimé avec succès."
+          );
+          this.loading = false;
+          this.$emit('indicateur-updated');
+        } else {
+          console.log("error", response.data);
+          this.loading = false;
+        }
+      } catch (error) {
+        console.error("Erreur lors de la suppression:", error);
+
+        if (
+          error.response.data.message === "Vous n'êtes pas autorisé." ||
+          error.response.status === 401
+        ) {
+          await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+          this.$router.push("/"); //a revoir
+        }
+      }
+    },
+    // fin indicateur
+
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      const options = { day: 'numeric', month: 'short', year: 'numeric' };
+      return date.toLocaleDateString('fr-FR', options).replace('.', ',');
+    },
+
+    filterByName() {
+      this.currentPage = 1; // Reset to the first page on search
+    },
+   
+    updatePaginatedItems() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.ObjectisOptions.slice(startIndex, endIndex);
+    },
+    updateCurrentPage(pageNumber) {
+      this.currentPage = pageNumber;
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth', // Utilisez 'auto' pour un défilement instantané
+      });
+    },
+     // Pour Objectifs
+  updateCurrentPageObjectifs(pageNumber) {
+    this.currentPageObjectifs = pageNumber;
+    // window.scrollTo({
+    //   top: 0,
+    //   behavior: 'smooth', // Utilisez 'auto' pour un défilement instantané
+    // });
+  },
+
+  // Pour Bailleurs
+  updateCurrentPageBailleurs(pageNumber) {
+    this.currentPageBailleurs = pageNumber;
+    // window.scrollTo({
+    //   top: 0,
+    //   behavior: 'smooth', // Utilisez 'auto' pour un défilement instantané
+    // });
+  },
+
+    closeModal(modalId) {
+      let modalElement = this.$refs[modalId];
+      modalElement.classList.remove("show");
+      modalElement.style.display = "none";
+      document.body.classList.remove("modal-open");
+      let modalBackdrop = document.querySelector(".modal-backdrop");
+      if (modalBackdrop) {
+        modalBackdrop.parentNode.removeChild(modalBackdrop);
+      }
+    },
+    async formatValidationErrors(errors) {
+      const formattedErrors = {};
+
+      for (const field in errors) {
+        const errorMessages = errors[field]; // Liste complète des messages d'erreur
+        console.log(" errorMessages", errorMessages, typeof errorMessages);
+
+        const concatenatedError = errorMessages.join(", "); // Concaténer les messages d'erreur
+        console.log(
+          " concatenatedError",
+          concatenatedError,
+          typeof concatenatedError
+        );
+
+        formattedErrors[field] = concatenatedError; // Utilisez le nom du champ comme clé
+      }
+
+      this.resultError = formattedErrors; // Stockez les erreurs dans un objet
+
+      // Maintenant, this.resultError est un objet où les clés sont les noms des champs
+      console.log("resultError", this.resultError);
+    },
+   
+    
+  },
 }
 </script>
 <style lang="css" scoped>
-    
+.responsables-text {
+  line-height: 1.5; /* Adjust this value as needed */
+}
+
 </style>

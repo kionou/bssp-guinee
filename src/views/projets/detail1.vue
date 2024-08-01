@@ -1,1183 +1,571 @@
-<template>
+<template >
   <div>
-    <Loading v-if="loading" style="z-index: 99999"></Loading>
-    <!-- Page Header -->
-    <div
-      class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb"
-    >
-      <h1 class="page-title fw-semibold fs-18 mb-0">Utilisateurs</h1>
-      <div class="ms-md-1 ms-0">
-        <nav>
-          <ol class="breadcrumb mb-0">
-            <li class="breadcrumb-item">
-              <a href="javascript:void(0);">BSPP</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">
-              Utilisateurs
-            </li>
-          </ol>
-        </nav>
-      </div>
+  <Loading v-if="loading" style="z-index: 99999;"></Loading>
+      <div class="row authentication mx-0">
+
+          <div class="col-xxl-5 col-xl-5 col-lg-5 d-xl-block d-none px-0">
+  <div class="authentication-cover">
+      <div class="aunthentication-cover-content rounded">
+        <div id="carouselExampleDark" class="carousel carousel-dark slide h-100" data-bs-ride="carousel">
+    <div class="carousel-indicators h-100">
+        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0"
+            class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
+            aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
+            aria-label="Slide 3"></button>
     </div>
-    <!-- Page Header Close -->
-    <div class="contact-header mb-3 py-2 px-1">
-      <div class="d-sm-flex d-block align-items-center justify-content-between">
-        <div class="h5 fw-semibold mb-0"></div>
-        <div class="d-flex mt-sm-0 mt-2 align-items-center">
-          <div class="input-group">
-            <input
-              type="text"
-              class="form-control bg-light border-0"
-              placeholder="Recherchez..."
-              aria-describedby="search-member"
-              v-model="control"
-              @input="filterByName"
-            />
-            <button
-              class="btn btn-light"
-              type="button"
-              id="search-contact-member"
-            >
-              <i class="ri-search-line text-muted"></i>
-            </button>
-          </div>
-
-          <button
-            class="btn btn-icon btn-primary ms-2"
-            data-bs-placement="top"
-            data-bs-title="Add Contact"
-            data-bs-toggle="modal"
-            data-bs-target="#add_user"
-          >
-            <i class="ri-add-line"> </i>
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="row task-card">
-      <div v-if="paginatedItems.length === 0" class="noresul">
-                              <span> Vous n'avez pas encore de rôle, vous pouvez également en ajouter un !! </span>
-                            </div>
-
-
-
-                <!-- <div class="row" v-else>
-                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12"  v-for="user  in paginatedItems" :key="user.id" >
-                        <div class="card custom-card task-pending-card border border-dark ">
-                    <div class="card-body">
-                        <div class="notificationCard">
-                    <img src="@/assets/img/client.png" alt="" class="bellIcon" />
-                    <p class="notificationHeading">{{user.username}}</p>
-                    <p class="notificationPara">{{user.Nom}}  {{user.Prenoms}}</p>
-                    <p class="notificationPara">{{user.email}}</p>
-                    <p class="notificationPara">{{user.Whatsapp}}</p>
-                    <div class="buttonContainer">
-                    <button class="AllowBtn">Statut</button>
-                    </div>
-                    <hr>
-                    
-                  <div class="btn-list w-100 d-flex justify-content-center">
-               
-                  <button class="btn btn-sm btn-icon btn-primary btn-wave "  data-bs-toggle="modal"
-                  data-bs-target="#update_user"  @click="HandleIdUpdate(user.id)">
-                    <i class="ri-edit-line"></i>
-                  </button>
-
-                  <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                    <i class="ri-delete-bin-line"></i>
-                  </button>
-                  <div>
-                    <button class="btn btn-sm  btn-success btn-wave" v-if="user.Statut === '1'" @click="HandleIdStatut(user.id)">
-                      <i class="ri-lock-unlock-line"></i> Activer
-                  </button>
-                  <button class="btn btn-sm  btn-warning btn-wave" v-if="user.Statut === '0'" @click="HandleIdStatut(user.id)">
-                    <i class="ri-lock-2-line"></i> Desactiver
-                  </button>
-                  </div>
-                 
-                </div>
-              
-        
-      </div>  
-                    </div>
-                </div>
-                    </div>
-                    
-                </div> -->
-
-                              <div class="table-responsive" v-else>
-                                    <table class="table table-hover text-nowrap table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Nom & Prenoms</th>
-                                                <th scope="col">Coordonnees</th>
-                                                <th scope="col">Role</th>
-                                                <th scope="col">Region</th>
-                                                <th scope="col">Projets</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="user  in paginatedItems" :key="user.id">
-                                              <td>
-                                                    <div class="d-flex align-items-center lh-1">
-                                                        <div class="me-2">
-                                                            <span class="avatar avatar-md avatar-rounded">
-                                                                <img v-if="user.photo === null" src="@/assets/img/client.png" alt="">
-                                                                <img v-else :src="user.photo" alt="">
-                                                            </span>
-                                                        </div>
-                                                        <div>
-                                                            <span class="d-block fw-semibold mb-1">{{user.Nom}}  {{user.Prenoms}}</span>
-                                                            <span class="text-muted fs-12">{{user.username}}</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center lh-1">
-                                                        
-                                                        <div>
-                                                            <span class="d-block fw-semibold mb-1">{{user.email}}</span>
-                                                            <span class="text-muted fs-12">{{user.Whatsapp}}</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td v-if="user.roles">
-                                                  {{user.roles[0]?.name}}
-                                                </td>
-                                                <td>
-                                                  {{user.region}}
-                                                </td>
-                                                <td>
-                                                    projet1
-                                                </td>
-
-                                                <td>
-                                                  <div class="btn-list w-100 d-flex justify-content-center">
-                                                <div>
-                                                  <button class="btn btn-sm  btn-success btn-wave" v-if="user.Statut === '1'" @click="HandleIdStatut(user.id)">
-                                                    <i class="ri-lock-unlock-line"></i> Activer
-                                                </button>
-                                                <button class="btn btn-sm  btn-warning btn-wave" v-if="user.Statut === '0'" @click="HandleIdStatut(user.id)">
-                                                  <i class="ri-lock-2-line"></i> Desactiver
-                                                </button>
-                                                </div>
-                                                
-                                              </div>
-                                                </td>
-                                                <td>
-                                                  <div class="btn-list w-100 d-flex justify-content-center">
-               
-                                                <button class="btn btn-sm btn-icon btn-primary btn-wave "  data-bs-toggle="modal"
-                                                data-bs-target="#update_user"  @click="HandleIdUpdate(user.id)">
-                                                  <i class="ri-edit-line"></i>
-                                                </button>
-
-                                                <button class="btn btn-sm btn-icon btn-danger btn-wave">
-                                                  <i class="ri-delete-bin-line"></i>
-                                                </button>
-                                                
-                                                
-                                              </div>
-                                                </td>
-                                            </tr>
-
-                                            
-                                          
-                                        </tbody>
-                                    </table>
-                                </div>
-                
-                
- </div>
-    <div class="row">
-          <div class="col-lg-12">
-            <div class="container_pagination">
-              <Pag
-                :current-page="currentPage"
-                :total-pages="totalPages"
-                @page-change="updateCurrentPage"
-              />
+    <div class="carousel-inner h-100">
+        <div class="carousel-item active" data-bs-interval="10000">
+            <img src="@/assets/img/bg1.jpg" class="d-block w-100 ImageCarousel"
+                alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>First slide label</h5>
+                <p class="op-7">Some representative placeholder content for the first slide.</p>
             </div>
-          </div>
         </div>
+        <div class="carousel-item h-100" data-bs-interval="2000">
+            <img src="@/assets/images/media/media-64.jpg" class="d-block w-100"
+                alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Second slide label</h5>
+                <p class="op-7">Some representative placeholder content for the second slide.</p>
+            </div>
+        </div>
+        <div class="carousel-item h-100">
+            <img src="@/assets/images/media/media-62.jpg" class="d-block w-100"
+                alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Third slide label</h5>
+                <p class="op-7">Some representative placeholder content for the third slide.</p>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button"
+        data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button"
+        data-bs-target="#carouselExampleDark" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+      </div>
+  </div>
+         </div> 
 
-        <div
-      class="modal fade effect-rotate-bottom"
-      id="add_user"
-      tabindex="-1"
-      aria-hidden="true"
-      data-bs-backdrop="static"
-      ref="add_user"
-    >
-      <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-          <div
-            class="modal-header float-start text-center justify-content-center"
-            style="background-color: var(--primary-rgb); padding-bottom: 10px"
-          >
-            <h2
-              class="modal-title text-white text-center"
-              id="mail-ComposeLabel"
-              style="font-size: 22px !important"
-            >
-              <b class="text-center">Ajouter un utilisateur</b>
-            </h2>
-          </div>
-          <div class="modal-body px-4">
-            <div
-              class="row gy-2 justify-content-center"
-              style="
-                border-width: 1px;
-                border-style: solid;
-                border-radius: 6px;
-                border-color: rgb(0, 77, 134);
-              "
-            >
-              <div>
-                <div class="row mt-3 content-group">
-                  <div class="col">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Nom <span class="text-danger">*</span></label
-                      >
-                      <MazInput
-                        v-model="step1.Nom"
-                        color="info"
-                        name="Nom"
-                        size="sm"
-                        rounded-size="sm"
-                        type="text"
-                      />
-                      <small v-if="v$.step1.Nom.$error">{{
-                        v$.step1.Nom.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['Nom']">
-                        {{ resultError["Nom"] }}
-                      </small>
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Prenom<span class="text-danger">*</span></label
-                      >
-                      <MazInput
-                        v-model="step1.Prenoms"
-                        color="info"
-                        name="Prenoms"
-                        size="sm"
-                        rounded-size="sm"
-                        type="text"
-                      />
-                      <small v-if="v$.step1.Prenoms.$error">{{
-                        v$.step1.Prenoms.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['Prenoms']">
-                        {{ resultError["Prenoms"] }}
-                      </small>
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Pseudo<span class="text-danger">*</span></label
-                      >
-                      <MazInput
-                        v-model="step1.username"
-                        color="info"
-                        name="username"
-                        size="sm"
-                        rounded-size="sm"
-                        type="text"
-                      />
-                      <small v-if="v$.step1.username.$error">{{
-                        v$.step1.username.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['username']">
-                        {{ resultError["username"] }}
-                      </small>
-                    </div>
-                  </div>
-
+          <div class="col-xxl-7 col-xl-7 col-lg-12  d-flex flex-column justify-content-center">
+          
+              <div class="login-reg-panel">
                   
-                </div>
-                <div class="row mt-3 content-group">
-                  <div class="col">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Adresse Email <span class="text-danger">*</span></label
-                      >
-                      <MazInput
-                        v-model="step1.email"
-                        type="text"
-                        color="info"
-                        name="email"
-                        size="sm"
-                        rounded-size="sm"
-                      />
-                      <small v-if="v$.step1.email.$error">{{
-                        v$.step1.email.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['email']">
-                        {{ resultError["email"] }}
-                      </small>
-                    </div>
+                                      
+                  <div class="register-info-box">
+                      <div class="image">
+                      <img src="@/assets/img/logo.png" alt="" class="w-75">
+                      </div>
                   </div>
-                  <div class="col">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Telephone <span class="text-danger">*</span></label
-                      >
-                      <MazPhoneNumberInput
-                        v-model="step1.Whatsapp"
-                        size="sm"
-                        rounded-size="sm"
-                        show-code-on-list
-                        :ignored-countries="['AC']"
-                        defaultCountryCode="GN"
-                        update="results = $event"
-                        :success="results?.isValid"
-                      />
-                      <small v-if="v$.step1.Whatsapp.$error">{{
-                        v$.step1.Whatsapp.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['Whatsapp']">
-                        {{ resultError["Whatsapp"] }}
-                      </small>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row mt-3 content-group">
-                 
-                <div class="col">
-                    <div class="mb-3 position-relative">
-                        <label for="password">Role </label>
-                        <MazSelect v-model="step1.role"  type="role" name="text" color="info" placeholder="Admin"  size="sm" rounded-size="sm" :options="rolesOptions" />
-                        <small v-if="v$.step1.role.$error">{{v$.step1.role.$errors[0].$message}}</small>
-                        <small v-if="resultError['role']">{{resultError['role']}}</small>
-                    </div>
-                </div>
-                                                
-                                             
-                <div class="col">
-                    <div class="mb-3 position-relative">
-                        <label for="password_confirmation">Region</label>
-                        <MazSelect v-model="step1.region"  type="text" name="region" color="info" placeholder="Conakry"   size="sm" rounded-size="sm"  :options="regionOptions"/>
-                        <small v-if="v$.step1.region.$error">{{v$.step1.region.$errors[0].$message}}</small>
-                        <small v-if="resultError['region']">{{resultError['region']}}</small>
-                       
-                    </div>
-                </div>
-                                                
-                         
-                </div>
-
-                <div class="row mt-3 content-group">
-                 
-                 <div class="col">
-                     <div class="mb-3 position-relative">
-                         <label for="password">Mot de passe </label>
-                         <MazInput v-model="step1.password"  type="password" name="password" color="info" placeholder="Abc123@!"  size="sm" rounded-size="sm" />
-                         <small v-if="v$.step1.password.$error">{{v$.step1.password.$errors[0].$message}}</small>
-                         <small v-if="resultError['password']">{{resultError['password']}}</small>
-                     </div>
-                 </div>
-                                                 
-                                              
-                 <div class="col">
-                     <div class="mb-3 position-relative">
-                         <label for="region">Confirmer le mot de passe</label>
-                         <MazInput v-model="step1.password_confirmation"  type="password" name="password_confirmation" color="info" placeholder="Abc123@!"   size="sm" rounded-size="sm"/>
-                         <small v-if="v$.step1.password_confirmation.$error">{{v$.step1.password_confirmation.$errors[0].$message}}</small>
-                         <small v-if="resultError['password_confirmation']">{{resultError['password_confirmation']}}</small>
-                         <small v-if="!validatePasswordsMatch()">Les mots de passe ne correspondent pas.</small>
-                     </div>
-                 </div>
-                                                 
+                                      
+                  <div class="white-panel">
+                      <div class="login-show" style="margin-top:30px">
+                          <small>{{ error  }}</small>
+                                  <h2 style="font-size:20px !important;">Welcome To LePrimeCare !</h2>
+                          <p>Sign in to continue to PrimeCare Plateforme.</p>
                           
-                 </div>
-              </div>
-              <div class="row mb-3">
-                <div class="boutton">
-                  <button class="" @click.prevent="SubmitUser('add_user')">
-                    Valider
-                  </button>
-                </div>
-              </div>
-            </div>
+                          <div class="mb-6">
+                              <MazInput  v-model="step1.email" type="email"  label="Address Email" color="info" name="email"   size="md" rounded-size="sm" />
 
-            <br />
-            <div class="modal-footer">
-              <div class="btn-group ms-auto">
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                >
-                  Fermer
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div
-      class="modal fade effect-rotate-bottom"
-      id="update_user"
-      tabindex="-1"
-      aria-hidden="true"
-      data-bs-backdrop="static"
-      ref="update_user"
-    >
-      <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-          <div
-            class="modal-header float-start text-center justify-content-center"
-            style="background-color: var(--primary-rgb); padding-bottom: 10px"
-          >
-            <h2
-              class="modal-title text-white text-center"
-              id="mail-ComposeLabel"
-              style="font-size: 22px !important"
-            >
-              <b class="text-center">Modifier  un utilisateur</b>
-            </h2>
-          </div>
-          <div class="modal-body px-4">
-            <div
-              class="row gy-2 justify-content-center"
-              style="
-                border-width: 1px;
-                border-style: solid;
-                border-radius: 6px;
-                border-color: rgb(0, 77, 134);
-              "
-            >
-              <div>
-                <div class="row mt-3 content-group">
-                  <div class="col">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Nom <span class="text-danger">*</span></label
-                      >
-                      <MazInput
-                        v-model="step2.Nom"
-                        color="info"
-                        name="Nom"
-                        size="sm"
-                        rounded-size="sm"
-                        type="text"
-                      />
-                      <small v-if="v$.step2.Nom.$error">{{
-                        v$.step2.Nom.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['Nom']">
-                        {{ resultError["Nom"] }}
-                      </small>
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Prenom<span class="text-danger">*</span></label
-                      >
-                      <MazInput
-                        v-model="step2.Prenoms"
-                        color="info"
-                        name="Prenoms"
-                        size="sm"
-                        rounded-size="sm"
-                        type="text"
-                      />
-                      <small v-if="v$.step2.Prenoms.$error">{{
-                        v$.step2.Prenoms.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['Prenoms']">
-                        {{ resultError["Prenoms"] }}
-                      </small>
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Pseudo<span class="text-danger">*</span></label
-                      >
-                      <MazInput
-                        v-model="step2.username"
-                        color="info"
-                        name="username"
-                        size="sm"
-                        rounded-size="sm"
-                        type="text"
-                      />
-                      <small v-if="v$.step2.username.$error">{{
-                        v$.step2.username.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['username']">
-                        {{ resultError["username"] }}
-                      </small>
-                    </div>
-                  </div>
-
-                  
-                </div>
-                <div class="row mt-3 content-group">
-                  <div class="col">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Adresse Email <span class="text-danger">*</span></label
-                      >
-                      <MazInput
-                        v-model="step2.email"
-                        type="text"
-                        color="info"
-                        name="email"
-                        size="sm"
-                        rounded-size="sm"
-                      />
-                      <small v-if="v$.step2.email.$error">{{
-                        v$.step2.email.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['email']">
-                        {{ resultError["email"] }}
-                      </small>
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Telephone <span class="text-danger">*</span></label
-                      >
-                      <MazPhoneNumberInput
-                        v-model="step2.Whatsapp"
-                        size="sm"
-                        rounded-size="sm"
-                        show-code-on-list
-                        :ignored-countries="['AC']"
-                        defaultCountryCode="GN"
-                        update="results = $event"
-                        :success="results?.isValid"
-                      />
-                      <small v-if="v$.step2.Whatsapp.$error">{{
-                        v$.step2.Whatsapp.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['Whatsapp']">
-                        {{ resultError["Whatsapp"] }}
-                      </small>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row mt-3 content-group">
-                 
-                <div class="col">
-                    <div class="mb-3 position-relative">
-                        <label for="password">Role </label>
-                        <MazSelect v-model="step2.role"  type="role" name="text" color="info" placeholder="Admin"  size="sm" rounded-size="sm" :options="rolesOptions" />
-                        <small v-if="v$.step2.role.$error">{{v$.step2.role.$errors[0].$message}}</small>
-                        <small v-if="resultError['role']">{{resultError['role']}}</small>
-                    </div>
-                </div>
-                                                
-                                             
-                <div class="col">
-                    <div class="mb-3 position-relative">
-                        <label for="password_confirmation">Region</label>
-                        <MazSelect v-model="step2.region"  type="text" name="region" color="info" placeholder="Conakry"   size="sm" rounded-size="sm"  :options="regionOptions"/>
-                        <small v-if="v$.step2.region.$error">{{v$.step2.region.$errors[0].$message}}</small>
-                        <small v-if="resultError['region']">{{resultError['region']}}</small>
-                       
-                    </div>
-                </div>
-                                                
-                         
-                </div>
-                <div class="row mt-3 content-group">
-                 
-                 <div class="col">
-                     <div class="mb-3 position-relative">
-                         <label for="password">Liste des projets </label>
-                         <MazSelect v-model="step2.projets"  type="text" name="projets" color="info" placeholder="Admin"  size="sm" rounded-size="sm" :options="projetssOptions" />
-                         <small v-if="v$.step2.projets.$error">{{v$.step2.projets.$errors[0].$message}}</small>
-                         <small v-if="resultError['projets']">{{resultError['projets']}}</small>
-                     </div>
-                 </div>
-                                                 
-                                              
-               >
-                                                 
+                              <!-- <v-text-field v-model="step1.email"  :counter="10" label="Adresse Email" name="email"   color="blue-grey-lighten-2" type="email" hide-details required variant="outlined" ></v-text-field> -->
+                              <small v-if="v$.step1.email.$error">{{v$.step1.email.$errors[0].$message}}</small> 
+                          </div>
                           
-                 </div>
+                              <div class="mb-6">
+                              <MazInput  v-model="step1.password" type="password"  label="Enter your password" color="info" name="password"   size="md" rounded-size="sm" />
 
-               
-              </div>
-              <div class="row mb-3">
-                <div class="boutton">
-                  <button class="" @click.prevent="submitUpdate('update_user')">
-                    Valider
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <br />
-            <div class="modal-footer">
-              <div class="btn-group ms-auto">
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                >
-                  Fermer
-                </button>
-              </div>
-            </div>
+                                  <!-- <v-text-field v-model="step1.password" :append-inner-icon="visible ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'" :type="visible ? 'text' : 'password'" color="blue-grey-lighten-2"
+                              hint="Au moins 8 caractères"  variant="outlined"  label="Mot de passe" name="password"  counter @click:append-inner="visible = !visible"
+                              ></v-text-field> -->
+                                  <small v-if="v$.step1.password.$error">{{v$.step1.password.$errors[0].$message}}</small>
+                              </div>
+          
+                              <p class="signin" style="text-align: end; " @click="ChangePassword"> <span >Remember password ?</span> </p>
+                              <div class="boutton">
+                              <button class="" @click="Hamdlelogin()">Sign In</button>
+                              </div>
+                          
+                      
+                      </div>
+                      
+                  </div>
+                  </div>
           </div>
-        </div>
-      </div>
-    </div>
+      </div> 
+
+   
   </div>
 </template>
 <script>
-import Pag from "@/components/others/pagination.vue";
-import Loading from "@/components/others/loading.vue";
-import axios from "@/lib/axiosConfig";
-import useVuelidate from "@vuelidate/core";
-import { require, lgmin, lgmax, ValidEmail } from "@/functions/rules";
-import { successmsg } from "@/lib/modal.js";
-import MazPhoneNumberInput from "maz-ui/components/MazPhoneNumberInput";
-import Swal from "sweetalert2";
+import useVuelidate from '@vuelidate/core';
+import { require, lgmin, lgmax , ValidEmail } from '@/functions/rules';
+import Swiper from 'swiper/bundle';
+import 'swiper/swiper-bundle.css';
+import axios from '@/lib/axiosConfig.js'
+import Loading from '@/components/others/loading.vue';
+import { mapActions } from 'vuex';
+
+
 export default {
   components: {
-    Loading,
-    Pag,
-    MazPhoneNumberInput,
-  },
-  computed: {
-    loggedInUser() {
-      return this.$store.getters["auth/myAuthenticatedUser"];
-    },
-    totalPages() {
-      return Math.ceil(this.usersOptions.length / this.itemsPerPage);
-    },
-    paginatedItems() {
-      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-      const endIndex = startIndex + this.itemsPerPage;
-      return this.usersOptions.slice(startIndex, endIndex);
-    },
-   
-  },
-  data() {
-    return {
-      loading: true,
-      data:[],
-      regionOptions:[],
-      usersOptions:[],
-      rolesOptions:[],
-      currentPage: 1,
-      itemsPerPage: 12,
-      totalPageArray: [],
-      control: { name: "" },
-      resultError: {},
-      profil: "",
-      ToId: "",
-      step1: {
-        Nom: "",
-        Prenoms: "",
-        username: "",
-        email: "",
-        Whatsapp:'',
-        region:'',
-        role:'',
-        password:'',
-        password_confirmation:'',
-      },
-      step2: {
-        Nom: "",
-        Prenoms: "",
-        username: "",
-        email: "",
-        Whatsapp:'',
-        region:'',
-        role:'',
-        projets:[],
-      },
+      Loading,
 
-      v$: useVuelidate(),
-      error: "",
-    };
-  },
-  validations: {
-    step1: {
-        Nom: { require },
-        Prenoms: { require },
-        username: { require },
-        email: { require },
-        Whatsapp:{ require },
-        region:{ require },
-        role:{ require },
-        password:{ require },
-        password_confirmation:{ require },
-      
     },
-    step2: {
-        Nom: { require },
-        Prenoms: { require },
-        username: { require },
-        email: { require },
-        Whatsapp:{ require },
-        region:{ require },
-        role:{ require },
-        projets:{  },
-       
-      
-    },
-  },
- 
-  async mounted() {
-    console.log("loggedInUser", this.loggedInUser);
-    await this.fetchUserAll()
-    await this.fetchRegionOptions()
-    await this.fetchRoles()
-    await this.fetchProjets()
-   
-  },
 
-  methods: {
-    successmsg: successmsg,
-    validatePasswordsMatch() {
-     return this.step1.password === this.step1.password_confirmation;
-    },
-    async fetchUserAll() {
-      try {
-        const response = await axios.get('/auth-users', {
-          headers: {
-            Authorization: `Bearer ${this.loggedInUser.token}`,
-          },
-        });
-
-        console.log("usersOptions", response.data);
-        if (response.data.status === "success") {
-          this.data = response.data.data;
-          this.usersOptions = this.data;
-          console.log("this.usersOptions", this.usersOptions);
-          this.loading = false;
-        }
-      } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
-        if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
-
-          if (
-            error.response.data.message === "Vous n'êtes pas autorisé." ||
-            error.response.status === 401
-          ) {
-            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
-            this.$router.push("/"); //a revoir
-          }
-        } else {
-          this.formatValidationErrors(error.response.data.errors);
-          this.loading = false;
-          return false;
-        }
-      }
-    },
-    async fetchRegionOptions() {
-      // Renommez la méthode pour refléter qu'elle récupère les options de pays
-      try {
-        await this.$store.dispatch("fetchRegionOptions");
-        const options = JSON.parse(
-          JSON.stringify(this.$store.getters["getRegionOptions2"])
-         
-        ); // Accéder aux options des pays via le getter
-        console.log(options);
-        this.regionOptions = options.map(item => ({
-        label: item.NomRegion,
-        value: item.CodeRegion,
-      }));;
-        // Affecter les options à votre propriété sortedCountryOptions
-        this.loading = false
-      } catch (error) {
-        console.error(
-          "Erreur lors de la récupération des options des pays :",
-          error.message
-        );
-      }
-    },
-    async fetchRoles() {
-  try {
-      const response = await axios.get('/roles', {
-              headers: { Authorization: `Bearer ${this.loggedInUser.token}`,},
-            });
-               console.log(response.data);
-               this.rolesOptions = response.data.data.map(item => ({
-                  label: item.name,
-                  value: item.id,
-                }));;;
-               this.loading = false;
-            
-            } catch (error) {
-              console.error('errorqqqqq',error);
-            
-              if (error.response.data.message==="Vous n'êtes pas autorisé." || error.response.status === 401) {
-                await this.$store.dispatch('auth/clearMyAuthenticatedUser');
-              this.$router.push("/");  //a revoir
-            }
-            }
-    },
-    async fetchProjets() {
-  try {
-      const response = await axios.get('/projets', {
-              headers: { Authorization: `Bearer ${this.loggedInUser.token}`,},
-            });
-               console.log(response.data);
-               this.rolesOptions = response.data.data.map(item => ({
-                  label: item.name,
-                  value: item.id,
-                }));;;
-               this.loading = false;
-            
-            } catch (error) {
-              console.error('errorqqqqq',error);
-            
-              if (error.response.data.message==="Vous n'êtes pas autorisé." || error.response.status === 401) {
-                await this.$store.dispatch('auth/clearMyAuthenticatedUser');
-              this.$router.push("/");  //a revoir
-            }
-            }
-    },
-      async SubmitUser(modalId){
-   this.error = '',
-   this.resultError= '',
-  this.v$.step1.$touch()
-  if (this.v$.$errors.length == 0 ) {
-     this.loading = true
-       let DataUser = {
-        Nom: this.step1.Nom,
-        Prenoms: this.step1.Prenoms,
-        username: this.step1.username,
-        email: this.step1.email,
-        Whatsapp:this.step1.Whatsapp,
-        region:this.step1.region,
-        role:this.step1.role,
-        password:this.step1.password,
-        password_confirmation:this.step1.password_confirmation,
-        
-       }
-       console.log("eeeee",DataUser);
-       try {
-      
-       const response = await axios.post('/register-new/user' , DataUser, {
-           headers: {
-             Authorization: `Bearer ${this.loggedInUser.token}`,
+    data() {
+        return {
+          loading:false,
+            show1: false,
+            visible:false,
+            dialogOtp:false,
+            dialogPassword:false, 
+            dialogOtpPassword:false,
+            InfoUser:'',
+            errorOtp:'',
+            step1:{
+             email: '',
+             password: '',
            },
- 
- 
-         });
-       console.log('response.login', response.data); 
-       if (response.data.status === "success") { 
-        this.closeModal(modalId);
-         this.successmsg("Création de l'utilisateur",'Votre utilisateur a été crée avec succès !')
-        await this.fetchUserAll()
 
-       } else {
+             step2:{
+             code:'',
+        },
 
-       }
-
-
-
- } catch (error) {
- console.log('response.login', error); 
-
- this.loading = false
- if (error.response.data.status === "error") {
- return this.error = error.response.data.message
-
- } else {
-   this.formatValidationErrors(error.response.data.errors);
- }
- }
-     }else{
-     
-     console.log('pas bon', this.v$.$errors);
-     
-     } 
-       },
-       async HandleIdUpdate(id) {
-      this.loading = true;
-
-      try {
-          const response = this.usersOptions.find(item => item.id === id);
-
-         console.log("response", response);
-        if (response) {
-          console.log("responsedata", response);
-          let data = response;
-            this.step2.Nom = data.Nom,
-            this.step2.Prenoms = data.Prenoms,
-            this.step2.username = data.username,
-            this.step2.email = data.email,
-            this.step2.Whatsapp = data.Whatsapp,
-            this.step2.role = data.role,
-            this.step2.region = data.region,
-            this.ToId = data.id;
-            this.loading = false;
-        }
-      } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
-        if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
-
-          if (
-            error.response.data.message === "Vous n'êtes pas autorisé." ||
-            error.response.status === 401
-          ) {
-            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
-            this.$router.push("/"); //a revoir
-          }
-        } else {
-          this.formatValidationErrors(error.response.data.errors);
-          this.loading = false;
-          return false;
-        }
-      }
-      },
-     
-    async submitUpdate(modalId) {
-      this.v$.step2.$touch();
-
-      if (this.v$.$errors.length == 0) {
-        this.loading = true;
-        const data = {
-        Nom: this.step2.Nom,
-        Prenoms: this.step2.Prenoms,
-        username: this.step2.username,
-        email: this.step2.email,
-        Whatsapp:this.step2.Whatsapp,
-        region:this.step2.region,
-        role:this.step2.role,
-        projets:this.step2.projets,
-         
-        }
+        step3:{
+            email:'',
+        },
+        step4:{
+             code:'',
+        },
        
-        console.log(data);
-       
-        try {
-          const response = await axios.put(`system-user/modify`, data, {
-            headers: {
-              Authorization: `Bearer ${this.loggedInUser.token}`
-              
-            },
-          });
-          console.log("Réponse du téléversement :", response);
-          if (response.data.status === "success") {
-            this.closeModal(modalId);
-            this.successmsg(
-            "Données de l'utilisateur mises à jour",
-            "Les données de l'utilisateur ont été mises à jour avec succès !"
-          );
-            await this.fetchUserAll();
-          }
-        } catch (error) {
-          console.error("Erreur lors du téléversement :", error);
-
-          if (
-            error.response.data.message === "Vous n'êtes pas autorisé." ||
-            error.response.status === 401
-          ) {
-            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
-            this.$router.push("/"); //a revoir
-          } else {
-            this.formatValidationErrors(error.response.data.errors);
-            this.loading = false;
-          }
+        v$: useVuelidate(),
+        error:''
         }
-      } else {
-        console.log("cest pas bon ", this.v$.$errors);
-        this.loading = false;
-      }
     },
-    async HandleIdStatut(id) {
-      this.loading = true;
-      try {
-        const response = await axios.get('/auth-user-statut', {
-          headers: {
-            Authorization: `Bearer ${this.loggedInUser.token}`,
-          },
-          params:{
-            user:id
-          }
-        });
-
-        console.log("usersOptions", response.data);
-        if (response.data.status === "success") {
-          this.successmsg(
-            "Données de l'utilisateur mises à jour",
-            "Les données de l'utilisateur ont été mises à jour avec succès !"
-          );
-            await this.fetchUserAll();
-          this.loading = false;
-        }
-      } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
-        if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
-
-          if (
-            error.response.data.message === "Vous n'êtes pas autorisé." ||
-            error.response.status === 401
-          ) {
-            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
-            this.$router.push("/"); //a revoir
-          }
-        } else {
-          this.formatValidationErrors(error.response.data.errors);
-          this.loading = false;
-          return false;
-        }
-      }
-      
-      },
-    filterByName() {
-      this.currentPage = 1;
-      if (this.control.name !== null) {
-        const tt = this.control.name;
-        const searchValue = tt.toLowerCase();
-        this.ClientOptions = this.data.filter((user) => {
-          const Nom = user.client_name || "";
-          const Address = user.address || "";
-          const State = user.state || "";
-          return (
-            Nom.toLowerCase().includes(searchValue) ||
-            Address.toLowerCase().includes(searchValue) ||
-            State.toLowerCase().includes(searchValue)
-          );
-        });
-      } else {
-        this.ClientOptions = [...this.data];
-      }
+    validations: {
+    step1:{
+        email: {
+      require,
+      ValidEmail
     },
-    closeModal(modalId) {
-      let modalElement = this.$refs[modalId];
-      modalElement.classList.remove("show");
-      modalElement.style.display = "none";
-      document.body.classList.remove("modal-open");
-      let modalBackdrop = document.querySelector(".modal-backdrop");
-      if (modalBackdrop) {
-        modalBackdrop.parentNode.removeChild(modalBackdrop);
-      }
+    password: {
+      require,
+      lgmin: lgmin(8),
+      lgmax: lgmax(20),
+    }
     },
-    async formatValidationErrors(errors) {
-      const formattedErrors = {};
-
-      for (const field in errors) {
-        const errorMessages = errors[field]; // Liste complète des messages d'erreur
-        console.log(" errorMessages", errorMessages, typeof errorMessages);
-
-        const concatenatedError = errorMessages.join(", "); // Concaténer les messages d'erreur
-        console.log(
-          " concatenatedError",
-          concatenatedError,
-          typeof concatenatedError
-        );
-
-        formattedErrors[field] = concatenatedError; // Utilisez le nom du champ comme clé
-      }
-
-      this.resultError = formattedErrors; // Stockez les erreurs dans un objet
-
-      // Maintenant, this.resultError est un objet où les clés sont les noms des champs
-      console.log("resultError", this.resultError);
+    step2:{
+            code:{
+        require,
+      lgmin: lgmin(4),
+      lgmax: lgmax(4),
+            }
+            
+        },
+        step3:{
+        email: {
+      require,
+      ValidEmail
     },
+  },
+    step4:{
+            code:{
+        require,
+      lgmin: lgmin(4),
+      lgmax: lgmax(4),
+            }
+            
+        },
 
     
-    updateCurrentPage(pageNumber) {
-          this.currentPage = pageNumber;
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth', // Utilisez 'auto' pour un défilement instantané
-          });
-        },
-        updatePaginatedItems() {
-          const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-         
-          const endIndex = startIndex + this.itemsPerPage;
-          return  this.usersOptions.slice(startIndex, endIndex);
-        },
   },
-};
+  methods: {
+      ...mapActions('auth', ['setMyAuthenticatedUser']),
+  async Hamdlelogin(){
+
+this.error = '',
+this.v$.step1.$touch()
+if (this.v$.$errors.length == 0 ) {
+   this.loading = true
+  
+let DataUser = {
+email:this.step1.email,
+password:this.step1.password,
+}
+console.log("eeeee",DataUser);
+try {
+const response = await axios.post('/login' , DataUser);
+console.log('response.login', response.data); 
+if (response.data.status === "success") {
+this.InfoUser = response.data.data
+this.setMyAuthenticatedUser(this.InfoUser);
+this.loading = false
+
+    this.$router.push('/dashboard'); 
+
+} else {
+
+}
+
+
+
+} catch (error) {
+console.log('response.login', error); 
+
+this.loading = false
+if (error.response.data.status === "error") {
+return this.error = error.response.data.message
+
+} else {
+return this.error = "L'authentification a échoué"
+}
+}
+  }else{
+  
+  console.log('pas bon', this.v$.$errors);
+  
+  } 
+},
+
+async ChangePassword(){
+          this.dialogPassword = true
+          this.error = ''
+          
+  
+  }, 
+
+  async PasswordOtp(){
+
+           this.v$.step3.$touch()
+          if (this.v$.$errors.length == 0 ) {
+             this.loading = true
+          
+          let CodeUserEmail ={
+            email:1,
+            value:this.step3.email
+          
+          }
+          console.log("eee",CodeUserEmail);
+          try {
+         const response = await axios.post('/mcipme/send-otp', CodeUserEmail);
+         
+         console.log('response.Code', response); 
+         if (response.data.status === 'success') {
+          this.dialogPassword = false
+         this.dialogOtpPassword = true
+         this.loading = false
+         } else {
+          
+         }
+    
+    } catch (error) {
+        console.log('error',error);
+    }
+          }else{
+          
+        console.log('error',this.v$.$errors);
+          
+          
+          }
+  },
+
+  onOtpInputPassworod() {
+      // Vérifiez si l'OTP est complètement saisi (longueur de 4 chiffres)
+      this.errorOtp  = ''
+      if (this.step4.code.length === 4) {
+        // Déclenchez votre action ici, par exemple, appelez une méthode pour envoyer à l'API
+        this.HamdleOtpPassword();
+      }
+    },
+    async  HamdleOtpPassword(){
+        this.error = '',
+         this.v$.step4.$touch()
+          if (this.v$.$errors.length == 0 ) {
+             this.loading = true
+            
+            let DataUser = {
+            email: true,
+            value: this. step3.email,
+            code: this. step4.code
+        }
+      console.log("eeeee",DataUser);
+   
+     
+      try {
+      const response = await axios.post('/mcipme/verification-otp' , DataUser);
+      console.log('response.login', response.data); 
+      if(response.data.status === 'success'){
+        localStorage.setItem('resetPasswordInfo', JSON.stringify({
+                  email: this.step3.email,
+                  code: this.step4.code// Assurez-vous de récupérer le code correctement
+                }));
+             this.$router.push('/reinitialiser');
+              this.loading = false
+              this.dialogOtpPassword = false
+      }else{
+      
+       this.errorOtp = "Echec de vérification du code."
+       this. step4.code = ''
+       this.loading = false
+      }
+    
+        
+              
+     
+    } catch (error) {
+      console.log('response.login', error); 
+
+      this.loading = false
+      if (error.response.data.status === 'error') {
+       return this.errorOtp = "L'authentification a échoué"
+        
+      } else {
+        
+      }
+    }
+            }else{
+            
+            console.log('pas bon', this.v$.$errors);
+            
+            }
+
+    },
+  },
+async  mounted() {
+      
+const swiper = new Swiper(".keyboard-control", {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      keyboard: {
+          enabled: true,
+      },
+      pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+      },
+      navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+      },
+      loop: true,
+      autoplay: {
+          delay: 2000,
+          disableOnInteraction: false
+      }
+  });
+  },
+  
+}
 </script>
 <style lang="css" scoped>
-.notificationCard {
-  
-  background: #fff;
+
+
+@import url('https://fonts.googleapis.com/css?family=Mukta');
+
+.login{
+
+   
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+}
+
+
+.login-reg-panel{
+    position: relative;
+    /* top: 50%; */
+    /* transform: translateY(-50%); */
+    text-align:center;
+    width:100%;
+    /* right:0;left:0; */
+    /* margin:auto; */
+    height:400px;
+    /* background-color: rgba(236, 48, 20, 0.9); */
+    border: 1px solid #d9d9d9;
+    display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+   
+}
+.white-panel{
+    background-color: rgba(255,255, 255, 1);
+    height:450px;
+    position:absolute;
+    top:-23px;
+    width:54%;
+    right:calc(50% - 50px);
+    transition:.3s ease-in-out;
+    z-index:0;
+    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+    
+}
+.login-reg-panel input[type="radio"]{
+    position:relative;
+    display:none;
+}
+.login-reg-panel{
+    color:#B8B8B8;
+}
+.login-reg-panel #label-login, 
+.login-reg-panel #label-register{
+    border:1px solid #9E9E9E;
+    padding:5px 5px;
+    width:150px;
+    display:block;
+    text-align:center;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight: 600;
+    font-size: 18px;
+}
+.login-info-box{
+    width:30%;
+    padding:0 50px;
+    top:20%;
+    left:0;
+    position:absolute;
+    text-align:left;
+}
+.register-info-box{
+  width: 43%;
+ 
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-
+  justify-content: center;
 }
-
-   .bellIcon {
-  width: 85px;
-  margin: 10px 0px;
-  border: 1px solid #d9dee3;
-  padding: 1px;
-}
-
-.notificationHeading {
-  color: black;
-  font-weight: 600;
-  /* font-size: 0.8em; */
-  margin-bottom: 0.5rem !important;
-}
-
-.notificationPara {
-  color: rgb(133, 133, 133);
-  /* font-size: 0.6em; */
-  font-weight: 600;
-  text-align: center;
-  margin-bottom: 0.5rem !important;
-}
-
-.buttonContainer {
+.register-info-box .image{
+  width: 90%;
+  padding: 10px;
+  background: white;
   display: flex;
-  flex-direction: column;
-  gap: 5px;
+  flex-direction: row;
+  justify-content: center;
+  box-shadow: 0 1px 3px #0000001a, 0 1px 2px #0000000f;
+
+}
+.right-log{right:50px !important;}
+
+.login-show, 
+.register-show{
+    z-index: 1;
+    display:block;
+    opacity:1;
+    transition:0.3s ease-in-out;
+    color:#242424;
+    text-align:left;
+    padding:30px 50px;
+    text-align: center;
+}
+.show-log-panel{
+    display:block;
+    opacity:0.9;
 }
 
-.AllowBtn {
-  width: 100px;
-  height: 25px;
-  background-color: #71dd37;
-  color: white;
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-}
-.card-footer {
 
-    width: 100px;
-    display: flex;
+.boutton a{
+    display:inline-block;
+    padding:10px 0;
+}
+
+
+
+.signin {
+color: rgba(88, 87, 87, 0.822);
+font-size: 14px;
+text-align: center;
+margin-top: 20px;
+}
+
+
+
+.signin span {
+color: royalblue;
+}
+
+.signin span:hover {
+text-decoration: underline royalblue;
+cursor: pointer;
+}
+
+.ImageCarousel{
+
+height: 100% !important;
+filter: brightness(75%) !important;
+}
+@media (max-width: 1100px) {
+
+    .login-reg-panel{
+
+        display: flex;
+      
+    height: auto;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 50px;
+    justify-content: space-evenly;
+    padding: 20px 10px;
+    } 
+
+    .white-panel{
+        position: static;
+        width: 100%;
+    max-width: 380px;
+    }
+
+    .register-info-box{
+        position: static;
+        margin-bottom: 20px;
+        width: 50%;
+        display: flex;
+  justify-content: center;
+    }
 }
 
+@media (max-width: 675px) {
+    .login-reg-panel{
+   
+    width:100%;
+
+   
+}
+
+.register-info-box{
+      
+        width: 50%;
+    }
+}
+@media (max-width: 530px) {
+
+.register-info-box{
+      
+        width: 60%;
+    }
+}
+@media (max-width: 460px) {
+
+.register-info-box{
+      
+        width: 70%;
+    }
+}
+
+.m-input{   
+  width: 100%;
+
+}
+  
 </style>

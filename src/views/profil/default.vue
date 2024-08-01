@@ -3,7 +3,7 @@
     <Loading v-if="loading" style="z-index: 99999"></Loading>
     <!-- Page Header -->
     <div
-      class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb"
+      class="d-md-flex d-block pt-12  align-items-center justify-content-between my-4 page-header-breadcrumb"
     >
       <h1 class="page-title fw-semibold fs-18 mb-0">Profil</h1>
       <div class="ms-md-1 ms-0">
@@ -19,8 +19,11 @@
         </nav>
       </div>
     </div>
+    <div>
+      <General></General>
+    </div>
     <!-- Page Header Close -->
-    <nav
+    <!-- <nav
           class="nav nav-style-6 nav-pills mb-3 nav-justified d-sm-flex d-block"
           role="tablist"
         >
@@ -42,8 +45,8 @@
             >Mot de passe </a
           >
           
-        </nav>
-        <div class="tab-content">
+   </nav> -->
+        <!-- <div class="tab-content">
               <div class="tab-pane active text-muted" id="generale" role="tabpanel">
               <General></General>
               </div>
@@ -52,7 +55,7 @@
                 
               </div>
               
-          </div>
+          </div> -->
   </div>
      
   </template>

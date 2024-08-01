@@ -31,19 +31,19 @@
                           </div>
   
                               <div class="table-responsive" v-else>
-                                  <table class="table text-nowrap table-bordered">
+                                  <table class="table text-nowrap table-bordered table-striped">
                                       <thead>
                                           <tr>
-                                              <th scope="col">N</th>
+                                              <th scope="col">N°</th>
                                               <th scope="col">Nom</th>
                                               <th scope="col">Actions</th>
                                           </tr>
                                       </thead>
                                       <tbody>
                                           <tr v-for="(user , index) in paginatedItems" :key="user.id">
-                                              <td>
-                                                  {{index + 1}}
-                                              </td>
+                                            
+                                              <th scope="row" class="ps-4">  {{index + 1}}</th>
+
                                               <td>
                                                   <div class="d-flex align-items-center lh-1">
                                                       

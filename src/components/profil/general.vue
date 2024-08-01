@@ -2,24 +2,40 @@
   <div>
     <Loading v-if="loading" style="z-index: 999999"></Loading>
 
-    <div class="container-general card">
-      <div class="container">
-        <div class="row class1">
-          <div class="col-md-8 d-flex align-items-center class2">
-            <div class="account-pages w-100">
-              <div
-                class="card overflow-hidden border"
-                style="box-shadow: none; border: 1px solid #c9d1d9"
-              >
+    <div class=" card">
+      <div class="row p-3">
+        <div class="col-xxl-6 col-xl-6 col-md-6 col-sm-12">
+          <div class="card overflow-hidden border" style="box-shadow: none; border: 1px solid #c9d1d9">
+              <div class="account-pages w-100">
                
-                <div class="card-body pt-0">
-                  <div>
-                    <div>
-                      <div class="row">
-                        <div class="col-11 col-lg-11 mx-auto">
-                          <small>{{ error }}</small>
+                  <div class="card-header">
+                 <div class="card-title">
+                <h5 class="mb-0 fw-semibold fs-14">
+                  Information general
+                </h5>
+              </div>
+            </div>
+            <div class="card-body pt-0">
+              <div class="d-flex flex-column align-items-center">
+                <div class="profile-pic text-center">
+              <label class="-label" for="file">
+                <span class="glyphicon glyphicon-camera"></span>
+                <i class="ri-edit-line"></i> <span>Modifier</span>
+              </label>
+              <input id="file" type="file" @change="loadFile" />
+              <img
+                v-if="!image || !image.startsWith('https')"
+                src="@/assets/img/client.png"
+                id="output"
+                width="200"
+                accept="image/*"
+              />
+              <img v-else :src="image" id="output" width="200" />
+               </div>
+               <div>
+                <small>{{ error }}</small>
                           <form data-request="onSignin" class="login_form">
-                            <div class="row mb-3 mt-3 content-group">
+                            <div class="row mb-3 content-group">
                               <div class="col">
                                 <div class="input-group">
                                   <label
@@ -28,13 +44,13 @@
                                     >Nom</label
                                   >
                                   <MazInput
-                                    v-model="nom"
+                                    v-model="step2.nom"
                                     
                                     color="info"
                                     type="text" size="sm" rounded-size="sm"
                                   />
-                                  <small v-if="v$.nom.$error">{{
-                                    v$.nom.$errors[0].$message
+                                  <small v-if="v$.step2.nom.$error">{{
+                                    v$.step2.nom.$errors[0].$message
                                   }}</small>
                                 </div>
                               </div>
@@ -49,13 +65,13 @@
                                     >Prenom</label
                                   >
                                   <MazInput
-                                    v-model="prenom"
+                                    v-model="step2.prenom"
                                     
                                     color="info"
                                     type="text" size="sm" rounded-size="sm"
                                   />
-                                  <small v-if="v$.prenom.$error">{{
-                                    v$.prenom.$errors[0].$message
+                                  <small v-if="v$.step2.prenom.$error">{{
+                                    v$.step2.prenom.$errors[0].$message
                                   }}</small>
                                 </div>
                               </div>
@@ -69,13 +85,13 @@
                                     >Pseudo</label
                                   >
                                   <MazInput
-                                    v-model="username"
+                                    v-model="step2.username"
                                     
                                     color="info"
                                     type="text" size="sm" rounded-size="sm"
                                   />
-                                  <small v-if="v$.username.$error">{{
-                                    v$.username.$errors[0].$message
+                                  <small v-if="v$.step2.username.$error">{{
+                                    v$.step2.username.$errors[0].$message
                                   }}</small>
                                 </div>
                               </div>
@@ -90,13 +106,13 @@
                                     >Adresse Email</label
                                   >
                                   <MazInput
-                                    v-model="email"
+                                    v-model="step2.email"
                                     
                                     color="info"
                                     type="email" size="sm" rounded-size="sm"
                                   />
-                                  <small v-if="v$.email.$error">{{
-                                    v$.email.$errors[0].$message
+                                  <small v-if="v$.step2.email.$error">{{
+                                    v$.step2.email.$errors[0].$message
                                   }}</small>
                                 </div>
                               </div>
@@ -110,12 +126,12 @@
                                     >Region</label
                                   >
                                   <MazSelect
-                                    v-model="region"
+                                    v-model="step2.region"
                                     :options="regionOptions"
                                     color="info"
-                                    type="region" size="sm" rounded-size="sm"
+                                     size="sm" rounded-size="sm"
                                   />
-                                  <small v-if="v$.region.$error">{{
+                                  <small v-if="v$.step2.region.$error">{{
                                     v$.email.$errors[0].$message
                                   }}</small>
                                 </div>
@@ -131,7 +147,7 @@
                                     >Numéro Téléphonique</label
                                   >
                                   <MazPhoneNumberInput
-                                    v-model="phoneNumber"
+                                    v-model="step2.phoneNumber"
                                     show-code-on-list
                                     
                                     color="info"
@@ -141,8 +157,8 @@
                                     :success="results?.isValid"
                                     noFlags="false" size="sm" rounded-size="sm"
                                   />
-                                  <small v-if="v$.phoneNumber.$error">{{
-                                    v$.phoneNumber.$errors[0].$message
+                                  <small v-if="v$.step2.phoneNumber.$error">{{
+                                    v$.step2.phoneNumber.$errors[0].$message
                                   }}</small>
                                 </div>
                               </div>
@@ -161,36 +177,83 @@
                               </div>
                             </div>
                           </form>
-                        </div>
+               </div>
+
+
+              </div>
+
+            </div>
+             
+            </div>
+
+          </div>
+        
+        </div>
+
+
+        <div class="col-xxl-6 col-xl-6 col-md-6 col-sm-12">
+          <div class="account-pages w-100">
+              <div class="card overflow-hidden border" style="box-shadow: none; border: 1px solid #c9d1d9">
+                <div class="card-header">
+              <div class="card-title">
+                <h5 class="mb-0 fw-semibold fs-14">
+                  Mot de passe
+                </h5>
+              </div>
+            </div>
+               
+                <div class="card-body pt-0">
+                      <div class="row">
+                          <div class="p-2">
+                                            <form class="form-horizontal">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="mb-3 position-relative">
+                                                            <label for="old_password">Ancien mot de passe</label>
+                                                            <MazInput v-model="step1.old_password"  type="password" name="old_password" color="info" placeholder="Abc123@!"  size="sm" rounded-size="sm" />
+                                                            <small v-if="v$.step1.old_password.$error">{{v$.step1.old_password.$errors[0].$message}}</small>
+                                                            <small v-if="resultError['old_password']">{{resultError['old_password']}}</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="mb-3 position-relative">
+                                                            <label for="password">Nouveau mot de passe</label>
+                                                            <MazInput v-model="step1.password"  type="password" name="password" color="info" placeholder="Abc123@!"  size="sm" rounded-size="sm" />
+                                                            <small v-if="v$.step1.password.$error">{{v$.step1.password.$errors[0].$message}}</small>
+                                                            <small v-if="resultError['password']">{{resultError['password']}}</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="mb-3 position-relative">
+                                                            <label for="password_confirmation">Confirmer le mot de passe</label>
+                                                            <MazInput v-model="step1.password_confirmation"  type="password" name="password_confirmation" color="info" placeholder="Abc123@!"   size="sm" rounded-size="sm"/>
+                                                            <small v-if="v$.step1.password_confirmation.$error">{{v$.step1.password_confirmation.$errors[0].$message}}</small>
+                                                            <small v-if="resultError['password_confirmation']">{{resultError['password_confirmation']}}</small>
+                                                            <small v-if="!validatePasswordsMatch()">Les mots de passe ne correspondent pas.</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-0">
+                                                    <div class="col-12 text-end">
+                                                        <div class="button">
+                                                            <button class="btn btn-primary" @click.prevent="HamdleAddUser()">Valider</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                          </div>   
                       </div>
-                    </div>
-                  </div>
+                   
                 </div>
               </div>
             </div>
-          </div>
-
-          <div class="col-md-4 py-5">
-            <div class="profile-pic text-center">
-              <label class="-label" for="file">
-                <span class="glyphicon glyphicon-camera"></span>
-                <i class="ri-edit-line"></i> <span>Modifier</span>
-              </label>
-              <input id="file" type="file" @change="loadFile" />
-              <img
-                v-if="image === null"
-                src="@/assets/img/client.png"
-                id="output"
-                width="200"
-                accept="image/*"
-              />
-              <img v-else :src="image" id="output" width="200" />
-            </div>
-          </div>
         </div>
-
-      
       </div>
+       
     </div>
   </div>
 </template>
@@ -203,6 +266,7 @@ import axios from "@/lib/axiosConfig.js";
 import Loading from "@/components/others/loading.vue";
 import { successmsg } from "@/lib/modal.js";
 import { mapActions } from "vuex";
+ import Swal from 'sweetalert2'
 
 export default {
   name: "CositLSignUser",
@@ -217,23 +281,34 @@ export default {
       loading: true,
       isOpenPassword: false,
       regionOptions:[],
-      password: "",
-      email: "",
-      phoneNumber: "",
-      nom: "",
-      prenom: "",
-      username: "",
+    
       v$: useVuelidate(),
       errorPassword: "",
       error: "",
       id: "",
       image: "",
       direction: "",
-      region: "",
+      password: "",
+    
+      step1:{
+            old_password:'',
+            password:'',
+            password_confirmation:'',
+              }, 
+              step2:{
+                email: "",
+                phoneNumber: "",
+                nom: "",
+                prenom: "",
+                username: "",
+                region: "",
+              },
+              resultError: {},
     };
   },
   validations: {
-    email: {
+    step2:{
+      email: {
       require,
     },
     phoneNumber: {
@@ -255,6 +330,28 @@ export default {
       require,
       
     },
+    },
+   
+   
+    step1:{
+        old_password: {
+            require,
+            lgmin: lgmin(8),
+            lgmax: lgmax(100),
+         
+       },
+       password: {
+            require,
+            lgmin: lgmin(8),
+            lgmax: lgmax(100),
+       },
+       password_confirmation: {
+            require,
+            lgmin: lgmin(8),
+            lgmax: lgmax(100),
+       },
+      
+       },
   },
   computed: {
     loggedInUser() {
@@ -274,6 +371,9 @@ export default {
   methods: {
     ...mapActions("auth", ["setMyAuthenticatedUser"]),
     successmsg: successmsg,
+    validatePasswordsMatch() {
+     return this.step1.password === this.step1.password_confirmation;
+    },
     async fetchUserDetail() {
       try {
         const response = await axios.get("/auth-user", {
@@ -286,12 +386,12 @@ export default {
           const selectedActualites = response.data.data;
 
           console.log(selectedActualites);
-          this.nom = selectedActualites.Nom;
-          this.prenom = selectedActualites.Prenoms;
-          this.username= selectedActualites.username;
-          this.email = selectedActualites.email;
-          this.phoneNumber = selectedActualites.Whatsapp;
-          this.region = selectedActualites.region;
+          this.step2.nom = selectedActualites.Nom;
+          this.step2.prenom = selectedActualites.Prenoms;
+          this.step2.username= selectedActualites.username;
+          this.step2.email = selectedActualites.email;
+          this.step2.phoneNumber = selectedActualites.Whatsapp;
+          this.step2.region = selectedActualites.region;
           this.id = selectedActualites.id;
           this.image = selectedActualites.photo,
             
@@ -337,11 +437,12 @@ export default {
       this.isOpenPassword = false;
       let DataUser = {
         user: this.id,
-        email: this.email,
-        Nom: this.nom,
-        Prenoms: this.prenom,
-        username: this.username,
-        Whatsapp: this.phoneNumber,
+        email: this.step2.email,
+        Nom: this.step2.nom,
+        Prenoms: this.step2.prenom,
+        username: this.step2.username,
+        Whatsapp: this.step2.phoneNumber,
+        region: this.step2.region,
         
       };
       console.log("data", DataUser);
@@ -368,13 +469,13 @@ export default {
           Prenoms: updatedUser.Prenoms,
           email: updatedUser.email,
           Whatsapp: updatedUser.Whatsapp,
-          profile: updatedUser.profile,
+          photo: updatedUser.photo,
           username:updatedUser.username,
         },
         roles: role_id,
         expires_in: this.loggedInUser.tokenExpiration - Math.floor(Date.now() / 1000),
         access_token: this.loggedInUser.token,
-      });
+        });
 
           this.fetchUserDetail()
 
@@ -400,7 +501,7 @@ export default {
     },
 
     HamdlePassword() {
-      this.v$.$touch();
+      this.v$.step2.$touch();
       this.error = "";
       if (this.v$.$errors.length == 0) {
         this.HamdleSign();
@@ -427,7 +528,29 @@ export default {
         console.log("response", response);
 
         if (response.data.status === "success") {
-          this.fetchUserDetail(); // Assurez-vous que cette fonction est correctement définie
+          const updatedUser = response.data.data;
+          let role_id;
+      if (Array.isArray(this.loggedInUser.role_id)) {
+        role_id = this.loggedInUser.role_id.length > 0 ? this.loggedInUser.role_id[0].id : null;
+      } else {
+        role_id = this.loggedInUser.role_id;
+      }
+
+      this.$store.dispatch('auth/setMyAuthenticatedUser', {
+        user: {
+          id: updatedUser.id,
+          Nom: updatedUser.Nom,
+          Prenoms: updatedUser.Prenoms,
+          email: updatedUser.email,
+          Whatsapp: updatedUser.Whatsapp,
+          photo: updatedUser.photo,
+          username:updatedUser.username,
+        },
+        roles: role_id,
+        expires_in: this.loggedInUser.tokenExpiration - Math.floor(Date.now() / 1000),
+        access_token: this.loggedInUser.token,
+        });
+          this.fetchUserDetail(); 
           this.loading = false;
           this.successmsg(
             "Modification du compte",
@@ -452,6 +575,94 @@ export default {
         }
       }
     },
+    async HamdleAddUser(){
+         this.error = '',
+         this.resultError= '',
+        this.v$.step1.$touch()
+        if (this.v$.$errors.length == 0 ) {
+            // Affichez une boîte de dialogue Sweet Alert pour confirmer la suppression
+            const result = await Swal.fire({
+              title: "Êtes-vous sûr ?",
+              text: "Vous ne pourrez pas revenir en arrière !",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "Oui, supprimez-le !",
+              cancelButtonText: "Non, annulez !",
+              reverseButtons: true,
+            });
+    
+         // Si l'utilisateur confirme la suppression
+         if (result.isConfirmed) {
+           this.confirmDelete();
+         }
+           }else{
+           
+           console.log('pas bon', this.v$.$errors);
+           
+           } 
+             },
+             async confirmDelete() {
+                  this.loading = true
+             let DataUser = {
+                old_password:this.step1.old_password,
+                password:this.step1.password,
+                password_confirmation:this.step1.password_confirmation
+             }
+             console.log("eeeee",DataUser);
+             try {
+            
+             const response = await axios.post('/auth-change-password' , DataUser, {
+                 headers: { Authorization: `Bearer ${this.loggedInUser.token}`, },
+               });
+             console.log('response.login', response.data); 
+             if (response.data.status === "success") { 
+               
+               this.loading = false
+               this.successmsg("Modification du mot de passe", "Votre mot de passe a été modifié avec succès !");
+              this.$router.push({ path: '/bspp/profil' })
+
+             } else {
+    
+             }
+    
+    
+    
+       } catch (error) {
+       console.log('response.login', error); 
+    
+       this.loading = false
+       if (error.response.data.message==="Vous n'êtes pas autorisé." || error.response.status === 401) {
+                await this.$store.dispatch('auth/clearMyAuthenticatedUser');
+              this.$router.push("/");  //a revoir
+            }
+       if (error.response.data.status === "error") {
+       return this.error = error.response.data.message
+       
+    
+       } else {
+         this.formatValidationErrors(error.response.data.errors);
+       }
+       } 
+             },
+           
+           async formatValidationErrors(errors) {
+         const formattedErrors = {};
+    
+         for (const field in errors) {
+           const errorMessages = errors[field]; // Liste complète des messages d'erreur
+           console.log(" errorMessages", errorMessages, typeof errorMessages);
+    
+           const concatenatedError = errorMessages.join(", "); // Concaténer les messages d'erreur
+           console.log(" concatenatedError", concatenatedError, typeof concatenatedError);
+    
+           formattedErrors[field] = concatenatedError; // Utilisez le nom du champ comme clé
+         }
+    
+         this.resultError = formattedErrors; // Stockez les erreurs dans un objet
+    
+         // Maintenant, this.resultError est un objet où les clés sont les noms des champs
+         console.log("resultError", this.resultError);
+       },
   },
 };
 </script>
@@ -656,8 +867,8 @@ form {
   align-items: center;
   position: relative;
   transition: all 0.3s ease;
-  height: 280px;
-  width: 280px;
+  height: 210px;
+  width: 210px;
 }
 
 .profile-pic input {
@@ -677,7 +888,7 @@ form {
 }
 
 .profile-pic .-label {
-  left: 25px;
+  left: 12px;
   cursor: pointer;
   height: 23px;
   width: 88px;
@@ -690,7 +901,7 @@ form {
   transition: background-color 0.2s ease-in-out;
   margin-bottom: 0;
   position: absolute;
-  top: 204px;
+  top: 160px;
   border-radius: 3px;
   border: 1px solid var(--primary-color);
 }

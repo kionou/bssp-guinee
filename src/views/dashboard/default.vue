@@ -990,13 +990,13 @@
                       >Utilisateurs</router-link
                     >
                   </li>
-                  <li class="slide">
+                  <!-- <li class="slide">
                     <router-link
                       to="/bspp/roles-permissions"
                       class="side-menu__item"
                       >Rôles et permissions</router-link
                     >
-                  </li>
+                  </li> -->
                   <li class="slide">
                     <router-link to="/bspp/droits" class="side-menu__item">Droits</router-link>
                   </li>
@@ -1012,12 +1012,12 @@
               </li>
               <!-- End::slide -->
                 <!-- Start::slide -->
-                <li class="slide">
+                <!-- <li class="slide">
                 <router-link to="/bspp/infrastructures" class="side-menu__item">
                   <i class='bx bxs-city side-menu__icon'></i>
                   <span class="side-menu__label">Infrastructures</span>
                 </router-link>
-              </li>
+              </li> -->
               <!-- End::slide -->
 
               <!-- Start::slide -->
@@ -1043,7 +1043,7 @@
                   </li>
                   <li class="slide">
                     <router-link
-                      to="/bspp/types-infrastructures"
+                      to="/"
                       class="side-menu__item"
                       >Types infrastructures</router-link
                     >

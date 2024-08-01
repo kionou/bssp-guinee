@@ -6766,7 +6766,7 @@ a.invert-bg-dark:hover, a.invert-bg-dark:focus {
   }
 }
 .table th {
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   font-size: 0.75rem;
   letter-spacing: 1px;
 }
@@ -6808,7 +6808,7 @@ a.invert-bg-dark:hover, a.invert-bg-dark:focus {
 .nav-align-left .table:not(.table-dark) thead:not(.table-dark) th,
 .nav-align-left .table:not(.table-dark) tfoot:not(.table-dark) th,
 .nav-align-left .table:not(.table-dark) td {
-  border-color: #d9dee3;
+  border-color: #a1acb8;
 }
 
 .btn {

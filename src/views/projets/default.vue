@@ -3,7 +3,7 @@
       <Loading v-if="loading" style="z-index: 99999"></Loading>
       <!-- Page Header -->
       <div
-        class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb"
+        class="d-md-flex d-block pt-12  align-items-center justify-content-between my-4 page-header-breadcrumb"
       >
         <h1 class="page-title fw-semibold fs-18 mb-0">Projets</h1>
         <div class="ms-md-1 ms-0">
@@ -54,13 +54,13 @@
         <span> Vous n'avez pas encore de projet , vous pouvez également en ajouter un !! </span>
       </div>
                 <div class="row" v-else>
-                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12" v-for="projet  in paginatedItems" :key="projet.id">
-                        <div class="card custom-card task-pending-card border border-dark ">
+                    <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12" v-for="projet  in paginatedItems" :key="projet.id">
+                        <div class="card custom-card task-pending-card border border-dark " style="height:330px">
                     <div class="card-body">
                         <div class="d-flex justify-content-between flex-wrap flex-column ">
                             <div>
                              <header>
-                              <span class="carde-title " >{{projet.NomProjet}} </span>
+                              <span class="carde-title " >{{truncateText(projet.NomProjet, 65)}} </span>
                              </header>
                                 <div class="row align-items-center px-2">
                       
@@ -70,14 +70,18 @@
                                    
                                     </div>
                           
-                                <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-warning fw-semibold">{{projet.DateDebut}}</span></p>
-                                <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1  fw-semibold " style="color:red;" >{{projet.DateFin}}</span></p>
+                                <p class="my-2 fw-semibold">Date debut : <span class="fs-14 mb-1 text-warning fw-semibold">{{  formatDate(projet.DateDebut)}}</span></p>
+                                <p class="mb-2 fw-semibold">Date fin : <span class="fs-14 mb-1  fw-semibold " style="color:red;" >{{  formatDate(projet.DateFin)}}</span></p>
                                 <p class="mb-2 fw-semibold">Financement :<span class="fs-14 mb-1 text-muted fw-semibold">{{projet.ModeFinancement}}</span></p>
-                                <p class="mb-2 fw-semibold">Zones :<span class="fs-14 mb-1  fw-semibold" style="color:#05b305;">
-                                  <span v-for="region  in projet.regions" :key="region.id">
-                                      {{region.region.NomRegion}} ,
-                                  </span>
-                                </span></p>
+                                <p class="mb-2 fw-semibold">Zones :
+                                  <span class="fs-14 mb-1 fw-semibold" style="color:#05b305;">
+                                      <span v-for="(region, index) in displayedRegions(projet.regions)" :key="region.id">
+                                        {{ region.region.NomRegion }}
+                                        <span v-if="index < displayedRegions(projet.regions).length - 1">, </span>
+                                      </span>
+                                      <span v-if="projet.regions.length > 6">...</span>
+                                    </span>
+                              </p>
                                 
                             </div>
                             <div>
@@ -169,10 +173,10 @@
             >
               <div>
                 <div class="row mt-3 content-group">
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Code <span class="text-danger">*</span></label
+                        >Code du projet <span class="text-danger">*</span></label
                       >
                       <MazInput
                         v-model="step1.CodeProjet"
@@ -190,10 +194,10 @@
                       </small>
                     </div>
                   </div>
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Sigle<span class="text-danger">*</span></label
+                        >Sigle du projet<span class="text-danger">*</span></label
                       >
                       <MazInput
                         v-model="step1.Sigle"
@@ -215,10 +219,10 @@
                 </div>
 
                 <div class="row mt-3 content-group">
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Nom <span class="text-danger">*</span></label
+                        >Nom du projet<span class="text-danger">*</span></label
                       >
                       <MazInput
                         v-model="step1.NomProjet"
@@ -236,10 +240,10 @@
                       </small>
                     </div>
                   </div>
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Visible<span class="text-danger">*</span></label
+                        >Afficher à l'écran ?<span class="text-danger">*</span></label
                       >
                       <MazSelect
                         v-model="step1.Visible"
@@ -249,6 +253,7 @@
                         rounded-size="sm"
                         type="text"
                         :options="choix"
+                        search
                       />
                       <small v-if="v$.step1.Visible.$error">{{
                         v$.step1.Visible.$errors[0].$message
@@ -262,10 +267,10 @@
                  </div>
 
                  <div class="row mt-3 content-group">
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Mode de financement<span class="text-danger">*</span></label
+                        >Mode de financement du projet<span class="text-danger">*</span></label
                       >
                       <MazSelect
                         v-model="step1.ModeFinancement"
@@ -275,6 +280,7 @@
                         rounded-size="sm"
                         type="text"
                         :options="FinancementOptions"
+                        search
                       />
                       <small v-if="v$.step1.ModeFinancement.$error">{{
                         v$.step1.ModeFinancement.$errors[0].$message
@@ -284,10 +290,10 @@
                       </small>
                     </div>
                   </div>  
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Zone d'intervention<span class="text-danger">*</span></label
+                        >Zone d'intervention du projet<span class="text-danger">*</span></label
                       >
                       <MazSelect
                         v-model="step1.zones"
@@ -298,6 +304,7 @@
                         type="text"
                         :options="RegionsOptions"
                         multiple
+                        search
                       />
                       <small v-if="v$.step1.zones.$error">{{
                         v$.step1.zones.$errors[0].$message
@@ -311,9 +318,9 @@
 
                 <div class="row mt-3 content-group">
 
-                    <div class="col">
+                    <div class="col col-md-6 col-sm-12">
               <div class="input-groupe">
-                <label for="employment_date_begin">Date debut <span class="text-danger">*</span></label>
+                <label for="employment_date_begin">Date debut du projet <span class="text-danger">*</span></label>
                 <MazInput v-model="step1.DateDebut" type="date" color="info" name="DateDebut" size="sm" rounded-size="sm"  />
                 <small v-if="v$.step1.DateDebut.$error">{{
                         v$.step1.DateDebut.$errors[0].$message
@@ -324,9 +331,9 @@
               
               </div>
                    </div>
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
-                      <label for="employment_date_end">Date fin <span class="text-danger">*</span></label>
+                      <label for="employment_date_end">Date fin du projet <span class="text-danger">*</span></label>
                       <MazInput v-model="step1.DateFin" type="date" :min="step1.DateDebut" color="info" name="DateFin" size="sm" rounded-size="sm" />
                       <small v-if="v$.step1.DateFin.$error">{{
                               v$.step1.DateFin.$errors[0].$message
@@ -341,9 +348,9 @@
 
                  <div class="row mt-3 content-group">
                  
-                 <div class="col">
+                 <div class="col-12">
            <div class="input-groupe">
-             <label for="employment_date_begin">Description </label>
+             <label for="employment_date_begin">Description sur le projet</label>
              <MazTextarea v-model="step1.Description" type="text" color="info" name="Description" size="sm" rounded-size="sm"  />
              <small v-if="v$.step1.Description.$error">{{
                         v$.step1.Description.$errors[0].$message
@@ -361,7 +368,7 @@
               <div class="row mb-3">
                 <div class="boutton">
                   <button class="" @click.prevent="submitProjet('add_projet')">
-                    Valider
+                    Enregistrer
                   </button>
                 </div>
               </div>
@@ -421,10 +428,10 @@
             >
               <div>
                 <div class="row mt-3 content-group">
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Code <span class="text-danger">*</span></label
+                        >Code du projet<span class="text-danger">*</span></label
                       >
                       <MazInput
                         v-model="step2.CodeProjet"
@@ -442,10 +449,10 @@
                       </small>
                     </div>
                   </div>
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Sigle<span class="text-danger">*</span></label
+                        >Sigle du projet<span class="text-danger">*</span></label
                       >
                       <MazInput
                         v-model="step2.Sigle"
@@ -467,10 +474,10 @@
                 </div>
 
                 <div class="row mt-3 content-group">
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Nom <span class="text-danger">*</span></label
+                        >Nom du projet<span class="text-danger">*</span></label
                       >
                       <MazInput
                         v-model="step2.NomProjet"
@@ -488,10 +495,10 @@
                       </small>
                     </div>
                   </div>
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Visible<span class="text-danger">*</span></label
+                        >Afficher à l'écran ?<span class="text-danger">*</span></label
                       >
                       <MazSelect
                         v-model="step2.Visible"
@@ -501,6 +508,7 @@
                         rounded-size="sm"
                         type="text"
                         :options="choix"
+                        search
                       />
                       <small v-if="v$.step2.Visible.$error">{{
                         v$.step2.Visible.$errors[0].$message
@@ -514,10 +522,10 @@
                  </div>
 
                  <div class="row mt-3 content-group">
-                  <div class="col">
+                  <div class="col  col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Mode de financement<span class="text-danger">*</span></label
+                        >Mode de financement du projet<span class="text-danger">*</span></label
                       >
                       <MazSelect
                         v-model="step2.ModeFinancement"
@@ -527,6 +535,7 @@
                         rounded-size="sm"
                         type="text"
                         :options="FinancementOptions"
+                        search
                       />
                       <small v-if="v$.step2.ModeFinancement.$error">{{
                         v$.step2.ModeFinancement.$errors[0].$message
@@ -536,11 +545,9 @@
                       </small>
                     </div>
                   </div>  
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
-                      <label for="userpassword"
-                        >Zone d'intervention<span class="text-danger">*</span></label
-                      >
+                      <label for="userpassword">Zone d'intervention du projet<span class="text-danger">*</span></label>
                       <MazSelect
                         v-model="step2.zones"
                         color="info"
@@ -550,6 +557,7 @@
                         type="text"
                         :options="RegionsOptions"
                         multiple
+                        search
                       />
                       <small v-if="v$.step2.zones.$error">{{
                         v$.step2.zones.$errors[0].$message
@@ -563,9 +571,9 @@
 
                 <div class="row mt-3 content-group">
 
-                    <div class="col">
+                    <div class="col col-md-6 col-sm-12">
               <div class="input-groupe">
-                <label for="employment_date_begin">Date debut <span class="text-danger">*</span></label>
+                <label for="employment_date_begin">Date  debut du projet <span class="text-danger">*</span></label>
                 <MazInput v-model="step2.DateDebut" type="date" color="info" name="DateDebut" size="sm" rounded-size="sm"  />
                 <small v-if="v$.step2.DateDebut.$error">{{
                         v$.step2.DateDebut.$errors[0].$message
@@ -576,9 +584,9 @@
               
               </div>
                    </div>
-                  <div class="col">
+                  <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
-                      <label for="employment_date_end">Date fin <span class="text-danger">*</span></label>
+                      <label for="employment_date_end">Date fin du projet<span class="text-danger">*</span></label>
                       <MazInput v-model="step2.DateFin" type="date" :min="step2.DateDebut" color="info" name="DateFin" size="sm" rounded-size="sm" />
                       <small v-if="v$.step2.DateFin.$error">{{
                               v$.step2.DateFin.$errors[0].$message
@@ -593,9 +601,9 @@
 
                  <div class="row mt-3 content-group">
                  
-                 <div class="col">
+                 <div class="col-12 ">
            <div class="input-groupe">
-             <label for="employment_date_begin">Description </label>
+             <label for="employment_date_begin">Description sur le projet </label>
              <MazTextarea v-model="step2.Description" type="text" color="info" name="Description" size="sm" rounded-size="sm"  />
              <small v-if="v$.step2.Description.$error">{{
                         v$.step2.Description.$errors[0].$message
@@ -613,7 +621,7 @@
               <div class="row mb-3">
                 <div class="boutton">
                   <button class="" @click.prevent="submitUpdate('update_projet')">
-                    Valider
+                    Modifier
                   </button>
                 </div>
               </div>
@@ -665,6 +673,11 @@
       const endIndex = startIndex + this.itemsPerPage;
       return this.projetssOptions.slice(startIndex, endIndex);
     },
+    displayedRegions() {
+      return (regions) => {
+        return regions.slice(0, 2);
+      };
+    }
 
      
     },
@@ -682,6 +695,7 @@
         resultError: {},
         profil: "",
         ToId: "",
+        Id:"",
         choix: [
           { label: "Oui", value: true },
           { label: "Non", value: false },
@@ -743,14 +757,36 @@
       await this.fetchProjets()
       await this.fetchFinancement()
       await this.fetchRegionOptions()
+      
      
     },
   
     methods: {
       successmsg: successmsg,
-      validatePasswordsMatch() {
-       return this.step1.password === this.step1.password_confirmation;
-      },
+      truncateText(text, maxLength) {
+      if (text.length <= maxLength) {
+        return text;
+      }
+      return text.substring(0, maxLength) + '...';
+    },
+  
+swaaa(id){
+Swal.fire({
+
+title: "Création de projet",
+text: "Votre projet a été crée avec succès !",
+icon: "success",
+showCancelButton: false,
+confirmButtonColor: "#3085d6",
+cancelButtonColor: "#d33",
+confirmButtonText: "OK"
+}).then((result) => {
+if (result.isConfirmed) {
+
+this.$router.push({ path: '/bspp/detail-projet/' + id  });
+}
+});
+},
       async fetchProjets() {
       try {
         const response = await axios.get('/projets', {
@@ -822,13 +858,17 @@
         await this.$store.dispatch("fetchRegionOptions");
         const options = JSON.parse(
           JSON.stringify(this.$store.getters["getRegionOptions2"])
+          
 
         ); // Accéder aux options des pays via le getter
+        const filteredOptions = options.filter(item => item.Statut === '1');
         console.log(options);
-        this.RegionsOptions = options.map(item => ({
+        this.RegionsOptions = filteredOptions.map(item => ({
           label: item.NomRegion,
           value: item.CodeRegion,
         }));;
+        console.log(  this.RegionsOptions);
+
         // Affecter les options à votre propriété sortedCountryOptions
         this.loading = false
       } catch (error) {
@@ -869,6 +909,8 @@
           console.log('response.login', response.data);
           if (response.data.status === "success") {
             this.closeModal(modalId);
+            // this.Id  = response.data.data.id
+            // this.swaaa( this.Id)
             this.successmsg("Création de projet", 'Votre projet a été crée avec succès !')
             await this.fetchProjets()
 
@@ -1082,6 +1124,11 @@
           this.projetssOptions = [...this.data];
         }
       },
+      formatDate(dateString) {
+      const date = new Date(dateString);
+      const options = { day: 'numeric', month: 'short', year: 'numeric' };
+      return date.toLocaleDateString('fr-FR', options).replace('.', ',');
+    },
       closeModal(modalId) {
         let modalElement = this.$refs[modalId];
         modalElement.classList.remove("show");
@@ -1122,12 +1169,12 @@
         behavior: 'smooth', // Utilisez 'auto' pour un défilement instantané
       });
     },
-    updatePaginatedItems() {
-      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    // updatePaginatedItems() {
+    //   const startIndex = (this.currentPage - 1) * this.itemsPerPage;
 
-      const endIndex = startIndex + this.itemsPerPage;
-      return this.projetssOptions.slice(startIndex, endIndex);
-    },
+    //   const endIndex = startIndex + this.itemsPerPage;
+    //   return this.projetssOptions.slice(startIndex, endIndex);
+    // },
   },
    
   };

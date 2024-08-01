@@ -3,7 +3,7 @@
         <Loading v-if="loading" style="z-index: 99999"></Loading>
     <!-- Page Header -->
     <div
-      class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb"
+      class="d-md-flex pt-12  d-block align-items-center justify-content-between my-4 page-header-breadcrumb"
     >
       <h1 class="page-title fw-semibold fs-18 mb-0">Bailleurs</h1>
       <div class="ms-md-1 ms-0">
@@ -79,14 +79,9 @@
                                               </tbody>
                                                 <tbody v-else>
                                                     <tr v-for="data  in paginatedItems" :key="data.id">
+                                                      <th scope="row" class="ps-4">  {{ data.CodeBailleur }}</th>
                                                        
-                                                        <td>
                                                         
-                                                                <span class="">
-                                                                  {{ data.CodeBailleur }}
-                                                                </span>
-                                                         
-                                                        </td>
                                                         <td>
                                                         
                                                         <span class="">
@@ -457,7 +452,7 @@ export default {
       ToId:"",
       choix: [
           { label: "Oui", value: true },
-          { label: "Non", value: false },
+          { label: "Non", value: 'non' },
         ],
         errors: {Bailleurs: [] , },
         Bailleurs:[
@@ -539,6 +534,11 @@ async submitBailleur(modalId) {
       
       if (this.validateBailleurs()) {
         this.loading = true;
+        this.Bailleurs.forEach(bailleur => {
+          if (bailleur.Visible === 'non') {
+            bailleur.Visible = false;
+          }
+        });
       
     const dataToSend = {
              bailleurs: this.Bailleurs
@@ -681,7 +681,7 @@ async submitBailleur(modalId) {
           let data =  response.data.data
           this.step2.CodeBailleur = data.CodeBailleur,
           this.step2.NomBailleur = data.NomBailleur,
-          this.step2.Visibles = (data.Visible === "1")?true:false,      
+          this.step2.Visibles = (data.Visible === "1")?true: 'non',      
           this.ToId = data.id
           this.loading = false;
         
@@ -722,7 +722,7 @@ async submitBailleur(modalId) {
           {
             CodeBailleur:this.step2.CodeBailleur,
             NomBailleur:this.step2.NomBailleur,
-            Visible:this.step2.Visibles,
+            Visible:this.step2.Visibles === 'non' ? false : this.step2.Visibles,
             id:this.ToId
           }
         ]

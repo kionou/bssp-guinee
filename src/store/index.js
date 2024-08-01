@@ -7,6 +7,7 @@ import  actions from './actions.js'
 import countries from './countries'
 import userModule from './user';
 import authModule from './auth';
+import project from './codeProjet';
 import verification from './verification'
 
 
@@ -19,6 +20,7 @@ const store = createStore({
     countries, // Utilisez le nom correct du module ici
     user: userModule,
     auth: authModule,
+    project,
     verification
   },
 })

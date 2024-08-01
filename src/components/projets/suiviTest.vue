@@ -1,13 +1,9 @@
 <template >
     <div>
       <Loading v-if="loading" style="z-index: 99999"></Loading>
-      <!-- <div class="card py-2 bg-primary" > 
-      <h6 class="text-center text-danger m-0 text-white">{{data.NomProjet}}</h6>   
-      </div> -->
         <div class="contact-header mb-3 py-2 px-1">
       <div class="d-sm-flex d-block align-items-center justify-content-between">
-        
-        <div class="fs-14 fw-semibold mb-0 text-primary ">{{data.NomProjet}}</div>
+        <div class="h5 fw-semibold mb-0"></div>
         <div class="d-flex mt-sm-0 mt-2 align-items-center">
           <div class="input-group">
             <input type="text" class="form-control bg-light border-0" placeholder="Recherchez..."
@@ -43,7 +39,7 @@
                                 <img src="@/assets/img/logo_mobile.png" alt="img"> 
                                 </span>
                                   Suivi du <b class="fs-16  ml-2" style="color:red;">  {{ formatDate(item.DateSuivi) }} </b> </p>
-                                <p class="mb-2 fw-semibold">Taux Avancement Physique : <span class="fs-14 mb-1 text-secondary fw-semibold">{{item.TauxAvancementPhysique}} %</span></p>
+                                <p class="mb-2 fw-semibold">Taux Avancement Physique : <span class="fs-14 mb-1 text-warning fw-semibold">{{item.TauxAvancementPhysique}} %</span></p>
                                 <p class="mb-2 fw-semibold">Niveau Execution Global : <span class="fs-14 mb-1 text-muted fw-semibold" >{{item.NiveauExecution}} %</span></p>
                                 <p class="mb-0 fw-semibold">Statut du Projet  :<span  class="fs-14 mb-1 text-muted fw-semibold" 
                                     :class="getStatusClass(item.StatutProjet)" >{{item.StatutProjet}}</span></p>
@@ -51,16 +47,14 @@
                             </div>
                             <hr>
                             <div>
-                                <div class="btn-list pull-right ">
+                                <div class="btn-list ">
                                     <!-- <button class="btn btn-sm btn-icon btn-wave btn-success"><i class="ri-eye-line"></i></button> -->
-                                    <router-link  :to="{ name: 'suivi-projet', params: { id: item.id }}" 
-                                              class=" btn btn-sm btn-icon btn-success btn-wave">
+                                    <router-link to="/bspp/suivi-projet" 
+                                              class="btn btn-sm btn-icon btn-success btn-wave">
                                               <i class="ri-eye-line"></i>
                                             </router-link>
-                                    <!-- <button class="btn btn-sm btn-icon btn-wave btn-info"><i class="ri-edit-line"></i></button> -->
-                                    <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(item.id)">
-                                    <i class="ri-delete-bin-line"></i>
-                                </button>
+                                    <button class="btn btn-sm btn-icon btn-wave btn-info"><i class="ri-edit-line"></i></button>
+                                    <button class="btn btn-sm btn-icon btn-wave btn-danger me-0"><i class="ri-delete-bin-line"></i></button>
                                 </div>
                                 
                             </div>
@@ -121,83 +115,46 @@
                 border-color: rgb(0, 77, 134);
               "
             >
-            <div  >
-            <div class="generastep" >
-      <div class="stepper">
-        <div class="stepper-progress">
-          <div class="stepper-progress-bar" :style="'width:' + stepperProgress"></div>
-        </div>
-  
-        <div
-          class="stepper-item"
-          :class="{ current: currentStep == item, success: currentStep > item }"
-          v-for="item in 4"
-          :key="item"
-          @click="goToStep(item)"
-        >
-          <div class="stepper-item-counter">
-            <img
-              class="icon-success"
-              src="https://www.seekpng.com/png/full/1-10353_check-mark-green-png-green-check-mark-svg.png"
-              alt=""
-            />
-            <span class="number">
-              {{ item }}
-            </span>
-          </div>
-          <span class="stepper-item-title"> Step {{ item }} </span>
-        </div>
-      </div>
-    </div>
-  
-    <div class="error text-center" v-if="this.error">{{ error }} <br /></div>
-    <div  class="container-fluid"  >
-     
-    
-       
-        <!-- Étape 1 -->
-        <div v-if="currentStep === 1">
-          <div class="form-container">
-          
-            <div class="row mt-3 content-group">
-                  <div class="col col-md-6 col-sm-12">
+         
+                <div class="row mt-3 content-group">
+                  <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Date du suivi <span class="text-danger">*</span></label
+                        >Date <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step1.DateSuivi"
+                        v-model="suivi.DateSuivi"
                         color="info"
                         name="DateSuivi"
                         size="sm"
                         rounded-size="sm"
                         type="date"
                       />
-                      <small v-if="v$.step1.DateSuivi.$error">{{
-                        v$.step1.DateSuivi.$errors[0].$message
+                      <small v-if="v$.suivi.DateSuivi.$error">{{
+                        v$.suivi.DateSuivi.$errors[0].$message
                       }}</small>
                       <small v-if="resultError['DateSuivi']">
                         {{ resultError["DateSuivi"] }}
                       </small>
                     </div>
                   </div>
-                  <div class="col col-md-6 col-sm-12">
+                  <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
                         >Niveau d'execution global<span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="step1.NiveauExecutionGlobal"
+                        v-model="suivi.NiveauExecutionGlobal"
                         color="info"
                         name="NiveauExecutionGlobal"
                         size="sm"
                         rounded-size="sm"
                         type="number"
                         min="0"
-                        placeholder="10"
+                        placeholder="10%"
                       />
-                      <small v-if="v$.step1.NiveauExecutionGlobal.$error">{{
-                        v$.step1.NiveauExecutionGlobal.$errors[0].$message
+                      <small v-if="v$.suivi.NiveauExecutionGlobal.$error">{{
+                        v$.suivi.NiveauExecutionGlobal.$errors[0].$message
                       }}</small>
                       <small v-if="resultError['NiveauExecutionGlobal']">
                         {{ resultError["NiveauExecutionGlobal"] }}
@@ -209,23 +166,23 @@
             
                 <div class="row mt-3 content-group">
                  
-                <div class="col col-md-6 col-sm-12">
+                <div class="col">
                     <div class="mb-3 position-relative">
-                        <label for="password">Taux avancement physique <span class="text-danger">*</span></label>
-                        <MazInput v-model="step1.TauxAvancementPhysique"  name="TauxAvancementPhysique" color="info" placeholder="10"  type="number"
+                        <label for="password">Taux avancement physique </label>
+                        <MazInput v-model="suivi.TauxAvancementPhysique"  name="TauxAvancementPhysique" color="info" placeholder="10%"  type="number"
                         min="0"  size="sm" rounded-size="sm" />
-                        <small v-if="v$.step1.TauxAvancementPhysique.$error">{{v$.step1.TauxAvancementPhysique.$errors[0].$message}}</small>
+                        <small v-if="v$.suivi.TauxAvancementPhysique.$error">{{v$.suivi.TauxAvancementPhysique.$errors[0].$message}}</small>
                         <small v-if="resultError['TauxAvancementPhysique']">{{resultError['TauxAvancementPhysique']}}</small>
                     </div>
                 </div>
                                                 
-                <div class="col col-md-6 col-sm-12">
+                <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
                         >Statut du projet <span class="text-danger">*</span></label
                       >
                       <MazSelect
-                        v-model="step1.StatutProjet"
+                        v-model="suivi.StatutProjet"
                         type="text"
                         color="info"
                         name="StatutProjet"
@@ -233,8 +190,8 @@
                         rounded-size="sm"
                         :options="status"
                       />
-                      <small v-if="v$.step1.StatutProjet.$error">{{
-                        v$.step1.StatutProjet.$errors[0].$message
+                      <small v-if="v$.suivi.StatutProjet.$error">{{
+                        v$.suivi.StatutProjet.$errors[0].$message
                       }}</small>
                       <small v-if="resultError['StatutProjet']">
                         {{ resultError["StatutProjet"] }}
@@ -242,65 +199,62 @@
                     </div>
                   </div>                           
                 </div>
-               
-          </div>
-          <div class="btnForm py-3 d-flex items-center justify-content-end">
-            <button class="btnLogin" :disabled="isButtonDisabled" @click.prevent="nextStep('add_suivi')">
-              Next
-            </button>
-          </div>
-        </div>
-  
-        <!-- Étape 2 -->
-        <div v-if="currentStep === 2">
-            <div class="form-container">
-            <!-- debut infos genral -->
-              
+                 <div class="row mt-3 content-group">
+                 <div class="col">
+           <div class="input-groupe">
+             <label for="employment_date_begin">Observation </label>
+             <MazTextarea v-model="suivi.Observations" type="date" color="info" name="Observations" size="sm" rounded-size="sm"  />
+             <small v-if="v$.suivi.Observations.$error">{{v$.suivi.Observations.$errors[0].$message}}</small>
+             <small v-if="resultError['Observations']">{{resultError['Observations']}}</small>
+           </div>
+         </div>
+                     
+              </div>
               <!-- contrainte -->
-              <div style="position:relative">
+               <div style="position:relative">
                 <p class="titre">Les Contraintes</p>
                 <div class="btn-list" style="position:absolute ; right: 7px; top: 5px;" >
         <button class="btn btn-sm  btn-primary btn-wave" @click="AddformDataContraintes(index)"  >
                        <i class="ri-add-line"></i> contrainte
                       </button>
                 </div>
-                <div class="row align-items-center p-2  border-bottom " v-for="(contrainte, index) in step2.Contraintes" :key="contrainte.id">
+                <div class="row align-items-center p-2  border-bottom " v-for="(contrainte, index) in suivi.Contraintes" :key="contrainte.id">
                   <div class="col-11">
                     <span class="nombre">
                             {{index + 1}}
                         </span>
                         <div class="row  content-group">
-                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12   ">
+                          <div class="col   ">
                         <div class="input-groupe ">
                         <div >
-                        <label for="userpassword">Type de contrainte <span class="text-danger">*</span></label>
+                        <label for="userpassword">Type <span class="text-danger">*</span></label>
                         <MazSelect  v-model="contrainte.TypeConstrainte" type="text"  color="info" @click="clearError(index, 'TypeConstrainte')"  name="contrainte.TypeConstrainte" size="sm" rounded-size="sm" :options="contraintes" />
                         </div>
-                        <small v-if="errors.step2.Contraintes && errors.step2.Contraintes[index] && errors.step2.Contraintes[index].TypeConstrainte">{{ errors.step2.Contraintes[index].TypeConstrainte }}</small>
+                        <small v-if="errors.suivi.Contraintes && errors.suivi.Contraintes[index] && errors.suivi.Contraintes[index].TypeConstrainte">{{ errors.suivi.Contraintes[index].TypeConstrainte }}</small>
                         <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small>
-                        </div>
-                        </div>
-                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 ">
-                        <div class="input-groupe ">
-                        <div >
-                        <label for="userpassword">Description de la contrainte <span class="text-danger">*</span></label>
-                        <textarea class="form-control" id="text-area"  v-model="contrainte.IntituleConstrainte" rows="1"  @input="clearError(index, 'IntituleConstrainte')"></textarea>
-                        <!-- <MazTextarea
-                        v-model="contrainte.IntituleConstrainte"
-                          name="IntituleConstrainte"  listPosition="left" 
-                          color="info"
-                          @input="clearError(index, 'IntituleConstrainte')"
-                          rows="1"
-                          size="sm" rounded-size="sm" />  -->
-                        </div>
-                        <small v-if="errors.step2.Contraintes && errors.step2.Contraintes[index] && errors.step2.Contraintes[index].IntituleConstrainte">{{ errors.step2.Contraintes[index].IntituleContrainte }}</small>
-                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small> 
                         </div>
                         </div>
 
                 </div>
 
-               
+                <div class="row  content-group">
+                          <div class="col   ">
+                        <div class="input-groupe ">
+                        <div >
+                        <label for="userpassword">Description <span class="text-danger">*</span></label>
+                        <MazTextarea
+                        v-model="contrainte.IntituleConstrainte"
+                          name="IntituleConstrainte"  listPosition="left" 
+                          color="info"
+                          @input="clearError(index, 'IntituleConstrainte')"
+                          size="sm" rounded-size="sm" /> 
+                        </div>
+                        <small v-if="errors.suivi.Contraintes && errors.suivi.Contraintes[index] && errors.suivi.Contraintes[index].IntituleConstrainte">{{ errors.suivi.Contraintes[index].IntituleContrainte }}</small>
+                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small> 
+                        </div>
+                        </div>
+
+                </div>
                   </div>
                   <div class="col-1" style="position: relative">
                     
@@ -311,20 +265,7 @@
 
                 </div> 
                </div>
-            <!-- fin infos genral -->
 
-          </div>
-          <div class="btnForm py-3 d-flex items-center justify-content-between">
-            <button class="btnLogin" @click.prevent="prevStep">Previous</button>
-            <button class="btnLogin" @click.prevent="nextStep('add_suivi')">Next</button>
-          </div>
-        </div>
-  
-        <!-- Étape 3 -->
-        <div v-if="currentStep === 3">
-            <div class="form-container">
-            <!-- debut infos genral -->
-           
                <!-- bailleurs -->
                <div style="position:relative">
                 <p class="titre">Les Bailleurs</p>
@@ -333,7 +274,7 @@
                        <i class="ri-add-line"></i> bailleur
                       </button>
                 </div>
-                <div class="row align-items-center p-2  border-bottom " v-for="(bailleur, index) in step3.Bailleurs" :key="bailleur.id">
+                <div class="row align-items-center p-2  border-bottom " v-for="(bailleur, index) in suivi.Bailleurs" :key="bailleur.id">
                   <div class="col-11">
                     <span class="nombres">
                             {{index + 1}}
@@ -342,20 +283,20 @@
                           <div class="col   ">
                         <div class="input-groupe ">
                         <div >
-                        <label for="userpassword">Nom du Bailleur </label>
+                        <label for="userpassword">Code Bailleur <span class="text-danger">*</span></label>
                         <MazSelect  v-model="bailleur.CodeBailleur" type="text"  color="info" @click="clearErrorBailleurs(index, 'CodeBailleur')"  name="bailleur.CodeBailleur" size="sm" rounded-size="sm" :options="formattedBailleursOptions" />
                         </div>
-                        <small v-if="errors.step3.Bailleurs && errors.step3.Bailleurs[index] && errors.step3.Bailleurs[index].CodeBailleur">{{ errors.step3.Bailleurs[index].CodeBailleur }}</small>
+                        <small v-if="errors.suivi.Bailleurs && errors.suivi.Bailleurs[index] && errors.suivi.Bailleurs[index].CodeBailleur">{{ errors.suivi.Bailleurs[index].CodeBailleur }}</small>
                         <small v-if="resultError['Bailleurs']"> {{ resultError["Bailleurs"] }} </small>
                         </div>
                         </div>
                         <div class="col   ">
                         <div class="input-groupe ">
                         <div >
-                        <label for="userpassword">Montant décaissé pour ce suivi </label>
+                        <label for="userpassword">Montant Decaisser <span class="text-danger">*</span></label>
                         <MazInput  v-model="bailleur.MontantDecaisser" type="text"  color="info" @input="clearErrorBailleurs(index, 'MontantDecaisser')"  name="bailleur.MontantDecaisser" size="sm" rounded-size="sm"  />
                         </div>
-                        <small v-if="errors.step3.Bailleurs && errors.step3.Bailleurs[index] && errors.step3.Bailleurs[index].MontantDecaisser">{{ errors.step3.Bailleurs[index].MontantDecaisser }}</small>
+                        <small v-if="errors.suivi.Bailleurs && errors.suivi.Bailleurs[index] && errors.suivi.Bailleurs[index].MontantDecaisser">{{ errors.suivi.Bailleurs[index].MontantDecaisser }}</small>
                         <small v-if="resultError['Bailleurs']"> {{ resultError["Bailleurs"] }} </small>
                         </div>
                         </div>
@@ -373,49 +314,15 @@
 
                 </div> 
 
-                <div class="btnForm py-3 d-flex items-center justify-content-between">
-            <button class="btnLogin" @click.prevent="prevStep">Previous</button>
-            <button class="btnLogin" @click.prevent="nextStep('add_suivi')">Next</button>
-          </div>
              
+              <div class="row mb-3">
+                <div class="boutton">
+                  <button class="" @click.prevent="submitSuivi('add_suivi')">
+                    Valider
+                  </button>
+                </div>
+              </div>
                </div>
-            <!-- fin infos genral -->
-
-          </div>
-  
-          
-
-         
-        </div>
-
-        <!-- Étape 3 -->
-         <div v-if="currentStep === 4">
-          <div class="form-container">
-               <div class="row mt-3 content-group">
-               <div class="col-12 col-md-12 col-sm-12">
-         <div class="input-groupe">
-           <label for="employment_date_begin">Observation <span class="text-danger">*</span></label>
-           <MazTextarea v-model="step4.Observations" type="date" color="info" name="Observations" size="sm" rounded-size="sm"  />
-           <small v-if="v$.step4.Observations.$error">{{v$.step4.Observations.$errors[0].$message}}</small>
-           <small v-if="resultError['Observations']">{{resultError['Observations']}}</small>
-         </div>
-       </div>
-                   
-            </div>
-        </div>
-       
-         <div class="btnForm py-3 d-flex items-center justify-content-between">
-            <button class="btnLogin" @click.prevent="prevStep">Previous</button>
-            <button class="btnLogin" @click.prevent="nextStep('add_suivi')">Finish</button>
-          </div>
-         </div>
-        
-          </div>
- 
-         </div>
-         
-           
-
               
             </div>
 
@@ -472,7 +379,7 @@
             >
               <div>
                 <div class="row mt-3 content-group">
-                  <div class="col col-md-6 col-sm-12">
+                  <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
                         >Code <span class="text-danger">*</span></label
@@ -496,7 +403,7 @@
  
                 </div>
                 <div class="row mt-3 content-group">
-                  <div class="col col-md-6 col-sm-12">
+                  <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
                         >Intitulé <span class="text-danger">*</span></label
@@ -521,7 +428,7 @@
 
                 </div>
                 <div class="row mt-3 content-group">
-                  <div class="col col-md-6 col-sm-12">
+                  <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
                         >Cible fin projet <span class="text-danger">*</span></label
@@ -585,24 +492,17 @@ import Pag from "@/components/others/pagination.vue";
   import { successmsg } from "@/lib/modal.js";
   import MazPhoneNumberInput from "maz-ui/components/MazPhoneNumberInput";
   import Swal from "sweetalert2";
-  import { mapGetters } from 'vuex';
 export default {
   props: {
-   
-    data: {
-      type:Object ,
-      required: true
-    },
+  
     SuivisOptions: {
       type:Array ,
       required: true
     },
-    
     BailleursOptions: {
       type: Array,
       required: true
     },
-    
   },
     components: {
       Loading, Pag,
@@ -612,10 +512,6 @@ export default {
       loggedInUser() {
         return this.$store.getters["auth/myAuthenticatedUser"];
       },
-      ...mapGetters('project', ['getCodeProjet']),
-    codeProjet() {
-      return this.getCodeProjet;
-    },
       totalPages() {
       return Math.ceil(this.filteredIndicateurs.length / this.itemsPerPage);
     },
@@ -654,21 +550,15 @@ export default {
         loading: false,
         Code:"",
         search: "",
-        currentStep: 1,
-    
+        data:this.SuivisOptions,
         currentPage: 1,
         itemsPerPage: 12,
         totalPageArray: [],
         errors: {
-          step2: { 
+          suivi: { 
             Contraintes: [] ,
-          
-       },
-       step3: { 
-           
             Bailleurs: [] ,
        },
-       
         },
         status: [
           { label: "DANGER", value: "DANGER" },
@@ -679,20 +569,15 @@ export default {
           { label: "Administratives", value: "ADMIN" },
           { label: "Techniques", value: 'TECH' },
         ],
-      step1: {
+      suivi: {
         DateSuivi: "",
         NiveauExecutionGlobal: "",
         StatutProjet: "",
         TauxAvancementPhysique: "",
-        },
-        step2:{
-          Contraintes:[{  IntituleConstrainte:null, TypeConstrainte:null}],
-        },
-        step3:{
+        Observations:'',
+        Contraintes:[{  IntituleConstrainte:null, TypeConstrainte:null}],
         Bailleurs:[{ CodeBailleur:'', MontantDecaisser:'',}],
-
         },
-        step4: { Observations:'',},
         indicateur:{
           CodeIndicateur:"",
           IntituleIndicateur: "",
@@ -706,15 +591,14 @@ export default {
       };
     },
     validations: {
-        step1: {
+        suivi: {
         DateSuivi:{ require },
         NiveauExecutionGlobal:{ require },
         StatutProjet:{ require },
         TauxAvancementPhysique:{ require },
         Observations:{  },
         },
-        step4: {Observations:{ require },},
-        indicateur:{
+      indicateur:{
           CodeIndicateur:{ require },
           IntituleIndicateur: { require },
           CibleFinProjet: { require },
@@ -725,58 +609,43 @@ export default {
         },
     },
    
-    watch: {
-      codeProjet(newVal) {
-         console.log("codeProjet has changed:", newVal);
-         this.handleCodeProjetChange(newVal);
-      }
-   },
+  watch: {
+    SuivisOptions: {
+      handler(newVal) {
+        console.log('newVal',newVal);
+        this.data = newVal;
+      },
+      immediate: true,
+      deep: true
+    }
+  },
     async mounted() {
        console.log("loggedInUser", this.loggedInUser);
-       console.log("CodeProjet from Vuex:", this.codeProjet);
+       this.Code = localStorage.getItem('CodeProjet');
       
     },
  
     methods: {
       successmsg:successmsg,
-      handleCodeProjetChange(codeProjet) {
-         // Logique pour gérer les changements de codeProjet
-         console.log("Handling codeProjet change:", codeProjet);
-         this.Code = codeProjet
-         // Par exemple, mettre à jour les indicateurs ou autres données
-      },
-      stepperProgress() {
-        return (100 / 3) * (this.currentStep - 1) + "%";
-      },
-      prevStep() {
-        if (this.currentStep > 1) {
-          this.currentStep--;
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }
-      },
-  
-      goToStep(step) {
-    this.currentStep = step;
-  },
       AddformDataContraintes() {
-       this.step2.Contraintes.push({ IntituleConstrainte:'', TypeConstrainte:'',});
+       this.suivi.Contraintes.push({ IntituleConstrainte:'', TypeConstrainte:'',});
    },
    deleteRowContraintes(index) {
   
    if(index !== 0){
-     this.step2.Contraintes.splice(index, 1);
+     this.suivi.Contraintes.splice(index, 1);
    }
   },
   clearError(index, field) {   
-     if (this.errors.step2.Contraintes[index]) {
-       this.errors.step2.Contraintes[index][field] = null;
+     if (this.errors.suivi.Contraintes[index]) {
+       this.errors.suivi.Contraintes[index][field] = null;
      }
    },
  
   validateStep1() {
     let isValid = true;
-    this.errors.step2 = { Contraintes: [] };
-    this.step2.Contraintes.forEach((contrainte, index) => {
+    this.errors.suivi = { Contraintes: [] };
+    this.suivi.Contraintes.forEach((contrainte, index) => {
         const contrainteErrors = {};
         if (!contrainte.Code) {
           contrainteErrors.Code = 'Ce champs est obligatoire!';
@@ -790,30 +659,30 @@ export default {
           contrainteErrors.Type = 'Ce champs est obligatoire!';
             isValid = false;
         }
-        this.errors.step2.Contraintes[index] = contrainteErrors;
+        this.errors.suivi.Contraintes[index] = contrainteErrors;
     });
     return isValid;
 },
 
 AddformDataBailleurs() {
-       this.step3.Bailleurs.push({CodeBailleur:'', MontantDecaisser:'',});
+       this.suivi.Bailleurs.push({CodeBailleur:'', MontantDecaisser:'',});
    },
    deleteRowBailleurs(index) {
   
    if(index !== 0){
-     this.step3.Bailleurs.splice(index, 1);
+     this.suivi.Bailleurs.splice(index, 1);
    }
   },
   clearErrorBailleurs(index, field) {   
-     if (this.errors.step3.Bailleurs[index]) {
-       this.errors.step3.Bailleurs[index][field] = null;
+     if (this.errors.suivi.Bailleurs[index]) {
+       this.errors.suivi.Bailleurs[index][field] = null;
      }
    },
  
   validateStep2() {
     let isValid = true;
-    this.errors.step3 = { Bailleurs: [] };
-    this.step3.Bailleurs.forEach((bailleur, index) => {
+    this.errors.suivi = { Bailleurs: [] };
+    this.suivi.Bailleurs.forEach((bailleur, index) => {
         const bailleurErrors = {};
         if (!bailleur.CodeBailleur) {
           bailleurErrors.CodeBailleur = 'Ce champs est obligatoire!';
@@ -824,109 +693,28 @@ AddformDataBailleurs() {
             isValid = false;
         }
         
-        this.errors.step3.Bailleurs[index] = bailleurErrors;
+        this.errors.suivi.Bailleurs[index] = bailleurErrors;
     });
     return isValid;
 },
 
-async nextStep(modalId) {   
-        try {
-      //     let isValid = false;
-
-      //   if (this.currentStep === 2) {
-      //   isValid = this.validateStep1();
-      // } else if (this.currentStep === 3) {
-      //   isValid = this.validateStep2();
-     
-      // } else {
-      //   isValid = true; 
-      // }
-   
-               
-      if (this.currentStep === 1) {
-      this.v$.step1.$touch();
-      if (this.v$.$errors.length == 0) {
-        this.currentStep++;
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-          });
-      } else {
-        console.log("errroor1", this.v$.$errors);
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-       
-      }
-       
-          
-    }
-   else if (this.currentStep === 2) { 
-        this.currentStep++;
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-          }); 
-     
-    }
-   else if (this.currentStep === 3) {
-    this.currentStep++;
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-          });
-     
-
-     
-         
-    }
-    else if (this.currentStep === 4) {
-      this.v$.step4.$touch();
-      if (this.v$.$errors.length == 0) {
-        this. submitSuivi(modalId)
-      } else {
-        console.log("errroor1", this.v$.$errors);
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-       
-      }
-       
-          
-    }
-
-       
-    } catch (error) {
-        // Gérer les erreurs
-        console.log("errroor222", this.v$.$errors);
-
-        console.error("Une erreur s'est produite :", error);
-        console.log("errroor222", this.v$.$errors);
-        
-
-        window.scrollTo({ top: 0, behavior: "smooth" });
-         this.loading = false;
-    }
-      },
-
       async submitSuivi(modalId) {
-     
+      this.v$.suivi.$touch();
+         if (this.v$.$errors.length == 0) {
          
             this.loading = true
-     const contraintes = this.step2.Contraintes.every(item => 
-      !item.IntituleConstrainte && !item.TypeConstrainte) ? [] : this.step2.Contraintes;
+     const contraintes = this.suivi.Contraintes.every(item => 
+      !item.IntituleConstrainte && !item.TypeConstrainte) ? [] : this.suivi.Contraintes;
 
-    const bailleurs = this.step3.Bailleurs.every(item => 
-      !item.CodeBailleur && !item.MontantDecaisser) ? [] : this.step3.Bailleurs;
+    const bailleurs = this.suivi.Bailleurs.every(item => 
+      !item.CodeBailleur && !item.MontantDecaisser) ? [] : this.suivi.Bailleurs;
 
     const dataToSend = {
-        DateSuivi: this.step1.DateSuivi,
-        NiveauExecution: this.step1.NiveauExecutionGlobal,
-        StatutProjet: this.step1.StatutProjet,
-        TauxAvancementPhysique: this.step1.TauxAvancementPhysique,
-        Observations: this.step4.Observations,
+        DateSuivi: this.suivi.DateSuivi,
+        NiveauExecution: this.suivi.NiveauExecutionGlobal,
+        StatutProjet: this.suivi.StatutProjet,
+        TauxAvancementPhysique: this.suivi.TauxAvancementPhysique,
+        Observations: this.suivi.Observations,
         CodeProjet: this.Code,
         contraintes: contraintes,
         bailleurs: bailleurs
@@ -962,7 +750,9 @@ async nextStep(modalId) {
             this.formatValidationErrors(error.response.data.errors);
           }
         }
-      
+      } else {
+        console.log("error", this.v$.$errors);
+      }
     },
     async HandleIdUpdateIndicateur(id) {
       this.loading = true;
@@ -1096,7 +886,7 @@ async nextStep(modalId) {
 
       try {
         // Faites une requête pour supprimer l'élément avec l'ID itemId
-        const response = await axios.delete(`/projet-suivis/${id}`, {
+        const response = await axios.delete(`/indicateurs/${id}`, {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },
@@ -1105,8 +895,8 @@ async nextStep(modalId) {
         if (response.data.status === "success") {
           this.loading = false;
           this.successmsg(
-            "Suivi projet supprimé",
-            "Suivi projet  a été supprimé avec succès."
+            "Indicateur supprimé",
+            "Indicateur  a été supprimé avec succès."
           );
           this.loading = false;
           this.$emit('indicateur-updated');
@@ -1194,200 +984,10 @@ async nextStep(modalId) {
       const endIndex = startIndex + this.itemsPerPage;
       return this.SuivisOptions.slice(startIndex, endIndex);
     },
-  //   createSuivieData() {
-  //   return {
-     
-     
-   
-  //      this.step2.Contraintes.every(item => 
-  //     !item.IntituleConstrainte && !item.TypeConstrainte) ? [] : this.step2.Contraintes;
-
-  //    this.step2.Bailleurs.every(item => 
-  //     !item.CodeBailleur && !item.MontantDecaisser) ? [] : this.step2.Bailleurs;
-
-   
-  //       DateSuivi: this.step1.DateSuivi,
-  //       NiveauExecution: this.step1.NiveauExecutionGlobal,
-  //       StatutProjet: this.step1.StatutProjet,
-  //       TauxAvancementPhysique: this.step1.TauxAvancementPhysique,
-  //       Observations: this.step1.Observations,
-  //       CodeProjet: this.Code,
-  //       contraintes: contraintes,
-  //       bailleurs: bailleurs
-  
-  //   };
-  // },
     
     },
 }
 </script>
 <style lang="css" scoped>
- .tx-green-1 {
-    color: #75cc65;
-    font-weight: 600;
-  }
-  
-  .wrapper-stepper {
-    background-color: #fff;
-    padding: 60px;
-    border-radius: 32px;
-    box-shadow: rgba(0, 0, 0, 0.09);
-  }
-  
-  .stepper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    /* width: 660px; */
-    position: relative;
-    z-index: 0;
-    /* margin-bottom: 24px; */
-  }
-  
-  .stepper-progress {
-    position: absolute;
-    background-color: #c5c5c5;
-    height: 2px;
-    z-index: -1;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-  }
-  
-  .stepper-progress-bar {
-    position: absolute;
-    left: 0;
-    height: 100%;
-    width: 0%;
-    background-color: #47c00b;
-    transition: all 500ms ease;
-  }
-  
-  .stepper-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #c5c5c5;
-    transition: all 500ms ease;
-    cursor:pointer;
-  }
-  
-  .stepper-item-counter {
-    height: 35px;
-    width: 35px;
-    display: grid;
-    place-items: center;
-    background-color: #fff;
-    border-radius: 100%;
-    border: 2px solid #c5c5c5;
-    position: relative;
-  }
-  
-  .stepper-item-counter .icon-success {
-    position: absolute;
-    opacity: 0;
-    transform: scale(0);
-    width: 18px;
-    transition: all 500ms ease;
-  }
-  
-  .stepper-item-counter .number {
-    font-size: 15px;
-    transition: all 500ms ease;
-  }
-  
-  .stepper-item-title {
-    position: absolute;
-    font-size: 15px;
-    bottom: -39px;
-    width: 71px;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .stepper-item.success .stepper-item-counter {
-    border-color: #75cc65;
-    background-color: #c8ebc1;
-    color: #fff;
-    font-weight: 600;
-  }
-  
-  .stepper-item.success .stepper-item-counter .icon-success {
-    opacity: 1;
-    transform: scale(1);
-  }
-  
-  .stepper-item.success .stepper-item-counter .number {
-    opacity: 0;
-    transform: scale(0);
-  }
-  
-  .stepper-item.success .stepper-item-title {
-    color: #75cc65;
-  }
-  
-  .stepper-item.current .stepper-item-counter {
-    border-color: #75cc65;
-    background-color: #75cc65;
-    color: #fff;
-    font-weight: 600;
-  }
-  
-  .stepper-item.current .stepper-item-title {
-    color: #818181;
-  }
-  .signup a:hover {
-    text-decoration: underline var(--primary-color);
-  }
-  
-  .sign {
-    display: block;
-    width: 100%;
-    background-color: var(--primary-color);
-    padding: 0.75rem;
-    text-align: center;
-    color: black;
-    border: none;
-    border-radius: 0.375rem;
-    font-weight: 600;
-    margin-top: 50px;
-  }
-  
-  .signup {
-    text-align: center;
-    font-size: 0.75rem;
-    line-height: 1rem;
-    color: rgba(156, 163, 175, 1);
-  }
-  
-  
-  .btnForm {
-    max-width: 1140px;
-    margin: 20px auto;
-    background-color: white;
-    padding: 1rem;
-    color: black;
-    border:1px solid var(--primary-color)
-    /* box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); */
-  }
-  
-  .btnLogin {
-    padding: 1em 3em;
-    font-size: 12px;
-    font-weight: 500;
-    color: #fff;
-    background-color:var(--primary-color);
-    border: none;
-    border-radius: 45px;
-  
-    cursor: pointer;
-    outline: none;
-  }
-  
-  .btnLogin:hover {
-    background-color: #fff;
-    border: 1px solid var(--primary-color);
-    color:#000;
-  }
     
 </style>

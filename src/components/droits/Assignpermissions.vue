@@ -13,7 +13,7 @@
                 <input type="text" class="form-control bg-light border-0" placeholder="Recherchez..."
                   aria-describedby="search-member" v-model="searchPermissions" @input="filterByName" />
               </div>
-              <div class="btn btn-icon btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#create-permission">
+              <div class="btn btn-icon btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#create-Apermission">
                 <i class="ri-add-line"> </i>
               </div>
   
@@ -25,10 +25,10 @@
             </div>
   
             <div class="table-responsive" v-else>
-              <table class="table text-nowrap table-bordered">
+              <table class="table text-nowrap table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th scope="col">N</th>
+                    <th scope="col">N°</th>
                     <th scope="col">Nom</th>
                     <th scope="col">Droits</th>
                     <th scope="col">Actions</th>
@@ -55,7 +55,7 @@
                       <div class="hstack gap-2 fs-1">
   
                         <div class="btn btn-icon btn-sm btn-info btn-wave waves-effect " data-bs-toggle="modal"
-                          data-bs-target="#update_role" @click="HandleIdUpdate(user.id)"><i class="ri-edit-line"></i>
+                          data-bs-target="#update_roleA" @click="HandleIdUpdate(user.id)"><i class="ri-edit-line"></i>
                         </div>
                      
                       </div>
@@ -76,7 +76,7 @@
       </div>
     </div>
   
-    <div class="modal fade effect-rotate-bottom" id="create-permission" tabindex="-1" aria-hidden="true"
+    <div class="modal fade effect-rotate-bottom" id="create-Apermission" tabindex="-1" aria-hidden="true"
       data-bs-backdrop="static" ref="create-permission">
       <div class="modal-dialog modal-dialog-centered ">
         <div class="modal-content">
@@ -151,8 +151,8 @@
     </div>
   
   
-    <div class="modal fade effect-rotate-bottom" id="update_role" tabindex="-1" aria-hidden="true"
-      data-bs-backdrop="static" ref="update_role">
+    <div class="modal fade effect-rotate-bottom" id="update_roleA" tabindex="-1" aria-hidden="true"
+      data-bs-backdrop="static" ref="update_roleA">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header float-start text-center justify-content-center"

@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import store from '../store'
 
 import Dashboard from '../views/dashboard/default.vue'
+import Accueil from '../views/dashboard/index.vue'
 import SignIn from '../views/auth/signIn.vue'
 
 import Users from '../views/users/default.vue'
@@ -14,6 +15,7 @@ import Projets from '../views/projets/default.vue'
 import ProjetsAdd from '../views/projets/add.vue'
 import ProjetsDetail from '../views/projets/detail.vue'
 import ProjetsSuivi from '../views/projets/suivi_detail.vue'
+import ProjetsSuiviIndicateur from '../views/projets/suivi_indicateur.vue'
 import ProjetsDetails from '../views/projets/detail1.vue'
 
 import Bailleurs from '../views/bailleurs/default.vue'
@@ -47,12 +49,12 @@ const router = createRouter({
       component: Dashboard,
       meta: { requiresAuth: true },
       children:[
-        // {
-        //   path: '',
-        //   name: 'dashboard-home',
-        //   meta: { requiresAuth: true },
-        //    component: Accueil
-        // },
+        {
+          path: '',
+          name: 'dashboard-home',
+          meta: { requiresAuth: true },
+           component: Accueil
+        },
         {
           path: 'utilisateurs',
           name: 'utilisateurs',
@@ -97,10 +99,18 @@ const router = createRouter({
            component: ProjetsDetail
         },
         {
-          path: 'suivi-projet',
+          path: 'suivi-projet/:id',
           name: 'suivi-projet',
+          props:true,
           meta: { requiresAuth: true },
            component: ProjetsSuivi
+        },
+        {
+          path: 'projet/suivi-indicateur/:id',
+          name: 'suivi-indicateur',
+          props:true,
+          meta: { requiresAuth: true },
+           component: ProjetsSuiviIndicateur
         },
         // {
         //   path: 'detail-projet1',

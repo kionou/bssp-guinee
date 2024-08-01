@@ -1,7 +1,7 @@
 <template >
     <div>
         <div
-      class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb"
+      class="d-md-flex d-block pt-12  align-items-center justify-content-between my-4 page-header-breadcrumb"
     >
       <h1 class="page-title fw-semibold fs-18 mb-0">Utilisateurs</h1>
       <div class="ms-md-1 ms-0">
@@ -28,10 +28,19 @@
                     <div>
                         <ul class="nav nav-tabs nav-tabs-header mb-0" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link active" data-bs-toggle="tab" role="tab" aria-current="page" href="#roles" aria-selected="true">Assigner Menus</a>
+                                <a class="nav-link active" data-bs-toggle="tab" role="tab" aria-current="page" href="#roles" aria-selected="true">Rôles</a>
                             </li>
+
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#permissions" aria-selected="false" tabindex="-1">Assigner Permissions</a>
+                                <a class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#permissions" aria-selected="false" tabindex="-1"> Permissions</a>
+                            </li>
+
+                            <!-- <li class="nav-item" role="presentation">
+                                <a class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#menus" aria-selected="false" tabindex="-1">Assigner Menus</a>
+                            </li> -->
+
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#permissionsassign" aria-selected="false" tabindex="-1">Assigner Permissions</a>
                             </li>
                         </ul>
                     </div>
@@ -54,6 +63,16 @@
             <div class="tab-pane p-0" id="permissions" role="tabpanel">
                <Permissions></Permissions>
             </div>
+
+            <!-- <div class="tab-pane p-0" id="menus" role="tabpanel">
+               <Menus></Menus>
+            </div> -->
+
+            <div class="tab-pane p-0" id="permissionsassign" role="tabpanel">
+               <PermissionsAssign></PermissionsAssign>
+            </div>
+          
+          
           
 
 
@@ -68,11 +87,13 @@
     </div>
 </template>
 <script>
-import Roles from '@/components/droits/menus.vue'
-import Permissions from '@/components/droits/permissions.vue'
+import Menus from '@/components/droits/menus.vue'
+import PermissionsAssign from '@/components/droits/Assignpermissions.vue'
+import Roles from '@/components/roles&permissions/roles.vue'
+import Permissions from '@/components/roles&permissions/permissions.vue'
 export default {
     components: {
-        Permissions , Roles
+        Menus , PermissionsAssign , Roles , Permissions
     },
 }
 </script>

@@ -3,7 +3,7 @@
         <Loading v-if="loading" style="z-index: 99999"></Loading>
     <!-- Page Header -->
     <div
-      class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb"
+      class="d-md-flex d-block pt-12  align-items-center justify-content-between my-4 page-header-breadcrumb"
     >
       <h1 class="page-title fw-semibold fs-18 mb-0">Modes de financement</h1>
       <div class="ms-md-1 ms-0">
@@ -21,29 +21,26 @@
     </div>
     <!-- Page Header Close -->
 
-                               <div class="contact-header mb-3  py-2 px-1">
-                                    <div class="d-sm-flex d-block align-items-center justify-content-between">
-                                        <div class="h5 fw-semibold mb-0"></div>
-                                        <div class="d-flex mt-sm-0 mt-2 align-items-center">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control bg-light border-0" placeholder="Recherchez..." aria-describedby="search-member" v-model="control.name" @input="filterByName" >
-                                                <button class="btn btn-light" type="button" id="search-contact-member"><i class="ri-search-line text-muted"></i></button>
-                                            </div>
-                                           
-                                            <button class="btn btn-icon btn-primary ms-2" 
-                                             data-bs-placement="top"
-                                              data-bs-title="Add Contact"
-                                              data-bs-toggle="modal"
-                                               data-bs-target="#add_client"
-                                              >
-                                                <i class="ri-add-line">
-                                                    </i></button>
-                                        </div>
-                                    </div>
-                                </div> 
-
-                                
-                              
+  <div class="contact-header mb-3  py-2 px-1">
+      <div class="d-sm-flex d-block align-items-center justify-content-between">
+          <div class="h5 fw-semibold mb-0"></div>
+          <div class="d-flex mt-sm-0 mt-2 align-items-center">
+              <div class="input-group">
+                  <input type="text" class="form-control bg-light border-0" placeholder="Recherchez..." aria-describedby="search-member" v-model="control.name" @input="filterByName" >
+                  <button class="btn btn-light" type="button" id="search-contact-member"><i class="ri-search-line text-muted"></i></button>
+              </div>
+              
+              <button class="btn btn-icon btn-primary ms-2" 
+                data-bs-placement="top"
+                data-bs-title="Add Contact"
+                data-bs-toggle="modal"
+                  data-bs-target="#add_client"
+                >
+                  <i class="ri-add-line">
+                      </i></button>
+          </div>
+      </div>
+  </div> 
 
                                 <div class="col-xl-12">
                                 <div class="card custom-card">
@@ -79,14 +76,8 @@
                                               </tbody>
                                                 <tbody v-else>
                                                     <tr v-for="data  in paginatedItems" :key="data.id">
+                                                      <th scope="row" class="ps-4"> {{ data.Code }}</th>
                                                      
-                                                        <td>
-                                                        
-                                                                <span class="">
-                                                                  {{ data.Code }}
-                                                                </span>
-                                                         
-                                                        </td>
                                                         <td>
                                                         
                                                         <span class="">
@@ -658,7 +649,7 @@ export default {
     
        this.loading = true;
        let data = {
-
+            mode:this.step2.Code,
             Code:this.step2.Code,
             Intitule:this.step2.Intitule,
             Visible:this.step2.Visible,
