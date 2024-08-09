@@ -4,6 +4,7 @@ import store from '../store'
 
 import Dashboard from '../views/dashboard/default.vue'
 import Accueil from '../views/dashboard/index.vue'
+import Synthese from '../views/dashboard/synthese.vue'
 import SignIn from '../views/auth/signIn.vue'
 
 import Users from '../views/users/default.vue'
@@ -29,6 +30,10 @@ import DetailInsfrastructures from '../views/infrastructure/detail.vue'
 import Zones from '../views/zones/default.vue'
 
 
+import Test from '../views/test.vue'
+
+
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -38,10 +43,22 @@ const router = createRouter({
       component: SignIn
     },
     {
+      path: '/synthese-projet/:id',
+      name: 'synthese-projet',
+      props:true,
+      meta: { requiresAuth: true },
+       component: Synthese
+    },
+    {
       path: '/detail-projet1',
       name: 'detail-projet1',
-     
        component: ProjetsDetails
+    },
+    {
+      path: '/test',
+      name: 'Test',
+     
+       component: Test
     },
     {
       path: '/bspp',
@@ -143,8 +160,9 @@ const router = createRouter({
            component: ListeInsfrastructures
         },
         {
-          path: 'detail-infrastructures',
+          path: 'detail-infrastructures/:id',
           name: 'detail_infrastructures',
+          props:true,
           meta: { requiresAuth: true },
            component: DetailInsfrastructures
         },

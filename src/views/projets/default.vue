@@ -55,12 +55,12 @@
       </div>
                 <div class="row" v-else>
                     <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12" v-for="projet  in paginatedItems" :key="projet.id">
-                        <div class="card custom-card task-pending-card border border-dark " style="height:330px">
-                    <div class="card-body">
+                        <div class="card custom-card task-pending-card border border-dark " style="height:360px">
+                    <div class="card-body pt-2">
                         <div class="d-flex justify-content-between flex-wrap flex-column ">
                             <div>
                              <header>
-                              <span class="carde-title " >{{truncateText(projet.NomProjet, 65)}} </span>
+                              <span class="carde-title " >{{truncateText(projet.NomProjet, 55)}} </span>
                              </header>
                                 <div class="row align-items-center px-2">
                       
@@ -99,14 +99,14 @@
                                 <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(projet.id)">
                                     <i class="ri-delete-bin-line"></i>
                                 </button>
-                                  <div>
+                                 
                                     <button class="btn btn-sm btn-icon btn-success btn-wave" v-if="projet.Visible === '1'">
                                     <i class="ri-lock-unlock-line"></i>
                                    </button>
                                     <button class="btn btn-sm btn-icon btn-warning btn-wave" v-else>
                                     <i class="ri-lock-2-line"></i>
                                   </button>
-                                  </div>
+                               
                                 
                                 
                                 </div>
@@ -1187,12 +1187,13 @@ margin-top: 10px;
 }
 .carde-title {
 display: inline-block;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   transition: all 0.5s ease-in-out;
   top: -41px;
   right: 24px;
   width: 100%;
+  text-transform: uppercase;
   
 }
 

@@ -34,7 +34,7 @@
             <div class="card-body p-0 candidate-edu-timeline">
               <div class="p-2 ">
                 <div class="ms-4 ps-0">
-                  <p><span class="fw-semibold fs-14">Nom projet : </span><span class=" text-success fw-bolder" > {{ data.projet?.NomProjet }}</span> </p>
+                  <p><span class="fw-semibold fs-14">Nom projet : </span><span class=" text-success fs-15 fw-bolder" > {{ data.projet?.NomProjet }}</span> </p>
                   <p><span class="fw-semibold fs-14">Date debut : </span> <span class="fs-14 fw-semibold text-warning">{{ formatDate(data.projet?.DateDebut)}}</span> </p>
                   <p><span class="fw-semibold fs-14">Date fin : </span><span class="fs-14 fw-semibold text-warning">{{ formatDate(data.projet?.DateFin)  }}</span></p>
   
@@ -56,8 +56,8 @@
             <div class="card-body p-0 candidate-edu-timeline">
               <div class="p-2">
                 <div class="ms-4 ps-3">
-                  <p><span class="fw-semibold fs-14 ">Code indicateur : </span> <span class="fw-bolder  text-success" > {{ data.CodeIndicateur }}</span></p>
-                  <p><span class="fw-semibold fs-14">Nom indicateur : </span> <span class=" text-success fw-bolder" > {{data.IntituleIndicateur}}</span> </p>
+                  <p><span class="fw-semibold fs-14 ">Code indicateur : </span> <span class="fw-bolder fs-15  text-success" > {{ data.CodeIndicateur }}</span></p>
+                  <p><span class="fw-semibold fs-14">Nom indicateur : </span> <span class=" text-success fs-15 fw-bolder" > {{data.IntituleIndicateur}}</span> </p>
                   <p><span class="fw-semibold fs-14">Valeur cible : </span> <span class="fw-bolder" style="color: red">  {{ data.CibleFinProjet }} </span></p>
   
                 </div>
@@ -99,7 +99,7 @@
   
         <div class="card-body">
           <div v-if="paginatedItems.length === 0" class="noresul">
-        <span> Vous n'avez pas encore d'incateur, vous pouvez également en ajouter un !! </span>
+        <span> Vous n'avez pas encore de suivi indicateur, vous pouvez également en ajouter un !! </span>
       </div>
           <div class="table-responsive" v-else>
             <table class="table text-nowrap table-bordered">

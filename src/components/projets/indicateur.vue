@@ -6,7 +6,7 @@
       </div> -->
         <div class="contact-header mb-3 py-2 px-1">
       <div class="d-sm-flex d-block align-items-center justify-content-between">
-        <div class="fs-14 fw-semibold mb-0 text-primary ">{{data.NomProjet}}</div>
+        <div class="fs-16 fw-semibold mb-0 text-primary ">{{data.NomProjet}}</div>
         <div class="d-flex mt-sm-0 mt-2 align-items-center">
           <div class="input-group">
             <input type="text" class="form-control bg-light border-0" placeholder="Recherchez..."
@@ -21,7 +21,7 @@
     <div class="row task-card">
       
       <div v-if="paginatedItems.length === 0" class="noresul">
-        <span> Vous n'avez pas encore d'incateur, vous pouvez également en ajouter un !! </span>
+        <span> Vous n'avez pas encore d'indicateur !! </span>
       </div>
       <div class="table-responsive" v-else>
         <table class="table table-hover text-nowrap table-bordered table-striped ">
@@ -53,7 +53,7 @@
               <!-- <span class="d-block text-center text-danger fw-bold mb-1">
                 {{ realisationPercentage(item).toFixed(2) }}%
               </span> -->
-              <span class="text-center fw-semibold" :style="{ color: getProgressClass(realisationPercentage(item)) }">
+              <span class="text-center fw-semibold" :style="{ color: getProgressColor(realisationPercentage(item)) }">
                   {{ realisationPercentage(item).toFixed(2) }}%
                 </span>
               <div class="progress mb-3" role="progressbar" aria-valuemin="0" aria-valuemax="100">
@@ -283,6 +283,16 @@ export default {
         return 'bg-success';
       }
     },
+    getProgressColor(percentage) {
+      if (percentage <= 30) {
+        return 'red';
+      } else if (percentage <= 75) {
+        return 'orange';
+      } else {
+        return 'green';
+      }
+    },
+  
     handleProgressBarClick(item) {
       this.$router.push({ name: 'suivi-indicateur', params: { id: item.id } });
     },

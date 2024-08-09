@@ -30,9 +30,14 @@
                             <div class="card-header p-2 d-block">
                                 <div class="row">
                                     <div class=" col-10 flex-fill">
-                                            <span class="fs-11 fw-bold">{{truncateText(projet.NomProjet, 73)}}</span>
+                                            <span class="fs-16 fw-bold text-uppercase">{{truncateText(projet.NomProjet, 60)}}</span>
                                     </div>
-                                    <div class=" col-2 text-sm-center">
+                                    <!-- <div class=" col-1 text-sm-center">
+                                      <router-link :to="{ name: 'synthese-projet', params: { id: projet.id }}"   class="btn btn-sm btn-icon btn-info btn-wave">
+                                        <i class="ri-line-chart-fill"></i>
+                                    </router-link>
+                                    </div> -->
+                                    <div class=" col-1 p-0 text-sm-center">
                                       <router-link :to="{ name: 'detail-projet', params: { id: projet.id }}"   class="btn btn-sm btn-icon btn-success btn-wave">
                                         <i class="ri-eye-line"></i>
                                     </router-link>
@@ -44,7 +49,7 @@
                                     <div class=" text-center ">
                                         <div class="orders-delivery-address text-center">
                                         <p class="mb-1 ">Démarage</p>
-                                        <p class="text-secondary mb-0 fs-14 fw-semibold">
+                                        <p class="text-info mb-0 fs-14 fw-semibold">
                                             {{  getYear(projet.DateDebut)}}
                                         </p>
                                     </div>
@@ -53,7 +58,7 @@
                                 <div class="col-4">
                                     <div class="orders-delivery-address text-center">
                                         <p class="mb-1 ">Clôture</p>
-                                        <p class="text-secondary mb-0 fs-14 fw-semibold">
+                                        <p class="text-info mb-0 fs-14 fw-semibold">
                                             {{  getYear(projet.DateFin)}}
                                         </p>
                                     </div>
@@ -70,7 +75,7 @@
                                
                             </div>
                             <div class="row py-2">
-                              <div
+                              <!-- <div
                               class="col-4"
                               @mouseenter="showBailleurModal(projet)"
                               @mouseleave="hideBailleurModal"
@@ -79,25 +84,45 @@
                                 <p class="mb-1 ">Bailleurs</p>
                                 <p class="mb-0 fw-semibold fs-14" style="color:#198754;">{{ projet.bailleurs.length }}</p>
                               </div>
+                            </div> -->
+                            <div class="col-4">
+              <div class="orders-delivery-address text-center">
+                <p class="mb-1">Bailleurs</p>
+                <a href="#"
+              class="mb-0 fw-semibold fs-14"
+              style="color:#198754;"
+              @click="showBailleurModal(projet)"
+              data-bs-toggle="tooltip"
+              :title="'Voir les détails des bailleurs'"
+            >
+              {{ projet.bailleurs.length }}
+            </a>
+              </div>
+               </div>
+                            <div class="col-4">
+                              <div class="orders-delivery-address text-center">
+                                <p class="mb-1">Région</p>
+                                
+                                <a href="#"
+                                  class="mb-0 custom-tooltip"
+                                 
+                                  
+                                   data-bs-placement="top"
+                                  :data-bs-toggle="projet.regions.length > 0 ? 'tooltip' : ''"
+                                  :title="projet.regions.length > 0 ? getRegionNames(projet.regions) : ''"
+                                  
+                                >
+                                <span  class="mb-0 fw-semibold fs-14 "  style="color:#198754;">  {{ projet.regions.length }}</span>
+                                 
+                                </a>
+                              </div>
                             </div>
-                                 <div class="col-4"  @mouseenter="showRegionModal(projet)"
-                                 @mouseleave="hideRegionModal">
-                                    <div class="orders-delivery-address text-center">
-                                        <p class="mb-1  ">Région</p>
-                                        <p class=" mb-0  fw-semibold" style="color:#198754;">
-                                        
-                                        {{projet.regions.length}} 
-                              
-                                        </p>
-                                    </div>
-                                    
-                                </div>
                              
                                 <div class="col-4">
                                     <div class="orders-delivery-address text-center">
                                         <p class="mb-1 fw-semibold fs-13 fs-sm-11">Budget(GNF)</p>
                                         <p class="text-muted mb-0">
-                                          <span class="badge bg-secondary fs-12">{{ formatBudget(projetBudget(projet)) }}</span>
+                                          <span class="badge bg-secondary fs-16">{{ formatBudget(projetBudget(projet)) }}</span>
                                            
                                         </p>
                                     </div>
@@ -107,9 +132,9 @@
                             <hr class="m-0">
                             <div class=" p-2 d-flex d-block  justify-content-between bg-gray-200">
                               <div class="col-5 text-center">
-                                      <span class=" fs-16">Taux de Décaissement:</span><br>
+                                      <span class=" fs-16 m-0">Taux de Décaissement:</span><br>
                                       <span class="fw-semibold text-danger">{{ projetTauxDecaissement(projet).toFixed(2) }}%</span>
-                                      <div class="progress mb-3" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                      <div class="progress mb-1" role="progressbar" aria-valuemin="0" aria-valuemax="100">
                                       <div
                                         class="progress-bar progress-bar-striped"
                                         :class="getProgressClass(projetTauxDecaissement(projet))"
@@ -139,7 +164,7 @@
                 <!--End::row-1 -->
 
                 <bailleur-modal v-if="showModal" :bailleurs="currentBailleurs" @close="hideBailleurModal" />
-                <region-modal v-if="showRegionModals" :regions="currentRegions" @close="hideRegionModal" />
+                <!-- <region-modal v-if="showRegionModals" :regions="currentRegions" @close="hideRegionModal" /> -->
     </div>
 </template>
 <script>
@@ -189,14 +214,17 @@
         resultError: {},
         showModal: false,
         currentBailleurs: [],
-        showRegionModals: false,
-        currentRegions: [],
+     
       };
     },
   
     async mounted() {
       console.log("loggedInUser", this.loggedInUser);
       await this.fetchProjets()
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+  });
      
       
      
@@ -204,6 +232,9 @@
   
     methods: {
       successmsg: successmsg,
+      getRegionNames(regions) {
+    return regions.map(region => region.region?.NomRegion).join(', ');
+  },
       showBailleurModal(projet) {
        
       this.currentBailleurs = projet.bailleurs;
@@ -213,14 +244,7 @@
       this.showModal = false;
       this.currentBailleurs = [];
     },
-    showRegionModal(projet) {
-      this.currentRegions = projet.regions;
-      this.showRegionModals = true;
-    },
-    hideRegionModal() {
-      this.showRegionModals = false;
-      this.currentRegions = [];
-    },
+ 
       async fetchProjets() {
       try {
         const response = await axios.get('/projets', {
@@ -335,5 +359,12 @@ formatBudget(value) {
   </script>
   <style lang="css" scoped>
 
-    
+.custom-tooltip .tooltip-inner {
+  background-color: #ff5733; /* Changer la couleur de fond */
+  color: #ffffff; /* Changer la couleur du texte */
+}
+
+.custom-tooltip .tooltip-arrow {
+  border-top-color: #ff5733; /* Changer la couleur de la flèche */
+}
 </style>

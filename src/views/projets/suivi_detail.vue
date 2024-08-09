@@ -106,7 +106,7 @@
         <div class="card custom-card">
         <div class="card-header justify-content-between">
           <div class="card-title">
-            La liste des bailleurs ayant effectué des décaissements dans ce suivi
+            La liste des bailleurs  dans ce suivi
           </div>
   
         </div>
@@ -230,7 +230,7 @@
   <span> Aucune contrainte liée à ce suivi !! </span>
 </div>
 <div class="table-responsive" v-else>
-  <table class="table text-nowrap table-bordered border-primary table-striped">
+  <table class="table  table-bordered border-primary table-striped">
     <thead>
       <tr>
         <th scope="col" class="text-dark fw-semibold">Type de contrainte</th>

@@ -28,7 +28,7 @@
               <table class="table text-nowrap table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th scope="col">N°</th>
+                    <th scope="col" class="text-center">N°</th>
                     <th scope="col">Nom</th>
                     <th scope="col">Droits</th>
                     <th scope="col">Actions</th>
@@ -36,9 +36,7 @@
                 </thead>
                 <tbody>
                   <tr v-for="(user , index) in paginatedItems" :key="user.id">
-                    <td>
-                      {{index + 1}}
-                    </td>
+                    <th scope="row" class="ps-4" style="width: 60px;">  {{index + 1}}</th>
                     <td>
                       <div class="d-flex align-items-center lh-1">
   
@@ -51,8 +49,8 @@
                         detail
                       </div>
                     </td>
-                    <td>
-                      <div class="hstack gap-2 fs-1">
+                    <td style="width: 120px;">
+                      <div class="hstack gap-2 fs-1"  >
   
                         <div class="btn btn-icon btn-sm btn-info btn-wave waves-effect " data-bs-toggle="modal"
                           data-bs-target="#update_roleA" @click="HandleIdUpdate(user.id)"><i class="ri-edit-line"></i>

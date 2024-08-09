@@ -9769,6 +9769,7 @@ input[type="range"]::-webkit-slider-runnable-track {
   background-color: var(--secondary-rgb);
   color: var(--primary-color);
   border: 1px solid transparent;
+  font-size: 18px;
 }
 .nav-tabs-header .nav-item .nav-link:focus,
 .nav-tabs-header .nav-item .nav-link:hover {
@@ -11488,7 +11489,7 @@ caption {
   padding: 0.3rem;
   vertical-align: middle;
   line-height: 1.462;
-  font-size: 0.813rem;
+  font-size: 1rem;
   font-weight: 500;
 }
 .table th {
@@ -11497,7 +11498,7 @@ caption {
 }
 .table thead tr th {
   font-weight: 600;
-  font-size: 13px;
+  font-size: 15px;
   background-color: #26bf94;
   color: #fff !important;
 }

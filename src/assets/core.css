@@ -8177,6 +8177,7 @@ html:not([dir=rtl]) .input-group > .btn-group:last-child > .btn:not([class*=btn-
 }
 .nav-tabs .nav-item .nav-link:not(.active) {
   background-color: #eceef1;
+  font-size: 17px;
 }
 .nav-tabs .nav-item .nav-link.disabled {
   color: #c7cdd4;

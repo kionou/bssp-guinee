@@ -1043,7 +1043,7 @@
                   </li>
                   <li class="slide">
                     <router-link
-                      to="/"
+                      to="/bspp/types-infrastructures"
                       class="side-menu__item"
                       >Types infrastructures</router-link
                     >
@@ -1086,7 +1086,7 @@
       <!-- Footer Start -->
       <footer class="footer mt-auto py-3 bg-white text-center">
         <div class="container">
-          <span class="text-muted">
+          <span class="text-muted fs-16">
             © Copyright BSPP <span id="year"></span>
             <a href="javascript:void(0);" class="text-dark fw-semibold"
               >Tous droits réservés

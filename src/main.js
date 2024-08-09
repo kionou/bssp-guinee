@@ -4,6 +4,10 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from "./store"
+import HighchartsVue from 'highcharts-vue'
+import Highcharts from 'highcharts'
+import highchartsMore from 'highcharts/highcharts-more'
+import solidGauge from 'highcharts/modules/solid-gauge'
 
 
 import Toast from 'vue-toastification'
@@ -23,6 +27,11 @@ import MazSwitch from 'maz-ui/components/MazSwitch'
  import MazInputCode from 'maz-ui/components/MazInputCode'
  import MazRadioButtons from 'maz-ui/components/MazRadioButtons'
 import 'sweetalert2/dist/sweetalert2.min.css';
+import 'vue-toastification/dist/index.css';
+
+highchartsMore(Highcharts)
+solidGauge(Highcharts)
+
 
 const app = createApp(App)
 
@@ -48,7 +57,9 @@ const app = createApp(App)
 store.dispatch('auth/loadMyAuthenticatedUser').then(() => {
   app.use(router)
   app.use(store);
+  app.use(HighchartsVue)
   app.use(Toast)
+  
   app.mount('#app')
    
     });

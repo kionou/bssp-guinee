@@ -7,7 +7,7 @@
         <div class="contact-header mb-3 py-2 px-1">
       <div class="d-sm-flex d-block align-items-center justify-content-between">
         
-        <div class="fs-14 fw-semibold mb-0 text-primary ">{{data.NomProjet}}</div>
+        <div class="fs-16 fw-semibold mb-0 text-primary ">{{data.NomProjet}}</div>
         <div class="d-flex mt-sm-0 mt-2 align-items-center">
           <div class="input-group">
             <input type="text" class="form-control bg-light border-0" placeholder="Recherchez..."
@@ -43,9 +43,9 @@
                                 <img src="@/assets/img/logo_mobile.png" alt="img"> 
                                 </span>
                                   Suivi du <b class="fs-16  ml-2" style="color:red;">  {{ formatDate(item.DateSuivi) }} </b> </p>
-                                <p class="mb-2 fw-semibold">Taux Avancement Physique : <span class="fs-14 mb-1 text-secondary fw-semibold">{{item.TauxAvancementPhysique}} %</span></p>
-                                <p class="mb-2 fw-semibold">Niveau Execution Global : <span class="fs-14 mb-1 text-muted fw-semibold" >{{item.NiveauExecution}} %</span></p>
-                                <p class="mb-0 fw-semibold">Statut du Projet  :<span  class="fs-14 mb-1 text-muted fw-semibold" 
+                                <p class="mb-2 fw-semibold fs-16">Taux Avancement Physique : <span class="fs-14 mb-1 text-secondary fw-semibold">{{item.TauxAvancementPhysique}} %</span></p>
+                                <p class="mb-2 fw-semibold fs-16">Niveau Execution Global : <span class="fs-14 mb-1 text-muted fw-semibold" >{{item.NiveauExecution}} %</span></p>
+                                <p class="mb-0 fw-semibold fs-16">Statut du Projet  : <span  class="fs-14 mb-1 text-muted fw-semibold" 
                                     :class="getStatusClass(item.StatutProjet)" >{{item.StatutProjet}}</span></p>
                                 
                             </div>

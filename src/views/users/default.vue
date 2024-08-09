@@ -42,7 +42,7 @@
         <span> Vous n'avez pas encore d'utilisateur, vous pouvez également en ajouter un !! </span>
       </div>
       <div class="table-responsive" v-else>
-        <table class="table  text-nowrap table-hover border table-bordered table-striped">
+        <table class="table  table-hover border table-bordered table-striped">
           <thead>
             <tr>
               <th scope="col">Nom & Prenoms</th>
@@ -74,7 +74,7 @@
                   </div>
                   <div>
                     <span class="d-block fw-semibold mb-1">{{user.Nom}} {{user.Prenoms}}</span>
-                    <span class="text-warning fs-12">{{user.username}}</span>
+                    <span class="text-warning fs-14">{{user.username}}</span>
                   </div>
                 </div>
               </td>
@@ -83,7 +83,7 @@
   
                   <div>
                     <span class="d-block fw-semibold mb-1">{{user.email}}</span>
-                    <span class="text-muted fs-12">{{user.Whatsapp}}</span>
+                    <span class="text-muted fs-14">{{user.Whatsapp}}</span>
                   </div>
                 </div>
               </td>
@@ -101,13 +101,13 @@
                 {{ project }}<span v-if="idx < group.length - 1">, </span>
               </span>
             </div>
-            <br v-if="index < formatProjectsInGroups(user).length - 1">
+            <!-- <br class="m-0" v-if="index < formatProjectsInGroups(user).length - 1"> -->
           </template>
         </div>
       </td>
   
               <td>
-                <div class="btn-list w-100 d-flex justify-content-center">
+                <div class="btn-list w-100 d-flex justify-content-center" v-if="user.roles.length">
                   <div>
                     <div class="btn btn-sm  btn-success btn-wave" v-if="user.Statut === '1'"
                       @click="HandleIdStatut(user.id)">
@@ -714,8 +714,8 @@ export default {
 
     // Diviser en groupes de trois
     const groups = [];
-    for (let i = 0; i < projects.length; i += 3) {
-      groups.push(projects.slice(i, i + 3));
+    for (let i = 0; i < projects.length; i += 5) {
+      groups.push(projects.slice(i, i + 5));
     }
     return groups;
   },
@@ -818,7 +818,7 @@ export default {
           });
           console.log('response.login', response.data);
           if (response.data.status === "success") {
-            await this.submitRole(response.data.data.id ,modalId)
+            await this.submitRole(response.data.data.id, this.step1.role,"add",modalId)
 
           } else {
 
@@ -843,9 +843,9 @@ export default {
 
       }
     },
-   async submitRole(a ,modalId){
+   async submitRole(a,b,c,modalId){
     let DataUser ={
-      code:this.step1.role,
+      code:b,
       user: a
     }
       console.log("eeeee", DataUser);
@@ -861,8 +861,17 @@ export default {
           console.log('response.login', response.data);
           if (response.data.status === "success") {
             this.closeModal(modalId);
-            this.successmsg("Création de l'utilisateur", 'Votre utilisateur a été crée avec succès !')
-            await this.fetchUserAll()
+            if (c === "add") {
+              this.successmsg("Création de l'utilisateur", 'Votre utilisateur a été crée avec succès !')
+              await this.fetchUserAll()
+            } else {
+               this.successmsg(
+               "Données de l'utilisateur mises à jour",
+               "Les données de l'utilisateur ont été mises à jour avec succès !"
+             );
+             await this.fetchUserAll();
+            }
+         
 
           } else {
 
@@ -976,12 +985,10 @@ export default {
           });
           console.log("Réponse du téléversement :", response);
           if (response.data.status === "success") {
-            this.closeModal(modalId);
-            this.successmsg(
-              "Données de l'utilisateur mises à jour",
-              "Les données de l'utilisateur ont été mises à jour avec succès !"
-            );
-            await this.fetchUserAll();
+            // this.closeModal(modalId);
+            
+            await this.submitRole(response.data.data.id, this.step2.role,'update',modalId)
+
           }
         } catch (error) {
           console.error("Erreur lors du téléversement :", error);

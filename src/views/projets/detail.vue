@@ -26,11 +26,18 @@
     <div class="col-xl-12">
         <div class="pb-3">
             <div class="">
-                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2" style="border-bottom:1px solid var(--secondary-rgb);">
+                <div class="d-flex align-items-center  flex-wrap gap-2" style="border-bottom:1px solid var(--secondary-rgb);">
+                  <!-- <button @click="goBack" class="btn btn-link text-success " style="text-decoration: none;">
+                    &larr; Retour
+                </button> -->
                     <div>
                         <ul class="nav nav-tabs nav-tabs-header mb-0" role="tablist">
+                          <li class="nav-item" role="presentation">
+                            <a class="nav-link bg-primary text-white m-0 "  @click="goBack" href="#">  &larr; Retour</a>
+
+                          </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link active" data-bs-toggle="tab" role="tab" aria-current="page" href="#step1" aria-selected="true">General</a>
+                                <a class="nav-link active m-0" data-bs-toggle="tab" role="tab" aria-current="page" href="#step1" aria-selected="true">General</a>
                             </li>
 
                             <li class="nav-item" role="presentation">
@@ -71,7 +78,7 @@
             <div class="tab-pane p-0" id="step2" role="tabpanel">
               <div class="card">
                 <div class="card-body">
-              <Infrastructure :data="data" :indicateursOptions="indicateursOptions" :codeProjet="code"   @indicateur-updated="handleIndicateurUpdated"  ></Infrastructure>
+              <Infrastructure :data="data" :InfrastructuresOptions="InfrastructuresOptions" :codeProjet="code"   @indicateur-updated="handleIndicateurUpdated"  ></Infrastructure>
 
                 </div>
               </div>
@@ -236,6 +243,7 @@
         ObjectisOptions:[],
         SuivisOptions:[],
         BailleursOptions:[],
+        InfrastructuresOptions:[],
         
         indicateur: {
           Intitule: "",
@@ -296,12 +304,13 @@
           this.code = this.data.CodeProjet 
           this.setCodeProjet(this.data.CodeProjet);
           console.log("CodeProjet", this.code); 
-          this.ObjectisOptions =  response.data.data.objectifs 
+          this.ObjectisOptions =  response.data.data.objectifs   
           this.SuivisOptions =  response.data.data.suivis
           this.BailleursOptions =  response.data.data.bailleurs
+          this.InfrastructuresOptions =  response.data.data.infrastructures
           await this.fetchIndicateur(this.code)
           // await this.fetchObjectif(this.code)
-        console.log("usersOptions", response.data.data.suivis);
+        console.log("usersOptions", response.data.data.infrastructures);
 
           this.loading = false;
            localStorage.setItem('CodeProjet', this.data.CodeProjet);
@@ -404,6 +413,10 @@
       this.fetchIndicateur(this.code);
       this.fetchDetailProjet();
     },
+    goBack() {
+      // Votre logique de retour ici, par exemple :
+      this.$router.go(-1);
+    }
 
    
   

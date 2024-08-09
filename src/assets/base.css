@@ -232,15 +232,16 @@ width: 100%;
 }
 .titre {
   display: block;
-  color: red;
+  color: #fff;
   margin-bottom: 4px;
-  font-size: 14px;
+  font-size: 16px;
   width: fit-content;
   border: 1px solid var(--secondary-rgb);
   padding: 1px 5px;
   font-weight: bolder;
   left: 38px;
     position: relative;
+    background-color: red;
 }
 
 .btn-secondaire {

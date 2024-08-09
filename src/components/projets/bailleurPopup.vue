@@ -1,11 +1,11 @@
 <template>
   <div class="modal-backdrop" v-if="visible">
-    <div class="modal-container">
+    <div class="modal-container ">
       <div class="modal-header">
         <h5 class="modal-title">Détails des Bailleurs</h5>
-        <button type="button" class="close" @click="$emit('close')">&times;</button>
+       
       </div>
-      <div class="modal-body">
+      <div class="modal-body px-4">
         <table class="table">
           <thead>
             <tr>
@@ -19,51 +19,59 @@
             <tr v-for="bailleur in bailleurs" :key="bailleur.id">
               <td>{{ bailleur.CodeBailleur }}</td>
               <td>{{ formatBudget(bailleur.Budget) }} GNF</td>
-              <td>{{ formatBudget(bailleur.decaissement[0]?.montant_decaisser) }} GNF</td>
+              <td>{{ bailleur.decaissement.length > 0 && bailleur.decaissement[0]?.montant_decaisser ? formatBudget(bailleur.decaissement[0].montant_decaisser) : 0 }} GNF</td>
+
               <td>
                 <span class="text-center fw-semibold" :style="{ color: getProgressColor(calculerTauxDecaissement(bailleur)) }">
                   {{ calculerTauxDecaissement(bailleur) }}%
                 </span>
-               
 
                 <div class="progress mb-3" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                <div
-                  class="progress-bar progress-bar-striped"
-                  :class="getProgressClass(calculerTauxDecaissement(bailleur))"
+                  <div
+                    class="progress-bar progress-bar-striped"
+                    :class="getProgressClass(calculerTauxDecaissement(bailleur))"
                     :style="{ width: calculerTauxDecaissement(bailleur) + '%' }"
                     :aria-valuenow="calculerTauxDecaissement(bailleur)"
-                  
-                >
+                  >
+                  </div>
                 </div>
-              </div>
               </td>
             </tr>
           </tbody>
           <tfoot>
             <tr>
               <th>Total Général</th>
-              <th>{{ formatBudget(totalBudget) }} GNF</th>
-              <th>{{ formatBudget(totalMontantDecaisse) }} GNF</th>
+              <th style="color: red;" class="fw-semibold">{{ formatBudget(totalBudget) }} GNF</th>
+              <th style="color: red;" class="fw-semibold">{{ formatBudget(totalMontantDecaisse) }} GNF</th>
               <th>
                 <span class="text-center fw-semibold" :style="{ color: getProgressColor(totalTauxDecaissement) }">
                   {{ totalTauxDecaissement }}%
                 </span>
-              
 
                 <div class="progress mb-3" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                <div
-                  class="progress-bar progress-bar-striped"
-                  :class="getProgressClass(totalTauxDecaissement)"
+                  <div
+                    class="progress-bar progress-bar-striped"
+                    :class="getProgressClass(totalTauxDecaissement)"
                     :style="{ width: totalTauxDecaissement + '%' }"
                     :aria-valuenow="totalTauxDecaissement"
-                  
-                >
+                  >
+                  </div>
                 </div>
-              </div>
               </th>
             </tr>
           </tfoot>
         </table>
+      </div>
+      <div class="modal-footer " >
+        <div class="btn-group ms-auto" style="padding: 10px 10px 10px 0;">
+          <button
+            type="button"
+            class="btn btn-danger"
+            @click="$emit('close')"
+          >
+            Fermer
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -140,7 +148,7 @@ export default {
 
 .modal-container {
   background-color: white;
-  padding: 20px;
+  /* padding: 20px; */
   border-radius: 5px;
   max-width: 90%;
   width: 700px;
@@ -150,16 +158,19 @@ export default {
 
 .modal-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   border-bottom: 1px solid #dee2e6;
   padding-bottom: 0.5rem;
   margin-bottom: 1rem;
+  background-color: var(--primary-color);
+  
 }
 
 .modal-title {
   margin: 0;
   font-size: 1.5rem;
+  color: white;
 }
 
 .close {
@@ -175,7 +186,7 @@ export default {
 }
 
 .table th, .table td {
-  padding: 10px;
+  /* padding: 10px; */
   border: 1px solid #ddd;
 }
 

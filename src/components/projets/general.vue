@@ -16,7 +16,7 @@
                                 <div class="me-2 fw-semibold">
                                   Code :
                                 </div>
-                                <span class="fs-12  fw-semibold " style="color:#05b305;">{{data.CodeProjet}}</span>
+                                <span class="  fw-semibold " style="color:#05b305;">{{data.CodeProjet}}</span>
                               </div>
                             </li>
                             <li class="list-group-item">
@@ -24,7 +24,7 @@
                                 <div class="me-2 fw-semibold">
                                   Sigle :
                                 </div>
-                                <span class="fs-12 fw-semibold " style="color:#05b305;">{{ data.Sigle }}</span>
+                                <span class=" fw-semibold " style="color:#05b305;">{{ data.Sigle }}</span>
                               </div>
                             </li>
                             <li class="list-group-item">
@@ -32,7 +32,7 @@
                                 <div class="me-2 fw-semibold">
                                   Debut :
                                 </div>
-                                <span class="fs-12 fw-semibold text-warning">{{  formatDate(data.DateDebut) }}</span>
+                                <span class=" fw-semibold text-warning">{{  formatDate(data.DateDebut) }}</span>
                               </div>
                             </li>
                             <li class="list-group-item">
@@ -40,7 +40,7 @@
                                 <div class="me-2 fw-semibold">
                                   Fin :
                                 </div>
-                                <span class="fs-12 fw-semibold text-warning">{{  formatDate(data.DateFin)}}</span>
+                                <span class=" fw-semibold text-warning">{{  formatDate(data.DateFin)}}</span>
                               </div>
                             </li>
                             <li class="list-group-item">
@@ -48,7 +48,7 @@
                                 <div class="me-2 fw-semibold">
                                   Durée :
                                 </div>
-                                <span class="fs-12 fw-semibold " style="color:red;">{{ tempsEcoule }}</span>
+                                <span class=" fw-semibold " style="color:red;">{{ tempsEcoule }}</span>
                               </div>
                             </li>
                             <li class="list-group-item">
@@ -56,7 +56,7 @@
                                 <div class="me-2 fw-semibold">
                                   Mode Financement :
                                 </div>
-                                <span class="fs-12 fw-semibold " style="color:#05b305;">{{ data.ModeFinancement }}</span>
+                                <span class=" fw-semibold " style="color:#05b305;">{{ data.ModeFinancement }}</span>
                               </div>
                             </li>
                             <li class="list-group-item">
@@ -180,7 +180,7 @@
                                   <tbody>
                                     <tr v-for="(item , index)  in paginatedObjectifs" :key="item.id">
                                       <th   style="width: 30px;" scope="row" class="ps-4">{{ (currentPageObjectifs - 1) * itemsPerPage + index + 1 }}</th>
-                                      <td ><span class="d-block fw-semibold mb-1 text-left"> {{item.Intitule}}</span></td>
+                                      <td ><span class="d-block  mb-1 text-left"> {{item.Intitule}}</span></td>
                                       <td style="width: 130px;" class="text-center">
                                         <span  v-if="item.Visible === '1'" class="badge bg-success">Activer</span>
                                         <span  v-else class="badge bg-warning">Desactiver</span>
@@ -265,16 +265,17 @@
                                   <tbody>
                                     <tr v-for="(item , index)  in paginatedBailleurs" :key="item.id">
                                       <th  style="width: 30px;" scope="row" class="ps-4 ">{{ (currentPageBailleurs - 1) * itemsPerPage + index + 1 }}</th>
-                                      <td><span class="d-block fw-semibold mb-1 text-left"> {{item.CodeBailleur}}</span></td>
+                                      <td><span class="d-block fw-semibold  mb-1 text-left"> {{item.CodeBailleur}}</span></td>
                                       <td style="width: 180px;" class="text-center"><span class="d-block fw-semibold mb-1 "> {{ formatBudget(item.Budget) || 0 }} </span></td>
                                       <td style="width: 180px;" class="text-center">
                                           <span class="d-block fw-semibold mb-1" v-if="item.decaissement.length === 0">0 GNF</span>
                                           <span class="d-block fw-semibold mb-1" v-else>{{ formatBudget(item.decaissement[0]?.montant_decaisser) }}</span>
             </td>
             <td style="width: 130px;" class="text-center">
-              <span class="d-block text-center text-danger fw-bold mb-1">
+            
+              <span class="text-center fw-semibold" :style="{ color: getProgressColor(tauxDecaissement(item)) }">
                 {{ tauxDecaissement(item).toFixed(2) }}%
-              </span>
+                </span>
         
               <div class="progress mb-3" role="progressbar" aria-valuemin="0" aria-valuemax="100">
                 <div
@@ -311,7 +312,10 @@
           <td  class="text-center"> <strong  style="color:red;">{{ totalBudget }} GNF</strong></td>
           <td  class="text-center"> <strong  style="color:red;">{{ totalMontantDecaisse }} GNF</strong></td>
           <td class="text-center">
-            <span class="progress-text fw-bold text-danger ">{{ tauxDecaissementTotal }}%</span>
+          
+            <span class="text-center fw-semibold" :style="{ color: getProgressColor(tauxDecaissementTotal) }">
+                {{ tauxDecaissementTotal }}%
+                </span>
            
 
             <div class="progress mb-3" role="progressbar" aria-valuemin="0" aria-valuemax="100">
@@ -391,7 +395,7 @@
           <tbody>
             <tr v-for="item  in paginatedItems" :key="item.id">
               <th style="width: 30px;" scope="row" class="ps-4">{{item.CodeIndicateur}}</th>
-              <td><span class="d-block fw-semibold mb-1 text-left"> {{item.IntituleIndicateur}}</span></td>
+              <td><span class="d-block  mb-1 text-left"> {{item.IntituleIndicateur}}</span></td>
               <td style="width: 130px;" class="text-center"><span class="d-block fw-semibold mb-1 " style="color:red"> {{item.CibleFinProjet}}
               </span></td>
               <!-- <td class="text-center"> <button class="btn btn-warning btn-sm ">suivi</button>
@@ -554,7 +558,7 @@
               <div>
                 <div class="btn-list" style="position:absolute ; right: 7px; top: 5px;" >
           <div class="bouttons" >
-        <div class="boutton" style=" width: 38px; z-index:1000" @click="AddformDataBailleurs" ><i  class="ri-add-line"></i></div>
+        <div class="boutton" style=" width: 100px; z-index:1000 ; max-width: 200px !important" @click="AddformDataBailleurs" ><i  class="ri-add-line"></i>Ajouter</div>
         </div>
           </div>
                 <div class="row align-items-center p-2  border-bottom " v-for="(bailleur, index) in Bailleurs" :key="bailleur.id">
@@ -577,7 +581,7 @@
                         rounded-size="sm"
                         type="text"
                         @click="clearErrorBailleurs(index, 'CodeBailleur')"
-                        :options="BailleursOption"
+                        :options="filteredBailleursOptions"
 
                       />
                       <small v-if="errors.Bailleurs && errors.Bailleurs[index] && errors.Bailleurs[index].CodeBailleur">{{ errors.Bailleurs[index].CodeBailleur }}</small>
@@ -1249,6 +1253,7 @@ import { require, lgmin, lgmax, ValidEmail } from "@/functions/rules";
 import { successmsg } from "@/lib/modal.js";
 import MazPhoneNumberInput from "maz-ui/components/MazPhoneNumberInput";
 import Swal from "sweetalert2";
+
 export default {
   props: {
     data: {
@@ -1363,6 +1368,14 @@ export default {
     if (totalBudgetValue === 0) return 0;
     return ((totalMontantDecaisseValue / totalBudgetValue) * 100).toFixed(2);
   },
+  // filteredBailleursOptions() {
+  //     return this.BailleursOptions.filter(option => {
+  //       console.log('eeedd',option)
+  //       option.CodeBailleur
+       
+  //        return !this.BailleursOption.some(apiOption => apiOption.value === option.CodeBailleur);
+  //     });
+  //   },
 
   // pour indicateur
   totalPages() {
@@ -1433,6 +1446,7 @@ export default {
         itemsPerPage: 6,
         totalPageArray: [],
         BailleursOption:[],
+        filteredBailleursOptions: [],
         // totalMontantDecaisse: 0,
         // totalBudget: 0,
         // tauxDecaissementTotal: 0,
@@ -1520,7 +1534,8 @@ export default {
       },
       deep: true,
       immediate: true
-    }
+    },
+    BailleursOptions: 'filterBailleurs'
   },
 
   async mounted() {
@@ -1536,50 +1551,19 @@ export default {
 
   methods: {
     successmsg:successmsg,
-  
-    async fetchBailleurs() {
-      try {
-        const response = await axios.get( '/bailleurs',
-          {
-            headers: {
-              Authorization: `Bearer ${this.loggedInUser.token}`,
-            },
-            params:{statut:null}
-          }
-        );
+   
+    filterBailleurs() {
+  console.log('BailleursOptions from props:', this.BailleursOptions);
+  console.log('Bailleurs from API:', this.BailleursOption);
 
-        console.log("responseclienteschools-level", response.data);
-        if (response.data.status === "success") {
-          const filteredOptions = response.data.data.filter(item => item.Visible === '1');
-              this.BailleursOption = filteredOptions.map(item => ({
-                label: item.NomBailleur,
-                value: item.CodeBailleur,
-        }))
-          console.log("this.DaysOptions", filteredOptions);
-          this.loading =  false
-        }
-      } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
-        if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+  this.filteredBailleursOptions = this.BailleursOption.filter(apiBailleur => {
+    return !this.BailleursOptions.some(propBailleur => {
+      return apiBailleur.value === propBailleur.CodeBailleur;
+    });
+  });
 
-          if (
-            error.response.data.message === "Vous n'êtes pas autorisé." ||
-            error.response.status === 401
-          ) {
-            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
-            this.$router.push("/"); //a revoir
-          }
-        } else {
-          this.formatValidationErrors(error.response.data.errors);
-          this.loading = false;
-          return false;
-        }
-      }
-    },
+  console.log('Filtered Bailleurs:', this.filteredBailleursOptions);
+},
 
     AddformDataObjectifs() {
      this.Objectifs.push({ Intitule:'', Visible:''});
@@ -1818,6 +1802,15 @@ async submitObjectifs(modalId) {
         }
       }
     },
+    getProgressColor(percentage) {
+      if (percentage <= 30) {
+        return 'red';
+      } else if (percentage <= 75) {
+        return 'orange';
+      } else {
+        return 'green';
+      }
+    },
 
    
 
@@ -1847,7 +1840,10 @@ async submitObjectifs(modalId) {
             isValid = false;
         }
         if (!bailleur.Budget) {
-            bailleurErrors.Budget = 'Ce champs est obligatoire!';
+            bailleurErrors.Budget = 'Ce champ est obligatoire!';
+            isValid = false;
+        } else if (bailleur.Budget == 0) {
+            bailleurErrors.Budget = 'Le budget ne peut pas être 0!';
             isValid = false;
         }
         
