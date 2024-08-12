@@ -4,7 +4,7 @@
 
         <!-- Start::app-content -->
     
-        <div class="container-fluid">
+        <div class="">
     
             <!-- Page Header -->
             <div class="d-md-flex d-block pt-12  align-items-center justify-content-between my-4 page-header-breadcrumb">
@@ -308,7 +308,7 @@
                                               <td style="width: 80px;">
                                                   <div class="hstack gap-2 fs-1">
                                                     
-                                                      <div class="btn btn-icon btn-sm btn-info btn-wave waves-effect " data-bs-toggle="modal" data-bs-target="#update-suivis"   ><i class="ri-edit-line"></i></div>
+                                                      <div class="btn btn-icon btn-sm btn-info btn-wave waves-effect " data-bs-toggle="modal" data-bs-target="#update-suivi"  @click="HandleIdUpdate(user.id)"  ><i class="ri-edit-line"></i></div>
                                                       <!-- @click="HandleIdUpdate(user.id)" <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-danger btn-wave waves-effect waves-light"><i class="ri-delete-bin-line" @click="HandleIdDelete(user.id)"></i></a> -->
                                                   </div>
                                               </td>
@@ -595,7 +595,7 @@
          
                                     <div class="col-xl-6 col-md-6 col-sm-12">
                                     <label for="date_start">Taux d'avancement technique<span class="text-danger">*</span></label>
-                                        <MazInput v-model="step1.TauxAvancementTechnique"   color="info" name="TauxAvancementTechnique" size="sm" rounded-size="sm" type="text" />
+                                        <MazInput v-model="step1.TauxAvancementTechnique"   color="info" name="TauxAvancementTechnique" size="sm" rounded-size="sm" type="number" min="0" max="100" />
                                         <small v-if="v$.step1.TauxAvancementTechnique.$error">{{ v$.step1.TauxAvancementTechnique.$errors[0].$message}}</small>
                                         <small v-if="resultError['TauxAvancementTechnique']"> {{ resultError["TauxAvancementTechnique"] }} </small>
                                     </div>
@@ -715,17 +715,56 @@
          
                                     <div class="col-xl-6 col-md-6 col-sm-12">
                                     <label for="date_start">Taux d'avancement technique<span class="text-danger">*</span></label>
-                                        <MazInput v-model="step2.TauxAvancementTechnique"   color="info" name="TauxAvancementTechnique" size="sm" rounded-size="sm" type="text" />
+                                        <MazInput v-model="step2.TauxAvancementTechnique"   color="info" name="TauxAvancementTechnique" size="sm" rounded-size="sm" type="number"  min="0" max="100" />
                                         <small v-if="v$.step2.TauxAvancementTechnique.$error">{{ v$.step2.TauxAvancementTechnique.$errors[0].$message}}</small>
                                         <small v-if="resultError['TauxAvancementTechnique']"> {{ resultError["TauxAvancementTechnique"] }} </small>
                                     </div>
-                                    <div class="col-xl-6 col-md-6 col-sm-12">
+                                    <!-- <div class="col-xl-6 col-md-6 col-sm-12">
                                         <label for="date_end">Images<span class="text-danger">*</span></label>
                                         <input class="form-control" type="file" id="input-file" accept="image/*" multiple
                                          @change="handleFileUploadImagesUpdate">
                                         <small v-if="v$.step2.images.$error">{{ v$.step2.images.$errors[0].$message}}</small>
                                         <small v-if="resultError['images[]']"> {{ resultError["images[]"] }} </small>
-                                    </div>
+                                    </div> -->
+                                    <div class="col-xl-12 col-md-12 col-sm-12">
+    <label for="date_end">Images<span class="text-danger">*</span></label>
+    <div class="image-container">
+      <div v-for="(imageUrl, index) in step2.imagesUrls" :key="index" class="image-wrapper">
+        <img 
+          :src="imageUrl" 
+          alt="Image" 
+          class="img-thumbnail mb-2" 
+          @click="triggerFileInput(index)"
+        >
+        <div class="overlay">
+          <span class="change-text">Changer</span>
+        </div>
+        <input 
+          type="file" 
+          :id="`input-file-${index}`" 
+          accept="image/*" 
+          @change="handleFileUploadImagesUpdate($event, index)" 
+          class="file-input"
+        >
+      </div>
+      <div class="image-wrapper add-image">
+      <div class="plus-icon">+</div>
+      <input 
+        type="file" 
+        id="input-file-new" 
+        accept="image/*" 
+        multiple 
+        @change="handleFileUploadImagesUpdate($event)" 
+        class="file-input"
+      >
+      <small v-if="v$.step2.images.$error">{{ v$.step2.images.$errors[0].$message }}</small>
+      <small v-if="resultError['images[]']">{{ resultError["images[]"] }}</small>
+    </div>
+    </div>
+  
+  
+  </div>
+
                                     
                                     <div class="col-xl-6 col-md-6 col-sm-12">
                                         <label for="date_end">Videos<span class="text-danger">*</span></label>
@@ -783,7 +822,7 @@
 <script>
 import useVuelidate from "@vuelidate/core";
 import Pag from "@/components/others/pagination.vue";
-import { require, lgmin, lgmax, ValidNumeri } from "@/functions/rules";
+import { require, lgmin, lgmax, ValidNumeri , vlmin , vlmax } from "@/functions/rules";
 import { useToast } from "vue-toastification";
 import Loading from '@/components/others/loading.vue';
 import axios from '@/lib/axiosConfig.js'
@@ -882,7 +921,12 @@ export default {
         DateSuivi: { require },
         NiveauAvancement: { require },
         MontantDecaisser: { require },
-        TauxAvancementTechnique: { require },
+        TauxAvancementTechnique: { 
+          require  ,
+           ValidNumeri,
+           vlmin: vlmin(0) ,
+           vlmax: vlmax(100) ,
+          },
         images: {  },
         videoss: {  },
         Difficultes: { require },
@@ -892,7 +936,9 @@ export default {
         DateSuivi: { require },
         NiveauAvancement: { require },
         MontantDecaisser: { require },
-        TauxAvancementTechnique: { require },
+        TauxAvancementTechnique: { require ,  ValidNumeri,
+           vlmin: vlmin(0) ,
+           vlmax: vlmax(100) ,},
         images: {  },
         videoss: {  },
         Difficultes: { require },
@@ -914,6 +960,9 @@ export default {
   },
   methods: {
     successmsg:successmsg,
+    triggerFileInput(index) {
+      document.getElementById(`input-file-${index}`).click();
+    },
     openGallery(photos) {
       const images = photos.split('|').map(url => ({
         href: url,
@@ -1109,7 +1158,8 @@ export default {
       formData.append("CodeInfrastructure", this.data.CodeInfrastructure);
       formData.append("id", this.ToId);
 
-      ;
+    console.log('fivle', this.step2.images);
+    ;
 
       if (this.step2.images.length > 0) {
       for (let i = 0; i < this.step2.images.length; i++) {
@@ -1124,11 +1174,9 @@ export default {
       console.log('file', file);
       
     }
-      
-  
-
     }
 
+    console.log('file', this.step2.images);
         
 
     try {
@@ -1331,20 +1379,39 @@ async  convertUrlsToFiles(urls) {
   console.log("Images stored:", this.step1.images);
 
     },
-    handleFileUploadImagesUpdate(event) {
-  console.log("File input change");
-  const files = event.target.files;
-  console.log("Selected files:", files);
-       // Créer un tableau pour stocker les fichiers
-  this.step2.images = [];
+    handleFileUploadImagesUpdateNew(event) {
+    const files = event.target.files;
+    for (let i = 0; i < files.length; i++) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.step2.imagesUrls.push(e.target.result);
+        this.step2.images.push(files[i]);
+      };
+      reader.readAsDataURL(files[i]);
+    }
+  },
+    handleFileUploadImagesUpdate(event, index) {
   
-  // Ajouter chaque fichier au tableau
+
+      const files = event.target.files;
+      console.log('files',files);
+      
   for (let i = 0; i < files.length; i++) {
-    this.step2.images.push(files[i]);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (index !== undefined) {
+        // Mise à jour d'une image existante
+        this.step2.imagesUrls[index] = e.target.result;
+        this.step2.images[index] = files[i];
+      } else {
+        // Ajout d'une nouvelle image
+        this.step2.imagesUrls.push(e.target.result);
+        this.step2.images.push(files[i]);
+      }
+    };
+    reader.readAsDataURL(files[i]);
   }
-  
- 
-  console.log("Images stored:", this.step2.images);
+    
 
     },
     handleFileUploadVideo(event) {
@@ -1403,5 +1470,86 @@ async  convertUrlsToFiles(urls) {
 }
 </script>
 <style lang="css" scoped>
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-wrapper {
+  position: relative;
+  margin: 10px;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius:50%;
+  border: 1px solid var(--primary-color);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.change-text {
+  color: white;
+  font-weight: bold;
+}
+
+.image-wrapper:hover .overlay {
+  opacity: 1;
+}
+
+.file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.add-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.plus-icon {
+  font-size: 40px;
+  color: #666;
+}
+
+.add-image:hover .plus-icon {
+  color: #333;
+}
+
+.add-image .file-input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
 
 </style>

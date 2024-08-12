@@ -35,7 +35,8 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center" scope="col">N°</th>
-                                                <th scope="col">Nom</th>
+                                                <th scope="col">Libelle</th>
+                                                <th scope="col">Accèss</th>
                                                 <th scope="col">Actions</th>
                                             </tr>
                                         </thead>
@@ -46,6 +47,12 @@
                                                     <div class="d-flex align-items-center lh-1">
                                                         
                                                         <div>{{ user.name }}</div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center lh-1">
+                                                        
+                                                        <a href="#"  data-bs-toggle="modal" data-bs-target="#create-menu-permissions" @click="fetchDetailRoles(user.id)" >detail</a>
                                                     </div>
                                                 </td>
                                               
@@ -73,14 +80,7 @@
                     </div>
         </div>
 
-                             <div
-      class="modal fade effect-rotate-bottom"
-      id="create-role"
-      tabindex="-1"
-      aria-hidden="true"
-      data-bs-backdrop="static"
-      ref="create-role"
-    >
+                             <div class="modal fade effect-rotate-bottom" id="create-role" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" ref="create-role">
       <div class="modal-dialog modal-dialog-centered ">
         <div class="modal-content">
           <div
@@ -250,6 +250,172 @@
         </div>
       </div>
                                </div>
+
+
+                               <!-- les droits et permissions  -->
+                         <div class="modal fade effect-rotate-bottom" id="create-menu-permissions" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" ref="create-menu-permissions">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div
+            class="modal-header float-start text-center justify-content-center"
+            style="background-color: var(--primary-rgb); padding-bottom: 10px"
+          >
+            <h2
+              class="modal-title text-white text-center"
+              id="mail-ComposeLabel"
+              style="font-size: 22px !important"
+            >
+              <b class="text-center"
+                >Assigner les permissions et menus</b
+              >
+            </h2>
+          </div>
+          <div class="modal-body px-4">
+            <div class="row gy-2 justify-content-center"
+                style=" border-width: 1px; border-style: solid; border-radius: 6px; border-color: rgb(0, 77, 134);">
+            
+                <div class="row">
+                  <div class="col-12">
+                    <div class="row mb-3">
+                      <div class="col-10">
+                        <div class="row mt-3 content-group">
+                    <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        > Rôle <span class="text-danger">*</span></label
+                      >
+                      <MazSelect
+                        v-model="step3.role"
+                        color="info"
+                        name="role"
+                        size="sm"
+                        rounded-size="sm"
+                        type="text"
+                        :options="RoleOption"
+                        search
+                        
+                        
+                      />
+                      <small v-if="v$.step3.role.$error">{{
+                        v$.step3.role.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['role']">
+                        {{ resultError["role"] }}
+                      </small>
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        > Permissions <span class="text-danger">*</span></label
+                      >
+                      <MazSelect
+                        v-model="step3.permissions"
+                        color="info"
+                        name="role"
+                        size="sm"
+                        rounded-size="sm"
+                        type="text"
+                        :options="PermissionsOptions"
+                        multiple
+                        search
+                        
+                        
+                      />
+                      <small v-if="v$.step3.permissions.$error">{{
+                        v$.step3.permissions.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['permissions']">
+                        {{ resultError["permissions"] }}
+                      </small>
+                    </div>
+                  </div>
+                
+                </div>
+                      </div>
+                      <div class="col-2">
+                        <div class="row">
+              <div class="boutton">
+                <button class="" @click.prevent="SubmitRole('create-role')">
+                  Valider
+                </button>
+              </div>
+            </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+  <div class="table-responsive">
+    <table class="table text-nowrap table-bordered table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Menu</th>
+          <th scope="col">Descriptions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Boucle sur les menus principaux -->
+        <template v-for="menu in MenusOptions" :key="menu.id">
+          <tr>
+            <!-- Menu Parent -->
+            <td  style="width: 220px !important">
+              <input 
+                type="checkbox" 
+                :id="'parent-' + menu.id" 
+                v-model="menu.checked" 
+                @change="toggleParent(menu)"
+              >
+              <label :for="'parent-' + menu.id">{{ menu.label }}</label>
+            </td>
+            <td>{{ menu.description }}</td>
+          </tr>
+
+          <!-- Sous-menus -->
+          <tr v-for="child in menu.children" :key="child.id">
+            <td>
+              <div style="padding-left: 20px;">
+                <input 
+                  type="checkbox" 
+                  :id="'child-' + child.id" 
+                  v-model="child.checked" 
+                  @change="toggleChild(menu)"
+                >
+                <label :for="'child-' + child.id">{{ child.label }}</label>
+              </div>
+            </td>
+            <td>{{ child.description }}</td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+                </div>
+            
+              
+             
+            </div>
+         
+            <br />
+            <div class="modal-footer">
+              <div class="btn-group ms-auto">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+                        </div>
     </div>
 </template>
 <script>
@@ -285,6 +451,9 @@ export default {
     return{
         loading: true,
         RolesOptions: [],
+        PermissionsOptions:[],
+        RoleOption:[],
+        MenusOptions:[],
         data:[],
         search:"",
       currentPage: 1,
@@ -298,6 +467,10 @@ export default {
       },
       step2: {
         role:"",
+      },
+      step3: {
+        role:"",
+        permissions:[],
       },
       v$: useVuelidate(),
       error: "",
@@ -313,11 +486,17 @@ export default {
         role:{require},
    
     },
+    step3: {
+        role:{require},
+        permissions:{require},
+      },
    
    
   },
   async mounted() {
     await this.fetchRoles();
+    await this.fetchPermissions();
+    await this.fetchMenus();
   },
   methods: {
     successmsg:successmsg,
@@ -332,7 +511,13 @@ export default {
             });
 
                this.data = response.data.data
+               console.log('this.data',this.data);
+               
               this.RolesOptions =  this.data ;
+         this.RoleOption = this.data.map(item => ({
+                  label: item.name,
+                  value: item.id,
+                }));
 
 
               this.loading = false;
@@ -344,7 +529,116 @@ export default {
             }
             }
           },
-          async SubmitRole(modalId){
+          async fetchPermissions() {
+          try {
+            const response = await axios.get('/permissions', {
+            headers: {
+              Authorization: `Bearer ${this.loggedInUser.token}`, 
+            }, });
+            
+             this.PermissionsOptions =  response.data.data.data.map(item => ({
+                  label: item.name,
+                  value: item.id,
+                }));
+             this.loading = false;
+          
+          } catch (error) {
+            // console.error('errorqqqqq',error);
+            if (error.response.data.message==="Vous n'êtes pas autorisé." || error.response.status === 401) {
+              await this.$store.dispatch('user/clearLoggedInUser');
+            this.$router.push("/");  //a revoir
+          }
+          }
+        },
+        async fetchMenus() {
+          try {
+            const response = await axios.get('/menus', {
+            headers: {
+              Authorization: `Bearer ${this.loggedInUser.token}`, 
+            }, });
+            console.log('response.data.data.data',response.data.data);
+            
+            
+            //  this.MenusOptions =  response.data.data.data
+             this.MenusOptions = response.data.data
+             console.log(' this.MenusOptions', this.MenusOptions);
+             
+             this.loading = false;
+          
+          } catch (error) {
+            // console.error('errorqqqqq',error);
+            if (error.response.data.message==="Vous n'êtes pas autorisé." || error.response.status === 401) {
+              await this.$store.dispatch('user/clearLoggedInUser');
+            this.$router.push("/");  //a revoir
+          }
+          }
+        },
+        async fetchDetailRoles(id) {
+           await  this.resetMenus();
+          try {
+            const response = await axios.get(`/roles/${id}`, {
+            headers: {
+              Authorization: `Bearer ${this.loggedInUser.token}`, 
+            }, });
+            console.log('response.data.data.dataroles',response.data.data);
+            const dataRole =response.data.data
+            this.step3.role = dataRole.id
+            this.step3.permissions = dataRole.permissions.map(permission => permission.id)
+            const roleMenus = dataRole.menus.map(menu => menu.id);
+    
+    // Parcourir les MenusOptions et cocher les cases si elles existent dans roleMenus
+              this.MenusOptions.forEach(menu => {
+                if (roleMenus.includes(menu.id)) {
+                  menu.checked = true;
+                }
+                if (menu.children) {
+                  menu.children.forEach(child => {
+                    if (roleMenus.includes(child.id)) {
+                      child.checked = true;
+                    }
+                  });
+                }
+              });
+  
+             
+             this.loading = false;
+          
+          } catch (error) {
+            // console.error('errorqqqqq',error);
+            if (error.response.data.message==="Vous n'êtes pas autorisé." || error.response.status === 401) {
+              await this.$store.dispatch('user/clearLoggedInUser');
+            this.$router.push("/");  //a revoir
+          }
+          }
+        },
+        toggleParent(menu) {
+      // Coche ou décoche tous les enfants lorsque le parent est coché/décoché
+      if (menu.children) {
+        menu.children.forEach(child => {
+          child.checked = menu.checked;
+        });
+      }
+       },
+       toggleChild(menu) {
+      // Si un enfant est coché, cochez le parent
+      if (menu.children.some(child => child.checked)) {
+        menu.checked = true;
+      } else {
+        menu.checked = false;
+      }
+       },
+       resetMenus() {
+  this.MenusOptions.forEach(menu => {
+    menu.checked = false;
+    if (menu.children) {
+      menu.children.forEach(child => {
+        child.checked = false;
+      });
+    }
+  });
+},
+
+     async SubmitRole(modalId){
     
       this.v$.step1.$touch();
       if (this.v$.$errors.length == 0) {
@@ -374,8 +668,8 @@ export default {
         }
       } else {
       }
-  },
-  async HandleIdUpdate(id) {
+    },
+    async HandleIdUpdate(id) {
       this.loading = true;
 
       try {
@@ -490,13 +784,13 @@ export default {
         }
       }
     },
-  filterByName() {
+     filterByName() {
       this.currentPage = 1;
       if (this.search !== null) {
         const tt = this.search;
         const searchValue = tt.toLowerCase();
         this.RolesOptions = this.data.filter((user) => {
-          const Nom = user.name || "";
+          const Nom = user.name ||{require};
          
           return (
             Nom.toLowerCase().includes(searchValue) 
@@ -531,12 +825,6 @@ export default {
           const endIndex = startIndex + this.itemsPerPage;
           return  this.RolesOptions.slice(startIndex, endIndex);
         },
-    
-      
-   
-   
-        
-    
       },
 }
 </script>
