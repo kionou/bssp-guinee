@@ -1,51 +1,90 @@
-<template>
-    <div class="container mt-5">
-      <button
-        type="button"
-        class="btn btn-primary"
-        data-bs-toggle="tooltip"
-        data-bs-placement="top"
-        title="Tooltip on top"
-      >
-        Hover to see tooltip
-      </button>
+ <template >
+  <div>
+    <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    Quill Snow Editor
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="editor1"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      
+    }
+  },
+  mounted() {
   
-      <div class="mt-3">
-        <span
-          class="d-inline-block"
-          tabindex="0"
-          data-bs-toggle="tooltip"
-          data-bs-placement="right"
-          title="Tooltip on right"
-        >
-          <span class="badge bg-info">Hover over me</span>
-        </span>
-      </div>
-    </div>
-  </template>
+    var toolbarOptions = [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'font': [] }],
+        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+        ['blockquote', 'code-block'],
+
+        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+        [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+        [{ 'direction': 'rtl' }],                         // text direction
+
+        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+
+        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+        [{ 'align': [] }],
+
+        ['image', 'video'],
+        ['clean']                                         // remove formatting button
+    ];
+    var quill = new Quill('#editor1', {
+        modules: {
+            toolbar: toolbarOptions
+        },
+        theme: 'snow'
+    });
+
+    
+
+
+  },
   
-  <script>
-  import { onMounted } from 'vue';
- 
+}
+</script>
+<style lang="css" scoped>
   
-  export default {
-    name: 'TooltipExample',
-    setup() {
-      onMounted(() => {
-        // Initialiser les tooltips après le montage du composant
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-          return new bootstrap.Tooltip(tooltipTriggerEl);
-        });
-      });
-    },
-  };
-  </script>
-  
-  <style scoped>
-  .container {
-    max-width: 600px;
-    margin: auto;
+</style> 
+
+
+<!-- <template>
+  <div id="app">
+    <froala id="edit" :tag="'textarea'" :config="config" v-model:value="model"></froala>
+  </div>
+</template>
+
+<script>
+
+export default {
+  name: 'App',
+  data () {
+    return {
+      config: {
+        events: {
+          initialized: function () {
+            console.log('initialized')
+          }
+        }
+      },
+      model: 'Edit Your Content Here!'
+    }
   }
-  </style>
-  
+}
+</script> -->

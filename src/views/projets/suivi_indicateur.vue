@@ -18,9 +18,11 @@
       </div>
     </div>
     <!-- Start::row-2 -->
-    <div class="card p-3 ">
+    <div class="card p-2 ">
+      <div class="float-end w-20 mb-2">
+          <a class="px-2 bg-primary text-white  fs-15 "  @click="goBack" href="#">  &larr; Retour</a>
+        </div>
       <div class="row mb-6">
-  
         <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
   
           <div class="card m-0">
@@ -35,8 +37,16 @@
               <div class="p-2 ">
                 <div class="ms-4 ps-0">
                   <p><span class="fw-semibold fs-14">Nom projet : </span><span class=" text-success fs-15 fw-bolder" > {{ data.projet?.NomProjet }}</span> </p>
+                  <div class="row">
+                    <div class="col-6">
                   <p><span class="fw-semibold fs-14">Date debut : </span> <span class="fs-14 fw-semibold text-warning">{{ formatDate(data.projet?.DateDebut)}}</span> </p>
+
+                    </div>
+                    <div class="col-6">
                   <p><span class="fw-semibold fs-14">Date fin : </span><span class="fs-14 fw-semibold text-warning">{{ formatDate(data.projet?.DateFin)  }}</span></p>
+
+                    </div>
+                  </div>
   
                 </div>
               </div>
@@ -89,7 +99,7 @@
                     class="ri-search-line text-muted"></i></button>
               </div>
   
-              <button class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
+              <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
                 data-bs-toggle="modal" data-bs-target="#add_indicateur_suivi">
                 <i class="ri-add-line">
                 </i></button>
@@ -101,7 +111,7 @@
           <div v-if="paginatedItems.length === 0" class="noresul">
         <span> Vous n'avez pas encore de suivi indicateur, vous pouvez également en ajouter un !! </span>
       </div>
-          <div class="table-responsive" v-else>
+          <div style="overflow-x: scroll !important" class="table-responsive" v-else>
             <table class="table text-nowrap table-bordered">
               <thead>
                 <tr>
@@ -118,14 +128,14 @@
               </thead>
               <tbody>
                 <tr  v-for="(item , index)  in paginatedItems" :key="item.id">
-                  <td>
+                  <td style="width: 30px;">
                     <span>
-                      <th  style="width: 20px;" scope="row" class="ps-4 ">{{ (currentPage - 1) * itemsPerPage + index + 1 }}</th>
+                      <th   scope="row" class="ps-4 ">{{ (currentPage - 1) * itemsPerPage + index + 1 }}</th>
 
                     </span>
                   </td>
   
-                  <td style="width: 100px;" class="text-center">
+                  <td style="width: 120px;" class="text-center">
                     <span class="d-block fw-bolder mb-1  text-warning"> {{ formatDate(item.DateSuivi) }} </span>
                   </td>
                   <td style="width: 100px;" class="text-center">
@@ -135,16 +145,16 @@
                     <span class="fw-semibold fs-14">{{item.Observations}}</span>
                   </td>
                  
-                  <td>
+                  <td style="width: 80px;">
                 <div class="btn-list w-100 d-flex justify-content-center">
                   <div>
-                    <div class="btn btn-sm  btn-success btn-wave" v-if="item.Accepted === '1'"
+                    <div class="btn btn-sm  btn-success btn-wave" v-if="item.Accepted === '1' "
                       >
-                      <i class="ri-lock-unlock-line"></i> Actif
+                      <i class="ri-lock-unlock-line"></i> Valider
                     </div>
-                    <button class="btn btn-sm  btn-warning btn-wave" v-if="item.Accepted === '0'"
+                    <button class="btn btn-sm  btn-warning btn-wave" v-if="item.Accepted === '0'  && hasPermission(2)"
                       @click="HandleIdStatut(item.id)">
-                      <i class="ri-lock-2-line"></i> Inactif
+                      <i class="ri-lock-2-line"></i> Non valider
                     </button>
                   </div>
   
@@ -153,12 +163,12 @@
                   <td class="" style="width: 130px;">
                     <div class="btn-list w-25 d-flex">
 
-                      <button class="btn btn-sm btn-icon btn-info btn-wave " data-bs-toggle="modal"
+                      <button v-if="hasPermission(2)" class="btn btn-sm btn-icon btn-info btn-wave " data-bs-toggle="modal"
                         data-bs-target="#update_indicateur_suivi" @click="HandleIdUpdateSuivie(item.id)">
                         <i class="ri-edit-line"></i>
                       </button>
 
-                      <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(item.id)">
+                      <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(item.id)">
                         <i class="ri-delete-bin-line"></i>
                       </button>
                     </div>
@@ -193,6 +203,16 @@
                   border-color: rgb(0, 77, 134);
                 ">
               <div>
+                <div class="row">
+                  <div class="col-12">
+                    <p class="mb-0"><span class="fw-semibold fs-14">Nom projet : </span><span class=" text-success fs-15 fw-bolder" > {{ data.projet?.NomProjet }}</span> </p>
+                  </div>
+                  <div class="col-12">
+                    <p class="mb-0"><span class="fw-semibold fs-14">Nom indicateur : </span> <span class=" text-success fs-15 fw-bolder" > {{data.IntituleIndicateur}}</span> </p>
+                  </div>
+
+                </div>
+                <small>{{error}}</small>
                 <div class="row mt-3 content-group">
                   <div class="col-xxl-6 col-xl-6 col-md-6 col-sm-12">
                     <div class="input-groupe">
@@ -281,6 +301,16 @@
                   border-color: rgb(0, 77, 134);
                 ">
               <div>
+                <div class="row">
+                  <div class="col-12">
+                    <p class="mb-0"><span class="fw-semibold fs-14">Nom projet : </span><span class=" text-success fs-15 fw-bolder" > {{ data.projet?.NomProjet }}</span> </p>
+                  </div>
+                  <div class="col-12">
+                    <p class="mb-0"><span class="fw-semibold fs-14">Nom indicateur : </span> <span class=" text-success fs-15 fw-bolder" > {{data.IntituleIndicateur}}</span> </p>
+                  </div>
+
+                </div>
+                <small>{{error}}</small>
                 <div class="row mt-3 content-group">
                   <div class="col-xxl-6 col-xl-6 col-md-6 col-sm-12">
                     <div class="input-groupe">
@@ -429,6 +459,17 @@ export default {
   },
   methods: {
     successmsg: successmsg,
+    goBack(){
+      this.$router.go(-1)
+    },
+    hasPermission(permissionName) {
+      if (!this.loggedInUser || !Array.isArray(this.loggedInUser.permissions)) {
+        return false;
+      }
+      return this.loggedInUser.permissions.some(
+        (permission) => permission.id === permissionName
+      );
+    },
     handleCodeProjetChange(codeProjet) {
       // Logique pour gérer les changements de codeProjet
       console.log("Handling codeProjet change:", codeProjet);
@@ -606,24 +647,11 @@ export default {
           
           }
         } catch (error) {
-          console.log(
-            "Erreur lors de la mise à jour des données MPME guinee :",
-            error
-          );
+          this.loading = false;
           if (error.response.data.status === "error") {
-            console.log("aut", error.response.data.status === "error");
-
-            if (
-              error.response.data.message === "Vous n'êtes pas autorisé." ||
-              error.response.status === 401
-            ) {
-              await this.$store.dispatch("auth/clearMyAuthenticatedUser");
-              this.$router.push("/"); //a revoir
-            }
+            return (this.error = error.response.data.message);
           } else {
             this.formatValidationErrors(error.response.data.errors);
-            this.loading = false;
-            return false;
           }
         }
 
@@ -753,25 +781,11 @@ export default {
           this.loading = false;
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
-
-          if (
-            error.response.data.message === "Vous n'êtes pas autorisé." ||
-            error.response.status === 401
-          ) {
-            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
-            this.$router.push("/"); //a revoir
+            return (this.error = error.response.data.message);
+          } else {
+            this.formatValidationErrors(error.response.data.errors);
           }
-        } else {
-          this.formatValidationErrors(error.response.data.errors);
-          this.loading = false;
-          return false;
-        }
       }
 
     },

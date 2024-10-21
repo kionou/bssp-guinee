@@ -30,7 +30,7 @@
                                                 <button class="btn btn-light" type="button" id="search-contact-member"><i class="ri-search-line text-muted"></i></button>
                                             </div>
                                            
-                                            <button class="btn btn-icon btn-primary ms-2" 
+                                            <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" 
                                              data-bs-placement="top"
                                               data-bs-title="Add Contact"
                                               data-bs-toggle="modal"
@@ -45,7 +45,7 @@
                                 
                               
 
-                                <div class="col-xl-12">
+                                <div class="col-xl-12" data-aos="zoom-in">
                                 <div class="card custom-card">
                                     <div class="card-header justify-content-between">
                                         <div class="card-title">
@@ -54,7 +54,7 @@
                                        
                                     </div>
                                     <div class="card-body">
-                                        <div class="table-responsive">
+                                        <div style="overflow-x: scroll !important" class="table-responsive">
                                             <table class="table text-nowrap table-hover border table-bordered table-striped">
                                                 <thead>
                                                     <tr>
@@ -77,8 +77,9 @@
                                                   </td>
                                                 </tr>
                                               </tbody>
-                                                <tbody v-else>
-                                                    <tr v-for="data  in paginatedItems" :key="data.id">
+                                                <tbody v-else ata-aos="fade-up"
+                                                data-aos-duration="1000" d>
+                                                    <tr v-for="data  in paginatedItems" :key="data.id" >
                                                       <th scope="row" class="ps-4">  {{ data.CodeBailleur }}</th>
                                                        
                                                         
@@ -96,8 +97,8 @@
                                                         </td>
                                                         <td>
                                                             <div class="hstack gap-2 fs-15">
-                                                                <button  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-info"  data-bs-toggle="modal"  data-bs-target="#update_bailleur" @click="HandleIdUpdate(data.id)"><i class="ri-edit-line"></i></button>
-                                                                <button  class="btn btn-icon btn-wave waves-effect btn-sm btn-danger"  
+                                                                <button v-if="hasPermission(2)"  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-info"  data-bs-toggle="modal"  data-bs-target="#update_bailleur" @click="HandleIdUpdate(data.id)"><i class="ri-edit-line"></i></button>
+                                                                <button v-if="hasPermission(4)" class="btn btn-icon btn-wave waves-effect btn-sm btn-danger"  
                                                                      @click="HandleIdDelete(data.id)"><i class="ri-delete-bin-line"></i></button>
                                                             </div>
                                                         </td>
@@ -484,13 +485,21 @@ export default {
    
   },
   async mounted() {
-    console.log("loggedInUser", this.loggedInUser);
+    // console.log("loggedInUser", this.loggedInUser);
     await this.fetchClients();
 
   },
 
   methods:{
     successmsg:successmsg,
+    hasPermission(permissionName) {
+      if (!this.loggedInUser || !Array.isArray(this.loggedInUser.permissions)) {
+        return false;
+      }
+      return this.loggedInUser.permissions.some(
+        (permission) => permission.id === permissionName
+      );
+    },
     AddformDataBailleurs() {
      this.Bailleurs.push({ CodeBailleur:'', NomBailleur:'', Visible:'',});
    },
@@ -543,7 +552,6 @@ async submitBailleur(modalId) {
     const dataToSend = {
              bailleurs: this.Bailleurs
         };
-      console.log("data", dataToSend);
 
 
         try {
@@ -552,7 +560,7 @@ async submitBailleur(modalId) {
            
           }
           });
-          console.log("Réponse du téléversement :", response);
+
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.successmsg(
@@ -566,7 +574,7 @@ async submitBailleur(modalId) {
           } else {
           }
         } catch (error) {
-          console.log("response.login", error);
+
 
           this.loading = false;
           if (error.response.data.status === "error") {
@@ -576,7 +584,6 @@ async submitBailleur(modalId) {
           }
         }
       } else {
-        console.log("error", this.v$.$errors);
       }
     },
 
@@ -591,20 +598,16 @@ async submitBailleur(modalId) {
           }
         );
 
-        console.log("responseclienteschools-level", response.data);
+
         if (response.data.status === "success") {
             this.data  = response.data.data ;
               this.ClientOptions = this.data
-          console.log("this.DaysOptions", this.ClientOptions);
           this.loading =  false
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -633,7 +636,7 @@ async submitBailleur(modalId) {
        }
        
 
-        console.log("data",data );
+
 
         try {
           const response = await axios.post("/duties-services", data, {
@@ -641,7 +644,7 @@ async submitBailleur(modalId) {
            
           }
           });
-          console.log("Réponse du téléversement :", response);
+
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.successmsg(
@@ -652,7 +655,6 @@ async submitBailleur(modalId) {
           } else {
           }
         } catch (error) {
-          console.log("response.login", error);
 
           this.loading = false;
           if (error.response.data.status === "error") {
@@ -662,7 +664,7 @@ async submitBailleur(modalId) {
           }
         }
       } else {
-        console.log("error", this.v$.$errors);
+        // console.log("error", this.v$.$errors);
       }
     },
   async  HandleIdUpdate(id){
@@ -675,9 +677,9 @@ async submitBailleur(modalId) {
           }
         });
 
-        // console.log("response", response);
+       
         if (response.data.status === "success") {
-          console.log("responsedata", response.data.data);
+
           let data =  response.data.data
           this.step2.CodeBailleur = data.CodeBailleur,
           this.step2.NomBailleur = data.NomBailleur,
@@ -687,12 +689,8 @@ async submitBailleur(modalId) {
         
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+       
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -729,7 +727,7 @@ async submitBailleur(modalId) {
          }
 
 
-            console.log("data",dataSend );
+           
  
       try {
         const response = await axios.put('/bailleurs/update',dataSend, {
@@ -739,7 +737,7 @@ async submitBailleur(modalId) {
           
           },
         });
-        console.log("Réponse du téléversement :", response);
+
         if (response.data.status === "success") {
           this.closeModal(modalId);
           this.successmsg(
@@ -751,7 +749,7 @@ async submitBailleur(modalId) {
           
         } 
       } catch (error) {
-        console.error("Erreur lors du téléversement :", error);
+
        
         if (error.response.data.message==="Vous n'êtes pas autorisé." || error.response.status === 401) {
               await this.$store.dispatch('auth/clearMyAuthenticatedUser');
@@ -764,7 +762,7 @@ async submitBailleur(modalId) {
      }
       }
     } else {
-      console.log("cest pas bon ", this.v$.$errors);
+
       this.loading = false;
 
     }
@@ -800,7 +798,7 @@ async submitBailleur(modalId) {
    
    
            });
-           console.log('Réponse de suppression:', response);
+
            if (response.data.status === 'success') {
              this.loading = false
              this.successmsg(
@@ -810,11 +808,11 @@ async submitBailleur(modalId) {
             await this.fetchClients();
    
            } else {
-             console.log('error', response.data)
+
              this.loading = false
            }
          } catch (error) {
-           console.error('Erreur lors de la suppression:', error);
+
           
            if (error.response.data.message==="Vous n'êtes pas autorisé." || error.response.status === 401) {
                 await this.$store.dispatch('auth/clearMyAuthenticatedUser');
@@ -885,22 +883,16 @@ closeModal(modalId) {
 
       for (const field in errors) {
         const errorMessages = errors[field]; // Liste complète des messages d'erreur
-        console.log(" errorMessages", errorMessages, typeof errorMessages);
 
         const concatenatedError = errorMessages.join(", "); // Concaténer les messages d'erreur
-        console.log(
-          " concatenatedError",
-          concatenatedError,
-          typeof concatenatedError
-        );
+       
 
         formattedErrors[field] = concatenatedError; // Utilisez le nom du champ comme clé
       }
 
       this.resultError = formattedErrors; // Stockez les erreurs dans un objet
 
-      // Maintenant, this.resultError est un objet où les clés sont les noms des champs
-      console.log("resultError", this.resultError);
+
     },
   }
 }

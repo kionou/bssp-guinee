@@ -39,9 +39,9 @@
                                 <a class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#menus" aria-selected="false" tabindex="-1">Assigner Menus</a>
                             </li> -->
 
-                            <li class="nav-item" role="presentation">
+                            <!-- <li class="nav-item" role="presentation">
                                 <a class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#permissionsassign" aria-selected="false" tabindex="-1">Assigner Permissions</a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                    
@@ -68,10 +68,10 @@
                <Menus></Menus>
             </div> -->
 
-            <div class="tab-pane p-0" id="permissionsassign" role="tabpanel">
+            <!-- <div class="tab-pane p-0" id="permissionsassign" role="tabpanel">
                <PermissionsAssign></PermissionsAssign>
             </div>
-          
+           -->
           
           
 

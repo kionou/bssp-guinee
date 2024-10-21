@@ -30,7 +30,7 @@
                                                 <button class="btn btn-light" type="button" id="search-contact-member"><i class="ri-search-line text-muted"></i></button>
                                             </div>
                                            
-                                            <button class="btn btn-icon btn-primary ms-2" 
+                                            <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" 
                                              data-bs-placement="top"
                                               data-bs-title="Add Contact"
                                               data-bs-toggle="modal"
@@ -45,7 +45,7 @@
                                 
                               
 
-                                <div class="col-xl-12">
+                                <div class="col-xl-12" data-aos="zoom-in">
                                 <div class="card custom-card">
                                     <div class="card-header justify-content-between">
                                         <div class="card-title">
@@ -54,7 +54,7 @@
                                        
                                     </div>
                                     <div class="card-body">
-                                        <div class="table-responsive">
+                                        <div style="overflow-x: scroll !important" class="table-responsive">
                                             <table class="table text-nowrap table-hover border table-bordered table-striped">
                                                 <thead>
                                                     <tr>
@@ -77,7 +77,8 @@
                                                   </td>
                                                 </tr>
                                               </tbody>
-                                                <tbody v-else>
+                                                <tbody v-else  data-aos="fade-up"
+                                                data-aos-duration="1000">
                                                     <tr v-for="(data) in paginatedItems" :key="data.id">
                                                       <th scope="row" class="ps-4"> {{ data.CodeRegion }}</th>
                                                        
@@ -95,8 +96,8 @@
                                                         </td>
                                                         <td>
                                                             <div class="hstack gap-2 fs-15">
-                                                                <button  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-info"  data-bs-toggle="modal"  data-bs-target="#update_client" @click="HandleIdUpdate(data.CodeRegion)"><i class="ri-edit-line"></i></button>
-                                                                <button  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-danger"  
+                                                                <button v-if="hasPermission(2)" class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-info"  data-bs-toggle="modal"  data-bs-target="#update_client" @click="HandleIdUpdate(data.CodeRegion)"><i class="ri-edit-line"></i></button>
+                                                                <button v-if="hasPermission(4)"  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-danger"  
                                                                      @click="HandleIdDelete(data.CodeRegion)"><i class="ri-delete-bin-line"></i></button>
                                                             </div>
                                                         </td>
@@ -435,6 +436,14 @@ export default {
 
   methods:{
     successmsg:successmsg,
+    hasPermission(permissionName) {
+      if (!this.loggedInUser || !Array.isArray(this.loggedInUser.permissions)) {
+        return false;
+      }
+      return this.loggedInUser.permissions.some(
+        (permission) => permission.id === permissionName
+      );
+    },
     updateCurrentPage(pageNumber) {
       this.currentPage = pageNumber;
       window.scrollTo({

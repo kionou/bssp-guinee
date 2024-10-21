@@ -23,7 +23,7 @@
       <div v-if="paginatedItems.length === 0" class="noresul">
         <span> Vous n'avez pas encore d'indicateur !! </span>
       </div>
-      <div class="table-responsive" v-else>
+      <div style="overflow-x: scroll !important" class="table-responsive" v-else>
         <table class="table table-hover text-nowrap table-bordered table-striped ">
           <thead>
             <tr class="text-center">
@@ -32,7 +32,10 @@
               </th>
               <th scope="col" > <span class="fw-semibold float-left" >Intitule</span> </th>
               <th scope="col text-center"> <span class="fw-semibold" >Valeur Cible</span>  </th>
-              <th scope="col text-center"> <span class="fw-semibold" >suivi</span> </th>
+              <th scope="col text-center"> <span class="fw-semibold" >Valeur réalisée</span>  </th>
+              <th scope="col text-center"> <span class="fw-semibold" >suivre</span> </th>
+              <th scope="col text-center"> <span class="fw-semibold" >Date suivi</span>  </th>
+
             </tr>
           </thead>
           <tbody>
@@ -40,6 +43,8 @@
               <th style="width: 30px;" scope="row" class="ps-4">{{item.CodeIndicateur}}</th>
               <td><span class="d-block fw-semibold mb-1 "> {{item.IntituleIndicateur}}</span></td>
               <td style="width: 150px;"><span class="d-block fw-semibold mb-1 text-center" style="color:red"> {{item.CibleFinProjet}}
+              </span></td>
+              <td style="width: 150px;"><span class="d-block fw-semibold mb-1 text-center text-primary"> {{item.progress[0]?.Realisation ?? "-"}}
               </span></td>
               <td class="text-center" style="width: 180px;" >
             <div v-if="item.progress.length === 0">
@@ -56,7 +61,7 @@
               <span class="text-center fw-semibold" :style="{ color: getProgressColor(realisationPercentage(item)) }">
                   {{ realisationPercentage(item).toFixed(2) }}%
                 </span>
-              <div class="progress mb-3" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+              <div @click="handleProgressBarClick(item)" class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
               <div
                 class="progress-bar progress-bar-striped"
                 :class="getProgressClass(realisationPercentage(item))"
@@ -69,6 +74,8 @@
             </div>
             </div>
           </td>
+          <td style="width: 150px;"><span class="d-block fw-semibold mb-1 text-center " > {{item.progress[0]?.DateSuivi ?? "-"}}
+          </span></td>
             </tr>
   
   
@@ -203,15 +210,12 @@ export default {
    
     watch: {
       codeProjet(newVal) {
-         console.log("codeProjet has changed:", newVal);
+     
          this.handleCodeProjetChange(newVal);
       }
    },
     async mounted() {
-       console.log("loggedInUser", this.loggedInUser);
-      //  this.Code = localStorage.getItem('CodeProjet');
-      // console.log("CodeProjet from parent:", this.Code);
-      console.log("CodeProjet from Vuex:", this.codeProjet);
+     
       
     },
  
@@ -219,7 +223,7 @@ export default {
       successmsg:successmsg,
       handleCodeProjetChange(codeProjet) {
          // Logique pour gérer les changements de codeProjet
-         console.log("Handling codeProjet change:", codeProjet);
+     
          this.Code = codeProjet
          // Par exemple, mettre à jour les indicateurs ou autres données
       },
@@ -228,8 +232,7 @@ export default {
 
 
       async fetchIndicateur() {
-       console.log(this.Code);
-
+     
       try {
         const response = await axios.get('/indicateurs', {
           headers: {
@@ -238,11 +241,11 @@ export default {
           params:{projet:this.Code}
         });
 
-        console.log("usersOptionys", response.data.data);
+
         if (response.data.status === "success") {
           this.data = response.data.data;
           this.indicateursOptions =  this.data
-        console.log("usersOptionys",  this.indicateursOptions);
+     
           this.loading = false;
           
         }
@@ -274,7 +277,7 @@ export default {
       return cible ? (totalRealisation / cible) * 100 : 0;
     },
     getProgressClass(percentage) {
-      console.log('eee',percentage)
+  
       if (percentage <= 30) {
         return 'bg-danger';
       } else if (percentage <= 75) {

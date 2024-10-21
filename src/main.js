@@ -29,6 +29,9 @@ import MazSwitch from 'maz-ui/components/MazSwitch'
 import 'sweetalert2/dist/sweetalert2.min.css';
 import 'vue-toastification/dist/index.css';
 
+// import AOS from 'aos'
+// import 'aos/dist/aos.css'
+
 highchartsMore(Highcharts)
 solidGauge(Highcharts)
 
@@ -51,14 +54,16 @@ const app = createApp(App)
   app.component('MazAccordion', MazAccordion)
   app.component('MazInputCode', MazInputCode)
   app.component('MazRadioButtons', MazRadioButtons)
+  
 
-
+  // AOS.init()
 
 store.dispatch('auth/loadMyAuthenticatedUser').then(() => {
   app.use(router)
   app.use(store);
   app.use(HighchartsVue)
   app.use(Toast)
+ 
   
   app.mount('#app')
    

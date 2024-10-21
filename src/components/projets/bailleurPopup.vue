@@ -12,7 +12,7 @@
               <th>Bailleur</th>
               <th>Budget</th>
               <th>Montant Décaissé</th>
-              <th>Taux de Décaissement</th>
+              <th>Taux Exec. Financière</th>
             </tr>
           </thead>
           <tbody>
@@ -26,7 +26,7 @@
                   {{ calculerTauxDecaissement(bailleur) }}%
                 </span>
 
-                <div class="progress mb-3" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
                   <div
                     class="progress-bar progress-bar-striped"
                     :class="getProgressClass(calculerTauxDecaissement(bailleur))"
@@ -48,7 +48,7 @@
                   {{ totalTauxDecaissement }}%
                 </span>
 
-                <div class="progress mb-3" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
                   <div
                     class="progress-bar progress-bar-striped"
                     :class="getProgressClass(totalTauxDecaissement)"
@@ -158,7 +158,7 @@ export default {
 
 .modal-header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #dee2e6;
   padding-bottom: 0.5rem;

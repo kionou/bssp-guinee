@@ -37,19 +37,19 @@
 
                           </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link active m-0" data-bs-toggle="tab" role="tab" aria-current="page" href="#step1" aria-selected="true">General</a>
+                                <a class="nav-link active m-0" data-bs-toggle="tab" @click="handleTabClick('#step1')" role="tab" aria-current="page" href="#step1" aria-selected="true">Général</a>
                             </li>
 
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#step2" aria-selected="false" tabindex="-1"> Infrastructures</a>
+                                <a class="nav-link" data-bs-toggle="tab" role="tab" @click="handleTabClick('#step2')" aria-current="page" href="#step2" aria-selected="false" tabindex="-1"> Infrastructures</a>
                             </li>
 
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#step3" aria-selected="false" tabindex="-1">Suivi projet</a>
+                                <a class="nav-link" data-bs-toggle="tab" role="tab" @click="handleTabClick('#step3')" aria-current="page" href="#step3" aria-selected="false" tabindex="-1">Suivi projet</a>
                             </li>
 
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#step4" aria-selected="false" tabindex="-1">Suivi indicateurs</a>
+                                <a class="nav-link" data-bs-toggle="tab" role="tab" @click="handleTabClick('#step4')" aria-current="page" href="#step4" aria-selected="false" tabindex="-1">Suivi indicateurs</a>
                             </li>
                         </ul>
                     </div>
@@ -87,7 +87,7 @@
             <div class="tab-pane p-0" id="step3" role="tabpanel">
               <div class="card">
                 <div class="card-body">
-              <Suivi :data="data"  :SuivisOptions="SuivisOptions" :BailleursOptions="BailleursOptions"   @indicateur-updated="handleIndicateurUpdated"  ></Suivi>
+              <Suivi :data="data"  :SuivisOptions="SuivisOptions" :BailleursOptions="BailleursOptions" :codeProjet="code"   @indicateur-updated="handleIndicateurUpdated"  ></Suivi>
                   
                 </div>
               </div>
@@ -110,92 +110,6 @@
         </div>
     </div>
 </div>
-<!-- End:: row-2 -->
-       
-        <!-- <nav
-          class="nav nav-style-6 nav-pills mb-3 nav-justified d-sm-flex d-block"
-          role="tablist" style="border-bottom: 2px solid var(--secondary-rgb);"
-        >
-          <a
-            class="nav-link active"
-            data-bs-toggle="tab"
-            role="tab"
-            aria-current="page"
-            href="#step1"
-            aria-selected="false"
-            >General</a
-          >
-          <a
-            class="nav-link"
-            data-bs-toggle="tab"
-            role="tab"
-            href="#step2"
-            aria-selected="true"
-            >Suivi projet </a
-          >
-          <a
-            class="nav-link"
-            data-bs-toggle="tab"
-            role="tab"
-            href="#step3"
-            aria-selected="false"
-            >Suivi indicateurs
-          </a>
-         
-          <a
-            class="nav-link"
-            data-bs-toggle="tab"
-            role="tab"
-            href="#step4"
-            aria-selected="false"
-            >Infrastructures
-          </a>
-        </nav> -->
-  
-        <!-- Navbar pills -->
-        <!-- <div class="col-lg-12 col-12 mb-4">
-          <div class="nav-align-top mb-4">
-            <div class="tab-content">
-              <div class="tab-pane fade show active " id="step1" role="tabpanel">
-                <div class="row ttb ">
-                  <div class=" col-xl-12 col-lg-12 col-md-12 py-2 ttb1">
-                    <General :data="data" :ObjectisOptions="ObjectisOptions" :BailleursOptions="BailleursOptions" :indicateursOptions="indicateursOptions" @indicateur-updated="handleIndicateurUpdated"  ></General>
-                  </div>
-                </div>
-              </div>
-  
-             
-              <div class="tab-pane fade" id="step2" role="tabpanel">
-                <div class="row ttb ">
-                  <div class=" col-xl-12 col-lg-12 col-md-12 py-2 ttb1">
-                    <Suivi :data="data"  :SuivisOptions="SuivisOptions" :BailleursOptions="BailleursOptions"   @indicateur-updated="handleIndicateurUpdated"  ></Suivi>
-                       
-                  </div>
-                </div>
-              </div>
-  
-              <div class="tab-pane fade" id="step3" role="tabpanel">
-                <div class="row ttb ">
-                  <div class=" col-xl-12 col-lg-12 col-md-12 py-2 ttb1">
-                    <Indicateur :data="data" :indicateursOptions="indicateursOptions" :codeProjet="code"   @indicateur-updated="handleIndicateurUpdated"  ></Indicateur>
-                  </div>
-                </div>
-              </div>
-
-              <div class="tab-pane fade" id="step4" role="tabpanel">
-                <div class="row ttb ">
-                  <div class=" col-xl-12 col-lg-12 col-md-12 py-2 ttb1">
-                    <Infrastructure :data="data" :indicateursOptions="indicateursOptions" :codeProjet="code"   @indicateur-updated="handleIndicateurUpdated"  ></Infrastructure>
-                  </div>
-                </div>
-              </div>
-             
-            </div>
-          </div>
-        </div> -->
-
-         
-    
 
       </div>
 
@@ -283,12 +197,22 @@
     async mounted() {
       console.log("loggedInUser", this.loggedInUser);
       await this.fetchDetailProjet()
+    const activeTab = localStorage.getItem('activeTab');
+  if (activeTab) {
+    const tabElement = document.querySelector(`[href="${activeTab}"]`);
+    if (tabElement) {
+      tabElement.click();
+    }
+  }
 
       
     },
   
     methods: {
       ...mapActions('project', ['setCodeProjet']),
+      handleTabClick(tabId) {
+    localStorage.setItem('activeTab', tabId);
+  },
 
       async fetchDetailProjet() {
       try {
@@ -298,19 +222,18 @@
           },
         });
 
-        console.log("usersOptions", response.data);
+        console.log("projetdetail", response.data);
         if (response.data.status === "success") {
           this.data = response.data.data;
           this.code = this.data.CodeProjet 
           this.setCodeProjet(this.data.CodeProjet);
-          console.log("CodeProjet", this.code); 
+         
           this.ObjectisOptions =  response.data.data.objectifs   
           this.SuivisOptions =  response.data.data.suivis
           this.BailleursOptions =  response.data.data.bailleurs
           this.InfrastructuresOptions =  response.data.data.infrastructures
           await this.fetchIndicateur(this.code)
-          // await this.fetchObjectif(this.code)
-        console.log("usersOptions", response.data.data.infrastructures);
+         
 
           this.loading = false;
            localStorage.setItem('CodeProjet', this.data.CodeProjet);

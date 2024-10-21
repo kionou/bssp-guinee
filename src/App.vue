@@ -19,6 +19,8 @@
   import "@/assets/libs/choices.js/public/assets/styles/choices.min.css"
   import "@/assets/libs/prismjs/themes/prism-coy.min.css"
   import "@/assets/libs/choices.js/public/assets/styles/choices.min.css"
+  // import  "@/assets/libs/quill/quill.snow.css"
+  // import  "@/assets/libs/quill/quill.bubble.css"
  
   import "@/assets/libs/choices.js/public/assets/scripts/choices.min.js"
   import "@/assets/js/main.js"
@@ -28,24 +30,23 @@
   import "@/assets/libs/glightbox/js/glightbox.min.js"
   import "@/assets/libs/prismjs/prism.js"
   import "@/assets/js/prism-custom.js"
-  // import "@/assets/js/select2.js"
-  // import"@/assets/js/choices.js"
-
- 
-
-   
-
-
-       
-
-   
-
+  // import "@/assets/libs/quill/quill.min.js"
+  // import "@/assets/js/quill-editor.js"
+  import AOS from 'aos';
+  import 'aos/dist/aos.css';
+  
   export default {
   name:'App',
+  created() {
+    AOS.init({
+      duration: 1000,
+      easing: 'ease-in-out',
+      once: true,
+      mirror: false
+    });
+  },
   watch: {
-    created() {
     
-    },
     $route(to,) {
       const name = to.name.toLowerCase()
       const title = name 

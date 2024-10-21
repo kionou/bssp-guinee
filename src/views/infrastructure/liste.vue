@@ -71,7 +71,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="table-responsive">
+                                <div style="overflow-x: scroll !important" class="table-responsive">
                                     <table class="table text-nowrap table-bordered">
                                         <thead>
                                             <tr>

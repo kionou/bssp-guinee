@@ -25,12 +25,12 @@
                                 
                               </div>
                           </div>
-                          <div class="card-body">
+                          <div class="card-body" data-aos="zoom-in" >
                             <div v-if="paginatedItems.length === 0" class="noresul">
                             <span> Vous n'avez pas encore de permission, vous pouvez également en ajouter une !! </span>
                           </div>
   
-                              <div class="table-responsive" v-else>
+                              <div style="overflow-x: scroll !important" class="table-responsive" v-else>
                                   <table class="table text-nowrap table-bordered table-striped">
                                       <thead>
                                           <tr>
@@ -51,7 +51,7 @@
                                               <td style="width: 120px;">
                                                   <div class="hstack gap-2 fs-1">
                                                     
-                                                      <div class="btn btn-icon btn-sm btn-info btn-wave waves-effect " data-bs-toggle="modal" data-bs-target="#update_permissions"  @click="HandleIdUpdate(user.id)"><i class="ri-edit-line"></i></div>
+                                                      <div v-if="hasPermission(2)" class="btn btn-icon btn-sm btn-info btn-wave waves-effect " data-bs-toggle="modal" data-bs-target="#update_permissions"  @click="HandleIdUpdate(user.id)"><i class="ri-edit-line"></i></div>
                                                       <!-- <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-danger btn-wave waves-effect waves-light"><i class="ri-delete-bin-line" @click="HandleIdDelete(user.id)"></i></a> -->
                                                   </div>
                                               </td>
@@ -317,6 +317,14 @@ validations: {
 async mounted() { await this.fetchRoles();},
 methods: {
   successmsg:successmsg,
+  hasPermission(permissionName) {
+      if (!this.loggedInUser || !Array.isArray(this.loggedInUser.permissions)) {
+        return false;
+      }
+      return this.loggedInUser.permissions.some(
+        (permission) => permission.id === permissionName
+      );
+    },
       async fetchRoles() {
           try {
             const response = await axios.get('/permissions', {

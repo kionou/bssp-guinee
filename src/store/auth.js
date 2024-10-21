@@ -11,6 +11,7 @@ const getters = {
   // Modifier le nom du getter de l'utilisateur authentifié si nécessaire
   myAuthenticatedUser: (state) => state.myAuthenticatedUser,
   isAuthenticated: (state) => state.myAuthenticatedUser !== null,
+
 };
 
 const mutations = {
@@ -27,6 +28,7 @@ const actions = {
   // Modifier le nom de l'action si nécessaire
   setMyAuthenticatedUser({ commit }, user) {
     console.log(user);
+    console.log(user.user);
     const now = Math.floor(Date.now() / 1000);
     const tokenExpiration = now + user.expires_in;
     let role_id;
@@ -48,6 +50,9 @@ const actions = {
       role_id: role_id,
       token: user.access_token,
       tokenExpiration: tokenExpiration,
+      menus: user.menus,
+      permissions: user.permissions,
+      user_role:user.user_role,
     };
 
 

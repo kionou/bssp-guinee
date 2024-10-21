@@ -1,25 +1,29 @@
 <template >
     <div>
     <Loading v-if="loading" style="z-index: 99999;"></Loading>
-        <div class="row authentication mx-0">
+        <div class="row authentication mx-0" style="height: 100vh">
 
             <div class="col-xxl-5 col-xl-5 col-lg-5 d-xl-block d-none px-0">
     <div class="authentication-cover">
+      
         <div class="aunthentication-cover-content rounded">
+         
+                      <div class="">
+                      <img src="@/assets/img/logo.png" alt="" class="bg-white" style="height:80px; width:auto">
+                      </div>
+                      <p class="text-center" style="color:yellow" >Bureau de Suivi des Priorités Présidentielles</p>
+                 
+          
             <div class="swiper mySwiper keyboard-control">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
                         <div class="text-fixed-white text-center p-5 d-flex align-items-center justify-content-center">
                             <div>
                                 <div class="mb-5">
-                                    <img src="@/assets/img/logo.png" class="authentication-image" alt="">
+                                    <img src="@/assets/img/bg1.jpg" class="authentication-image" alt="">
                                 </div>
                                 
-                                <h6 class="fw-semibold text-fixed-white">Sign In</h6>
-                                <p class="fw-normal fs-14 op-7"> 
-                                  LE PRIMECARE is a provider of home health care services especially if you much prefer 
-                                  to be treated at home than in a care facility or institutionalized setting.
-                                </p>
+                              
                             </div>
                         </div>
                     </div>
@@ -27,14 +31,10 @@
                         <div class="text-fixed-white text-center p-5 d-flex align-items-center justify-content-center">
                             <div>
                                 <div class="mb-5">
-                                    <img src="@/assets/img/logo.png" class="authentication-image" alt="">
+                                    <img src="@/assets/img/bg4.jpg" class="authentication-image" alt="">
 
                                 </div>
-                                <h6 class="fw-semibold text-fixed-white">Sign In</h6>
-                                <p class="fw-normal fs-14 op-7"> 
-                                  Home Health Care services can be easily accessible at your home with us.
-                                   To get started or to request for an assessment, please call 770-686-3566.
-                                   </p>
+                               
                             </div>
                         </div>
                     </div>
@@ -42,14 +42,9 @@
                         <div class="text-fixed-white text-center p-5 d-flex align-items-center justify-content-center">
                             <div>
                                 <div class="mb-5">
-                                    <img src="@/assets/img/logo.png" class="authentication-image" alt="">
+                                    <img src="@/assets/img/bg5.jpg" class="authentication-image" alt="">
                                 </div>
-                                <h6 class="fw-semibold text-fixed-white">Sign In</h6>
-                                <p class="fw-normal fs-14 op-7">
-                                  Stupendous service and exceptional care is what we provide, where we are always by your side. 
-                                  Restoration to the whole persons mind body and soul that they are made whole again.
-
-                                   </p>
+               
                             </div>
                         </div>
                     </div>
@@ -67,12 +62,7 @@
                 <div class="login-reg-panel">
                     
                                         
-                    <div class="register-info-box">
-                        <div class="image">
-                        <img src="@/assets/img/logo.png" alt="" class="w-100">
-                        </div>
-                        <p class="text-dark" >Bureau de Suivi des Priorités Présidentiels</p>
-                    </div>
+                   
                                         
                     <div class="white-panel">
                         <div class="login-show" style="margin-top:30px">
@@ -178,111 +168,112 @@
     </div>
 </template>
 <script>
- import useVuelidate from '@vuelidate/core';
-  import { require, lgmin, lgmax , ValidEmail } from '@/functions/rules';
-  import Swiper from 'swiper/bundle';
+import useVuelidate from '@vuelidate/core';
+import { require, lgmin, lgmax , ValidEmail } from '@/functions/rules';
+import Swiper from 'swiper/bundle';
 import 'swiper/swiper-bundle.css';
 import axios from '@/lib/axiosConfig.js'
 import Loading from '@/components/others/loading.vue';
 import { mapActions } from 'vuex';
- 
 
-  export default {
-    components: {
-        Loading,
-  
-      },
-  
-      data() {
-          return {
-            loading:false,
-              show1: false,
-              visible:false,
-              dialogOtp:false,
-              dialogPassword:false, 
-              dialogOtpPassword:false,
-              InfoUser:'',
-              errorOtp:'',
-              step1:{
-               email: '',
-               password: '',
-             },
-  
-               step2:{
-               code:'',
-          },
-  
-          step3:{
-              email:'',
-          },
-          step4:{
-               code:'',
-          },
-         
-          v$: useVuelidate(),
-          error:''
-          }
-      },
-      validations: {
-      step1:{
-          email: {
-        require,
-        ValidEmail
-      },
-      password: {
-        require,
-        lgmin: lgmin(8),
-        lgmax: lgmax(20),
-      }
-      },
-      step2:{
-              code:{
-          require,
-        lgmin: lgmin(4),
-        lgmax: lgmax(4),
-              }
-              
-          },
-          step3:{
-          email: {
-        require,
-        ValidEmail
-      },
+
+export default {
+  components: {
+      Loading,
+
     },
-      step4:{
-              code:{
-          require,
-        lgmin: lgmin(4),
-        lgmax: lgmax(4),
-              }
-              
-          },
-  
-      
+
+    data() {
+        return {
+          loading:false,
+            show1: false,
+            visible:false,
+            dialogOtp:false,
+            dialogPassword:false, 
+            dialogOtpPassword:false,
+            InfoUser:'',
+            errorOtp:'',
+            step1:{
+             email: '',
+             password: '',
+           },
+
+             step2:{
+             code:'',
+        },
+
+        step3:{
+            email:'',
+        },
+        step4:{
+             code:'',
+        },
+       
+        v$: useVuelidate(),
+        error:''
+        }
     },
-    methods: {
-        ...mapActions('auth', ['setMyAuthenticatedUser']),
-    async Hamdlelogin(){
+    validations: {
+    step1:{
+        email: {
+      require,
+      ValidEmail
+    },
+    password: {
+      require,
+      lgmin: lgmin(8),
+      lgmax: lgmax(20),
+    }
+    },
+    step2:{
+            code:{
+        require,
+      lgmin: lgmin(4),
+      lgmax: lgmax(4),
+            }
+            
+        },
+        step3:{
+        email: {
+      require,
+      ValidEmail
+    },
+  },
+    step4:{
+            code:{
+        require,
+      lgmin: lgmin(4),
+      lgmax: lgmax(4),
+            }
+            
+        },
+
+    
+  },
+  methods: {
+      ...mapActions('auth', ['setMyAuthenticatedUser']),
+  async Hamdlelogin(){
 
 this.error = '',
- this.v$.step1.$touch()
-  if (this.v$.$errors.length == 0 ) {
-     this.loading = true
-    
+this.v$.step1.$touch()
+if (this.v$.$errors.length == 0 ) {
+   this.loading = true
+  
 let DataUser = {
 email:this.step1.email,
 password:this.step1.password,
 }
 console.log("eeeee",DataUser);
 try {
-const response = await axios.post('/login' , DataUser);
+const response = await axios.post('/system/login' , DataUser);
 console.log('response.login', response.data); 
 if (response.data.status === "success") {
 this.InfoUser = response.data.data
 this.setMyAuthenticatedUser(this.InfoUser);
+this.fetchUserDetail(this.InfoUser)
 this.loading = false
 
-      this.$router.push('/bspp'); 
+    this.$router.push('/bspp'); 
 
 } else {
 
@@ -301,141 +292,173 @@ return this.error = error.response.data.message
 return this.error = "L'authentification a échoué"
 }
 }
-    }else{
-    
-    console.log('pas bon', this.v$.$errors);
-    
-    } 
+  }else{
+  
+
+  
+  } 
 },
+async fetchUserDetail(data) {
+
+  
+      try {
+        const response = await axios.get("/auth-user", {
+          headers: {
+            Authorization: `Bearer ${data.access_token}`,
+          },
+        });
+          console.log('role/id',response.data.data.roles[0])
+        if (response.data.status === "success") {
+          const selectedActualites = response.data.data.roles[0].menus;
+          const selectedPermissions = response.data.data.roles[0].permissions
+          data.menus = selectedActualites;
+          data.permissions = selectedPermissions;
+          data.user_role = response.data.data.roles[0].id
+          this.setMyAuthenticatedUser(data);
+
+   
+          this.loading = false;
+        }
+      } catch (error) {
+        console.error("Erreur lors du téléversement :", error);
+        if (
+          error.response.data.message === "Vous n'êtes pas autorisé." ||
+          error.response.status === 401
+        ) {
+          await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+          this.$router.push("/"); //a revoir
+        }
+      }
+    },
 
 async ChangePassword(){
-            this.dialogPassword = true
-            this.error = ''
-            
+          this.dialogPassword = true
+          this.error = ''
+          
+  
+  }, 
+
+  async PasswordOtp(){
+
+           this.v$.step3.$touch()
+          if (this.v$.$errors.length == 0 ) {
+             this.loading = true
+          
+          let CodeUserEmail ={
+            email:1,
+            value:this.step3.email
+          
+          }
+
+          try {
+         const response = await axios.post('/mcipme/send-otp', CodeUserEmail);
+         
+; 
+         if (response.data.status === 'success') {
+          this.dialogPassword = false
+         this.dialogOtpPassword = true
+         this.loading = false
+         } else {
+          
+         }
     
-    }, 
-  
-    async PasswordOtp(){
-  
-             this.v$.step3.$touch()
-            if (this.v$.$errors.length == 0 ) {
-               this.loading = true
-            
-            let CodeUserEmail ={
-              email:1,
-              value:this.step3.email
-            
-            }
-            console.log("eee",CodeUserEmail);
-            try {
-           const response = await axios.post('/mcipme/send-otp', CodeUserEmail);
-           
-           console.log('response.Code', response); 
-           if (response.data.status === 'success') {
-            this.dialogPassword = false
-           this.dialogOtpPassword = true
-           this.loading = false
-           } else {
-            
-           }
-      
-      } catch (error) {
-          console.log('error',error);
+    } catch (error) {
+    
+    }
+          }else{
+          
+     
+          
+          
+          }
+  },
+
+  onOtpInputPassworod() {
+      // Vérifiez si l'OTP est complètement saisi (longueur de 4 chiffres)
+      this.errorOtp  = ''
+      if (this.step4.code.length === 4) {
+        // Déclenchez votre action ici, par exemple, appelez une méthode pour envoyer à l'API
+        this.HamdleOtpPassword();
       }
+    },
+    async  HamdleOtpPassword(){
+        this.error = '',
+         this.v$.step4.$touch()
+          if (this.v$.$errors.length == 0 ) {
+             this.loading = true
+            
+            let DataUser = {
+            email: true,
+            value: this. step3.email,
+            code: this. step4.code
+        }
+
+   
+     
+      try {
+      const response = await axios.post('/mcipme/verification-otp' , DataUser);
+
+      if(response.data.status === 'success'){
+        localStorage.setItem('resetPasswordInfo', JSON.stringify({
+                  email: this.step3.email,
+                  code: this.step4.code// Assurez-vous de récupérer le code correctement
+                }));
+             this.$router.push('/reinitialiser');
+              this.loading = false
+              this.dialogOtpPassword = false
+      }else{
+      
+       this.errorOtp = "Echec de vérification du code."
+       this. step4.code = ''
+       this.loading = false
+      }
+    
+        
+              
+     
+    } catch (error) {
+   
+
+      this.loading = false
+      if (error.response.data.status === 'error') {
+       return this.errorOtp = "L'authentification a échoué"
+        
+      } else {
+        
+      }
+    }
             }else{
             
-          console.log('error',this.v$.$errors);
-            
+      
             
             }
+
     },
-  
-    onOtpInputPassworod() {
-        // Vérifiez si l'OTP est complètement saisi (longueur de 4 chiffres)
-        this.errorOtp  = ''
-        if (this.step4.code.length === 4) {
-          // Déclenchez votre action ici, par exemple, appelez une méthode pour envoyer à l'API
-          this.HamdleOtpPassword();
-        }
-      },
-      async  HamdleOtpPassword(){
-          this.error = '',
-           this.v$.step4.$touch()
-            if (this.v$.$errors.length == 0 ) {
-               this.loading = true
-              
-              let DataUser = {
-              email: true,
-              value: this. step3.email,
-              code: this. step4.code
-          }
-        console.log("eeeee",DataUser);
-     
-       
-        try {
-        const response = await axios.post('/mcipme/verification-otp' , DataUser);
-        console.log('response.login', response.data); 
-        if(response.data.status === 'success'){
-          localStorage.setItem('resetPasswordInfo', JSON.stringify({
-                    email: this.step3.email,
-                    code: this.step4.code// Assurez-vous de récupérer le code correctement
-                  }));
-               this.$router.push('/reinitialiser');
-                this.loading = false
-                this.dialogOtpPassword = false
-        }else{
-        
-         this.errorOtp = "Echec de vérification du code."
-         this. step4.code = ''
-         this.loading = false
-        }
+  },
+async  mounted() {
       
-          
-                
-       
-      } catch (error) {
-        console.log('response.login', error); 
-  
-        this.loading = false
-        if (error.response.data.status === 'error') {
-         return this.errorOtp = "L'authentification a échoué"
-          
-        } else {
-          
-        }
-      }
-              }else{
-              
-              console.log('pas bon', this.v$.$errors);
-              
-              }
-  
+const swiper = new Swiper(".keyboard-control", {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      keyboard: {
+          enabled: true,
       },
-    },
-  async  mounted() {
-        
-  const swiper = new Swiper(".keyboard-control", {
-        slidesPerView: 1,
-        spaceBetween: 30,
-        keyboard: {
-            enabled: true,
-        },
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        loop: true,
-        autoplay: {
-            delay: 2000,
-            disableOnInteraction: false
-        }
-    });
-    },
-    
+      pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+      },
+      navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+      },
+      loop: true,
+      autoplay: {
+          delay: 2000,
+          disableOnInteraction: false
+      }
+  });
+  },
+  
 }
 </script>
 <style lang="css" scoped>
@@ -482,6 +505,7 @@ async ChangePassword(){
       transition:.3s ease-in-out;
       z-index:0;
       box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+      left: 25%;
       
   }
   .login-reg-panel input[type="radio"]{

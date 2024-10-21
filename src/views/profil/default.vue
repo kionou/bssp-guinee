@@ -90,7 +90,7 @@
      
     },
     async mounted() {
-      console.log("uusers", this.loggedInUser);
+  
       
       
     },

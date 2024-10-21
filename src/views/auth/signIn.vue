@@ -15,7 +15,7 @@
                       <div class="image">
                       <img src="@/assets/img/logo.png" alt="" class="w-100">
                       </div>
-                      <p class="" style="color:yellow" >Bureau de Suivi des Priorités Présidentiels</p>
+                      <p class="" style="color:yellow" >Bureau de Suivi des Priorités Présidentielles</p>
                   </div>
                                       
                   <div class="white-panel">
@@ -190,6 +190,7 @@ console.log('response.login', response.data);
 if (response.data.status === "success") {
 this.InfoUser = response.data.data
 this.setMyAuthenticatedUser(this.InfoUser);
+this.fetchUserDetail(this.InfoUser)
 this.loading = false
 
     this.$router.push('/bspp'); 
@@ -213,10 +214,41 @@ return this.error = "L'authentification a échoué"
 }
   }else{
   
-  console.log('pas bon', this.v$.$errors);
+
   
   } 
 },
+async fetchUserDetail(data) {
+
+  
+      try {
+        const response = await axios.get("/auth-user", {
+          headers: {
+            Authorization: `Bearer ${data.access_token}`,
+          },
+        });
+
+        if (response.data.status === "success") {
+          const selectedActualites = response.data.data.roles[0].menus;
+          const selectedPermissions = response.data.data.roles[0].permissions
+          data.menus = selectedActualites;
+          data.permissions = selectedPermissions;
+          this.setMyAuthenticatedUser(data);
+
+   
+          this.loading = false;
+        }
+      } catch (error) {
+        console.error("Erreur lors du téléversement :", error);
+        if (
+          error.response.data.message === "Vous n'êtes pas autorisé." ||
+          error.response.status === 401
+        ) {
+          await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+          this.$router.push("/"); //a revoir
+        }
+      }
+    },
 
 async ChangePassword(){
           this.dialogPassword = true
@@ -236,11 +268,11 @@ async ChangePassword(){
             value:this.step3.email
           
           }
-          console.log("eee",CodeUserEmail);
+
           try {
          const response = await axios.post('/mcipme/send-otp', CodeUserEmail);
          
-         console.log('response.Code', response); 
+; 
          if (response.data.status === 'success') {
           this.dialogPassword = false
          this.dialogOtpPassword = true
@@ -250,11 +282,11 @@ async ChangePassword(){
          }
     
     } catch (error) {
-        console.log('error',error);
+    
     }
           }else{
           
-        console.log('error',this.v$.$errors);
+     
           
           
           }
@@ -279,12 +311,12 @@ async ChangePassword(){
             value: this. step3.email,
             code: this. step4.code
         }
-      console.log("eeeee",DataUser);
+
    
      
       try {
       const response = await axios.post('/mcipme/verification-otp' , DataUser);
-      console.log('response.login', response.data); 
+
       if(response.data.status === 'success'){
         localStorage.setItem('resetPasswordInfo', JSON.stringify({
                   email: this.step3.email,
@@ -304,7 +336,7 @@ async ChangePassword(){
               
      
     } catch (error) {
-      console.log('response.login', error); 
+   
 
       this.loading = false
       if (error.response.data.status === 'error') {
@@ -316,7 +348,7 @@ async ChangePassword(){
     }
             }else{
             
-            console.log('pas bon', this.v$.$errors);
+      
             
             }
 
@@ -392,6 +424,7 @@ const swiper = new Swiper(".keyboard-control", {
     transition:.3s ease-in-out;
     z-index:0;
     box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+    left: 25%;
     
 }
 .login-reg-panel input[type="radio"]{
@@ -423,8 +456,8 @@ const swiper = new Swiper(".keyboard-control", {
 }
 .register-info-box{
   width: 43%;
- 
-  height: 100%;
+ margin-top: 10px;
+  /* height: 100%; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -514,7 +547,7 @@ filter: brightness(75%) !important;
     .white-panel{
         position: static;
         width: 100%;
-    max-width: 380px;
+       max-width: 380px;
     }
 
     .register-info-box{

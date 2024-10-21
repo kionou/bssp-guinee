@@ -30,7 +30,7 @@
                                               <button class="btn btn-light" type="button" id="search-contact-member"><i class="ri-search-line text-muted"></i></button>
                                           </div>
                                          
-                                          <button class="btn btn-icon btn-primary ms-2" 
+                                          <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" 
                                            data-bs-placement="top"
                                             data-bs-title="Add Contact"
                                             data-bs-toggle="modal"
@@ -45,7 +45,7 @@
                               
                             
 
-                              <div class="col-xl-12">
+                              <div class="col-xl-12" data-aos="zoom-in">
                               <div class="card custom-card">
                                   <div class="card-header justify-content-between">
                                       <div class="card-title">
@@ -54,7 +54,7 @@
                                      
                                   </div>
                                   <div class="card-body">
-                                      <div class="table-responsive">
+                                      <div style="overflow-x: scroll !important" class="table-responsive">
                                           <table class="table text-nowrap table-hover border table-bordered table-striped">
                                               <thead>
                                                   <tr>
@@ -77,7 +77,8 @@
                                                 </td>
                                               </tr>
                                             </tbody>
-                                              <tbody v-else>
+                                              <tbody v-else  data-aos="fade-up"
+                                              data-aos-duration="1000">
                                                   <tr v-for="(data , index)  in paginatedItems" :key="data.id">
                                                     <th scope="row" class="ps-4" style="width: 60px;">  {{index + 1}}</th>
                                                      
@@ -96,8 +97,8 @@
                                                       </td>
                                                       <td>
                                                           <div class="hstack gap-2 fs-15">
-                                                              <button  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-info"  data-bs-toggle="modal"  data-bs-target="#update_infrastructure" @click="HandleIdUpdate(data.id)"><i class="ri-edit-line"></i></button>
-                                                              <button  class="btn btn-icon btn-wave waves-effect btn-sm btn-danger"  
+                                                              <button v-if="hasPermission(2)" class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-info"  data-bs-toggle="modal"  data-bs-target="#update_infrastructure" @click="HandleIdUpdate(data.id)"><i class="ri-edit-line"></i></button>
+                                                              <button v-if="hasPermission(4)" class="btn btn-icon btn-wave waves-effect btn-sm btn-danger"  
                                                                    @click="HandleIdDelete(data.id)"><i class="ri-delete-bin-line"></i></button>
                                                           </div>
                                                       </td>
@@ -164,7 +165,7 @@
       <div class="boutton" style=" width: 38px; z-index:1000" @click="AddformDataInfrastructures" ><i  class="ri-add-line"></i></div>
       </div>
         </div>
-              <div class="row align-items-center p-2  border-bottom " v-for="(infrastructure, index) in Infrastructures" :key="infrastructure.id">
+              <div class="row align-items-center p-2  border-bottom " v-for="(infrastructure, index) in Infrastructures" :key="index">
                 <div class="col-11">
                   <span class="nombre">
                           {{index + 1}}
@@ -443,13 +444,22 @@ validations: {
  
 },
 async mounted() {
-  console.log("loggedInUser", this.loggedInUser);
+
   await this.fetchClients();
 
 },
 
 methods:{
   successmsg:successmsg,
+ 
+  hasPermission(permissionName) {
+      if (!this.loggedInUser || !Array.isArray(this.loggedInUser.permissions)) {
+        return false;
+      }
+      return this.loggedInUser.permissions.some(
+        (permission) => permission.id === permissionName
+      );
+    },
   AddformDataInfrastructures() {
    this.Infrastructures.push({  Intitule:'', Visible:'',});
  },
@@ -499,8 +509,7 @@ async submitInfrastructure(modalId) {
   const dataToSend = {
            types: this.Infrastructures
       };
-    console.log("data", dataToSend);
-
+  
 
       try {
         const response = await axios.post("/infrastructures/types", dataToSend, {
@@ -508,7 +517,7 @@ async submitInfrastructure(modalId) {
          
         }
         });
-        console.log("Réponse du téléversement :", response);
+    
         if (response.data.status === "success") {
           this.closeModal(modalId);
           this.successmsg(
@@ -523,7 +532,7 @@ async submitInfrastructure(modalId) {
         } else {
         }
       } catch (error) {
-        console.log("response.login", error);
+     
 
         this.loading = false;
         if (error.response.data.status === "error") {
@@ -533,7 +542,7 @@ async submitInfrastructure(modalId) {
         }
       }
     } else {
-      console.log("error", this.v$.$errors);
+  
     }
   },
 
@@ -548,20 +557,17 @@ async submitInfrastructure(modalId) {
         }
       );
 
-      console.log("responseclienteschools-level", response.data);
+
       if (response.data.status === "success") {
           this.data  = response.data.data ;
             this.ClientOptions = this.data
-        console.log("this.DaysOptions", this.ClientOptions);
+   
         this.loading =  false
       }
     } catch (error) {
-      console.log(
-        "Erreur lors de la mise à jour des données MPME guinee :",
-        error
-      );
+     
       if (error.response.data.status === "error") {
-        console.log("aut", error.response.data.status === "error");
+
 
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -589,9 +595,9 @@ async  HandleIdUpdate(id){
         }
       });
 
-      // console.log("response", response);
+    
       if (response.data.status === "success") {
-        console.log("responsedata", response.data.data);
+ 
         let data =  response.data.data
        
         this.step2.Intitule = data.Intitule,
@@ -601,12 +607,9 @@ async  HandleIdUpdate(id){
       
       }
     } catch (error) {
-      console.log(
-        "Erreur lors de la mise à jour des données MPME guinee :",
-        error
-      );
+      
       if (error.response.data.status === "error") {
-        console.log("aut", error.response.data.status === "error");
+     
 
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -643,7 +646,7 @@ async  HandleIdUpdate(id){
        }
 
 
-          console.log("data",dataSend );
+        
 
     try {
       const response = await axios.put('/infrastructures/types/update',dataSend, {
@@ -653,7 +656,7 @@ async  HandleIdUpdate(id){
         
         },
       });
-      console.log("Réponse du téléversement :", response);
+    
       if (response.data.status === "success") {
         this.closeModal(modalId);
         this.successmsg(
@@ -678,7 +681,7 @@ async  HandleIdUpdate(id){
    }
     }
   } else {
-    console.log("cest pas bon ", this.v$.$errors);
+   
     this.loading = false;
 
   }
@@ -714,7 +717,7 @@ async  HandleIdUpdate(id){
  
  
          });
-         console.log('Réponse de suppression:', response);
+
          if (response.data.status === 'success') {
            this.loading = false
            this.successmsg(
@@ -724,7 +727,7 @@ async  HandleIdUpdate(id){
           await this.fetchClients();
  
          } else {
-           console.log('error', response.data)
+
            this.loading = false
          }
        } catch (error) {
@@ -799,22 +802,16 @@ closeModal(modalId) {
 
     for (const field in errors) {
       const errorMessages = errors[field]; // Liste complète des messages d'erreur
-      console.log(" errorMessages", errorMessages, typeof errorMessages);
+
 
       const concatenatedError = errorMessages.join(", "); // Concaténer les messages d'erreur
-      console.log(
-        " concatenatedError",
-        concatenatedError,
-        typeof concatenatedError
-      );
+   
 
       formattedErrors[field] = concatenatedError; // Utilisez le nom du champ comme clé
     }
 
     this.resultError = formattedErrors; // Stockez les erreurs dans un objet
 
-    // Maintenant, this.resultError est un objet où les clés sont les noms des champs
-    console.log("resultError", this.resultError);
   },
 }
 }

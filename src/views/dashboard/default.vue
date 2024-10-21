@@ -874,9 +874,9 @@
                       v-else
                       :src="loggedInUser.profile"
                       alt="img"
-                      width="32"
-                      height="32"
+                     
                       class="rounded-circle"
+                      style="width: 40px !important; height:40px !important"
                     />
                   </div>
                   <div class="d-sm-block d-none">
@@ -965,96 +965,53 @@
                 ></path>
               </svg>
             </div>
-            <ul class="main-menu">
-              <!-- Start::slide -->
-              <li class="slide">
-                <router-link to="/bspp" class="side-menu__item">
-                  <i class="bx bx-home side-menu__icon"></i>
-                  <span class="side-menu__label">Tableau de bord</span>
-                </router-link>
-              </li>
-              <!-- End::slide -->
+          
 
-              <li class="slide has-sub">
-                <a href="javascript:void(0);" class="side-menu__item settings">
-                  <i class="bx bx-group side-menu__icon"></i>
-                  <span class="side-menu__label">Gestion des users</span>
-                  <i class="fe fe-chevron-right side-menu__angle"></i>
-                </a>
-                <ul class="slide-menu child1">
-                  <li class="slide side-menu__label1">
-                    <a href="javascript:void(0)"> Gestion des users</a>
-                  </li>
-                  <li class="slide">
-                    <router-link to="/bspp/utilisateurs" class="side-menu__item"
-                      >Utilisateurs</router-link
-                    >
-                  </li>
-                  <!-- <li class="slide">
-                    <router-link
-                      to="/bspp/roles-permissions"
-                      class="side-menu__item"
-                      >Rôles et permissions</router-link
-                    >
-                  </li> -->
-                  <li class="slide">
-                    <router-link to="/bspp/droits" class="side-menu__item">Droits</router-link>
-                  </li>
-                </ul>
-              </li>
-
-              <!-- Start::slide -->
-              <li class="slide">
-                <router-link to="/bspp/Projets" class="side-menu__item">
-                  <i class='bx bxs-city side-menu__icon'></i>
-                  <span class="side-menu__label">Projets</span>
-                </router-link>
-              </li>
-              <!-- End::slide -->
-                <!-- Start::slide -->
-                <!-- <li class="slide">
-                <router-link to="/bspp/infrastructures" class="side-menu__item">
-                  <i class='bx bxs-city side-menu__icon'></i>
-                  <span class="side-menu__label">Infrastructures</span>
-                </router-link>
-              </li> -->
-              <!-- End::slide -->
-
-              <!-- Start::slide -->
-              <li class="slide has-sub">
-                <a href="javascript:void(0);" class="side-menu__item settings">
-                  <i class="bx bx-cog side-menu__icon"></i>
-                  <span class="side-menu__label">Paramétrages</span>
-                  <i class="fe fe-chevron-right side-menu__angle"></i>
-                </a>
-                <ul class="slide-menu child1">
-                  <li class="slide side-menu__label1">
-                    <a href="javascript:void(0)"> Paramétrages</a>
-                  </li>
-                  <li class="slide">
-                    <router-link to="/bspp/bailleurs" class="side-menu__item"
-                      >Bailleurs</router-link
-                    >
-                  </li>
-                  <li class="slide">
-                    <router-link to="/bspp/mode-financements" class="side-menu__item"
-                      >Mode financement</router-link
-                    >
-                  </li>
-                  <li class="slide">
-                    <router-link
-                      to="/bspp/types-infrastructures"
-                      class="side-menu__item"
-                      >Types infrastructures</router-link
-                    >
-                  </li>
-                  <li class="slide">
-                    <router-link to="/bspp/zones" class="side-menu__item">Zones</router-link>
-                  </li>
-                </ul>
-              </li>
-              <!-- End::slide -->
-            </ul>
+            <!-- <ul class="main-menu">
+    <li class="slide" v-for="parent in organizedMenus" :key="parent.menu.id">
+      <router-link :to="parent.menu.lien" class="side-menu__item">
+        <i :class="parent.menu.icon"></i>
+        <span class="side-menu__label">{{ parent.menu.label }}</span>
+        <i v-if="parent.children.length" class="fe fe-chevron-right side-menu__angle"></i>
+      </router-link>
+      
+      <ul v-if="parent.children.length" class="slide-menu child1">
+        <li v-for="child in parent.children" :key="child.menu.id" class="slide">
+          <router-link :to="child.menu.lien" class="side-menu__item">
+            <i :class="child.menu.icon"></i>
+            {{ child.menu.label }}
+          </router-link>
+        </li>
+      </ul>
+    </li>
+  </ul> -->
+  <ul class="main-menu">
+    <li v-for="parent in organizedMenus" :key="parent.menu.id" class="slide" >
+      
+      <!-- Si le parent a des enfants, on utilise un div avec un toggle -->
+      <a href="javascript:void(0);" v-if="parent.children.length" class="side-menu__item" @click="toggleMenu(parent)">
+        <i class="side-menu__icon"  :class="parent.menu.icon"></i>
+        <span  class="side-menu__label">{{ parent.menu.label }}</span>
+        <i class="fe fe-chevron-right side-menu__angle"></i>
+      </a>
+      
+      <!-- Si le parent n'a pas d'enfants, on utilise un router-link -->
+      <router-link v-else :to="parent.menu.lien" class="side-menu__item">
+        <i class="side-menu__icon" :class="parent.menu.icon"></i>
+        <span class="side-menu__label">{{ parent.menu.label }}</span>
+      </router-link>
+      
+      <!-- Affichage des enfants si le parent est ouvert -->
+      <ul v-if="parent.isOpen && parent.children.length" class="slide-menu child1">
+        <li v-for="child in parent.children" :key="child.menu.id" class="slide">
+          <router-link :to="child.menu.lien" class="side-menu__item">
+            <i :class="child.menu.icon"></i>
+            {{ child.menu.label }}
+          </router-link>
+        </li>
+      </ul>
+    </li>
+  </ul>
             <div class="slide-right" id="slide-right">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -1076,10 +1033,10 @@
       <!-- End::app-sidebar -->
       <!-- Start::app-content -->
       <div class="main-content app-content">
-        <div class="container-fluid">
+        <!-- <div class="container-fluid"> -->
           <!-- router link -->
           <router-view />
-        </div>
+        <!-- </div> -->
       </div>
       <!-- End::app-content -->
 
@@ -1107,13 +1064,16 @@
 
 <script>
 import { mapGetters } from "vuex";
+import axios from "@/lib/axiosConfig.js";
 
 export default {
   name: "BsppGuineeLayout",
   components: {},
 
   data() {
-    return {};
+    return {
+      menus:[],
+    };
   },
   computed: {
     ...mapGetters("auth", ["isAuthenticated"]),
@@ -1125,6 +1085,95 @@ export default {
     loggedInUser() {
       return this.$store.getters["auth/myAuthenticatedUser"];
     },
+    // organizedMenus() {
+  // Vérifiez que loggedInUser et menus existent
+  // if (!this.loggedInUser || !Array.isArray(this.loggedInUser.menus)) {
+  //   return []; // Retournez un tableau vide si les données ne sont pas encore disponibles
+  // }
+   // Filtrer les menus avec type === 1
+  //  const menusType1 = this.loggedInUser.menus.filter(menu => menu.menu.type === "1");
+
+  // Filtrer les parents et les enfants à partir des menus de type 1
+  // const parentMenus = menusType1.filter(menu => !menu.menu.parent);
+  // const childMenus = menusType1.filter(menu => menu.menu.parent);
+
+  // Trier les menus par ID
+  // parentMenus.sort((a, b) => a.menu.id - b.menu.id);
+  // childMenus.sort((a, b) => a.menu.id - b.menu.id);
+
+  // Associer les enfants aux parents
+//   parentMenus.forEach(parent => {
+//     parent.children = childMenus.filter(child => child.menu.parent == parent.menu.id);
+//     parent.isOpen = false; // État d'ouverture des sous-menus
+//   });
+
+//   return parentMenus;
+// }
+
+organizedMenussss() {
+  // Vérifiez que loggedInUser et menus existent
+  if (!this.loggedInUser || !Array.isArray(this.loggedInUser.menus)) {
+    return []; // Retournez un tableau vide si les données ne sont pas encore disponibles
+  }
+
+  // Filtrer les menus avec type === 1
+  const menusType1 = this.loggedInUser.menus.filter(menu => menu.menu.type === "1");
+
+  // Filtrer les parents et les enfants à partir des menus de type 1
+  const parentMenus = menusType1.filter(menu => !menu.menu.parent);
+  const childMenus = menusType1.filter(menu => menu.menu.parent);
+
+  // Trier les menus par ID
+  parentMenus.sort((a, b) => a.menu.id - b.menu.id);
+  childMenus.sort((a, b) => a.menu.id - b.menu.id);
+
+  // Déplacer "Paramétrages" en deuxième position
+  const parametresIndex = parentMenus.findIndex(menu => menu.menu.label === "Paramétrages");
+  if (parametresIndex !== -1) {
+    const parametresMenu = parentMenus.splice(parametresIndex, 1)[0];
+    parentMenus.splice(1, 0, parametresMenu);
+  }
+
+  // Associer les enfants aux parents
+  parentMenus.forEach(parent => {
+    parent.children = childMenus.filter(child => child.menu.parent == parent.menu.id);
+    parent.isOpen = false; // État d'ouverture des sous-menus
+  });
+
+  return parentMenus;
+},
+organizedMenus() {
+  // Vérifiez que loggedInUser et menus existent
+  if (!this.loggedInUser || !Array.isArray(this.loggedInUser.menus)) {
+    return []; // Retournez un tableau vide si les données ne sont pas encore disponibles
+  }
+
+  // Filtrer les menus avec type === 1
+  const menusType1 = this.loggedInUser.menus.filter(menu => menu.menu.type === "1");
+
+  // Filtrer les parents et les enfants à partir des menus de type 1
+  const parentMenus = menusType1.filter(menu => !menu.menu.parent);
+  const childMenus = menusType1.filter(menu => menu.menu.parent);
+
+  // Trier les parents par `order_number`
+  parentMenus.sort((a, b) => parseInt(a.menu.order_number) - parseInt(b.menu.order_number));
+
+  // Associer et trier les enfants pour chaque parent
+  parentMenus.forEach(parent => {
+    // Filtrer les enfants appartenant au parent actuel
+    parent.children = childMenus
+      .filter(child => child.menu.parent == parent.menu.id)
+      // Trier les enfants par `order_number`
+      .sort((a, b) => parseInt(a.menu.order_number) - parseInt(b.menu.order_number));
+    
+    parent.isOpen = false; // État d'ouverture des sous-menus
+  });
+
+  return parentMenus;
+}
+
+
+
   },
 
   watch: {
@@ -1132,9 +1181,50 @@ export default {
       console.log("User is logged in:", newValue);
     },
   },
+  methods: {
+    async fetchUserDetail() {
+      try {
+        const response = await axios.get("/auth-user", {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+        });
+    
+        if (response.data.status === "success") {
+          const selectedActualites = response.data.data.roles[0].menus;
 
-  mounted() {
+          this.loading = false;
+        }
+      } catch (error) {
+        console.error("Erreur lors du téléversement :", error);
+        if (
+          error.response.data.message === "Vous n'êtes pas autorisé." ||
+          error.response.status === 401
+        ) {
+          await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+          this.$router.push("/"); //a revoir
+        }
+      }
+    },
+    async logout() {
+      try {
+        await this.$store.dispatch("auth/clearMyAuthenticatedUser"); // Appel de l'action pour déconnecter l'utilisateur
+        this.$router.push("/");
+        location.reload();
+      } catch (error) {
+      }
+    },
+    toggleMenu(menu) {
+      // Ouvre ou ferme le sous-menu
+      menu.isOpen = !menu.isOpen;
+    }
+  },
+
+ async  mounted() {
+  await this.fetchUserDetail()
     console.log("index", this.loggedInUser);
+  
+    // this.menus = this.loggedInUser.menus
 
     ("use strict");
 
@@ -2285,16 +2375,7 @@ export default {
     // for menu click active close
   },
 
-  methods: {
-    async logout() {
-      try {
-        await this.$store.dispatch("auth/clearMyAuthenticatedUser"); // Appel de l'action pour déconnecter l'utilisateur
-        this.$router.push("/");
-        location.reload();
-      } catch (error) {
-      }
-    },
-  },
+ 
 };
 </script>
 
@@ -2312,7 +2393,25 @@ export default {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 0.1s;
 }
-#responsive-overlay.active {
-  visibility: visible;
+
+.main-menu .side-menu__item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  
 }
+.main-menu .has-sub > .side-menu__item {
+  cursor: pointer;
+}
+.main-menu .slide-menu {
+  display: none;
+  /* padding-left: 20px; */
+}
+.main-menu .slide-menu.child1 {
+  display: block;
+}
+.main-menu .side-menu__angle.rotate {
+  transform: rotate(90deg);
+}
+
 </style>

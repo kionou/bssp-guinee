@@ -3,6 +3,21 @@
         <Loading v-if="loading" style="z-index: 99999"></Loading>
         <div class="d-md-flex d-block  pt-12 align-items-center justify-content-between my-4 page-header-breadcrumb">
       <h1 class="page-title fw-semibold fs-18 mb-0">Tableau de bord</h1>
+     
+      <div class=" row  w-50">
+
+        <div class="col-9">
+          <div class=" position-relative">
+           
+            <MazSelect label="" multiple v-model="selectprojet" color="info" no-radius :options="ProjetsOptions" size="sm" search></MazSelect>
+          </div>
+        </div>
+        <div class="col-3" >
+           
+            <button class="btn btn-primary" style="margin-top:0px !important" @click="handleProjetChange()">Valider</button>
+           
+        </div>
+      </div>
       <div class="ms-md-1 ms-0">
         <nav>
           <ol class="breadcrumb mb-0">
@@ -18,153 +33,34 @@
     </div>
     <!-- Page Header Close -->
 
+    <!-- <div class=" row align-items-center">
 
+        <div class="col-10">
+          <div class="mb-3 position-relative">
+            <label for="userpassword">Liste des projets</label>
+            <MazSelect label="" multiple v-model="selectprojet" color="info" no-radius :options="ProjetsOptions" search></MazSelect>
+          </div>
+        </div>
+        <div class="col-2" >
+            <div class="boutton">
+            <button class="" style="margin-top:12px !important" @click="handleProjetChange()">Valider</button>
+            </div>
+        </div>
+      </div> -->
          <!-- Start::row-1 -->
          <div v-if="data.length === 0" class="noresul">
         <span> Vous n'avez pas encore de projet  !! </span>
       </div>
-         <div class="row" v-else>
+         <div class="" v-else >
+          <ProjetCard :data="data"></ProjetCard>
            
-                    <div class="col-xl-6 col-xxl-4 col-lg-6 col-md-6 col-sm-12" v-for="projet  in data" :key="projet.id">
-                        <div class="card custom-card border border-warning">
-                            <div class="card-header p-2 d-block">
-                                <div class="row">
-                                    <div class=" col-10 flex-fill">
-                                            <span class="fs-16 fw-bold text-uppercase">{{truncateText(projet.NomProjet, 60)}}</span>
-                                    </div>
-                                    <!-- <div class=" col-1 text-sm-center">
-                                      <router-link :to="{ name: 'synthese-projet', params: { id: projet.id }}"   class="btn btn-sm btn-icon btn-info btn-wave">
-                                        <i class="ri-line-chart-fill"></i>
-                                    </router-link>
-                                    </div> -->
-                                    <div class=" col-1 p-0 text-sm-center">
-                                      <router-link :to="{ name: 'detail-projet', params: { id: projet.id }}"   class="btn btn-sm btn-icon btn-success btn-wave">
-                                        <i class="ri-eye-line"></i>
-                                    </router-link>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row py-2">
-                                <div class="col-4">
-                                    <div class=" text-center ">
-                                        <div class="orders-delivery-address text-center">
-                                        <p class="mb-1 ">Démarage</p>
-                                        <p class="text-info mb-0 fs-14 fw-semibold">
-                                            {{  getYear(projet.DateDebut)}}
-                                        </p>
-                                    </div>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="orders-delivery-address text-center">
-                                        <p class="mb-1 ">Clôture</p>
-                                        <p class="text-info mb-0 fs-14 fw-semibold">
-                                            {{  getYear(projet.DateFin)}}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="orders-delivery-address text-center">
-                                        <p class="mb-1 ">Durée</p>
-                                        <p class=" mb-0 fs-14 fw-semibold" style="color:red;">
-                                            {{ formatDuration(projet.DateDebut, projet.DateFin) }}
-                                        </p>
-                                    </div>
-                                    
-                                </div>
-                               
-                            </div>
-                            <div class="row py-2">
-                              <!-- <div
-                              class="col-4"
-                              @mouseenter="showBailleurModal(projet)"
-                              @mouseleave="hideBailleurModal"
-                            >
-                              <div class="orders-delivery-address text-center">
-                                <p class="mb-1 ">Bailleurs</p>
-                                <p class="mb-0 fw-semibold fs-14" style="color:#198754;">{{ projet.bailleurs.length }}</p>
-                              </div>
-                            </div> -->
-                            <div class="col-4">
-              <div class="orders-delivery-address text-center">
-                <p class="mb-1">Bailleurs</p>
-                <a href="#"
-              class="mb-0 fw-semibold fs-14"
-              style="color:#198754;"
-              @click="showBailleurModal(projet)"
-              data-bs-toggle="tooltip"
-              :title="'Voir les détails des bailleurs'"
-            >
-              {{ projet.bailleurs.length }}
-            </a>
-              </div>
-               </div>
-                            <div class="col-4">
-                              <div class="orders-delivery-address text-center">
-                                <p class="mb-1">Région</p>
-                                
-                                <a href="#"
-                                  class="mb-0 custom-tooltip"
-                                 
-                                  
-                                   data-bs-placement="top"
-                                  :data-bs-toggle="projet.regions.length > 0 ? 'tooltip' : ''"
-                                  :title="projet.regions.length > 0 ? getRegionNames(projet.regions) : ''"
-                                  
-                                >
-                                <span  class="mb-0 fw-semibold fs-14 "  style="color:#198754;">  {{ projet.regions.length }}</span>
-                                 
-                                </a>
-                              </div>
-                            </div>
-                             
-                                <div class="col-4">
-                                    <div class="orders-delivery-address text-center">
-                                        <p class="mb-1 fw-semibold fs-13 fs-sm-11">Budget(GNF)</p>
-                                        <p class="text-muted mb-0">
-                                          <span class="badge bg-secondary fs-16">{{ formatBudget(projetBudget(projet)) }}</span>
-                                           
-                                        </p>
-                                    </div>
-                                </div>
-                               
-                            </div>
-                            <hr class="m-0">
-                            <div class=" p-2 d-flex d-block  justify-content-between bg-gray-200">
-                              <div class="col-5 text-center">
-                                      <span class=" fs-16 m-0">Taux de Décaissement:</span><br>
-                                      <span class="fw-semibold text-danger">{{ projetTauxDecaissement(projet).toFixed(2) }}%</span>
-                                      <div class="progress mb-1" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                                      <div
-                                        class="progress-bar progress-bar-striped"
-                                        :class="getProgressClass(projetTauxDecaissement(projet))"
-                                        :style="{ width: projetTauxDecaissement(projet) + '%' }"
-                                        :aria-valuenow="projetTauxDecaissement(projet)"
-                                        
-                                      >
-                                      </div>
-                                    </div>
-                                    
-                                    </div>
-                                <div class="col-5">
-                                    <div class="mt-sm-0 mt-2 text-center">
-                                    <span class=" fs-16">Avancement:</span> <br>
-                                    <span class="fw-semibold text-danger">12,33 %</span>
-                                    <div class="progress mt-1 border border-primary" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                                    <div class="progress-bar bg-primary" style="width: 50%">
-                                    </div>
-                                </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                   
                  
                 </div>
                 <!--End::row-1 -->
 
                 <bailleur-modal v-if="showModal" :bailleurs="currentBailleurs" @close="hideBailleurModal" />
-                <!-- <region-modal v-if="showRegionModals" :regions="currentRegions" @close="hideRegionModal" /> -->
+                <region-modal v-if="showRegionModals" :regions="currentRegions" @close="hideRegionModal" />
     </div>
 </template>
 <script>
@@ -179,6 +75,7 @@
   import Swal from "sweetalert2";
   import BailleurModal from '@/components/projets/bailleurPopup.vue';
   import RegionModal from '@/components/projets/regionsModal.vue';
+ import ProjetCard from '@/components/projets/ProjetCard.vue';
   export default {
     components: {
       Loading,
@@ -186,6 +83,7 @@
       MazPhoneNumberInput,
       BailleurModal,
       RegionModal,
+      ProjetCard
  
     },
     computed: {
@@ -200,9 +98,22 @@
       const endIndex = startIndex + this.itemsPerPage;
       return this.projetssOptions.slice(startIndex, endIndex);
     },
-
+    connect() {
+    if (!this.loggedInUser) {
+      return null; // Retourne une valeur par défaut tant que `loggedInUser` n'est pas défini
+    }
+    return this.loggedInUser.user_role === 10 ? 0 : 1;
+  }
      
     },
+    watch: {
+  loggedInUser(newUser) {
+    if (newUser) {
+      console.log('connect', this.connect, typeof(this.connect));
+      this.fetchProjets(); // Appeler l'action lorsque `loggedInUser` est chargé
+    }
+  }
+},
     data() {
       return {
         loading: true,
@@ -210,28 +121,45 @@
         search: "",
         currentPage: 1,
         itemsPerPage: 12,
-        totalPageArray: [],    
+        totalPageArray: [], 
+        ProjetsOptions:[], 
         resultError: {},
         showModal: false,
         currentBailleurs: [],
+        showRegionModals: false,
+        currentRegions: [],
+        selectprojet:[],
+        GlobalTaux:0,
+    
      
       };
     },
   
     async mounted() {
-      console.log("loggedInUser", this.loggedInUser);
-      await this.fetchProjets()
+      console.log('projet',this.loggedInUser)
+      console.log('connect', this.connect, typeof(this.connect));
+       await this.fetchProjets()
+
+
       var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
   var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl);
   });
-     
+  localStorage.removeItem('activeTab');
       
      
     },
   
     methods: {
       successmsg: successmsg,
+      hasPermission(permissionName) {
+      if (!this.loggedInUser || !Array.isArray(this.loggedInUser.permissions)) {
+        return false;
+      }
+      return this.loggedInUser.permissions.some(
+        (permission) => permission.id === permissionName
+      );
+    },
       getRegionNames(regions) {
     return regions.map(region => region.region?.NomRegion).join(', ');
   },
@@ -244,16 +172,37 @@
       this.showModal = false;
       this.currentBailleurs = [];
     },
+    showRegionModal(projet) {
+      this.currentRegions = projet.regions;
+      this.showRegionModals = true;
+    },
+    hideRegionModal() {
+      this.showRegionModals = false;
+      this.currentRegions = [];
+    },
+
  
       async fetchProjets() {
       try {
+       
         const response = await axios.get('/projets', {
           headers: { Authorization: `Bearer ${this.loggedInUser.token}`, },
-          param:{for_con_user:true}
+          params:{for_con_user:this.connect  }
         });
-        console.log(response.data);
-        this.data = response.data.data.slice(-3);
-        
+        console.log('projet ',response)
+        const ProjetsData =  response.data.data
+        // this.selectprojet =[]
+        // this.Allprojets = []
+     const ProjetsOptions =   ProjetsData.map(projet => ({
+            label: projet.Sigle,
+            value: projet.Sigle,
+          }));
+          this.ProjetsOptions = ProjetsOptions
+          this.Allprojets = ProjetsData
+       
+        this.selectprojet = ProjetsData.slice(-6).map(projet => projet.Sigle);
+        this.data = ProjetsData.slice(-6); 
+
         this.loading = false;
 
       } catch (error) {
@@ -265,6 +214,13 @@
         }
       }
     },
+    handleProjetChange() {
+  // Mettez à jour la liste des projets affichés en fonction des sigles sélectionnés
+  this.data = this.Allprojets.filter(projet => 
+    this.selectprojet.includes(projet.Sigle)
+  );
+
+},
       truncateText(text, maxLength) {
       if (text.length <= maxLength) {
         return text;
@@ -278,10 +234,17 @@
       return date.toLocaleDateString('fr-FR', options).replace('.', ',');
     },
      
-     getYear(dateString) {
-  const date = new Date(dateString);
-  const year = date.getFullYear();
-  return year;
+     getYear(date) {
+  // const date = new Date(dateString);
+  // const year = date.getFullYear();
+  // return year;
+
+   const d = new Date(date);
+    const day =String(d.getDate()).padStart(2 , '0')
+    const month =String(d.getMonth() + 1).padStart(2 , '0')
+    const year =String(d.getFullYear()) 
+    
+    return `${day}/${month}/${year}`
 },
 calculateDuration(startDate, endDate) {
   const start = new Date(startDate);
@@ -327,6 +290,15 @@ formatDuration(startDate, endDate) {
 
   return durationString;
 },
+getProgressColor(percentage) {
+      if (percentage <= 30) {
+        return 'red';
+      } else if (percentage <= 75) {
+        return 'orange';
+      } else {
+        return 'green';
+      }
+    },
 formatBudget(value) {
       return parseFloat(value).toLocaleString(); // Formatage avec séparateurs de milliers
     },
@@ -334,11 +306,35 @@ formatBudget(value) {
       return projet.bailleurs.reduce((total, bailleur) => total + parseFloat(bailleur.Budget || 0), 0);
     },
     projetTauxDecaissement(projet) {
+      
       const totalBudget = this.projetBudget(projet);
       const totalMontantDecaisse = projet.bailleurs.reduce((total, bailleur) => {
         return total + parseFloat((bailleur.decaissement && bailleur.decaissement[0] && bailleur.decaissement[0].montant_decaisser) || 0);
       }, 0);
-      // console.log('totalMontantDecaisse',totalMontantDecaisse);
+
+      const Difference = new Date(projet.DateFin) - new Date(projet.DateDebut)
+      const TotalJours = Math.floor(Difference/(1000 * 60 * 60 * 24) )
+      
+      const DifferenceNewDate = new Date() - new Date(projet.DateDebut)
+      const TotalJoursNewDate = Math.floor(DifferenceNewDate /(1000 * 60 * 60 * 24) )
+
+      const Taux_Duree = TotalJoursNewDate / TotalJours * 100
+      if( parseFloat(totalMontantDecaisse) > 0 && parseFloat(totalBudget)  >0) {
+        this.GlobalTaux += parseFloat( ((parseFloat(totalMontantDecaisse )/ parseFloat(totalBudget)) * 100)) 
+      }
+      if(parseFloat(projet.suivis_sum_taux_avancement_physique )> 0){
+        this.GlobalTaux += parseFloat(projet.suivis_sum_taux_avancement_physique) 
+      }
+      // if(Taux_Duree > 0){
+      //   this.GlobalTaux += parseFloat(Taux_Duree) 
+
+      // }
+      if(this.GlobalTaux > 0){
+       this.GlobalTaux = this.GlobalTaux / 200 * 100
+      }
+
+      // this.GlobalTaux += ( + projet.suivis_sum_taux_avancement_physique + Taux_Duree) / 300 * 100
+
       if (totalBudget === 0) return 0;
       return (totalMontantDecaisse / totalBudget) * 100;
     },

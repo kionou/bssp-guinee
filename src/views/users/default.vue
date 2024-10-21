@@ -18,7 +18,7 @@
       </div>
     </div>
     <!-- Page Header Close -->
-    <div class="contact-header mb-3 py-2 px-1">
+    <div class="contact-header mb-3 py-2 px-1" >
       <div class="d-sm-flex d-block align-items-center justify-content-between">
         <div class="h5 fw-semibold mb-0"></div>
         <div class="d-flex mt-sm-0 mt-2 align-items-center">
@@ -30,18 +30,18 @@
             </button>
           </div>
   
-          <button class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
+          <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
             data-bs-toggle="modal" data-bs-target="#add_user">
             <i class="ri-add-line"> </i>
           </button>
         </div>
       </div>
     </div>
-    <div class="row task-card">
+    <div class="row task-card" data-aos="zoom-in">
       <div v-if="paginatedItems.length === 0" class="noresul">
         <span> Vous n'avez pas encore d'utilisateur, vous pouvez également en ajouter un !! </span>
       </div>
-      <div class="table-responsive" v-else>
+      <div style="overflow-x: scroll !important" class="table-responsive" v-else>
         <table class="table  table-hover border table-bordered table-striped">
           <thead>
             <tr>
@@ -54,7 +54,8 @@
               <th scope="col">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody  data-aos="fade-up"
+          data-aos-duration="1000">
             <tr v-for="user  in paginatedItems" :key="user.id">
               <td>
                 <div class="d-flex align-items-center lh-1">
@@ -107,32 +108,39 @@
       </td>
   
               <td>
-                <div class="btn-list w-100 d-flex justify-content-center" v-if="user.roles.length">
+                <div class="btn-list w-100 d-flex justify-content-center" >
                   <div>
                     <div class="btn btn-sm  btn-success btn-wave" v-if="user.Statut === '1'"
                       @click="HandleIdStatut(user.id)">
-                      <i class="ri-lock-unlock-line"></i> Activer
+                      <i class="ri-lock-unlock-line"></i> 
                     </div>
                     <button class="btn btn-sm  btn-warning btn-wave" v-if="user.Statut === '0'"
                       @click="HandleIdStatut(user.id)">
-                      <i class="ri-lock-2-line"></i> Desactiver
+                      <i class="ri-lock-2-line"></i> 
                     </button>
                   </div>
   
                 </div>
               </td>
               <td>
-                <div class="btn-list w-100 d-flex justify-content-center" v-if="user.roles.length">
+                <div class="btn-list w-100 d-flex justify-content-center" >
   
-                  <button class="btn btn-sm btn-icon btn-info btn-wave " data-bs-toggle="modal"
+                  <button v-if="hasPermission(2)" class="btn btn-sm btn-icon btn-info btn-wave " data-bs-toggle="modal"
                     data-bs-target="#update_user" @click="HandleIdUpdate(user.id)">
                     <i class="ri-edit-line"></i>
                   </button>
   
-                  <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(user.id)" v-if="user.roles[0]?.name ==='Administrateur'" disabled>
+                  <button  class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(user.id)" v-if="user.roles[0]?.name ==='Administrateur' && hasPermission(5)" >
                     <i class="ri-delete-bin-line"></i>
                   </button>
-                  <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(user.id)" v-else>
+                  <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(user.id)" v-else-if="user.roles[0]?.name ==='Administrateur' &&  hasPermission(4) " disabled>
+                    <i class="ri-delete-bin-line"></i>
+                  </button>
+                  <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(user.id)" v-else-if="user.roles[0]?.name !=='Administrateur' && ( hasPermission(4)  ||  hasPermission(5))" >
+                    <i class="ri-delete-bin-line"></i>
+                  </button>
+
+                  <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(user.id)" v-else disabled>
                     <i class="ri-delete-bin-line"></i>
                   </button>
   
@@ -246,7 +254,7 @@
                   </div>
                   <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
-                      <label for="userpassword">Telephone <span class="text-danger">*</span></label>
+                      <label for="userpassword">Télephone <span class="text-danger">*</span></label>
                       <MazPhoneNumberInput v-model="step1.Whatsapp" size="sm" rounded-size="sm" show-code-on-list
                         :ignored-countries="['AC']" defaultCountryCode="GN" update="results = $event"
                         :success="results?.isValid" />
@@ -275,7 +283,7 @@
   
                   <div class="col col-md-6 col-sm-12">
                     <div class="mb-3 position-relative">
-                      <label for="password_confirmation">Region</label>
+                      <label for="password_confirmation">Région</label>
                       <MazSelect v-model="step1.region" type="text" name="region" color="info" placeholder="Conakry"
                         size="sm" rounded-size="sm" :options="regionOptions" search />
                       <small v-if="v$.step1.region.$error">{{v$.step1.region.$errors[0].$message}}</small>
@@ -284,7 +292,7 @@
                     </div>
                   </div>
   
-  
+
                 </div>
   
                 <div class="row mt-3 content-group">
@@ -402,7 +410,7 @@
   <div class="col col-md-6 col-sm-12">
     <div class="mb-3 position-relative">
       <label for="password">Role </label>
-      <MazSelect v-model="step2.role" type="role" name="text" color="info" placeholder="" size="sm"
+      <MazSelect :disabled="step2.role  === 1" v-model="step2.role" type="role" name="text" color="info" placeholder="" size="sm"
         rounded-size="sm" :options="rolesOptions" search />
       <small v-if="v$.step2.role.$error">{{v$.step2.role.$errors[0].$message}}</small>
       <small v-if="resultError['role']">{{resultError['role']}}</small>
@@ -654,7 +662,7 @@ export default {
   },
 
   async mounted() {
-    console.log("loggedInUser", this.loggedInUser);
+
     await this.fetchUserAll()
     await this.fetchRegionOptions()
     await this.fetchRoles()
@@ -664,6 +672,14 @@ export default {
 
   methods: {
     successmsg: successmsg,
+    hasPermission(permissionName) {
+      if (!this.loggedInUser || !Array.isArray(this.loggedInUser.permissions)) {
+        return false;
+      }
+      return this.loggedInUser.permissions.some(
+        (permission) => permission.id === permissionName
+      );
+    },
     validatePasswordsMatch() {
       return this.step1.password === this.step1.password_confirmation;
     },
@@ -675,20 +691,17 @@ export default {
           },
         });
 
-        console.log("usersOptions", response.data);
+
         if (response.data.status === "success") {
           this.data = response.data.data;
           this.usersOptions = this.data;
-          console.log("this.usersOptions", this.usersOptions);
+
           this.loading = false;
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+      ;
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+     
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -734,7 +747,7 @@ export default {
             label: item.NomRegion,
             value: item.CodeRegion,
           }));
-        console.log(this.regionOptions);
+     
        ;
         // Affecter les options à votre propriété sortedCountryOptions
         this.loading = false
@@ -750,7 +763,7 @@ export default {
         const response = await axios.get('/roles', {
           headers: { Authorization: `Bearer ${this.loggedInUser.token}`, },
         });
-        console.log(response.data);
+     
         this.rolesOptions = response.data.data.map(item => ({
           label: item.name,
           value: item.id,
@@ -771,7 +784,7 @@ export default {
         const response = await axios.get('/projets', {
           headers: { Authorization: `Bearer ${this.loggedInUser.token}`, },
         });
-        console.log(response.data);
+
         this.projetssOptions = response.data.data.map(item => ({
           label: item.Sigle,
           value: item.CodeProjet,
@@ -806,7 +819,7 @@ export default {
           password_confirmation: this.step1.password_confirmation,
 
         }
-        console.log("eeeee", DataUser);
+    
         try {
 
           const response = await axios.post('/register-new/user', DataUser, {
@@ -816,7 +829,7 @@ export default {
 
 
           });
-          console.log('response.login', response.data);
+   
           if (response.data.status === "success") {
             await this.submitRole(response.data.data.id, this.step1.role,"add",modalId)
 
@@ -827,7 +840,7 @@ export default {
 
 
         } catch (error) {
-          console.log('response.login', error);
+       
 
           this.loading = false
           if (error.response.data.status === "error") {
@@ -839,7 +852,6 @@ export default {
         }
       } else {
 
-        console.log('pas bon', this.v$.$errors);
 
       }
     },
@@ -848,7 +860,7 @@ export default {
       code:b,
       user: a
     }
-      console.log("eeeee", DataUser);
+
         try {
 
           const response = await axios.post('/user/assign-role', DataUser, {
@@ -858,7 +870,7 @@ export default {
 
 
           });
-          console.log('response.login', response.data);
+   
           if (response.data.status === "success") {
             this.closeModal(modalId);
             if (c === "add") {
@@ -880,7 +892,7 @@ export default {
 
 
         } catch (error) {
-          console.log('response.login', error);
+  
 
           this.loading = false
           if (error.response.data.status === "error") {
@@ -898,9 +910,9 @@ export default {
       try {
         const response = this.usersOptions.find(item => item.id === id);
 
-        console.log("response", response);
+     
         if (response) {
-          console.log("responsedata", response);
+     
           let data = response;
           this.step2.Nom = data.Nom,
             this.step2.Prenoms = data.Prenoms,
@@ -915,12 +927,9 @@ export default {
           this.loading = false;
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+       
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+       
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -953,7 +962,7 @@ export default {
           projets: this.step2.projets,
         }
 
-        console.log(data);
+   
         this.currentData = data;
         this.closeModal(modalId);
         const modal = new bootstrap.Modal(this.$refs.valider_update);
@@ -962,7 +971,7 @@ export default {
 
 
       } else {
-        console.log("cest pas bon ", this.v$.$errors);
+   
         this.loading = false;
       }
     },
@@ -975,7 +984,7 @@ export default {
         ...this.currentData,
         password: this.verifier.password,
       };
-      console.log(data);
+
 
         try {
           const response = await axios.put(`system-user/modify`, data, {
@@ -983,7 +992,9 @@ export default {
               Authorization: `Bearer ${this.loggedInUser.token}`
             },
           });
-          console.log("Réponse du téléversement :", response);
+       
+
+        
           if (response.data.status === "success") {
             // this.closeModal(modalId);
             
@@ -991,6 +1002,7 @@ export default {
 
           }
         } catch (error) {
+        
           console.error("Erreur lors du téléversement :", error);
 
           if (
@@ -1006,7 +1018,7 @@ export default {
         }
 
       } else {
-        console.log("cest pas bon ", this.v$.$errors);
+    
         this.loading = false;
       }
 
@@ -1039,7 +1051,8 @@ export default {
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
-        console.log("Réponse de suppression:", response);
+        console.log('response',response)
+    
         if (response.data.status === "success") {
           this.loading = false;
           this.successmsg(
@@ -1048,10 +1061,18 @@ export default {
           );
           await this.fetchUserAll();
         } else {
-          console.log("error", response.data);
+      
+                  Swal.fire({
+              title: "Suppression impossible",
+              text: response.data.message,
+              icon: "question"
+            });
           this.loading = false;
         }
       } catch (error) {
+        console.log('errror',error)
+
+
         console.error("Erreur lors de la suppression:", error);
 
         if (
@@ -1075,7 +1096,6 @@ export default {
           }
         });
 
-        console.log("usersOptions", response.data);
         if (response.data.status === "success") {
           this.successmsg(
             "Données de l'utilisateur mises à jour",
@@ -1085,13 +1105,8 @@ export default {
           this.loading = false;
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+       
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
-
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
             error.response.status === 401
@@ -1142,22 +1157,15 @@ export default {
 
       for (const field in errors) {
         const errorMessages = errors[field]; // Liste complète des messages d'erreur
-        console.log(" errorMessages", errorMessages, typeof errorMessages);
+
 
         const concatenatedError = errorMessages.join(", "); // Concaténer les messages d'erreur
-        console.log(
-          " concatenatedError",
-          concatenatedError,
-          typeof concatenatedError
-        );
+      
 
         formattedErrors[field] = concatenatedError; // Utilisez le nom du champ comme clé
       }
 
-      this.resultError = formattedErrors; // Stockez les erreurs dans un objet
-
-      // Maintenant, this.resultError est un objet où les clés sont les noms des champs
-      console.log("resultError", this.resultError);
+      this.resultError = formattedErrors; // Stockez les erreurs dans un objet 
     },
 
 

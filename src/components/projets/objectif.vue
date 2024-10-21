@@ -25,7 +25,7 @@
       <div v-if="paginatedItems.length === 0" class="noresul">
         <span> Vous n'avez pas encore d'incateur, vous pouvez également en ajouter un !! </span>
       </div>
-      <div class="table-responsive" v-else>
+      <div style="overflow-x: scroll !important" class="table-responsive" v-else>
         <table class="table table-hover text-nowrap table-bordered ">
           <thead>
             <tr>
@@ -553,7 +553,7 @@ export default {
     },
   
     async mounted() {
-       console.log("loggedInUser", this.loggedInUser);
+ 
        this.Code = localStorage.getItem('CodeProjet');
       
     },

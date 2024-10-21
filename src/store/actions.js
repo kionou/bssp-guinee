@@ -12,8 +12,7 @@ async fetchDataFromAPI({ commit }) {
       const mpmeData = mpmeResponse.data.data.data;
       const regionsData = regionsResponse.data.data.data;
 
-      console.log('mpmeData:', mpmeData);
-      console.log('regionsData:', regionsData);
+      
 
      
       commit('SET_ALLMPME', mpmeData)
@@ -21,11 +20,11 @@ async fetchDataFromAPI({ commit }) {
 
     
     } catch (error) {
-      console.log(error);
+    
     }
   },
   async fetchMpmeData({ commit } ,authenticatedUser) {
-    console.log(authenticatedUser);
+  
     try {
       const response = await axios.get('/mcipmes',{
         headers: {
@@ -33,7 +32,7 @@ async fetchDataFromAPI({ commit }) {
         },
       });
       const data = response.data.data.data;
-      console.log('Données récupérées de mpme :', data);
+   
 
       commit('SET_MPME_DATA', data); // Appel de la mutation pour mettre à jour le state
     } catch (error) {
@@ -46,7 +45,7 @@ async fetchDataFromAPI({ commit }) {
       // Ajoutez le paramètre "lang=fr" pour demander les données en français
       const response = await axios.get('https://restcountries.com/v3.1/all?lang=fr');
       const countries = response.data;
-      console.log('countries', countries);
+   
       const sortedCountries = countries.sort((a, b) => a.translations.fra.common.localeCompare(b.translations.fra.common));
       const options = sortedCountries.map((country) => ({
         label:country.translations.fra.common,
@@ -62,7 +61,7 @@ async fetchDataFromAPI({ commit }) {
   async fetchRegionOptions({ commit }) {
     try {
       const response = await axios.get('/regions');
-      console.log('response.data2Region', response.data.data.data); // Remplacez l'URL par l'URL de votre API
+     // Remplacez l'URL par l'URL de votre API
       const regionsFromAPI = response.data.data.data;
 
       // Formater les données de l'API en options pour MazSelect   CodeRegion
@@ -80,7 +79,7 @@ async fetchDataFromAPI({ commit }) {
   async fetchPrefectureOptions({ commit }) {
     try {
       const response = await axios.get('/prefectures-sans-pagination');
-      console.log('response.prefecture', response.data.data); // Remplacez l'URL par l'URL de votre API
+      // Remplacez l'URL par l'URL de votre API
       const prefecturesFromAPI = response.data.data;
 
       // Formater les données de l'API en options pour MazSelect
@@ -95,7 +94,7 @@ async fetchDataFromAPI({ commit }) {
   async fetchSous_PrefectureOptions({ commit }) {
     try {
       const response = await axios.get('/sous-prefectures-no-pagination');
-      console.log('response.sousprefecture', response.data.data); // Remplacez l'URL par l'URL de votre API
+     // Remplacez l'URL par l'URL de votre API
       const sousprefecturesFromAPI = response.data.data;
 
       // Formater les données de l'API en options pour MazSelect
@@ -109,7 +108,7 @@ async fetchDataFromAPI({ commit }) {
   async fetchQuartierOptions({ commit }) {
     try {
       const response = await axios.get('/quartiers-sans-pagination');
-      console.log('response.sousprefecture', response.data.data); // Remplacez l'URL par l'URL de votre API
+    // Remplacez l'URL par l'URL de votre API
       const quartierFromAPI = response.data.data;
 
       // Formater les données de l'API en options pour MazSelect
@@ -125,7 +124,7 @@ async fetchDataFromAPI({ commit }) {
   },
 
   async fetchSecteurActiviteOptions({ commit } , authenticatedUser) {
-    console.log(authenticatedUser);
+
     try {
       const response = await axios.get('/secteurs-activites', {
         
@@ -135,7 +134,7 @@ async fetchDataFromAPI({ commit }) {
         params: {Direction: authenticatedUser.direction,},
 
       }); // Remplacez l'URL par l'URL de votre API
-      console.log('activite',response.data.data.data);
+    
 
       const secteurActiviteFromAPI = response.data.data.data;
 
@@ -155,7 +154,7 @@ async fetchDataFromAPI({ commit }) {
   async fetchSousSecteurOptions({ commit }) {
     try {
       const response = await axios.get('/sous-secteurs/sans-pagination'); // Remplacez l'URL par l'URL de votre API
-      console.log('soussecteur', response.data.data);
+    
       const sousSecteurFromAPI = response.data.data;
 
       // Formater les données de l'API en options pour MazSelect
@@ -172,7 +171,7 @@ async fetchDataFromAPI({ commit }) {
   async fetchStatutJuridiqueOptions({ commit }) {
     try {
       const response = await axios.get('/statut-juridiques'); // Remplacez l'URL par l'URL de votre API
-      console.log('statut',response.data.data.data);
+
       const statutJuridiqueFromAPI = response.data.data.data;
 
       // Formater les données de l'API en options pour MazSelect
@@ -189,7 +188,7 @@ async fetchDataFromAPI({ commit }) {
   async fetchBourseOptions({ commit }) {
     try {
       const response = await axios.get('/bourses'); // Remplacez l'URL par l'URL de votre API
-      console.log('rrrr', response.data.data.data);
+   
       const boursesFromAPI = response.data.data.data;
 
       // Formater les données de l'API en options pour MazSelect
@@ -206,7 +205,7 @@ async fetchDataFromAPI({ commit }) {
   async fetchSousDocOptions({ commit } , page) {
     try {
       const response = await axios.get(`/sous-categories-document?page=${page}`); // Remplacez l'URL par l'URL de votre API
-      console.log('sousdoc', response.data.data.data);
+   
       const sousdocFromAPI = response.data.data.data;
 
       // Formater les données de l'API en options pour MazSelect
@@ -224,7 +223,7 @@ async fetchDataFromAPI({ commit }) {
     try {
       const response = await axios.get(`/mpme/${userId}`);
       const userData = response.data.data;
-      console.log('rrrrSSSS', response.data.data);
+   
 
       commit('SET_LOGGED_IN_MPME', userData);
     } catch (error) {
@@ -237,7 +236,7 @@ async fetchDataFromAPI({ commit }) {
     try {
       const response = await axios.get('/categories-document');
       const data = response.data; 
-      console.log('SET_CATEGORIES_DATA', data);// Assurez-vous que la structure des données est correcte
+      // Assurez-vous que la structure des données est correcte
       commit('SET_CATEGORIES_DATA', data);
     } catch (error) {
       console.error('Erreur lors de la récupération des catégories de documents :', error);
@@ -248,7 +247,7 @@ async fetchDataFromAPI({ commit }) {
     try {
       const response = await axios.get('/sous-categories-document');
       const data = response.data;
-        console.log('SET_SOUS_CATEGORIES_DATA', data);
+  
        // Assurez-vous que la structure des données est correcte
       commit('SET_SOUS_CATEGORIES_DATA', data);
     } catch (error) {
@@ -259,7 +258,7 @@ async fetchDataFromAPI({ commit }) {
     try {
       const response = await axios.get('/documents-administrative/statut/publique');
       const data = response.data.data;
-      console.log('Données pour /documents-administrative/statut/publique :', response);
+   
       // Assurez-vous que la structure des données est correcte
       commit('SET_PUBLIQUE_DATA', data);
     } catch (error) {
@@ -277,13 +276,12 @@ async fetchDataFromAPI({ commit }) {
       const totalEmploisFemme = emploisFemmeResponse.data.data;
       const totalMpme = totalMpmeResponse.data.data;
 
-      console.log('totalEmploisFemme:', totalEmploisFemme);
-      console.log('totalMpme:', totalMpme);
+     
 
       commit('SET_TOTAL_EMPLOIS_FEMME', totalEmploisFemme);
       commit('SET_TOTAL_MPME', totalMpme);
     } catch (error) {
-      console.log(error);
+    
     }
   },
   async fetchTypeCartesData({ commit }) {
@@ -294,7 +292,7 @@ async fetchDataFromAPI({ commit }) {
         label: doc,
         value: doc
       }));
-      console.log('Type Cartes Data:', options);
+
       commit('SET_TYPE_CARTES_DATA', options);
     } catch (error) {
       console.error('Erreur lors de la récupération des types de cartes :', error);
@@ -309,7 +307,7 @@ async fetchDataFromAPI({ commit }) {
         label: doc,
         value: doc
       }));
-      console.log('Type Comptabilités Data:', options);
+     
       commit('SET_TYPE_COMPTABILITES_DATA', options);
     } catch (error) {
       console.error('Erreur lors de la récupération des types de comptabilités :', error);
@@ -324,7 +322,7 @@ async fetchDataFromAPI({ commit }) {
         label: demande,
         value: demande
       }));
-      console.log('Type Demande Data:', options);
+
       commit('SET_TYPE_DEMANDE_DATA', options);
     } catch (error) {
       console.error('Erreur lors de la récupération des types de Demande :', error);
@@ -335,7 +333,7 @@ async fetchDataFromAPI({ commit }) {
     try {
       const response = await axios.get(`/actualites?page=${page}`,{ params : {statut: true }});
       const data = response.data.data;
-      console.log('data',data);
+    
       commit('SET_ACTUALITES', data); // Mutation pour stocker les actualités dans le state
     } catch (error) {
       console.error('Erreur lors de la récupération des actualités :', error);
@@ -347,7 +345,7 @@ async fetchDataFromAPI({ commit }) {
       const data = response.data.data.data;   
       // Filtrer les partenaires avec un statut de 1
       const partenairesFiltres = data.filter(partenaire => partenaire.StatutPartenaire === "1"); 
-      console.log('SET_PARTENAIRES_DATA', partenairesFiltres);
+   
       // Assurez-vous que la structure des données est correcte
       commit('SET_PARTENAIRES_DATA', partenairesFiltres);
     } catch (error) {
@@ -358,7 +356,7 @@ async fetchDataFromAPI({ commit }) {
   async fetchRegimes({ commit }) {
     try {
       const response = await axios.get('/regimes'); // Remplacez l'URL par l'URL de votre API
-      console.log('response.regimes', response.data.data.data);
+
       const regimesFromAPI = response.data.data.data;
   
       commit('SET_REGIMES', regimesFromAPI); // Utilisez une mutation pour stocker les données dans le store Vuex
@@ -369,7 +367,7 @@ async fetchDataFromAPI({ commit }) {
   async fetchTypesGestions({ commit }) {
     try {
       const response = await axios.get('/types-gestions');
-      console.log('typesGestionsFromAPI',response);
+     
       const typesGestionsFromAPI = response.data.data.data;
 
       // Formatez les données de l'API en options appropriées si nécessaire
@@ -383,7 +381,7 @@ async fetchDataFromAPI({ commit }) {
   async fetchTypesContribuables({ commit }) {
     try {
       const response = await axios.get('/types-contribuables');
-      console.log('typesContribuablesFromAPI',response);
+    
 
       const typesContribuablesFromAPI = response.data.data.data;
       commit('SET_TYPES_CONTRIBUABLES', typesContribuablesFromAPI);
@@ -395,7 +393,7 @@ async fetchDataFromAPI({ commit }) {
     try {
       const response = await axios.get(`/photos-tech/albums/photos/publique-visible?page=${page}`);
       const publiqueVisiblePhotos = response.data.data; // Assurez-vous que la structure de réponse correspond à vos besoins
-      console.log('publiqueVisiblePhotos',publiqueVisiblePhotos);
+     
 
      
       commit('SET_PUBLIQUE_VISIBLE_PHOTOS', publiqueVisiblePhotos);
@@ -407,11 +405,11 @@ async fetchDataFromAPI({ commit }) {
 
 
   async fetchSousSecteurs({ commit }, page) {
-    console.log('page',page);
+  
     try {
       const response = await axios.get(`/sous-secteurs?page=${page}`);
       const sousSecteursData = response.data.data;
-      console.log('sousSecteursData',sousSecteursData);
+
 
 
       commit('SET_SOUS_SECTEURS', sousSecteursData); // Met à jour l'état avec les données récupérées
@@ -425,7 +423,7 @@ async fetchDataFromAPI({ commit }) {
     try {
       const response = await axios.get(`/mpme/liste/accompagnement?page=${page}`, { params: { statut: true } });
       const data = response.data.data;
-      console.log('data', data);
+  
       commit('SET_ACCOMPAGEMENT', data);
     } catch (error) {
       console.error('Erreur lors de la récupération des accompagnements :', error);
@@ -437,7 +435,7 @@ async fetchPersonnel({ commit }, page) {
   try {
     const response = await axios.get(`/mpme/liste/personnel?page=${page}`, { params: { statut: true } });
     const data = response.data.data;
-    console.log('data', data);
+    
     commit('SET_PERSONNEL', data); // Utilisez le nom de mutation approprié
   } catch (error) {
     console.error('Erreur lors de la récupération du personnel :', error);
@@ -446,7 +444,7 @@ async fetchPersonnel({ commit }, page) {
 async fetchDirections({ commit }) {
   try {
     const response = await axios.get('/directions');
-    console.log('response.directions', response.data.data); 
+ 
     const directionsFromAPI = response.data.data;
 
     // Formatez les données de l'API selon vos besoins

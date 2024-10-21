@@ -281,6 +281,8 @@ export default {
       loading: true,
       isOpenPassword: false,
       regionOptions:[],
+      menus:[],
+      permissions:[],
     
       v$: useVuelidate(),
       errorPassword: "",
@@ -394,6 +396,8 @@ export default {
           this.step2.region = selectedActualites.region;
           this.id = selectedActualites.id;
           this.image = selectedActualites.photo,
+          this.menus = selectedActualites.roles[0].menus
+          this.permissions = selectedActualites.roles[0].permissions
             
           this.loading = false;
         }
@@ -461,6 +465,8 @@ export default {
       } else {
         role_id = this.loggedInUser.role_id;
       }
+      console.log('menus',this.menus);
+      
 
       this.$store.dispatch('auth/setMyAuthenticatedUser', {
         user: {
@@ -472,6 +478,9 @@ export default {
           photo: updatedUser.photo,
           username:updatedUser.username,
         },
+        menus:this.menus,
+        permissions:this.permissions,
+        user_role:this.loggedInUser.user_role,
         roles: role_id,
         expires_in: this.loggedInUser.tokenExpiration - Math.floor(Date.now() / 1000),
         access_token: this.loggedInUser.token,
@@ -546,6 +555,9 @@ export default {
           photo: updatedUser.photo,
           username:updatedUser.username,
         },
+        menus:this.menus,
+        permissions:this.permissions,
+        user_role:this.loggedInUser.user_role,
         roles: role_id,
         expires_in: this.loggedInUser.tokenExpiration - Math.floor(Date.now() / 1000),
         access_token: this.loggedInUser.token,

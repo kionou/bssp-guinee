@@ -24,7 +24,7 @@
               <span> Vous n'avez pas encore d'assignation, vous pouvez également en ajouter !! </span>
             </div>
   
-            <div class="table-responsive" v-else>
+            <div style="overflow-x: scroll !important" class="table-responsive" v-else>
               <table class="table text-nowrap table-bordered table-striped">
                 <thead>
                   <tr>

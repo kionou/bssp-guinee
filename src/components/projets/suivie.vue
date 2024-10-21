@@ -17,7 +17,7 @@
             </button>
           </div>
   
-          <button class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
+          <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
             data-bs-toggle="modal" data-bs-target="#add_suivi">
             <i class="ri-add-line"> </i>
           </button>
@@ -32,7 +32,7 @@
                      
                 <div class="row task-card">
                 <div class="row">
-                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12" v-for="item  in paginatedItems" :key="item.id">
+                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12" v-for="(item, index)  in paginatedItems" :key="index">
                         <div class="card custom-card task-pending-card border border-dark ">
                     <div class="card-body">
                         <div class="d-flex justify-content-between flex-wrap flex-column ">
@@ -43,22 +43,20 @@
                                 <img src="@/assets/img/logo_mobile.png" alt="img"> 
                                 </span>
                                   Suivi du <b class="fs-16  ml-2" style="color:red;">  {{ formatDate(item.DateSuivi) }} </b> </p>
-                                <p class="mb-2 fw-semibold fs-16">Taux Avancement Physique : <span class="fs-14 mb-1 text-secondary fw-semibold">{{item.TauxAvancementPhysique}} %</span></p>
-                                <p class="mb-2 fw-semibold fs-16">Niveau Execution Global : <span class="fs-14 mb-1 text-muted fw-semibold" >{{item.NiveauExecution}} %</span></p>
-                                <p class="mb-0 fw-semibold fs-16">Statut du Projet  : <span  class="fs-14 mb-1 text-muted fw-semibold" 
-                                    :class="getStatusClass(item.StatutProjet)" >{{item.StatutProjet}}</span></p>
+                                <p class="mb-2 fw-semibold fs-16">Taux Ex. Physique : <span class="fs-14 mb-1 text-secondary fw-semibold">{{item.TauxAvancementPhysique}} %</span></p>
+                                <p class="mb-2 fw-semibold fs-16">Obs. : <span class="fs-14 mb-1  fw-semibold truncate" >{{getTruncate(item.Observations ,20) }} </span></p>
                                 
                             </div>
                             <hr>
                             <div>
                                 <div class="btn-list pull-right ">
                                     <!-- <button class="btn btn-sm btn-icon btn-wave btn-success"><i class="ri-eye-line"></i></button> -->
-                                    <router-link  :to="{ name: 'suivi-projet', params: { id: item.id }}" 
+                                    <router-link v-if="hasPermission(1)"  :to="{ name: 'suivi-projet', params: { id: item.id }}" 
                                               class=" btn btn-sm btn-icon btn-success btn-wave">
                                               <i class="ri-eye-line"></i>
                                             </router-link>
-                                    <!-- <button class="btn btn-sm btn-icon btn-wave btn-info"><i class="ri-edit-line"></i></button> -->
-                                    <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(item.id)">
+                                    <button  v-if="hasPermission(2)" class="btn btn-sm btn-icon btn-wave btn-info" @click="HandleIdUpdateSuivie(item.id)" :disabled="index !==0"  data-bs-toggle="modal" data-bs-target="#update_suivi"><i class="ri-edit-line"></i></button>
+                                    <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(item.id)">
                                     <i class="ri-delete-bin-line"></i>
                                 </button>
                                 </div>
@@ -122,6 +120,13 @@
               "
             >
             <div  >
+              <div class="row">
+                  <div class="col-12">
+                    <p class="mb-0"><span class="fw-semibold fs-14">Nom projet : </span><span class=" text-success fs-15 fw-bolder" > {{ data.NomProjet }}</span> </p>
+                  </div>
+                
+
+                </div>
             <div class="generastep" >
       <div class="stepper">
         <div class="stepper-progress">
@@ -131,7 +136,7 @@
         <div
           class="stepper-item"
           :class="{ current: currentStep == item, success: currentStep > item }"
-          v-for="item in 4"
+          v-for="item in 5"
           :key="item"
           @click="goToStep(item)"
         >
@@ -145,26 +150,27 @@
               {{ item }}
             </span>
           </div>
-          <span class="stepper-item-title"> Step {{ item }} </span>
+          <span class="stepper-item-title"> Etape {{ item }} </span>
         </div>
       </div>
-    </div>
+           </div>
   
-    <div class="error text-center" v-if="this.error">{{ error }} <br /></div>
+    <!-- <div class="error text-center" v-if="this.error">{{ error }} <br /></div> -->
     <div  class="container-fluid"  >
      
-    
+     
        
-        <!-- Étape 1 -->
+       <!-- Étape 1 -->
         <div v-if="currentStep === 1">
           <div class="form-container">
           
             <div class="row mt-3 content-group">
-                  <div class="col col-md-6 col-sm-12">
+                  <div class="col col-md-12 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
                         >Date du suivi <span class="text-danger">*</span></label
                       >
+                     
                       <MazInput
                         v-model="step1.DateSuivi"
                         color="info"
@@ -181,20 +187,35 @@
                       </small>
                     </div>
                   </div>
-                  <div class="col col-md-6 col-sm-12">
+                 
+                  <div class="col col-md-12 col-sm-12">
+                    <div class="mb-3 position-relative">
+                       <div class="input-groupe">
+                        <label for="password">Taux d'exécution physique <span class="text-danger">*</span></label>
+                        <MazInput v-model="step1.TauxAvancementPhysique"  name="TauxAvancementPhysique" color="info" placeholder="10"  type="number"
+                        min="0" max="100"  size="sm" rounded-size="sm" />
+                        <small v-if="v$.step1.TauxAvancementPhysique.$error">{{v$.step1.TauxAvancementPhysique.$errors[0].$message}}</small>
+                        <small v-if="resultError['TauxAvancementPhysique']">{{resultError['TauxAvancementPhysique']}}</small>
+                       </div>
+                    </div>
+                </div>
+                                 
+                </div>
+                <!-- <div class="col col-md-4 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Niveau d'execution global<span class="text-danger">*</span></label
+                        >Niveau d'avancement global<span class="text-danger">*</span></label
                       >
-                      <MazInput
+                      <MazSelect
                         v-model="step1.NiveauExecutionGlobal"
                         color="info"
                         name="NiveauExecutionGlobal"
                         size="sm"
                         rounded-size="sm"
-                        type="number"
-                        min="0"
-                        placeholder="10"
+                        search
+                        :options="Global"
+                      
+                        
                       />
                       <small v-if="v$.step1.NiveauExecutionGlobal.$error">{{
                         v$.step1.NiveauExecutionGlobal.$errors[0].$message
@@ -203,21 +224,11 @@
                         {{ resultError["NiveauExecutionGlobal"] }}
                       </small>
                     </div>
-                  </div>
-                                 
-                </div>
+                  </div> -->
             
-                <div class="row mt-3 content-group">
+                <!-- <div class="row mt-3 content-group">
                  
-                <div class="col col-md-6 col-sm-12">
-                    <div class="mb-3 position-relative">
-                        <label for="password">Taux avancement physique <span class="text-danger">*</span></label>
-                        <MazInput v-model="step1.TauxAvancementPhysique"  name="TauxAvancementPhysique" color="info" placeholder="10"  type="number"
-                        min="0"  size="sm" rounded-size="sm" />
-                        <small v-if="v$.step1.TauxAvancementPhysique.$error">{{v$.step1.TauxAvancementPhysique.$errors[0].$message}}</small>
-                        <small v-if="resultError['TauxAvancementPhysique']">{{resultError['TauxAvancementPhysique']}}</small>
-                    </div>
-                </div>
+              
                                                 
                 <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
@@ -232,6 +243,7 @@
                         size="sm"
                         rounded-size="sm"
                         :options="status"
+                       
                       />
                       <small v-if="v$.step1.StatutProjet.$error">{{
                         v$.step1.StatutProjet.$errors[0].$message
@@ -240,122 +252,76 @@
                         {{ resultError["StatutProjet"] }}
                       </small>
                     </div>
-                  </div>                           
-                </div>
+                  </div>        
+                  <div class="col col-md-6 col-sm-12">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Avance de démarrage <span class="text-danger">*</span></label
+                      >
+                      <MazInput
+                        v-model="step1.Avance"
+                        type="number"
+                        color="info"
+                        name="Avance"
+                        size="sm"
+                        rounded-size="sm"
+                       
+                       
+                      />
+                      <small v-if="v$.step1.Avance.$error">{{
+                        v$.step1.Avance.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['Avance']">
+                        {{ resultError["Avance"] }}
+                      </small>
+                    </div>
+                  </div>                       
+                </div> -->
                
           </div>
           <div class="btnForm py-3 d-flex items-center justify-content-end">
             <button class="btnLogin" :disabled="isButtonDisabled" @click.prevent="nextStep('add_suivi')">
-              Next
+              Suivant
             </button>
           </div>
         </div>
   
-        <!-- Étape 2 -->
-        <div v-if="currentStep === 2">
+         <!-- Étape 2 -->
+         <div v-if="currentStep === 2">
             <div class="form-container">
             <!-- debut infos genral -->
-              
-              <!-- contrainte -->
-              <div style="position:relative">
-                <p class="titre">Les Contraintes</p>
+           
+               <!-- bailleurs -->
+               <div style="position:relative">
+                <p class="titre">Décaissement</p>
                 <div class="btn-list" style="position:absolute ; right: 7px; top: 5px;" >
-        <button class="btn btn-sm  btn-primary btn-wave" @click="AddformDataContraintes(index)"  >
-                       <i class="ri-add-line"></i> contrainte
+              <button class="btn btn-sm  btn-primary btn-wave" @click="AddformDataBailleurs(index)"  >
+                       <i class="ri-add-line"></i> bailleur
                       </button>
                 </div>
-                <div class="row align-items-center p-2  border-bottom " v-for="(contrainte, index) in step2.Contraintes" :key="contrainte.id">
+                <div class="row align-items-center p-2  border-bottom " v-for="(bailleur, index) in step2.Bailleurs" :key="bailleur.id">
                   <div class="col-11">
-                    <span class="nombre">
+                    <span class="nombres">
                             {{index + 1}}
                         </span>
                         <div class="row  content-group">
                           <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12   ">
                         <div class="input-groupe ">
                         <div >
-                        <label for="userpassword">Type de contrainte <span class="text-danger">*</span></label>
-                        <MazSelect  v-model="contrainte.TypeConstrainte" type="text"  color="info" @click="clearError(index, 'TypeConstrainte')"  name="contrainte.TypeConstrainte" size="sm" rounded-size="sm" :options="contraintes" />
-                        </div>
-                        <small v-if="errors.step2.Contraintes && errors.step2.Contraintes[index] && errors.step2.Contraintes[index].TypeConstrainte">{{ errors.step2.Contraintes[index].TypeConstrainte }}</small>
-                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small>
-                        </div>
-                        </div>
-                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 ">
-                        <div class="input-groupe ">
-                        <div >
-                        <label for="userpassword">Description de la contrainte <span class="text-danger">*</span></label>
-                        <textarea class="form-control" id="text-area"  v-model="contrainte.IntituleConstrainte" rows="1"  @input="clearError(index, 'IntituleConstrainte')"></textarea>
-                        <!-- <MazTextarea
-                        v-model="contrainte.IntituleConstrainte"
-                          name="IntituleConstrainte"  listPosition="left" 
-                          color="info"
-                          @input="clearError(index, 'IntituleConstrainte')"
-                          rows="1"
-                          size="sm" rounded-size="sm" />  -->
-                        </div>
-                        <small v-if="errors.step2.Contraintes && errors.step2.Contraintes[index] && errors.step2.Contraintes[index].IntituleConstrainte">{{ errors.step2.Contraintes[index].IntituleContrainte }}</small>
-                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small> 
-                        </div>
-                        </div>
-
-                </div>
-
-               
-                  </div>
-                  <div class="col-1" style="position: relative">
-                    
-                      <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="deleteRowContraintes(index)"  style=" position:absolute !important ; top: 18px !important; background:red;">
-                       <i class="ri-delete-bin-line"></i>
-                      </button>
-                  </div>
-
-                </div> 
-               </div>
-            <!-- fin infos genral -->
-
-          </div>
-          <div class="btnForm py-3 d-flex items-center justify-content-between">
-            <button class="btnLogin" @click.prevent="prevStep">Previous</button>
-            <button class="btnLogin" @click.prevent="nextStep('add_suivi')">Next</button>
-          </div>
-        </div>
-  
-        <!-- Étape 3 -->
-        <div v-if="currentStep === 3">
-            <div class="form-container">
-            <!-- debut infos genral -->
-           
-               <!-- bailleurs -->
-               <div style="position:relative">
-                <p class="titre">Les Bailleurs</p>
-                <div class="btn-list" style="position:absolute ; right: 7px; top: 5px;" >
-              <button class="btn btn-sm  btn-primary btn-wave" @click="AddformDataBailleurs(index)"  >
-                       <i class="ri-add-line"></i> bailleur
-                      </button>
-                </div>
-                <div class="row align-items-center p-2  border-bottom " v-for="(bailleur, index) in step3.Bailleurs" :key="bailleur.id">
-                  <div class="col-11">
-                    <span class="nombres">
-                            {{index + 1}}
-                        </span>
-                        <div class="row  content-group">
-                          <div class="col   ">
-                        <div class="input-groupe ">
-                        <div >
                         <label for="userpassword">Nom du Bailleur </label>
                         <MazSelect  v-model="bailleur.CodeBailleur" type="text"  color="info" @click="clearErrorBailleurs(index, 'CodeBailleur')"  name="bailleur.CodeBailleur" size="sm" rounded-size="sm" :options="formattedBailleursOptions" />
                         </div>
-                        <small v-if="errors.step3.Bailleurs && errors.step3.Bailleurs[index] && errors.step3.Bailleurs[index].CodeBailleur">{{ errors.step3.Bailleurs[index].CodeBailleur }}</small>
+                        <small v-if="errors.step2.Bailleurs && errors.step2.Bailleurs[index] && errors.step2.Bailleurs[index].CodeBailleur">{{ errors.step2.Bailleurs[index].CodeBailleur }}</small>
                         <small v-if="resultError['Bailleurs']"> {{ resultError["Bailleurs"] }} </small>
                         </div>
                         </div>
-                        <div class="col   ">
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12   ">
                         <div class="input-groupe ">
                         <div >
-                        <label for="userpassword">Montant décaissé pour ce suivi </label>
-                        <MazInput  v-model="bailleur.MontantDecaisser" type="text"  color="info" @input="clearErrorBailleurs(index, 'MontantDecaisser')"  name="bailleur.MontantDecaisser" size="sm" rounded-size="sm"  />
+                        <label for="userpassword">Montant décaissé (GNF) </label>
+                        <MazInput  v-model="bailleur.MontantDecaisser" type="number"  color="info" @input="clearErrorBailleurs(index, 'MontantDecaisser')"  name="bailleur.MontantDecaisser" size="sm" rounded-size="sm"  />
                         </div>
-                        <small v-if="errors.step3.Bailleurs && errors.step3.Bailleurs[index] && errors.step3.Bailleurs[index].MontantDecaisser">{{ errors.step3.Bailleurs[index].MontantDecaisser }}</small>
+                        <small v-if="errors.step2.Bailleurs && errors.step2.Bailleurs[index] && errors.step2.Bailleurs[index].MontantDecaisser">{{ errors.step2.Bailleurs[index].MontantDecaisser }}</small>
                         <small v-if="resultError['Bailleurs']"> {{ resultError["Bailleurs"] }} </small>
                         </div>
                         </div>
@@ -374,8 +340,8 @@
                 </div> 
 
                 <div class="btnForm py-3 d-flex items-center justify-content-between">
-            <button class="btnLogin" @click.prevent="prevStep">Previous</button>
-            <button class="btnLogin" @click.prevent="nextStep('add_suivi')">Next</button>
+                  <button class="btnLogin" @click.prevent="prevStep">Précédent</button>
+                  <button class="btnLogin" @click.prevent="nextStep('add_suivi')">Suivant</button>
           </div>
              
                </div>
@@ -387,15 +353,132 @@
 
          
         </div>
-
         <!-- Étape 3 -->
+        <div v-if="currentStep === 3">
+            <div class="form-container">
+            <!-- debut infos genral -->
+              
+              <!-- contrainte -->
+              <div style="position:relative">
+                <p class="titre">Les Contraintes</p>
+                <div class="btn-list" style="position:absolute ; right: 7px; top: 5px;" >
+                <button class="btn btn-sm  btn-primary btn-wave" @click="AddformDataContraintes(index)"  >
+                       <i class="ri-add-line"></i> contrainte
+                      </button>
+                </div>
+                <div class="row align-items-center p-2  border-bottom " v-for="(contrainte, index) in step3.Contraintes" :key="contrainte.id">
+                  <div class="col-11">
+                    <span class="nombre">
+                            {{index + 1}}
+                        </span>
+                        <div class="row  content-group">
+                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12   ">
+                        <div class="input-groupe ">
+                        <div >
+                        <label for="userpassword">Type de contrainte <span class="text-danger">*</span></label>
+                        <MazSelect  v-model="contrainte.TypeConstrainte" type="text"  color="info" @click="clearError(index, 'TypeConstrainte')"  name="contrainte.TypeConstrainte" size="sm" rounded-size="sm" :options="contraintess" />
+                        </div>
+                        <small v-if="errors.step3.Contraintes && errors.step3.Contraintes[index] && errors.step3.Contraintes[index].TypeConstrainte">{{ errors.step3.Contraintes[index].TypeConstrainte }}</small>
+                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small>
+                        </div>
+                        </div>
+
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 ">
+                        <div class="input-groupe ">
+                        <div >
+                        <label for="userpassword">Description de la contrainte <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="text-area"  v-model="contrainte.IntituleConstrainte" rows="1"  @input="clearError(index, 'IntituleConstrainte')"></textarea>
+                       
+                        </div>
+                        <small v-if="errors.step3.Contraintes && errors.step3.Contraintes[index] && errors.step3.Contraintes[index].IntituleConstrainte">{{ errors.step3.Contraintes[index].IntituleContrainte }}</small>
+                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small> 
+                        </div>
+                        </div>
+
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 ">
+                        <div class="input-groupe ">
+                        <div >
+                        <label for="userpassword">Mitigation <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="text-area"  v-model="contrainte.Mitigation" rows="1" ></textarea>
+                       
+                        </div>
+                        <small v-if="errors.step3.Contraintes && errors.step3.Contraintes[index] && errors.step3.Contraintes[index].Mitigation">{{ errors.step3.Contraintes[index].IntituleConstrainte }}</small>
+                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small> 
+                        </div>
+                        </div>
+
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12   ">
+                        <div class="input-groupe ">
+                        <div >
+                        <label for="userpassword">Acteur-s (Responsables) <span class="text-danger">*</span></label>
+                        <MazInput  v-model="contrainte.Acteurs" type="text"  color="info" @click="clearError(index, 'Acteurs')"  name="contrainte.Acteurs" size="sm" rounded-size="sm"  />
+                        </div>
+                        <small v-if="errors.step3.Contraintes && errors.step3.Contraintes[index] && errors.step3.Contraintes[index].Acteurs">{{ errors.step3.Contraintes[index].Acteurs }}</small>
+                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small>
+                        </div>
+                        </div>
+
+                        <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-6 col-sm-12   ">
+                        <div class="input-groupe ">
+                        <div >
+                        <label for="userpassword">Délai de la mise en oeuvre <span class="text-danger">*</span></label>
+                        <MazInput  v-model="contrainte.Delai"  color="info" @click="clearError(index, 'Delai')"  name="contrainte.Delai" size="sm" rounded-size="sm" type="date" />
+                        </div>
+                        <small v-if="errors.step3.Contraintes && errors.step3.Contraintes[index] && errors.step3.Contraintes[index].Delai">{{ errors.step3.Contraintes[index].Delai }}</small>
+                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small>
+                        </div>
+                        </div>
+
+<!--                        
+                        <div class="col-xxl-12 col-xl-6 col-lg-6 col-md-6 col-sm-12   ">
+                        <div class="input-groupe ">
+                        <div >
+                        <label for="userpassword">Statut <span class="text-danger">*</span></label>
+                        <MazSelect  v-model="contrainte.Statut" type="text"  color="info" @input="clearError(index, 'Statut')"  name="contrainte.Statut" size="sm" rounded-size="sm" search :options="status"  />
+                        </div>
+                        <small v-if="errors.step3.Contraintes && errors.step3.Contraintes[index] && errors.step3.Contraintes[index].Statut">{{ errors.step3.Contraintes[index].Statut }}</small>
+                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small>
+                        </div>
+                        </div> -->
+
+                     
+                        
+                      
+
+                     
+
+                </div>
+
+               
+                  </div>
+                  <div class="col-1" style="position: relative">
+                    
+                      <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="deleteRowContraintes(index)"  style=" position:absolute !important ; top: 18px !important; background:red;">
+                       <i class="ri-delete-bin-line"></i>
+                      </button>
+                  </div>
+
+                </div> 
+               </div>
+            <!-- fin infos genral -->
+
+          </div>
+          <div class="btnForm py-3 d-flex items-center justify-content-between">
+            <button class="btnLogin" @click.prevent="prevStep">Précédent</button>
+            <button class="btnLogin" @click.prevent="nextStep('add_suivi')">Suivant</button>
+          </div>
+        </div>
+  
+       
+        <!-- Étape 4 -->
          <div v-if="currentStep === 4">
           <div class="form-container">
                <div class="row mt-3 content-group">
+              
                <div class="col-12 col-md-12 col-sm-12">
          <div class="input-groupe">
            <label for="employment_date_begin">Observation <span class="text-danger">*</span></label>
-           <MazTextarea v-model="step4.Observations" type="date" color="info" name="Observations" size="sm" rounded-size="sm"  />
+           <MazTextarea v-model="step4.Observations"  color="info" name="Observations" size="sm" rounded-size="sm"  />
            <small v-if="v$.step4.Observations.$error">{{v$.step4.Observations.$errors[0].$message}}</small>
            <small v-if="resultError['Observations']">{{resultError['Observations']}}</small>
          </div>
@@ -405,8 +488,31 @@
         </div>
        
          <div class="btnForm py-3 d-flex items-center justify-content-between">
-            <button class="btnLogin" @click.prevent="prevStep">Previous</button>
-            <button class="btnLogin" @click.prevent="nextStep('add_suivi')">Finish</button>
+          <button class="btnLogin" @click.prevent="prevStep">Précédent</button>
+          <button class="btnLogin" @click.prevent="nextStep('add_suivi')">Suivant</button>
+          </div>
+         </div>
+            <!-- Étape 5 -->
+            <div v-if="currentStep === 5">
+          <div class="form-container">
+               <div class="row mt-3 content-group">
+              
+               <div class="col-12 col-md-12 col-sm-12">
+         <div class="input-groupe">
+           <label for="employment_date_begin">Réalisation des travaux</label>
+           
+              <QuillEditor v-model="step5.Realisation" />
+           <small v-if="v$.step5.Realisation.$error">{{v$.step5.Realisation.$errors[0].$message}}</small>
+           <small v-if="resultError['Realisation']">{{resultError['Realisation']}}</small>
+         </div>
+       </div>
+                   
+            </div>
+        </div>
+       
+         <div class="btnForm py-3 d-flex items-center justify-content-between">
+            <button class="btnLogin" @click.prevent="prevStep">Précédent</button>
+            <button class="btnLogin" @click.prevent="nextStep('add_suivi')">Valider</button>
           </div>
          </div>
         
@@ -426,7 +532,7 @@
                   type="button"
                   class="btn btn-danger"
                   data-bs-dismiss="modal"
-                  aria-label="Close"
+                  ar ia-label="Close"
                 >
                   Fermer
                 </button>
@@ -437,16 +543,17 @@
       </div>
       </div>
 
-      <!-- update indicateur -->
+      <!-- update suivi projet -->
+    
       <div
-      class="modal fade effect-rotate-bottom "
-      id="update_indicateur"
+      class="modal fade effect-rotate-bottom"
+      id="update_suivi"
       tabindex="-1"
       aria-hidden="true"
       data-bs-backdrop="static"
-      ref="update_indicateur"
+      ref="update_suivi"
     >
-      <div class="modal-dialog modal-dialog-centered ">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div
             class="modal-header float-start text-center justify-content-center"
@@ -457,7 +564,7 @@
               id="mail-ComposeLabel"
               style="font-size: 22px !important"
             >
-              <b class="text-center">Modifier un  indicateur </b>
+              <b class="text-center">Modifier un suivi</b>
             </h2>
           </div>
           <div class="modal-body px-4">
@@ -470,89 +577,188 @@
                 border-color: rgb(0, 77, 134);
               "
             >
-              <div>
-                <div class="row mt-3 content-group">
-                  <div class="col col-md-6 col-sm-12">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Code <span class="text-danger">*</span></label
-                      >
-                      <MazInput
-                        v-model="indicateur.CodeIndicateur"
-                        color="info"
-                        name="CodeIndicateur"
-                        size="sm"
-                        rounded-size="sm"
-                        type="text"
-                      />
-                      <small v-if="v$.indicateur.CodeIndicateur.$error">{{
-                        v$.indicateur.CodeIndicateur.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['CodeIndicateur']">
-                        {{ resultError["CodeIndicateur"] }}
-                      </small>
-                    </div>
+            <div  >
+              <div class="row">
+                  <div class="col-12">
+                    <p class="mb-0"><span class="fw-semibold fs-14">Nom projet : </span><span class=" text-success fs-15 fw-bolder" > {{ data.NomProjet }}</span> </p>
                   </div>
- 
                 </div>
-                <div class="row mt-3 content-group">
+       <div  class="container-fluid"  >
+     
+          <div class="form-container">
+          
+            <div class="row mt-3 content-group">
                   <div class="col col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Intitulé <span class="text-danger">*</span></label
+                        >Date du suivi <span class="text-danger">*</span></label
                       >
                       <MazInput
-                        v-model="indicateur.IntituleIndicateur"
-                        type="text"
+                        v-model="suivi.DateSuivi"
                         color="info"
-                        name="IntituleIndicateur"
+                        name="DateSuivi"
                         size="sm"
                         rounded-size="sm"
+                        type="date"
                       />
-                      <small v-if="v$.indicateur.IntituleIndicateur.$error">{{
-                        v$.indicateur.IntituleIndicateur.$errors[0].$message
+                      <small v-if="v$.suivi.DateSuivi.$error">{{
+                        v$.suivi.DateSuivi.$errors[0].$message
                       }}</small>
-                      <small v-if="resultError['IntituleIndicateur']">
-                        {{ resultError["IntituleIndicateur"] }}
+                      <small v-if="resultError['DateSuivi']">
+                        {{ resultError["DateSuivi"] }}
                       </small>
                     </div>
                   </div>
-                
+                  <!-- <div class="col col-md-4 col-sm-12">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Niveau d'avancement global<span class="text-danger">*</span></label
+                      >
+                      <MazSelect
+                        v-model="suivi.NiveauExecutionGlobal"
+                        color="info"
+                        name="NiveauExecutionGlobal"
+                        size="sm"
+                        rounded-size="sm"
+                       search
+                       :options="Global"
+                      />
+                      <small v-if="v$.suivi.NiveauExecutionGlobal.$error">{{
+                        v$.suivi.NiveauExecutionGlobal.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['NiveauExecutionGlobal']">
+                        {{ resultError["NiveauExecutionGlobal"] }}
+                      </small>
+                    </div>
+                  </div> -->
+                  <div class="col col-md-6 col-sm-12">
+                    <div class="mb-3 position-relative">
+                      <div class="input-groupe">
+                        <label for="password">Taux d'exécution physique <span class="text-danger">*</span></label>
+                        <MazInput v-model="suivi.TauxAvancementPhysique"  name="TauxAvancementPhysique" color="info" placeholder="10"  type="number"
+                        min="0" max="100"  size="sm" rounded-size="sm" />
+                        <small v-if="v$.suivi.TauxAvancementPhysique.$error">{{v$.suivi.TauxAvancementPhysique.$errors[0].$message}}</small>
+                        <small v-if="resultError['TauxAvancementPhysique']">{{resultError['TauxAvancementPhysique']}}</small>
+                      </div>
+                    </div>
+                </div>
+                                 
+                </div>
+            
+                <div class="row mt-3 content-group">
+                 
+               
+                                               
+                <!-- <div class="col col-md-6 col-sm-12">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Statut du projet <span class="text-danger">*</span></label
+                      >
+                      <MazSelect
+                        v-model="suivi.StatutProjet"
+                        type="text"
+                        color="info"
+                        name="StatutProjet"
+                        size="sm"
+                        rounded-size="sm"
+                        :options="status"
+                       
+                      />
+                      <small v-if="v$.suivi.StatutProjet.$error">{{
+                        v$.step1.StatutProjet.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['StatutProjet']">
+                        {{ resultError["StatutProjet"] }}
+                      </small>
+                    </div>
+                  </div>   -->
+                  <!-- <div class="col col-md-6 col-sm-12">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Avance de démarrage <span class="text-danger">*</span></label
+                      >
+                      <MazInput
+                        v-model="step1.Avance"
+                        type="number"
+                        color="info"
+                        name="Avance"
+                        size="sm"
+                        rounded-size="sm"
+                       
+                       
+                      />
+                      <small v-if="v$.step1.Avance.$error">{{
+                        v$.step1.Avance.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['Avance']">
+                        {{ resultError["Avance"] }}
+                      </small>
+                    </div>
+                  </div>   -->
+                  <!-- <div class="col col-md-12 col-sm-12">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Statut du projet <span class="text-danger">*</span></label
+                      >
+                      <MazSelect
+                        v-model="suivi.StatutProjet"
+                        type="text"
+                        color="info"
+                        name="StatutProjet"
+                        size="sm"
+                        rounded-size="sm"
+                        :options="status"
+                       
+                      />
+                      <small v-if="v$.suivi.StatutProjet.$error">{{
+                        v$.step1.StatutProjet.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['StatutProjet']">
+                        {{ resultError["StatutProjet"] }}
+                      </small>
+                    </div>
+                  </div>  -->
 
                 </div>
                 <div class="row mt-3 content-group">
-                  <div class="col col-md-6 col-sm-12">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Cible fin projet <span class="text-danger">*</span></label
-                      >
-                      <MazInput
-                        v-model="indicateur.CibleFinProjet"
-                        type="text"
-                        color="info"
-                        name="CibleFinProjet"
-                        size="sm"
-                        rounded-size="sm"
-                      />
-                      <small v-if="v$.indicateur.CibleFinProjet.$error">{{
-                        v$.indicateur.CibleFinProjet.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['CibleFinProjet']">
-                        {{ resultError["CibleFinProjet"] }}
-                      </small>
-                    </div>
-                  </div>
-                
-
+               <div class="col col-md-12 col-sm-12">
+         <div class="input-groupe">
+           <label for="employment_date_begin">Observation <span class="text-danger">*</span></label>
+           <MazTextarea v-model="suivi.Observations" type="date" color="info" name="Observations" size="sm" rounded-size="sm"  />
+           <small v-if="v$.suivi.Observations.$error">{{v$.suivi.Observations.$errors[0].$message}}</small>
+           <small v-if="resultError['Observations']">{{resultError['Observations']}}</small>
+         </div>
+       </div>
+                   
                 </div>
-              </div>
-              <div class="row mb-3">
+
+                <div class="row mt-3 content-group">
+               <div class="col col-md-12 col-sm-12">
+         <div class="input-groupe">
+           <label for="employment_date_begin">Réalisation des travaux <span class="text-danger">*</span></label>
+           <div ref="quillEditor" class="quill-editor"></div>
+           <small v-if="v$.suivi.Realisation.$error">{{v$.suivi.Realisation.$errors[0].$message}}</small>
+           <small v-if="resultError['Realisation']">{{resultError['Realisation']}}</small>
+         </div>
+       </div>
+                   
+                </div>
+               
+          </div>
+          <div class="row mb-3">
                 <div class="boutton">
-                  <button class="" @click.prevent="submitUpdateIndicateur('update_indicateur')">
+                  <button class="" @click.prevent="submitUpdateSuivi('update_suivi')">
                     Valider
                   </button>
                 </div>
               </div>
+          </div>
+ 
+         </div>
+         
+           
+
+              
             </div>
 
             <br />
@@ -572,8 +778,110 @@
         </div>
       </div>
       </div>
-
      
+      
+
+      <!-- add file picture an videoss  -->
+
+      <div
+      class="modal fade effect-rotate-bottom"
+      id="add_file"
+      tabindex="-1"
+      aria-hidden="true"
+      data-bs-backdrop="static"
+      ref="add_file"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div
+            class="modal-header float-start text-center justify-content-center"
+            style="background-color: var(--primary-rgb); padding-bottom: 10px"
+          >
+            <h2
+              class="modal-title text-white text-center"
+              id="mail-ComposeLabel"
+              style="font-size: 22px !important"
+            >
+              <b class="text-center">Ajouter les fichiers</b>
+            </h2>
+          </div>
+          <div class="modal-body px-4">
+            <div
+              class="row gy-2 justify-content-center"
+              style="
+                border-width: 1px;
+                border-style: solid;
+                border-radius: 6px;
+                border-color: rgb(0, 77, 134);
+              "
+            >
+            <div  >
+              <div class="row">
+                  <div class="col-12">
+                    <p class="mb-0"><span class="fw-semibold fs-14">Nom projet : </span><span class=" text-success fs-15 fw-bolder" > {{ data.NomProjet }}</span> </p>
+                  </div>
+                
+
+                </div>
+          
+    <div  class="container-fluid"  >
+     
+      <div class="form-container">
+               <div class="row mt-3 content-group">
+                <div class="col-xl-6 col-md-6 col-sm-12">
+                  <label for="date_end">Images<span class="text-danger">*</span></label>
+                  <input class="form-control" type="file" id="input-file" accept="image/*" multiple
+                    @change="handleFileUploadImages">
+                  <small v-if="v$.Fichiers.images.$error">{{ v$.Fichiers.images.$errors[0].$message}}</small>
+                  <small v-if="resultError['images[]']"> {{ resultError["images[]"] }} </small>
+                </div>
+                <div class="col-xl-6 col-md-6 col-sm-12">
+                  <label for="date_end">Videos</label>
+                  <input class="form-control" type="file" id="input-file" accept="video/*"
+                    @change="handleFileUploadVideo">
+                  <small class="fs-13">Taille d'importation maximale 10 megas</small>
+                  <small v-if="v$.Fichiers.videoss.$error">{{ v$.Fichiers.videoss.$errors[0].$message}}</small>
+                  <small v-if="resultError['videoss[]']"> {{ resultError["videoss[]"] }} </small>
+                </div>
+         
+                   
+            </div>
+        </div>
+       
+       
+        
+          </div>
+          <div class="row mb-3">
+                <div class="boutton">
+                  <button class="" @click.prevent="submitFileSuivi('add_file')">
+                    Valider
+                  </button>
+                </div>
+              </div>
+         </div>
+         
+           
+
+              
+            </div>
+
+            <br />
+            <div class="modal-footer">
+              <div class="btn-group ms-auto">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
     </div>
 </template>
 <script>
@@ -581,11 +889,15 @@ import Pag from "@/components/others/pagination.vue";
   import axios from "@/lib/axiosConfig";
   import Loading from "@/components/others/loading.vue";
   import useVuelidate from "@vuelidate/core";
-  import { require, lgmin, lgmax, ValidEmail } from "@/functions/rules";
+  import { require, lgmin, lgmax, ValidEmail ,ValidNumeri , vlmin , vlmax } from "@/functions/rules";
   import { successmsg } from "@/lib/modal.js";
   import MazPhoneNumberInput from "maz-ui/components/MazPhoneNumberInput";
   import Swal from "sweetalert2";
   import { mapGetters } from 'vuex';
+import QuillEditor  from './QuillEditor.vue';
+
+ 
+
 export default {
   props: {
    
@@ -605,7 +917,7 @@ export default {
     
   },
     components: {
-      Loading, Pag,
+      Loading, Pag,  QuillEditor
         
     },
     computed: {
@@ -655,50 +967,71 @@ export default {
         Code:"",
         search: "",
         currentStep: 1,
+        currentData:"",
     
         currentPage: 1,
         itemsPerPage: 12,
         totalPageArray: [],
+        UsersOptions:[],     
         errors: {
-          step2: { 
-            Contraintes: [] ,
-          
-       },
-       step3: { 
-           
-            Bailleurs: [] ,
-       },
+          step2: { Bailleurs: []  },
+          step3: { Contraintes: [] },
+
+          contraintes: { Contraintes: [] },
+          bailleurs: { Bailleurs: []  },
        
         },
         status: [
-          { label: "DANGER", value: "DANGER" },
-          { label: "EN COURS", value: 'EN COURS' },
-          { label: "TERMINER", value: 'TERMINER' },
+          { label: "Non démarré", value: "Non démarré" },
+          { label: "En cours", value: 'En cours' },
+          { label: "En retard", value: 'En retard' },
+          { label: "Réalisé", value: 'Réalisé' },
         ],
-        contraintes: [
+        contraintess: [
           { label: "Administratives", value: "ADMIN" },
           { label: "Techniques", value: 'TECH' },
         ],
+        Global :[
+        { label: "Phase de conception ", value: "Phase de conception" },
+        { label: "Phase d’exécution ", value: "Phase d’exécution" },
+        { label: "Phase de clôture ", value: "Phase de clôture" },
+        ],
       step1: {
         DateSuivi: "",
-        NiveauExecutionGlobal: "",
-        StatutProjet: "",
+        // NiveauExecutionGlobal: "",
+        // StatutProjet: "",
         TauxAvancementPhysique: "",
+        // Avance:"",
+
         },
         step2:{
-          Contraintes:[{  IntituleConstrainte:null, TypeConstrainte:null}],
-        },
-        step3:{
         Bailleurs:[{ CodeBailleur:'', MontantDecaisser:'',}],
 
         },
-        step4: { Observations:'',},
-        indicateur:{
-          CodeIndicateur:"",
-          IntituleIndicateur: "",
-          CibleFinProjet: "",
+        step3:{
+          Contraintes:[{  TypeConstrainte:null , IntituleConstrainte:null, Mitigation:null , Acteurs:null,  Delai:null}],
         },
       
+        step4: { Observations:'',
+                
+        },
+        step5: { Realisation:'',
+                
+              },
+        Fichiers:{
+          images:[],
+          videoss:[],
+        },
+
+        suivi: {
+        DateSuivi: "",
+        // NiveauExecutionGlobal: "",
+        // StatutProjet: "",
+        TauxAvancementPhysique: "",
+        Observations:"",
+        Realisation:'',
+
+        },
         resultError: {},
   
         v$: useVuelidate(),
@@ -708,112 +1041,199 @@ export default {
     validations: {
         step1: {
         DateSuivi:{ require },
-        NiveauExecutionGlobal:{ require },
-        StatutProjet:{ require },
-        TauxAvancementPhysique:{ require },
+        // NiveauExecutionGlobal:{ require },
+        // StatutProjet:{  },
+         TauxAvancementPhysique:{ require ,  ValidNumeri,
+           vlmin: vlmin(0) ,
+           vlmax: vlmax(100) , },
+        //    Avance:{require},
+        // Observations:{  },
+        },
+        step4: {
+          Observations:{ require },
+         
+      },
+      step5: {
+          Realisation:{  },
+         
+      },
+      Fichiers:{
+        images:{  },
+        videoss:{  },
+        },
+
+        suivi: {
+        DateSuivi:{ require },
+        // NiveauExecutionGlobal:{ require },
+        // StatutProjet:{  },
+        TauxAvancementPhysique:{ require ,  ValidNumeri,
+           vlmin: vlmin(0) ,
+           vlmax: vlmax(100) , },
+          //  Avance:{require},
         Observations:{  },
+        Realisation:{  },
         },
-        step4: {Observations:{ require },},
-        indicateur:{
-          CodeIndicateur:{ require },
-          IntituleIndicateur: { require },
-          CibleFinProjet: { require },
-        },
-      suiviIndicateur: {
-          DateSuivi: { require },
-          Realisation: { require },
-        },
+        // autre: {Observations:{ require },},
+      
+    
     },
    
     watch: {
-      codeProjet(newVal) {
-         console.log("codeProjet has changed:", newVal);
-         this.handleCodeProjetChange(newVal);
-      }
-   },
-    async mounted() {
-       console.log("loggedInUser", this.loggedInUser);
-       console.log("CodeProjet from Vuex:", this.codeProjet);
-      
+      // codeProjet(newVal) {
+      //    console.log("codeProjet has changed:", newVal);
+      //    this.handleCodeProjetChange(newVal);
+      // },
+      data: {
+      handler(newVal) {
+        this.Code = newVal.CodeProjet;  
+      },
+      deep: true,
+      immediate: true
     },
- 
+   
+   },
+   async mounted() {
+    await this.fetchUserAll();
+    this.initQuill()
+},
+
     methods: {
       successmsg:successmsg,
+      getTruncate(word , nbre){
+        if(word.length > nbre){
+          return word.substring(0, nbre) + " ..."
+        }else{
+          return word
+        }
+       
+      },
+      firstElement(index){
+        return index !== 0
+      },
+      hasPermission(permissionName) {
+      if (!this.loggedInUser || !Array.isArray(this.loggedInUser.permissions)) {
+        return false;
+      }
+      return this.loggedInUser.permissions.some(
+        (permission) => permission.id === permissionName
+      );
+    },
       handleCodeProjetChange(codeProjet) {
-         // Logique pour gérer les changements de codeProjet
-         console.log("Handling codeProjet change:", codeProjet);
+     
          this.Code = codeProjet
-         // Par exemple, mettre à jour les indicateurs ou autres données
+       
       },
       stepperProgress() {
-        return (100 / 3) * (this.currentStep - 1) + "%";
+        return (100 / 4) * (this.currentStep - 1) + "%";
       },
       prevStep() {
         if (this.currentStep > 1) {
           this.currentStep--;
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
+
       },
   
       goToStep(step) {
     this.currentStep = step;
   },
+ 
+  initQuill() {
+    const toolbarOptions = [
+          ['bold', 'italic', 'underline', 'strike'],
+          ['blockquote', 'code-block'],
+          [{ 'header': 1 }, { 'header': 2 }],
+          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+          [{ 'script': 'sub' }, { 'script': 'super' }],
+          [{ 'indent': '-1' }, { 'indent': '+1' }],
+          [{ 'direction': 'rtl' }],
+          [{ 'size': ['small', false, 'large', 'huge'] }],
+          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+          [{ 'color': [] }, { 'background': [] }],
+          [{ 'font': [] }],
+          [{ 'align': [] }],
+          ['image', 'video'],
+          ['clean']
+        ]
+
+      this.quill = new Quill(this.$refs.quillEditor, {
+        theme: 'snow',
+        modules: {
+          toolbar: toolbarOptions
+        }
+      });
+
+     
+      this.quill.root.innerHTML = this.suivi.Realisation;
+      this.quill.on('text-change', () => {
+        this.suivi.Realisation = this.quill.root.innerHTML;
+      });
+    },
       AddformDataContraintes() {
-       this.step2.Contraintes.push({ IntituleConstrainte:'', TypeConstrainte:'',});
+       this.step3.Contraintes.push({  TypeConstrainte:null , IntituleConstrainte:null, Mitigation:null , Acteurs:null,  Delai:null});
    },
    deleteRowContraintes(index) {
   
    if(index !== 0){
-     this.step2.Contraintes.splice(index, 1);
+     this.step3.Contraintes.splice(index, 1);
    }
   },
   clearError(index, field) {   
-     if (this.errors.step2.Contraintes[index]) {
-       this.errors.step2.Contraintes[index][field] = null;
+     if (this.errors.step3.Contraintes[index]) {
+       this.errors.step3.Contraintes[index][field] = null;
      }
    },
  
   validateStep1() {
     let isValid = true;
-    this.errors.step2 = { Contraintes: [] };
-    this.step2.Contraintes.forEach((contrainte, index) => {
+    this.errors.step3 = { Contraintes: [] };
+    this.step3.Contraintes.forEach((contrainte, index) => {
         const contrainteErrors = {};
         if (!contrainte.Code) {
           contrainteErrors.Code = 'Ce champs est obligatoire!';
             isValid = false;
         }
-        if (!contrainte.IntituleContrainte) {
-          contrainteErrors.IntituleContrainte = 'Ce champs est obligatoire!';
+        if (!contrainte.IntituleConstrainte) {
+          contrainteErrors.IntituleConstrainte = 'Ce champs est obligatoire!';
             isValid = false;
         }
         if (!contrainte.Type) {
           contrainteErrors.Type = 'Ce champs est obligatoire!';
             isValid = false;
         }
-        this.errors.step2.Contraintes[index] = contrainteErrors;
+        if (!contrainte.Statut) {
+          contrainteErrors.Statut = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+
+        if (!contrainte.Delai) {
+          contrainteErrors.Delai = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        this.errors.step3.Contraintes[index] = contrainteErrors;
     });
     return isValid;
 },
 
 AddformDataBailleurs() {
-       this.step3.Bailleurs.push({CodeBailleur:'', MontantDecaisser:'',});
+       this.step2.Bailleurs.push({CodeBailleur:'', MontantDecaisser:'',});
    },
    deleteRowBailleurs(index) {
   
    if(index !== 0){
-     this.step3.Bailleurs.splice(index, 1);
+     this.step2.Bailleurs.splice(index, 1);
    }
   },
   clearErrorBailleurs(index, field) {   
-     if (this.errors.step3.Bailleurs[index]) {
-       this.errors.step3.Bailleurs[index][field] = null;
+     if (this.errors.step2.Bailleurs[index]) {
+       this.errors.step2.Bailleurs[index][field] = null;
      }
    },
  
   validateStep2() {
     let isValid = true;
-    this.errors.step3 = { Bailleurs: [] };
-    this.step3.Bailleurs.forEach((bailleur, index) => {
+    this.errors.step2 = { Bailleurs: [] };
+    this.step2.Bailleurs.forEach((bailleur, index) => {
         const bailleurErrors = {};
         if (!bailleur.CodeBailleur) {
           bailleurErrors.CodeBailleur = 'Ce champs est obligatoire!';
@@ -824,24 +1244,13 @@ AddformDataBailleurs() {
             isValid = false;
         }
         
-        this.errors.step3.Bailleurs[index] = bailleurErrors;
+        this.errors.step2.Bailleurs[index] = bailleurErrors;
     });
     return isValid;
 },
 
 async nextStep(modalId) {   
         try {
-      //     let isValid = false;
-
-      //   if (this.currentStep === 2) {
-      //   isValid = this.validateStep1();
-      // } else if (this.currentStep === 3) {
-      //   isValid = this.validateStep2();
-     
-      // } else {
-      //   isValid = true; 
-      // }
-   
                
       if (this.currentStep === 1) {
       this.v$.step1.$touch();
@@ -884,6 +1293,26 @@ async nextStep(modalId) {
     else if (this.currentStep === 4) {
       this.v$.step4.$touch();
       if (this.v$.$errors.length == 0) {
+        this.currentStep++;
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+      } else {
+        console.log("errroor1", this.v$.$errors);
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+       
+      }
+
+          
+    }
+    else if (this.currentStep === 5) {
+    
+      this.v$.step5.$touch();
+      if (this.v$.$errors.length == 0) {
         this. submitSuivi(modalId)
       } else {
         console.log("errroor1", this.v$.$errors);
@@ -893,7 +1322,9 @@ async nextStep(modalId) {
         });
        
       }
-       
+    
+    
+
           
     }
 
@@ -910,170 +1341,204 @@ async nextStep(modalId) {
          this.loading = false;
     }
       },
+      async fetchUserAll() {
+      try {
+        const response = await axios.get('/auth-users', {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+        });
 
+
+        if (response.data.status === "success") {
+         
+          this.usersOptions =response.data.data.map(item => this.UsersOptions.push({
+            label: `${item.Nom} ${item.Prenoms}`,
+            value: `${item.Nom} ${item.Prenoms}`
+          }))
+
+          this.loading = false;
+        }
+      } catch (error) {
+      ;
+        if (error.response.data.status === "error") {
+     
+
+          if (
+            error.response.data.message === "Vous n'êtes pas autorisé." ||
+            error.response.status === 401
+          ) {
+            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+            this.$router.push("/"); //a revoir
+          }
+        } else {
+          this.formatValidationErrors(error.response.data.errors);
+          this.loading = false;
+          return false;
+        }
+      }
+    },
       async submitSuivi(modalId) {
      
          
-            this.loading = true
-     const contraintes = this.step2.Contraintes.every(item => 
-      !item.IntituleConstrainte && !item.TypeConstrainte) ? [] : this.step2.Contraintes;
+             this.loading = true
+    const contraintes = this.step3.Contraintes.every(item => 
+    !item.IntituleConstrainte && !item.TypeConstrainte) ? [] : this.step3.Contraintes;
 
-    const bailleurs = this.step3.Bailleurs.every(item => 
-      !item.CodeBailleur && !item.MontantDecaisser) ? [] : this.step3.Bailleurs;
+    const bailleurs = this.step2.Bailleurs.every(item => 
+      !item.CodeBailleur && !item.MontantDecaisser) ? [] : this.step2.Bailleurs;
 
     const dataToSend = {
         DateSuivi: this.step1.DateSuivi,
-        NiveauExecution: this.step1.NiveauExecutionGlobal,
-        StatutProjet: this.step1.StatutProjet,
-        TauxAvancementPhysique: this.step1.TauxAvancementPhysique,
+        //  NiveauExecution: this.step1.NiveauExecutionGlobal,
+        // StatutProjet: this.step1.StatutProjet,
+        // Avance:this.step1.Avance,
+         TauxAvancementPhysique: this.step1.TauxAvancementPhysique,
         Observations: this.step4.Observations,
+        Realisation: this.step5.Realisation,
         CodeProjet: this.Code,
         contraintes: contraintes,
-        bailleurs: bailleurs
+        bailleurs: bailleurs,
     };
       console.log("data", dataToSend);
-
 
         try {
           const response = await axios.post("/projet-suivis", dataToSend, {
             headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
+              
            
           }
           });
-          console.log("Réponse du téléversement :", response);
+          
+       
           if (response.data.status === "success") {
+             this.currentData = response.data.data.id;
             this.closeModal(modalId);
-            this.successmsg(
-          "Suivi créé avec succès",
-          "Le nouveau suivi a été créé avec succès !"
-        );
-            this.loading = false
-            this.$emit('indicateur-updated');
+            this.step1 = {
+                DateSuivi: "",
+                // NiveauExecutionGlobal: "",
+                // StatutProjet: "",
+                TauxAvancementPhysique: "",
+                // Avance:"",
+
+                },
+                this.step4 = { Observations:'',},
+                this.step4 = { Realisation:'',},
+                this.step2.Contraintes = [{  TypeConstrainte:null , IntituleConstrainte:null, Mitigation:null , Acteurs:null,  Delai:null}];
+               this.step3.Bailleurs = [{CodeBailleur:'', MontantDecaisser:'',}];
+
+            this.v$.step1.$reset();
+            this.v$.step4.$reset();
+            this.v$.step5.$reset();
+            this.loading = false;
+            await this.confirmFiles()
 
           } else {
           }
         } catch (error) {
           console.log("response.login", error);
+         
 
           this.loading = false;
           if (error.response.data.status === "error") {
-            return (this.error = error.response.data.message);
+            // return (this.error = error.response.data.message);
+            Swal.fire({
+              title: "Enrégistrement  impossible",
+              text: error.response.data.message,
+              icon: "question"
+            });
           } else {
             this.formatValidationErrors(error.response.data.errors);
           }
         }
       
     },
-    async HandleIdUpdateIndicateur(id) {
-      this.loading = true;
+    async confirmFiles() {
+   // Affichez une boîte de dialogue Sweet Alert pour confirmer la suppression
+   const result = await Swal.fire({
+     title: 'Voulez-vous ajouter des fichiers concernant le suivi?',
+     text: "Vous pouvez télécharger des fichiers tels que des images et une video.",
+     icon: 'warning',
+     showCancelButton: true,
+     confirmButtonText: 'Oui, ajouter',
+     cancelButtonText: 'Non, annuler',
+     reverseButtons: true
+   });
 
-      try {
-        const response = await axios.get(`/indicateurs/detail/${id}`, {
-          headers: {
-            Authorization: `Bearer ${this.loggedInUser.token}`,
-          },
-        });
-
-        console.log("response", response);
-        if (response) {
-          console.log("responsedata", response.data.data);
-          let data = response.data.data;
-            this.indicateur.CodeIndicateur = data.CodeIndicateur,
-            this.indicateur.IntituleIndicateur = data.IntituleIndicateur,
-            this.indicateur.CibleFinProjet = data.CibleFinProjet,
-            this.ToId = data.id;
-          this.loading = false;
-        }
-      } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
+   // Si l'utilisateur confirme la suppression
+   if (result.isConfirmed) {
+    event.preventDefault();
+    const modal = new bootstrap.Modal(this.$refs.add_file);
+    modal.show();
+   }else{
+    this.successmsg(
+          "Suivi créé avec succès",
+          "Le nouveau suivi a été créé avec succès !"
         );
-        if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+            this.$emit('indicateur-updated');
+            this.loading = false
 
-          if (
-            error.response.data.message === "Vous n'êtes pas autorisé." ||
-            error.response.status === 401
-          ) {
-            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
-            this.$router.push("/"); //a revoir
+
+   }
+       },
+       async submitFileSuivi(modalId){
+        console.log('files',this.Fichiers.images , this.Fichiers.videoss)
+    
+  this.loading = true
+ const formData = new FormData();
+ if (this.Fichiers.images && this.Fichiers.images.length > 0) {
+          for (let i = 0; i < this.Fichiers.images.length; i++) {
+            console.log(this.Fichiers.images);
+            formData.append("images[]", this.Fichiers.images[i]);
           }
-        } else {
-          this.formatValidationErrors(error.response.data.errors);
-          this.loading = false;
-          return false;
         }
-      }
-    },
-
-    async submitUpdateIndicateur(modalId) {
-      this.v$.indicateur.$touch();
-
-      if (this.v$.$errors.length == 0) {
-        this.loading = true
-        const dataSend = {
-          indicateurs:[
-            {
-                id:this.ToId,
-                CodeIndicateur:this.indicateur.CodeIndicateur,
-                IntituleIndicateur: this.indicateur.IntituleIndicateur,
-                CibleFinProjet: this.indicateur.CibleFinProjet,
-                CodeProjet: this.Code,
-            }
-          ]
-
-         
+        if (this.Fichiers.videoss) {
+          formData.append("videoss[]", this.Fichiers.videoss);
         }
+  
+   formData.append( "id",this.currentData )
+ 
+  
+   try {
+   const response = await axios.post('/projet-suivis/fichiers/joindre-au-suivi' , formData, {
+       headers: {
+         Authorization: `Bearer ${this.loggedInUser.token}`, 
+        'Content-Type': 'multipart/form-data',
 
-        console.log(dataSend);
-        try {
-        const response = await axios.put('/indicateurs/update',dataSend, {
-          headers: {
-            Authorization: `Bearer ${this.loggedInUser.token}`,
-          },
-         
-        });
+        },
+       });
 
-        console.log("usersOptions", response.data);
-        if (response.data.status === "success") {
-          this.closeModal(modalId);
-          this.successmsg(
-            "Données d'indicateurs mises à jour",
-            "Les données de l'indicateurs ont été mises à jour avec succès !"
-          );
-          this.loading = false;
-          this.$emit('indicateur-updated');
-        }
-      } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
+   if (response.data.status === "success") { 
+    this.closeModal(modalId);
+    this.successmsg(
+          "Suivi créé avec succès",
+          "Le nouveau suivi a été créé avec succès !"
         );
-        if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+        this.loading = false
+            this.$emit('indicateur-updated');
+     
+   } else {
 
-          if (
-            error.response.data.message === "Vous n'êtes pas autorisé." ||
-            error.response.status === 401
-          ) {
-            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
-            this.$router.push("/"); //a revoir
-          }
-        } else {
-          this.formatValidationErrors(error.response.data.errors);
-          this.loading = false;
-          return false;
-        }
-      }
-        
+   }
 
 
-      } else {
-        console.log("cest pas bon ", this.v$.$errors);
-        this.loading = false;
-      }
-    },
+
+} catch (error) {
+console.log('response.login', error); 
+
+this.loading = false
+if (error.response.data.status === "error") {
+return this.error = error.response.data.message
+
+} else {
+this.formatValidationErrors(error.response.data.errors);
+}
+}
+
+   },
+   
+
+  
     async HandleIdDelete(id) {
       // Affichez une boîte de dialogue Sweet Alert pour confirmer la suppression
       const result = await Swal.fire({
@@ -1126,6 +1591,222 @@ async nextStep(modalId) {
         }
       }
     },
+
+
+    // update suivi start
+
+    AddformDataContraintesUpdate() {
+       this.contraintes.Contraintes.push({ IntituleConstrainte:'', TypeConstrainte:'',Mitigation:null , Delai:null});
+   },
+   deleteRowContraintesUpdate(index) {
+  
+   if(index !== 0){
+     this.contraintes.Contraintes.splice(index, 1);
+   }
+  },
+  clearErrorUpdate(index, field) {   
+     if (this.errors.contraintes.Contraintes[index]) {
+       this.errors.contraintes.Contraintes[index][field] = null;
+     }
+   },
+ 
+  validateStep3() {
+    let isValid = true;
+    this.errors.contraintes = { Contraintes: [] };
+    this.contraintes.Contraintes.forEach((contrainte, index) => {
+        const contrainteErrors = {};
+        if (!contrainte.Code) {
+          contrainteErrors.Code = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        if (!contrainte.IntituleConstrainte) {
+          contrainteErrors.IntituleConstrainte = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        if (!contrainte.Type) {
+          contrainteErrors.Type = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        if (!contrainte.Delai) {
+          contrainteErrors.Delai = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        this.errors.contraintes.Contraintes[index] = contrainteErrors;
+    });
+    return isValid;
+},
+
+AddformDataBailleursUpdate() {
+       this.bailleurs.Bailleurs.push({CodeBailleur:'', MontantDecaisser:'',});
+   },
+   deleteRowBailleursUpdate(index) {
+  
+   if(index !== 0){
+     this.bailleurs.Bailleurs.splice(index, 1);
+   }
+  },
+  clearErrorBailleursUpdate(index, field) {   
+     if (this.errors.bailleurs.Bailleurs[index]) {
+       this.errors.bailleurs.Bailleurs[index][field] = null;
+     }
+   },
+ 
+  validateStep4() {
+    let isValid = true;
+    this.errors.bailleurs = { Bailleurs: [] };
+    this.bailleurs.Bailleurs.forEach((bailleur, index) => {
+        const bailleurErrors = {};
+        if (!bailleur.CodeBailleur) {
+          bailleurErrors.CodeBailleur = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        if (!bailleur.MontantDecaisser) {
+          bailleurErrors.MontantDecaisser = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+        
+        this.errors.bailleurs.Bailleurs[index] = bailleurErrors;
+    });
+    return isValid;
+},
+
+
+      async HandleIdUpdateSuivie(id) {
+      this.loading = true;
+
+      try {
+        const response = await axios.get(`/projet-suivis/detail/${id}`, {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+        });
+
+        if (response) {
+        
+          let data = response.data.data.suivi;
+            this.suivi.DateSuivi = data.DateSuivi,
+            // this.suivi.NiveauExecutionGlobal = data.NiveauExecution,
+            // this.suivi.StatutProjet = data.StatutProjet,
+            this.suivi.TauxAvancementPhysique = data.TauxAvancementPhysique,
+            // this.suivi.Avance= data.Avance
+            this.suivi.Observations = data.Observations,
+            this.quill.root.innerHTML = data.Realisation;
+
+            // this.contraintes.Contraintes = data.contraintes,
+            // this.bailleurs.Bailleurs = data.bailleurs,
+            this.ToId = data.id;
+          this.loading = false;
+        }
+      } catch (error) {
+        console.log(
+          "Erreur lors de la mise à jour des données MPME guinee :",
+          error
+        );
+        if (error.response.data.status === "error") {
+          console.log("aut", error.response.data.status === "error");
+
+          if (
+            error.response.data.message === "Vous n'êtes pas autorisé." ||
+            error.response.status === 401
+          ) {
+            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+            this.$router.push("/"); //a revoir
+          }
+        } else {
+          this.formatValidationErrors(error.response.data.errors);
+          this.loading = false;
+          return false;
+        }
+      }
+    },
+
+      async submitUpdateSuivi(modalId) {
+        console.log('bonj')
+ 
+this.v$.suivi.$touch();
+if (this.v$.$errors.length == 0) {
+this.loading = true;
+const dataToSend = {
+    id_suivi: this.ToId,
+    DateSuivi: this.suivi.DateSuivi,
+    // NiveauExecution: this.suivi.NiveauExecutionGlobal,
+    // StatutProjet: this.suivi.StatutProjet,
+    TauxAvancementPhysique: this.suivi.TauxAvancementPhysique,
+    // Avance: this.suivi.Avance,
+    Observations: this.suivi.Observations,
+    Realisation: this.quill.root.innerHTML,
+    CodeProjet: this.Code,
+   
+};
+
+        try {
+          const response = await axios.put('/projet-suivis/update', dataToSend, {
+            headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
+           
+          }
+          });
+       
+          if (response.data.status === "success") {
+            this.closeModal(modalId);
+            this.successmsg(
+          "Suivi modifié avec succès",
+          "Le nouveau suivi a été créé avec succès !"
+        );
+            this.loading = false
+            this.$emit('indicateur-updated');
+
+          } else {
+          }
+        } catch (error) {
+          console.log("response.login", error);
+
+          this.loading = false;
+          if (error.response.data.status === "error") {
+            return (this.error = error.response.data.message);
+          } else {
+            this.formatValidationErrors(error.response.data.errors);
+          }
+        }
+      } else {
+        console.log("errroor1", this.v$.$errors);
+      }
+      
+    },
+    handleFileUploadVideo(event) {
+      console.log("File input change");
+      const file = event.target.files[0];
+      console.log("handleFileUploadLogo Selected file:", file);
+      this.Fichiers.videoss = file
+
+    },
+    handleFileUploadImages(event) {
+      console.log("File input change");
+      const files = event.target.files;
+      console.log("Selected files:", files);
+      // Créer un tableau pour stocker les fichiers
+      this.Fichiers.images = [];
+
+      // Ajouter chaque fichier au tableau
+      for (let i = 0; i < files.length; i++) {
+        this.Fichiers.images.push(files[i]);
+      }
+
+
+      console.log("Images stored:", this.Fichiers.images);
+
+    },
+    handleFileUploadImagesUpdateNew(event) {
+      const files = event.target.files;
+      for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.step2.imagesUrls.push(e.target.result);
+          this.step2.images.push(files[i]);
+        };
+        reader.readAsDataURL(files[i]);
+      }
+    },
+    // update suivi finish
 
     getStatusClass(status) {
       switch (status) {
@@ -1222,6 +1903,7 @@ async nextStep(modalId) {
 }
 </script>
 <style lang="css" scoped>
+
  .tx-green-1 {
     color: #75cc65;
     font-weight: 600;

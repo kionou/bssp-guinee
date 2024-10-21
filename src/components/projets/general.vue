@@ -2,12 +2,24 @@
   <div>
     <!-- Start::app-content -->
     <Loading v-if="loading" style="z-index: 99999"></Loading>
-              <div class="row p-2">
-                <div class="col-xxl-12 col-xl-12">
-                  <div class="row ">
+                  <div class="row pb-0 mb-0">
+
+                  
+    <div class="col-12 d-flex align-items-center w-100 ">
+      <div class=" bg-primary text-white fs-20 p-1 pt-2 text-center" style="width: 495px; height: 49px;">
+        Zones d'intervention :
+      </div>
+      <div class="marquee-rtl bg-gray-400">
+        <div>
+          {{ formattedRegions }}
+        </div>
+      </div>
+    </div> 
+
+
                     <div class="col-xl-4 mt-xxl-0 mt-3">
                       <div class="mb-0">
-                        <div class="card custom-card">
+                        <div class="card custom-card mb-1">
   
   
                           <ul class="list-group">
@@ -51,15 +63,15 @@
                                 <span class=" fw-semibold " style="color:red;">{{ tempsEcoule }}</span>
                               </div>
                             </li>
-                            <li class="list-group-item">
+                            <!-- <li class="list-group-item">
                               <div class="d-flex flex-wrap align-items-center">
                                 <div class="me-2 fw-semibold">
                                   Mode Financement :
                                 </div>
                                 <span class=" fw-semibold " style="color:#05b305;">{{ data.ModeFinancement }}</span>
                               </div>
-                            </li>
-                            <li class="list-group-item">
+                            </li> -->
+                            <!-- <li class="list-group-item">
                               <div class="d-flex flex-wrap align-items-center">
                                 <div class="me-2 fw-semibold">
                                   Zones d'intervention :
@@ -68,10 +80,22 @@
                                   {{ formattedRegions }}
                                 </span>
                               </div>
-                            </li>
+                            </li> -->
                           </ul>
+                       
   
                         </div>
+                        <p class="fs-15 fw-semibold mb-2">Autre informations :</p>
+                        <div class="tab-menu-heading border-0 p-0 ms-auto mt-sm-0 mt-1">
+                                    <div class="tabs-menu-task me-1 w-100">
+                                        <ul class="nav nav-tabs panel-tabs-task border-0 " role="tablist">
+                                            <li><button type="button" class="btn btn-secondaire my-1 me-1 p-1 active fw-semibold" data-bs-toggle="tab" data-bs-target="#Active" role="tab" aria-selected="true">Objectifs <span class="badge ms-2 bg-danger">{{ ObjectisOptions.length }}</span></button></li>
+                                            <li><button type="button" class="btn btn-secondaire my-1 me-1 p-1" data-bs-toggle="tab" data-bs-target="#Complete" role="tab" aria-selected="false">  Bailleurs <span class="badge ms-2 bg-danger">{{ BailleursOptions.length }}</span></button></li>
+                                            <!-- <li><span class="fw-semibold" data-bs-toggle="tab" data-bs-target="#Complete" role="tab" aria-selected="false">Bailleurs </span></li> -->
+                                            <li><button type="button" class="btn btn-secondaire my-1 me-1 p-1"  data-bs-toggle="tab" data-bs-target="#indicateur" role="tab" aria-selected="false">Indicateurs <span class="badge ms-2 bg-danger">{{indicateursOptions.length}}</span> </button></li>
+                                        </ul>
+                                    </div>
+                                </div>
   
                       </div>
   
@@ -80,36 +104,44 @@
                       <div>
                         <p class="fs-18 fw-semibold mb-0 text-center">{{data.NomProjet}}</p>
                         <hr>
-                        <div class="row mb-4">
-                   <div class="col-xl-7">
-                    <div class="fs-16 fw-semibold mb-2  lh-1 text-muted"> <b>LES RESPONSABLES:</b> </div>
-                    <div class=" fs-14 fw-semibold lh-1 " >
-                      <span class="mt-4 fs-14 fw-semibold lh-1 text-success " v-if="data.responsables?.length ===0"  >
-                             Aucun responsable rattaché à ce projet.
-                                  </span>
-                                    <span class="mt-4 fs-14 fw-semibold text-success responsables-text" v-else>
-                                      <span class="mb-4 fs-14 fw-semibold text-success" v-html="formattedResponsables"></span>
-                                    </span>       
-                        </div>
-               
-            </div>
-            <div class="col-xl-5">
-              <div class="fs-16 fw-semibold mb-2 text-center  lh-1 text-muted"> <b>BUDGET (GNF):</b> </div>
-                    <div class=" fs-16 fw-bolder text-center  lh-1 " >
-                          <span class="mt-4  fs-18 fw-bolder lh-1  " style="color:red">
+                        <div class="row ">
+                          <div class="col-xl-7">
+                           <div class="fs-20 fw-semibold mb-2   lh-1 text-muted"> <b>BUDGET (GNF):</b>   <span class="mt-4  fs-20 fw-bolder lh-1  mx-2 " style="color:red">
                             {{ totalBudget  || 0}} 
-                                  </span>
-                                  
-                        </div>
+                                  </span></div>
                
              
+                         </div>
+                         <div class="col-xl-5">
+                          
+                                <div class="fs-20 fw-semibold mb-2   lh-1 text-muted">
+                                  Mode Financement :
+                                <span class="mt-4  fs-20 fw-bolder lh-1  mx-2 "  style="color:#05b305;">{{ data.ModeFinancement }}</span>
+
+                                </div>
+                              
+                         </div>
+                   <div class="col-xl-12">
+                    <div class=" fs-20 mt-1 fw-semibold mb-2  lh-1 text-muted"> <b>LES RESPONSABLES:</b> 
+                      <div class="  fs-20 fw-semibold lh-1 " >
+                      <span class="mt-4  fs-20 fw-semibold lh-1 text-success " v-if="data.responsables?.length ===0"  >
+                             Aucun responsable rattaché à ce projet.
+                                  </span>
+                                    <span class="mt-4  fs-20 fw-semibold text-success responsables-text" v-else>
+                                      <span class="mb-4  fs-20 fw-semibold text-success" v-html="formattedResponsables"></span>
+                                    </span>       
+                        </div>
+                    </div>
+                   
+               
             </div>
+           
                    </div> 
-                        <div class="card mb-4">
+                        <div class="card ">
                           <div class="card-header fs-15 fw-semibold mb-1 ">
                             Description
                           </div>
-                          <div class="card-body text-muted">
+                          <div class="card-body text-muted pt-0 " style="overflow: scroll; height: 130px">
                             {{ data.Description}}
                           </div>
                         </div>
@@ -119,26 +151,12 @@
                   
                     
                     </div>
-                   
-                   
-  
                   </div>
-                </div>
-              </div>
-              <div class="mb-4"> 
-                          <p class="fs-15 fw-semibold mb-2">Autre informations :</p>
+              <div class="mb-4 pt-0 mt-0"> 
+                       
 
-                               <div class="tab-menu-heading border-0 p-0 ms-auto mt-sm-0 mt-2">
-                                    <div class="tabs-menu-task me-3">
-                                        <ul class="nav nav-tabs panel-tabs-task border-0 " role="tablist">
-                                            <li><button type="button" class="btn btn-secondaire my-1 me-2 active fw-semibold" data-bs-toggle="tab" data-bs-target="#Active" role="tab" aria-selected="true">Objectifs <span class="badge ms-2 bg-danger">{{ ObjectisOptions.length }}</span></button></li>
-                                            <li><button type="button" class="btn btn-secondaire my-1 me-2" data-bs-toggle="tab" data-bs-target="#Complete" role="tab" aria-selected="false">  Bailleurs <span class="badge ms-2 bg-danger">{{ BailleursOptions.length }}</span></button></li>
-                                            <!-- <li><span class="fw-semibold" data-bs-toggle="tab" data-bs-target="#Complete" role="tab" aria-selected="false">Bailleurs </span></li> -->
-                                            <li><button type="button" class="btn btn-secondaire my-1 me-2"  data-bs-toggle="tab" data-bs-target="#indicateur" role="tab" aria-selected="false">Indicateurs <span class="badge ms-2 bg-danger">{{indicateursOptions.length}}</span> </button></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <hr>
+                              
+                                <hr class="mt-0">
                            <div class="card-body p-0">
                                 <div class="tab-content p-0">
                                     <div class="tab-pane active p-0 border-0" id="Active">
@@ -154,7 +172,7 @@
                                 </button>
                               </div>
                       
-                              <button class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
+                              <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
                                 data-bs-toggle="modal" data-bs-target="#add_objectif">
                                 <i class="ri-add-line"> </i>
                               </button>
@@ -165,14 +183,14 @@
                               <div v-if="paginatedObjectifs.length === 0" class="noresul">
                                 <span> Vous n'avez pas encore d'objectif, vous pouvez également en ajouter un !! </span>
                               </div>
-                              <div class="table-responsive" v-else>
+                              <div style="overflow-x: scroll !important" class="table-responsive" v-else>
                                 <table class="table table-hover  table-bordered table-striped">
                                   <thead>
                                     <tr>
                                       <th scope="row" class="ps-4 fw-semibold">
                                         <span class="float-right">N°</span>
                                       </th>
-                                      <th scope="col"  class="text-left"> <span class="fw-semibold" >Intitule</span></th>
+                                      <th scope="col"  class="text-left"> <span class="fw-semibold" >Intitule de l'objet</span></th>
                                       <th scope="col"  class="text-center"> <span class="fw-semibold" >Etat</span></th>
                                       <th scope="col">Actions</th>
                                     </tr>
@@ -187,12 +205,12 @@
                                       </td>
                                       <td style="width: 120px;">
                                         <div class="btn-list w-25 d-flex ">
-                                          <button class="btn btn-sm btn-icon btn-info btn-wave " data-bs-toggle="modal"
+                                          <button v-if="hasPermission(2)" class="btn btn-sm btn-icon btn-info btn-wave " data-bs-toggle="modal"
                                             data-bs-target="#update_objectif" @click="HandleIdUpdateObjectif(item.id)">
                                             <i class="ri-edit-line"></i>
                                           </button>
                           
-                                          <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(item.id)">
+                                          <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(item.id)">
                                             <i class="ri-delete-bin-line"></i>
                                           </button>
                           
@@ -233,7 +251,7 @@
                                       </button>
                                     </div>
 
-                                    <button class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
+                                    <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
                                       data-bs-toggle="modal" data-bs-target="#add_bailleur">
                                       <i class="ri-add-line"> </i>
                                     </button>
@@ -244,21 +262,23 @@
                                 <div v-if="paginatedBailleurs.length === 0" class="noresul">
                                 <span> Vous n'avez pas encore de bailleur, vous pouvez également en ajouter un !! </span>
                                 </div>
-                                <div class="table-responsive" v-else>
-                                <table class="table table-hover text-nowrap table-bordered table-striped">
+                                <div style="overflow-x: scroll !important" class="table-responsive" v-else>
+                                <table class="table table-hover  table-bordered table-striped">
                                   <thead>
                                     <tr >
                                       <th scope="row" class="ps-4 fw-semibold">
                                         <span class="float-right">N°</span>
                                       </th>
                                       <th scope="col" class="text-left"> <span class="fw-semibold" >Nom</span> </th>
-                                      <th scope="col"  class="text-center">  <span class="fw-semibold" >Budget</span></th>
+                                      <th scope="col"  class="text-center">  <span class="fw-semibold" >Apport bailleur</span></th>
                                       <th scope="col" class="text-center">
                                         <span class="fw-semibold">Montant Décaissé</span>
                                       </th>
                                       <th scope="col" class="text-center">
-                                        <span class="fw-semibold">Taux de Décaissement</span>
+                                        <span class="fw-semibold">Taux Exec. Financière</span>
                                       </th>
+                                      <th scope="col"  class="text-center">  <span class="fw-semibold" >Commentaire</span></th>
+
                                       <th scope="col">Actions</th>
                                     </tr>
                                   </thead>
@@ -266,8 +286,8 @@
                                     <tr v-for="(item , index)  in paginatedBailleurs" :key="item.id">
                                       <th  style="width: 30px;" scope="row" class="ps-4 ">{{ (currentPageBailleurs - 1) * itemsPerPage + index + 1 }}</th>
                                       <td><span class="d-block fw-semibold  mb-1 text-left"> {{item.CodeBailleur}}</span></td>
-                                      <td style="width: 180px;" class="text-center"><span class="d-block fw-semibold mb-1 "> {{ formatBudget(item.Budget) || 0 }} </span></td>
-                                      <td style="width: 180px;" class="text-center">
+                                      <td style="width: 150px;" class="text-center"><span class="d-block fw-semibold mb-1 "> {{ formatBudget(item.Budget) || 0 }} </span></td>
+                                      <td style="width: 150px;" class="text-center">
                                           <span class="d-block fw-semibold mb-1" v-if="item.decaissement.length === 0">0 GNF</span>
                                           <span class="d-block fw-semibold mb-1" v-else>{{ formatBudget(item.decaissement[0]?.montant_decaisser) }}</span>
             </td>
@@ -277,7 +297,7 @@
                 {{ tauxDecaissement(item).toFixed(2) }}%
                 </span>
         
-              <div class="progress mb-3" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress " role="progressbar" aria-valuemin="0" aria-valuemax="100">
                 <div
                   class="progress-bar progress-bar-striped"
                  :class="getProgressClass(tauxDecaissement(item))"
@@ -288,15 +308,17 @@
                 </div>
               </div>
             </td>
+            <td><span class="d-block fw-semibold  mb-1"> {{item.Commentaire ?? "-"}}</span></td>
+
                                       <td class="" style="width: 130px;">
                                         <div class="btn-list w-25 d-flex">
 
-                                          <button class="btn btn-sm btn-icon btn-info btn-wave " data-bs-toggle="modal"
+                                          <button v-if="hasPermission(2)" class="btn btn-sm btn-icon btn-info btn-wave " data-bs-toggle="modal"
                                             data-bs-target="#update_bailleur" @click="HandleIdUpdateBailleur(data.id , item.id)">
                                             <i class="ri-edit-line"></i>
                                           </button>
 
-                                          <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDeleteBailleur(item.id)">
+                                          <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDeleteBailleur(item.CodeBailleur)">
                                             <i class="ri-delete-bin-line"></i>
                                           </button>
 
@@ -309,7 +331,7 @@
                                   <tfoot>
         <tr>
           <td colspan="2"><strong>Total général</strong></td>
-          <td  class="text-center"> <strong  style="color:red;">{{ totalBudget }} GNF</strong></td>
+          <td  class="text-center"> <strong  style="color:red;">{{  formatBudget(data.bailleurs_sum_budget ?? "-") }}</strong></td>
           <td  class="text-center"> <strong  style="color:red;">{{ totalMontantDecaisse }} GNF</strong></td>
           <td class="text-center">
           
@@ -327,13 +349,12 @@
                   'bg-success': tauxDecaissementTotal > 75
                 }"
                 :style="{ width: tauxDecaissementTotal + '%' }"
-                    :aria-valuenow=" tauxDecaissementTotal"
-                  
-                >
+                    :aria-valuenow=" tauxDecaissementTotal">
                 </div>
               </div>
           </td>
-          <td></td>
+          <td ></td>
+          <td ></td>
         </tr>
       </tfoot>
                                 </table>
@@ -367,7 +388,7 @@
                                 </button>
                               </div>
                       
-                              <button class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
+                              <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
                                 data-bs-toggle="modal" data-bs-target="#add_indicateur">
                                 <i class="ri-add-line"> </i>
                               </button>
@@ -380,8 +401,8 @@
       <div v-if="paginatedItems.length === 0" class="noresul">
         <span> Vous n'avez pas encore d'incateur, vous pouvez également en ajouter un !! </span>
       </div>
-      <div class="table-responsive" v-else>
-        <table class="table table-hover text-nowrap table-bordered table-striped ">
+      <div style="overflow-x: scroll !important" class="table-responsive" v-else>
+        <table class="table table-hover table-bordered table-striped ">
           <thead>
             <tr class="text-center">
               <th scope="row" class="ps-4 ">
@@ -389,6 +410,8 @@
               </th>
               <th scope="col" class="text-left"> <span class="fw-semibold" >Intitule</span> </th>
               <th scope="col " class="text-center"> <span class="fw-semibold" >Valeur Cible</span> </th>
+              <th scope="col text-center"> <span class="fw-semibold" >Valeur réalisée</span>  </th>
+              <th scope="col text-center"> <span class="fw-semibold" >Date suivi</span>  </th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -397,6 +420,10 @@
               <th style="width: 30px;" scope="row" class="ps-4">{{item.CodeIndicateur}}</th>
               <td><span class="d-block  mb-1 text-left"> {{item.IntituleIndicateur}}</span></td>
               <td style="width: 130px;" class="text-center"><span class="d-block fw-semibold mb-1 " style="color:red"> {{item.CibleFinProjet}}
+              </span></td>
+              <td style="width: 150px;"><span class="d-block fw-semibold mb-1 text-center text-primary"> {{item.progress[0]?.Realisation ?? "-"}}
+              </span></td>
+              <td style="width: 150px;"><span class="d-block fw-semibold mb-1 text-center " > {{  item.progress[0]?.DateSuivi == null ?  "-" : formatDate(item.progress[0]?.DateSuivi) }}
               </span></td>
               <!-- <td class="text-center"> <button class="btn btn-warning btn-sm ">suivi</button>
               </td> -->
@@ -407,12 +434,12 @@
               <td style="width: 130px;">
                 <div class="btn-list w-25 d-flex ">
   
-                  <button class="btn btn-sm btn-icon btn-info btn-wave " data-bs-placement="top" data-bs-title="Add Contact" data-bs-toggle="modal"
+                  <button v-if="hasPermission(2)" class="btn btn-sm btn-icon btn-info btn-wave " data-bs-placement="top" data-bs-title="Add Contact" data-bs-toggle="modal"
                     data-bs-target="#update_indicateurs" @click="HandleIdUpdateIndicateur(item.id)">
                     <i class="ri-edit-line"></i>
                   </button>
   
-                  <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDeleteIndicateur(item.id)">
+                  <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDeleteIndicateur(item.id)">
                     <i class="ri-delete-bin-line"></i>
                   </button>
   
@@ -442,7 +469,7 @@
                            </div>
                           
                      
-                        </div>
+              </div>
   
   
  
@@ -531,7 +558,7 @@
       data-bs-backdrop="static"
       ref="add_bailleur"
     >
-      <div class="modal-dialog modal-dialog-centered  modal-lg">
+      <div class="modal-dialog modal-dialog-centered  modal-xl">
         <div class="modal-content">
           <div
             class="modal-header float-start text-center justify-content-center"
@@ -567,7 +594,7 @@
                             {{index + 1}}
                         </span>
                         <div class="row  content-group">
-                  <div class="col">
+                  <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
                         >Nom Bailleur <span class="text-danger">*</span></label
@@ -579,19 +606,19 @@
                         name="CodeBailleur"
                         size="sm"
                         rounded-size="sm"
-                        type="text"
+                        search
                         @click="clearErrorBailleurs(index, 'CodeBailleur')"
-                        :options="filteredBailleursOptions"
+                        :options="BailleursOption"
 
                       />
                       <small v-if="errors.Bailleurs && errors.Bailleurs[index] && errors.Bailleurs[index].CodeBailleur">{{ errors.Bailleurs[index].CodeBailleur }}</small>
                       <small v-if="resultError['Bailleurs']"> {{ resultError["Bailleurs"] }} </small>
                     </div>
                   </div>
-                  <div class="col">
+                  <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Budget <span class="text-danger">*</span></label
+                        >Apport bailleur <span class="text-danger">*</span></label
                       >
                       <MazInput
                         v-model="bailleur.Budget"
@@ -603,6 +630,25 @@
                         @input="clearErrorBailleurs(index, 'Budget')"
                       />
                       <small v-if="errors.Bailleurs && errors.Bailleurs[index] && errors.Bailleurs[index].Budget">{{ errors.Bailleurs[index].Budget }}</small>
+                      <small v-if="resultError['Bailleurs']"> {{ resultError["Bailleurs"] }} </small>
+                    </div>
+                  </div>
+                  <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Commentaire </label
+                      >
+                      <!-- <MazInput
+                        v-model="bailleur.Budget"
+                        color="info"
+                        name="Budget"
+                        size="sm"
+                        rounded-size="sm"
+                        type="text"
+                        @input="clearErrorBailleurs(index, 'Budget')"
+                      /> -->
+                      <textarea class="form-control" id="text-area"  v-model="bailleur.Commentaire" rows="1"  @input="clearErrorBailleurs(index, 'Commentaire')"></textarea>
+                      <small v-if="errors.Bailleurs && errors.Bailleurs[index] && errors.Bailleurs[index].Commentaire">{{ errors.Bailleurs[index].Commentaire }}</small>
                       <small v-if="resultError['Bailleurs']"> {{ resultError["Bailleurs"] }} </small>
                     </div>
                   </div>
@@ -667,7 +713,7 @@
               id="mail-ComposeLabel"
               style="font-size: 22px !important"
             >
-              <b class="text-center">Modifier le budget du bailleur </b>
+              <b class="text-center">Modifier un bailleur </b>
             </h2>
           </div>
           <div class="modal-body px-4">
@@ -698,17 +744,22 @@
                         name="CodeBailleur"
                         size="sm"
                         rounded-size="sm"
-                        type="text"
-                        :options="BailleursOption"
-                        disabled
+                        search
+                        :options="BailleursOptionUpates"
 
                       />
+                      <small v-if="v$.bailleurUpdate.CodeBailleur.$error">{{
+                        v$.bailleurUpdate.CodeBailleur.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['CodeBailleur']">
+                        {{ resultError["CodeBailleur"] }}
+                      </small>
                     </div>
                   </div>
                   <div class="col-12">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Budget <span class="text-danger">*</span></label
+                        >Apport bailleur <span class="text-danger">*</span></label
                       >
                       <MazInput
                         v-model="bailleurUpdate.Budget"
@@ -724,6 +775,28 @@
                       }}</small>
                       <small v-if="resultError['Budget']">
                         {{ resultError["Budget"] }}
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Commentaire</label
+                      >
+                      <MazTextarea
+                        v-model="bailleurUpdate.Commentaire"
+                        color="info"
+                        name="Budget"
+                        size="sm"
+                        rounded-size="sm"
+                        type="text"
+                        
+                      />
+                      <small v-if="v$.bailleurUpdate.Commentaire.$error">{{
+                        v$.bailleurUpdate.Commentaire.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['Commentaire']">
+                        {{ resultError["Commentaire"] }}
                       </small>
                     </div>
                   </div>
@@ -806,10 +879,10 @@
                             {{index + 1}}
                         </span>
                         <div class="row  content-group">
-                  <div class="col">
+                  <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Intitulé <span class="text-danger">*</span></label
+                        >Intitulé de l'objet <span class="text-danger">*</span></label
                       >
                       <MazInput
                         v-model="objectif.Intitule"
@@ -824,7 +897,7 @@
                       <small v-if="resultError['Objectifs']"> {{ resultError["Objectifs"] }} </small>
                     </div>
                   </div>
-                  <div class="col">
+                  <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
                         >Visible <span class="text-danger">*</span></label
@@ -907,7 +980,7 @@
                 <div class="row mt-3 content-group">
                   <div class="col">
                     <div class="input-groupe">
-                      <label for="userpassword">Intitulé <span class="text-danger">*</span></label>
+                      <label for="userpassword">Intitulé de l'objet <span class="text-danger">*</span></label>
                       <MazInput v-model="objectif.Intitule" color="info" name="Intitule" size="sm" rounded-size="sm"
                         type="text" />
                       <small v-if="v$.objectif.Intitule.$error">{{
@@ -1006,7 +1079,7 @@
                             {{index + 1}}
                         </span>
                         <div class="row  content-group">
-                  <div class="col">
+                  <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
                         >Code <span class="text-danger">*</span></label
@@ -1021,10 +1094,10 @@
                         @input="clearErrorIndicateurs(index, 'CodeIndicateur')"
                       />
                       <small v-if="errors.Indicateurs && errors.Indicateurs[index] && errors.Indicateurs[index].CodeIndicateur">{{ errors.Indicateurs[index].CodeIndicateur }}</small>
-                      <small v-if="resultError['Indicateurs']"> {{ resultError["Indicateurs"] }} </small>
+                  
                     </div>
                   </div>
-                  <div class="col">
+                  <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
                         >Intitulé <span class="text-danger">*</span></label
@@ -1043,7 +1116,7 @@
                       <small v-if="resultError['Indicateurs']"> {{ resultError["Indicateurs"] }} </small>
                     </div>
                   </div>
-                  <div class="col">
+                  <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
                     <div class="input-groupe">
                       <label for="userpassword"
                         >Valeur cible <span class="text-danger">*</span></label
@@ -1335,7 +1408,6 @@ export default {
   },
   filteredBailleurs() {
     if (!this.searchBailleur) {
-      console.log('this.BailleursOptions',this.BailleursOptions);
       return this.BailleursOptions;
     }
     const searchValue = this.searchBailleur.toLowerCase();
@@ -1368,14 +1440,13 @@ export default {
     if (totalBudgetValue === 0) return 0;
     return ((totalMontantDecaisseValue / totalBudgetValue) * 100).toFixed(2);
   },
-  // filteredBailleursOptions() {
-  //     return this.BailleursOptions.filter(option => {
-  //       console.log('eeedd',option)
-  //       option.CodeBailleur
+  filteredBailleursOptions() {
+      return this.BailleursOptions.filter(option => {
+        option.CodeBailleur
        
-  //        return !this.BailleursOption.some(apiOption => apiOption.value === option.CodeBailleur);
-  //     });
-  //   },
+         return !this.BailleursOption.some(apiOption => apiOption.value === option.CodeBailleur);
+      });
+    },
 
   // pour indicateur
   totalPages() {
@@ -1446,7 +1517,10 @@ export default {
         itemsPerPage: 6,
         totalPageArray: [],
         BailleursOption:[],
+        BailleursOptionUpates:[],
         filteredBailleursOptions: [],
+        ListeBailleurs:[],
+       
         // totalMontantDecaisse: 0,
         // totalBudget: 0,
         // tauxDecaissementTotal: 0,
@@ -1470,6 +1544,7 @@ export default {
               {
                 CodeBailleur:"",
                 Budget: "",
+                Commentaire:"",
             }
         ],
 
@@ -1488,6 +1563,7 @@ export default {
       bailleur: {
         CodeBailleur: "",
         Budget: "",
+        Commentaire:"",
 
       },
 
@@ -1499,6 +1575,7 @@ export default {
       bailleurUpdate:{
         CodeBailleur: "",
         Budget: "",
+        Commentaire:"",
       },
       resultError: {},
       v$: useVuelidate(),
@@ -1521,16 +1598,19 @@ export default {
           CibleFinProjet: { require },
         },
         bailleurUpdate:{
-        CodeBailleur:{  },
+        CodeBailleur:{ require },
         Budget:{ require },
+        Commentaire:{  },
       },
   },
   watch: {
     data: {
       handler(newVal) {
-        console.log('newVal',newVal);
+    
         this.Code = newVal.CodeProjet;
-        localStorage.setItem('CodeProjet', newVal.CodeProjet);
+        this.ListeBailleurs = newVal.bailleurs
+     
+         this.fetchBailleurs(newVal.bailleurs);
       },
       deep: true,
       immediate: true
@@ -1539,22 +1619,57 @@ export default {
   },
 
   async mounted() {
-    console.log("loggedInUser", this.loggedInUser);
+  
     this.Code = localStorage.getItem('CodeProjet');
-    console.log("loggedInUser",  this.Code);
+   
 
     
-    await this.fetchBailleurs();
-
+     
 
   },
 
   methods: {
     successmsg:successmsg,
+    hasPermission(permissionName) {
+      if (!this.loggedInUser || !Array.isArray(this.loggedInUser.permissions)) {
+        return false;
+      }
+      return this.loggedInUser.permissions.some(
+        (permission) => permission.id === permissionName
+      );
+    },
+    async fetchBailleurs(bailleurs){      
+      try {
+            const response = await axios.get('/bailleurs',{
+            headers: {
+              Authorization: `Bearer ${this.loggedInUser.token}`,
+            },
+          })
+          if(response.data.status === "success"){
+            
+            response.data.data?.map((item)=> !bailleurs.some((i)=> item.CodeBailleur  === i.CodeBailleur)  && this.BailleursOption.push({
+
+              label:item.NomBailleur ,
+              value: item.CodeBailleur
+            })) ;
+
+
+            response.data.data?.map((item)=>  this.BailleursOptionUpates.push({
+
+                label:item.NomBailleur ,
+                value: item.CodeBailleur
+                })) ;
+             
+          this.loading =  false
+          }
+      } catch (error) {
+       
+      }
+
+    },
    
     filterBailleurs() {
-  console.log('BailleursOptions from props:', this.BailleursOptions);
-  console.log('Bailleurs from API:', this.BailleursOption);
+
 
   this.filteredBailleursOptions = this.BailleursOption.filter(apiBailleur => {
     return !this.BailleursOptions.some(propBailleur => {
@@ -1562,7 +1677,7 @@ export default {
     });
   });
 
-  console.log('Filtered Bailleurs:', this.filteredBailleursOptions);
+
 },
 
     AddformDataObjectifs() {
@@ -1638,7 +1753,9 @@ async submitObjectifs(modalId) {
           if (error.response.data.status === "error") {
             return (this.error = error.response.data.message);
           } else {
-            this.formatValidationErrors(error.response.data.errors);
+
+            this.formatValidationErrorsMultiple(error.response.data.errors , 'Objectifs');
+
           }
         }
       } else {
@@ -1655,9 +1772,9 @@ async submitObjectifs(modalId) {
           },
         });
 
-        console.log("response", response);
+      
         if (response) {
-          console.log("responsedata", response.data.data);
+     
           let data = response.data.data;
             this.objectif.Intitule = data.Intitule,
             this.objectif.Visible = (data.Visible === "1") ? true :'non',
@@ -1704,7 +1821,7 @@ async submitObjectifs(modalId) {
          
         }
 
-        console.log(dataSend);
+    
         try {
         const response = await axios.put('projet-objectifs/update',dataSend, {
           headers: {
@@ -1713,7 +1830,7 @@ async submitObjectifs(modalId) {
          
         });
 
-        console.log("usersOptions", response.data);
+   
         if (response.data.status === "success") {
           this.closeModal(modalId);
           this.successmsg(
@@ -1777,7 +1894,7 @@ async submitObjectifs(modalId) {
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
-        console.log("Réponse de suppression:", response);
+      
         if (response.data.status === "success") {
           this.loading = false;
           this.successmsg(
@@ -1817,7 +1934,7 @@ async submitObjectifs(modalId) {
     // debut bailleur
 
     AddformDataBailleurs() {
-     this.Bailleurs.push({ Intitule:'', Visible:''});
+     this.Bailleurs.push({ Intitule:'', Visible:'' , Commentaire:'',});
    },
    deleteRowBailleurs(index) {
   
@@ -1858,9 +1975,10 @@ async submitBailleurs(modalId) {
       
     const dataToSend = {
              projet:this.Code,
-             bailleurs: this.Bailleurs
+             bailleurs: this.Bailleurs,
+
         };
-    console.log("data", dataToSend);
+
 
 
         try {
@@ -1869,7 +1987,7 @@ async submitBailleurs(modalId) {
            
           }
           });
-          console.log("Réponse du téléversement :", response);
+
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.successmsg(
@@ -1882,13 +2000,14 @@ async submitBailleurs(modalId) {
           } else {
           }
         } catch (error) {
-          console.log("response.login", error);
+      
 
           this.loading = false;
           if (error.response.data.status === "error") {
             return (this.error = error.response.data.message);
           } else {
-            this.formatValidationErrors(error.response.data.errors);
+            this.formatValidationErrorsMultiple(error.response.data.errors , 'Bailleurs');
+
           }
         }
       } else {
@@ -1905,20 +2024,21 @@ async submitBailleurs(modalId) {
           },
         });
 
-        console.log("response", response);
+      
        
     if (response) {
-      console.log("responsedata", response.data.data.bailleurs);
+ 
       let data = response.data.data.bailleurs;
       let selectedBailleur = data.find(bailleur => bailleur.id === Idbailleur);
 
       if (selectedBailleur) {
-        console.log("Bailleur trouvé :", selectedBailleur);
+       
         this.bailleurUpdate.CodeBailleur = selectedBailleur.CodeBailleur,
-        this.bailleurUpdate.Budget = selectedBailleur.Budget
+        this.bailleurUpdate.Budget = selectedBailleur.Budget,
+        this.bailleurUpdate.Commentaire = selectedBailleur.Commentaire,
         this.ToId = selectedBailleur.id
       } else {
-        console.log("Bailleur non trouvé pour l'ID :", Idbailleur);
+
       }
           this.loading = false;
         }
@@ -1955,14 +2075,15 @@ async submitBailleurs(modalId) {
             {
                 id:this.ToId,
                 CodeBailleur:this.bailleurUpdate.CodeBailleur,
-                Budget: this.bailleurUpdate.Budget
+                Budget: this.bailleurUpdate.Budget,
+                Commentaire :this.bailleurUpdate.Commentaire
             }
           ]
 
          
         }
 
-        console.log(dataSend);
+       
         try {
         const response = await axios.post('/projets/assigner-bailleurs/projet',dataSend, {
           headers: {
@@ -1971,7 +2092,6 @@ async submitBailleurs(modalId) {
          
         });
 
-        console.log("usersOptions", response.data);
         if (response.data.status === "success") {
           this.closeModal(modalId);
           this.successmsg(
@@ -2027,15 +2147,25 @@ async submitBailleurs(modalId) {
     },
     async ConfirmeDeleteBailleur(id) {
       this.loading = true;
+      let data = {
+        CodeProjet:this.Code,
+        CodeBailleur:id
+      }
+   
+      
 
       try {
         // Faites une requête pour supprimer l'élément avec l'ID itemId
-        const response = await axios.delete(`/projets/assigner-bailleurs/projet/${id}`, {
+        const response = await axios.delete('/projets/supprimer-bailleurs/projet' ,{
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },
+          params:{
+            CodeProjet:this.Code,
+            CodeBailleur:id
+          }
         });
-        console.log("Réponse de suppression:", response);
+    
         if (response.data.status === "success") {
           this.loading = false;
           this.successmsg(
@@ -2166,7 +2296,7 @@ async submitIndicateur(modalId) {
           if (error.response.data.status === "error") {
             return (this.error = error.response.data.message);
           } else {
-            this.formatValidationErrors(error.response.data.errors);
+            this.formatValidationErrorsMultiple(error.response.data.errors , 'Indicateurs');
           }
         }
       } else {
@@ -2392,24 +2522,48 @@ async submitIndicateur(modalId) {
       const formattedErrors = {};
 
       for (const field in errors) {
-        const errorMessages = errors[field]; // Liste complète des messages d'erreur
+        const errorMessages = errors[field]; 
         console.log(" errorMessages", errorMessages, typeof errorMessages);
 
-        const concatenatedError = errorMessages.join(", "); // Concaténer les messages d'erreur
+        const concatenatedError = errorMessages.join(", "); 
         console.log(
           " concatenatedError",
           concatenatedError,
           typeof concatenatedError
         );
 
-        formattedErrors[field] = concatenatedError; // Utilisez le nom du champ comme clé
+        formattedErrors[field] = concatenatedError; 
       }
 
-      this.resultError = formattedErrors; // Stockez les erreurs dans un objet
+      this.resultError = formattedErrors; 
 
-      // Maintenant, this.resultError est un objet où les clés sont les noms des champs
       console.log("resultError", this.resultError);
     },
+
+    async formatValidationErrorsMultiple(errors, entity) {
+  const formattedErrors = {};
+  formattedErrors[entity] = [];
+
+  for (const field in errors) {
+    const errorMessages = errors[field];
+
+    const [_, index, fieldName] = field.match(new RegExp(`${entity.toLowerCase()}\\.(\\d+)\\.(\\w+)`));
+
+ 
+    if (!formattedErrors[entity][index]) {
+      formattedErrors[entity][index] = {};
+    }
+
+
+    formattedErrors[entity][index][fieldName] = errorMessages[0];
+  }
+
+  this.errors = formattedErrors;
+
+  console.log("Formatted errors:", this.errors);
+}
+
+
    
     
   },
@@ -2419,5 +2573,37 @@ async submitIndicateur(modalId) {
 .responsables-text {
   line-height: 1.5; /* Adjust this value as needed */
 }
+
+
+
+/* ---------------------------- */
+/* Défilement de droite à gauche */
+.marquee-rtl {
+  overflow: hidden; /* important */
+  width:100%;
+   max-width: 100%; /* A ADAPTER */
+}
+.marquee-rtl > div {
+  display: inline-block; /* important */
+  white-space: nowrap; /* important */
+  animation: defilement-rtl 15s infinite linear; /* défilement */
+  cursor: pointer;
+  padding: 10px 2em 10px 100%;
+}
+.marquee-rtl:hover > div {
+  animation-play-state: paused; /* met en pause le défilement */
+}
+
+@keyframes defilement-rtl {
+  0% {
+    -webkit-transform: translate(0);
+    transform: translate(0);
+  }
+  100% {
+    -webkit-transform: translate(-100%);
+    transform: translate(-100%);
+  }
+}
+/* ---------------------------- */
 
 </style>
