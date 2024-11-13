@@ -121,11 +121,11 @@
               <span class=" fs-16">Etat Projet</span> <br>
               <div class="fs-18">
                 <b style="font-size:25px !important">
-                  <i v-if="projetEtat(projet) <= 35" class="ri-close-circle-fill text-danger"></i>
+                  <i v-if="projetEtat(projet) === 1" class="ri-close-circle-fill text-danger"></i>
 
-                  <i v-if="projetEtat(projet) > 35 && projetEtat(projet) <= 90"
+                  <i v-if="projetEtat(projet) === 2"
                     class="ri-error-warning-fill text-warning"></i>
-                  <i v-if="projetEtat(projet) > 90" class="ri-checkbox-circle-fill text-success"></i>
+                  <i v-if="projetEtat(projet)=== 3" class="ri-checkbox-circle-fill text-success"></i>
                 </b>
               </div>
   
@@ -262,18 +262,41 @@ export default {
 
 
 
-      const Taux_Duree = TotalJoursNewDate > TotalJours ? 100 : (TotalJoursNewDate / TotalJours) * 100;
       const decaisse = parseFloat(totalMontantDecaisse);
       const budget = parseFloat(totalBudget);
       const physique = parseFloat(projet.suivis_dash?.TauxAvancementPhysique ?? 0);
+      const duree = parseFloat(((TotalJoursNewDate / TotalJours) * 100).toFixed(2) )   
 
+          // liste des taux 
+          const Taux_Duree =  parseFloat(duree); // deja en %
+          const Taux_Financiere = decaisse > 0 && budget > 0 ? ((decaisse / budget) * 100).toFixed(2) : 0
+          const Taux_Physique =physique > 0 ? physique : 0;
+         
       let GlobalTaux = 0;
-
-      if (decaisse > 0 && budget > 0) GlobalTaux += (decaisse / budget) * 100;
-      if (physique > 0) GlobalTaux += physique;
-       if (Taux_Duree > 0) GlobalTaux += parseFloat(Taux_Duree);
-      if (GlobalTaux > 0) GlobalTaux = (GlobalTaux / 300) * 100;
-
+  
+  if (
+        (Taux_Physique >= Taux_Duree && Taux_Physique >= Taux_Financiere) ||
+        (Taux_Duree - Taux_Physique > 0 && Taux_Duree - Taux_Physique <= 5) ||
+        (Taux_Financiere - Taux_Physique > 0 && Taux_Financiere - Taux_Physique <= 5) ||
+        (Taux_Financiere >= 100 && Taux_Financiere < 110)
+    ) {
+        GlobalTaux = 3;
+    } else if (
+        (Taux_Duree - Taux_Physique > 5 && Taux_Duree - Taux_Physique <= 20) ||
+        Taux_Financiere - Taux_Physique > 20 ||
+        Taux_Financiere > 130
+    ) {
+        GlobalTaux = 2;
+    } else if (
+      Taux_Duree - Taux_Physique > 20 ||
+        (Taux_Financiere - Taux_Physique >= 5 && Taux_Financiere - Taux_Physique <= 20) ||
+        (Taux_Financiere >= 110 && Taux_Financiere < 130)
+    ) {
+        GlobalTaux = 1;
+    } else {
+        GlobalTaux = '';
+    }
+     
       return GlobalTaux;
     },
 

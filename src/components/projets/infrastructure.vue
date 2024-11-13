@@ -216,7 +216,7 @@
   
                 </div>
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                  <label for="Sigle">Coût infrastructure<span class="text-danger">*</span></label>
+                  <label for="Sigle">Coût infrastructure</label>
                   <MazInput v-model="step1.Cost" color="info" name="Cost" size="sm" rounded-size="sm" type="number" />
                   <small v-if="v$.step1.Cost.$error">{{ v$.step1.Cost.$errors[0].$message}}</small>
                   <small v-if="resultError['Cost']"> {{ resultError["Cost"] }} </small>
@@ -394,7 +394,7 @@
   
                 </div>
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                  <label for="Sigle">Coût infrastructure <span class="text-danger">*</span></label>
+                  <label for="Sigle">Coût infrastructure</label>
                   <MazInput v-model="step2.Cost" color="info" name="Cost" size="sm" rounded-size="sm" type="number" />
                   <small v-if="v$.step2.Cost.$error">{{ v$.step2.Cost.$errors[0].$message}}</small>
                   <small v-if="resultError['Cost']"> {{ resultError["Cost"] }} </small>
@@ -797,7 +797,7 @@ export default {
   validations: {
     step1: {
       CodeInfrastructure: { require },
-      Cost: { require },
+      Cost: {  },
       Logo: {},
       NomInfrastructure: { require },
       MaitreOuvrage: { require },
@@ -812,7 +812,7 @@ export default {
     },
     step2: {
       CodeInfrastructure: { require },
-      Cost: { require },
+      Cost: {  },
       Logo: {},
       NomInfrastructure: { require },
       MaitreOuvrage: { require },

@@ -121,7 +121,7 @@
             <div class="row">
           <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
             <div class="mb-2 card rounded border border-primary custom-card p-2" style="height:215px !important; overflow-y:scroll">
-              <p class="fs-15 fw-semibold mb-1">Observations :</p>
+              <p class="fs-15 fw-semibold mb-1">Récapitulatif du projet :</p>
               <p class="text-muted mb-0 " v-if="data.Observations === '' || data.Observations === null">
                 Pas de description liée a ce suivi
               </p>
@@ -138,7 +138,7 @@
                 Pas de réalisation de travaux liée a ce suivi
               </p>
               <p class="text-muted mb-0 " v-else>
-                <span v-html="data.Realisation"></span>
+                <span v-for="(part, index) in this.data?.Realisation?.split('|')" :key="index" v-html="part"></span>
                 
               </p>
             </div>
@@ -1115,7 +1115,8 @@ MontantDecaisser:{ require }
         if (response.data.status === "success") {
           this.data = response.data.data.suivi;
           this.BailleursOptions = this.data.bailleurs
-          const filtercontrainte = response.data.data?.contraintes !== null ? response.data.data?.contraintes.filter(i => i.suivis_contrainte[0]?.Statut !== 'Réalisé') : []
+          const filtercontrainte = response.data.data?.contraintes !== null ? response.data.data?.contraintes
+          .filter(i => i.suivis_contrainte[0]?.Statut !== 'Réalisé') : []
           this.ContrainteOptions =  this.data.contraintes.concat( filtercontrainte) 
           this.data.projet.bailleurs.map(item => this.BailleurProjet.push({
               label: item.CodeBailleur,
@@ -1149,6 +1150,10 @@ MontantDecaisser:{ require }
           return false;
         }
       }
+    },
+    splitRealisation() {
+      
+      return this.data.Realisation ? this.data.Realisation.split('|') : [];
     },
     async fetchUserAll() {
       try {
@@ -1425,7 +1430,7 @@ if (this.v$.$errors.length == 0) {
     MontantDecaisser: this.UpdateBailleur.MontantDecaisser,  
     IdSuiviProjet: this.id
   }
-  console.log('data', data)
+
 
 
 
@@ -1486,7 +1491,7 @@ if (this.v$.$errors.length == 0) {
       this.loading = true;
 
       try {
-        // Faites une requête pour supprimer l'élément avec l'ID itemId
+      
         const response = await axios.delete(`/projet-suivis/supprimer/disbursement`, {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,

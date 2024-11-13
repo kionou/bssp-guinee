@@ -44,7 +44,7 @@
                                 </span>
                                   Suivi du <b class="fs-16  ml-2" style="color:red;">  {{ formatDate(item.DateSuivi) }} </b> </p>
                                 <p class="mb-2 fw-semibold fs-16">Taux Ex. Physique : <span class="fs-14 mb-1 text-secondary fw-semibold">{{item.TauxAvancementPhysique}} %</span></p>
-                                <p class="mb-2 fw-semibold fs-16">Obs. : <span class="fs-14 mb-1  fw-semibold truncate" >{{getTruncate(item.Observations ,20) }} </span></p>
+                                <p class="mb-2 fw-semibold fs-16">Récap. : <span class="fs-14 mb-1  fw-semibold truncate" >{{getTruncate(item.Observations ,20) }} </span></p>
                                 
                             </div>
                             <hr>
@@ -477,7 +477,7 @@
               
                <div class="col-12 col-md-12 col-sm-12">
          <div class="input-groupe">
-           <label for="employment_date_begin">Observation <span class="text-danger">*</span></label>
+           <label for="employment_date_begin">Récapitulatif du projet <span class="text-danger">*</span></label>
            <MazTextarea v-model="step4.Observations"  color="info" name="Observations" size="sm" rounded-size="sm"  />
            <small v-if="v$.step4.Observations.$error">{{v$.step4.Observations.$errors[0].$message}}</small>
            <small v-if="resultError['Observations']">{{resultError['Observations']}}</small>
@@ -495,19 +495,40 @@
             <!-- Étape 5 -->
             <div v-if="currentStep === 5">
           <div class="form-container">
-               <div class="row mt-3 content-group">
+            <div style="position:relative">
+                <p class="titre">Les Realisations</p>
+                <div class="btn-list" style="position:absolute ; right: 7px; top: 5px;" >
+                <button class="btn btn-sm  btn-primary btn-wave" @click="AddformDataRealisations(index)"  >
+                       <i class="ri-add-line"></i> realisation
+                      </button>
+                </div>
+                <div class="row align-items-center p-2  border-bottom " v-for="(realisation, index) in step5.Realisations" :key="realisation.id">
+                  <div class="col-11">
+                    <span class="nombre">
+                            {{index + 1}}
+                        </span>
+                        <div class="row mt-3 content-group">
               
-               <div class="col-12 col-md-12 col-sm-12">
-         <div class="input-groupe">
-           <label for="employment_date_begin">Réalisation des travaux</label>
-           
-              <QuillEditor v-model="step5.Realisation" />
-           <small v-if="v$.step5.Realisation.$error">{{v$.step5.Realisation.$errors[0].$message}}</small>
-           <small v-if="resultError['Realisation']">{{resultError['Realisation']}}</small>
-         </div>
-       </div>
-                   
-            </div>
+              <div class="col-12 col-md-12 col-sm-12">
+        <div class="input-groupe">
+          <label for="employment_date_begin">Réalisation des travaux</label>
+          
+             <QuillEditor v-model="realisation.Realisation"  />
+
+        </div>
+      </div>                 
+           </div>
+                  </div>
+                  <div class="col-1" style="position: relative">
+                    
+                      <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="deleteRowRealisations(index)"  style=" position:absolute !important ; top: 18px !important; background:red;">
+                       <i class="ri-delete-bin-line"></i>
+                      </button>
+                  </div>
+
+                </div> 
+               </div>
+              
         </div>
        
          <div class="btnForm py-3 d-flex items-center justify-content-between">
@@ -609,28 +630,6 @@
                       </small>
                     </div>
                   </div>
-                  <!-- <div class="col col-md-4 col-sm-12">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Niveau d'avancement global<span class="text-danger">*</span></label
-                      >
-                      <MazSelect
-                        v-model="suivi.NiveauExecutionGlobal"
-                        color="info"
-                        name="NiveauExecutionGlobal"
-                        size="sm"
-                        rounded-size="sm"
-                       search
-                       :options="Global"
-                      />
-                      <small v-if="v$.suivi.NiveauExecutionGlobal.$error">{{
-                        v$.suivi.NiveauExecutionGlobal.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['NiveauExecutionGlobal']">
-                        {{ resultError["NiveauExecutionGlobal"] }}
-                      </small>
-                    </div>
-                  </div> -->
                   <div class="col col-md-6 col-sm-12">
                     <div class="mb-3 position-relative">
                       <div class="input-groupe">
@@ -647,83 +646,12 @@
             
                 <div class="row mt-3 content-group">
                  
-               
-                                               
-                <!-- <div class="col col-md-6 col-sm-12">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Statut du projet <span class="text-danger">*</span></label
-                      >
-                      <MazSelect
-                        v-model="suivi.StatutProjet"
-                        type="text"
-                        color="info"
-                        name="StatutProjet"
-                        size="sm"
-                        rounded-size="sm"
-                        :options="status"
-                       
-                      />
-                      <small v-if="v$.suivi.StatutProjet.$error">{{
-                        v$.step1.StatutProjet.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['StatutProjet']">
-                        {{ resultError["StatutProjet"] }}
-                      </small>
-                    </div>
-                  </div>   -->
-                  <!-- <div class="col col-md-6 col-sm-12">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Avance de démarrage <span class="text-danger">*</span></label
-                      >
-                      <MazInput
-                        v-model="step1.Avance"
-                        type="number"
-                        color="info"
-                        name="Avance"
-                        size="sm"
-                        rounded-size="sm"
-                       
-                       
-                      />
-                      <small v-if="v$.step1.Avance.$error">{{
-                        v$.step1.Avance.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['Avance']">
-                        {{ resultError["Avance"] }}
-                      </small>
-                    </div>
-                  </div>   -->
-                  <!-- <div class="col col-md-12 col-sm-12">
-                    <div class="input-groupe">
-                      <label for="userpassword"
-                        >Statut du projet <span class="text-danger">*</span></label
-                      >
-                      <MazSelect
-                        v-model="suivi.StatutProjet"
-                        type="text"
-                        color="info"
-                        name="StatutProjet"
-                        size="sm"
-                        rounded-size="sm"
-                        :options="status"
-                       
-                      />
-                      <small v-if="v$.suivi.StatutProjet.$error">{{
-                        v$.step1.StatutProjet.$errors[0].$message
-                      }}</small>
-                      <small v-if="resultError['StatutProjet']">
-                        {{ resultError["StatutProjet"] }}
-                      </small>
-                    </div>
-                  </div>  -->
 
                 </div>
                 <div class="row mt-3 content-group">
                <div class="col col-md-12 col-sm-12">
          <div class="input-groupe">
-           <label for="employment_date_begin">Observation <span class="text-danger">*</span></label>
+           <label for="employment_date_begin">Récapitulatif du projet <span class="text-danger">*</span></label>
            <MazTextarea v-model="suivi.Observations" type="date" color="info" name="Observations" size="sm" rounded-size="sm"  />
            <small v-if="v$.suivi.Observations.$error">{{v$.suivi.Observations.$errors[0].$message}}</small>
            <small v-if="resultError['Observations']">{{resultError['Observations']}}</small>
@@ -734,12 +662,38 @@
 
                 <div class="row mt-3 content-group">
                <div class="col col-md-12 col-sm-12">
-         <div class="input-groupe">
-           <label for="employment_date_begin">Réalisation des travaux <span class="text-danger">*</span></label>
-           <div ref="quillEditor" class="quill-editor"></div>
-           <small v-if="v$.suivi.Realisation.$error">{{v$.suivi.Realisation.$errors[0].$message}}</small>
-           <small v-if="resultError['Realisation']">{{resultError['Realisation']}}</small>
-         </div>
+                <div class="form-container">
+            <div style="position:relative">
+                <p class="titre">Les Realisations</p>
+                <div class="btn-list" style="position:absolute ; right: 7px; top: 5px;" >
+                <button class="btn btn-sm  btn-primary btn-wave" @click="AddformDataRealisationsUpdate(index)"  >
+                       <i class="ri-add-line"></i> realisation
+                      </button>
+                </div>
+                <div class="row align-items-center p-2 border-bottom" v-for="(realisation, index) in suivi.Realisations" :key="realisation.id">
+  <div class="col-11">
+    <span class="nombre">{{ index + 1 }}</span>
+    <div class="row mt-3 content-group">
+      <div class="col-12 col-md-12 col-sm-12">
+        <div class="input-groupe">
+          <label for="realisation">Réalisation des travaux</label>
+          
+          <!-- Div pour chaque instance de QuillEditor -->
+          <div :id="'quillEditor-' + index" class="quill-editor"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-1" style="position: relative">
+    <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="deleteRowRealisationsUpdate(index)" style="position:absolute; top: 18px; background:red;">
+      <i class="ri-delete-bin-line"></i>
+    </button>
+  </div>
+</div>
+
+               </div>
+              
+        </div>
        </div>
                    
                 </div>
@@ -747,7 +701,7 @@
           </div>
           <div class="row mb-3">
                 <div class="boutton">
-                  <button class="" @click.prevent="submitUpdateSuivi('update_suivi')">
+                  <button class="" @click="submitUpdateSuivi('update_suivi')">
                     Valider
                   </button>
                 </div>
@@ -894,7 +848,7 @@ import Pag from "@/components/others/pagination.vue";
   import MazPhoneNumberInput from "maz-ui/components/MazPhoneNumberInput";
   import Swal from "sweetalert2";
   import { mapGetters } from 'vuex';
-import QuillEditor  from './QuillEditor.vue';
+  import QuillEditor  from './QuillEditor.vue';
 
  
 
@@ -976,6 +930,7 @@ export default {
         errors: {
           step2: { Bailleurs: []  },
           step3: { Contraintes: [] },
+          step5: { Realisations: [] },
 
           contraintes: { Contraintes: [] },
           bailleurs: { Bailleurs: []  },
@@ -1015,9 +970,7 @@ export default {
         step4: { Observations:'',
                 
         },
-        step5: { Realisation:'',
-                
-              },
+        step5: { Realisations:[{Realisation:null}]},
         Fichiers:{
           images:[],
           videoss:[],
@@ -1029,7 +982,7 @@ export default {
         // StatutProjet: "",
         TauxAvancementPhysique: "",
         Observations:"",
-        Realisation:'',
+        Realisations:[],
 
         },
         resultError: {},
@@ -1051,10 +1004,6 @@ export default {
         },
         step4: {
           Observations:{ require },
-         
-      },
-      step5: {
-          Realisation:{  },
          
       },
       Fichiers:{
@@ -1090,11 +1039,17 @@ export default {
       deep: true,
       immediate: true
     },
+  //   'suivi.Realisations': {
+  //   handler() {
+  //     this.initQuillEditors(); // Réinitialise Quill quand les réalisations changent
+  //   },
+  //   deep: true,
+  // }
    
    },
    async mounted() {
     await this.fetchUserAll();
-    this.initQuill()
+    
 },
 
     methods: {
@@ -1138,37 +1093,66 @@ export default {
     this.currentStep = step;
   },
  
-  initQuill() {
-    const toolbarOptions = [
+ 
+    initQuillEditors() {
+
+      this.suivi.Realisations?.forEach((realisation, index) => {
+        // this.initQuillEditorForIndex(index);
+      const editorElement = document.getElementById(`quillEditor-${index}`);
+      if (editorElement) {
+        const quill = new Quill(editorElement, {
+          theme: 'snow',
+          modules: {
+          toolbar: [
           ['bold', 'italic', 'underline', 'strike'],
-          ['blockquote', 'code-block'],
           [{ 'header': 1 }, { 'header': 2 }],
-          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-          [{ 'script': 'sub' }, { 'script': 'super' }],
-          [{ 'indent': '-1' }, { 'indent': '+1' }],
           [{ 'direction': 'rtl' }],
           [{ 'size': ['small', false, 'large', 'huge'] }],
           [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-          [{ 'color': [] }, { 'background': [] }],
           [{ 'font': [] }],
-          [{ 'align': [] }],
-          ['image', 'video'],
           ['clean']
-        ]
+          ],
+        },
+        });
 
-      this.quill = new Quill(this.$refs.quillEditor, {
-        theme: 'snow',
-        modules: {
-          toolbar: toolbarOptions
-        }
-      });
+        
+        quill.root.innerHTML = realisation.Realisation;
 
-     
-      this.quill.root.innerHTML = this.suivi.Realisation;
-      this.quill.on('text-change', () => {
-        this.suivi.Realisation = this.quill.root.innerHTML;
-      });
-    },
+        // Mettre à jour `this.suivi.Realisations[index].Realisation` à chaque changement
+        quill.on('text-change', () => {
+          this.suivi.Realisations[index].Realisation = quill.root.innerHTML;
+        });
+      }
+    });
+   
+  },
+  initQuillEditorForIndex(index) {
+  const editorElement = document.getElementById(`quillEditor-${index}`);
+  if (editorElement) {
+    const quill = new Quill(editorElement, {
+      theme: 'snow',
+      modules: {
+        toolbar: [
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ 'header': 1 }, { 'header': 2 }],
+          [{ 'direction': 'rtl' }],
+          [{ 'size': ['small', false, 'large', 'huge'] }],
+          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+          [{ 'font': [] }],
+          ['clean']
+        ],
+      },
+    });
+
+    // Charger le contenu de la réalisation dans l'éditeur
+    quill.root.innerHTML = this.suivi.Realisations[index].Realisation;
+
+    // Synchroniser les données lors du changement dans Quill
+    quill.on('text-change', () => {
+      this.suivi.Realisations[index].Realisation = quill.root.innerHTML;
+    });
+  }
+},
       AddformDataContraintes() {
        this.step3.Contraintes.push({  TypeConstrainte:null , IntituleConstrainte:null, Mitigation:null , Acteurs:null,  Delai:null});
    },
@@ -1249,6 +1233,37 @@ AddformDataBailleurs() {
     return isValid;
 },
 
+AddformDataRealisations() {
+       this.step5.Realisations.push({Realisation:'',});
+   },
+   deleteRowRealisations(index) {
+  
+   if(index !== 0){
+     this.step5.Realisations.splice(index, 1);
+   }
+  },
+  clearErrorRealisations(index, field) {   
+     if (this.errors.step5.Realisations[index]) {
+       this.errors.step5.Realisations[index][field] = null;
+     }
+   },
+ 
+  validateStep5() {
+    let isValid = true;
+    this.errors.step2 = { Realisations: [] };
+    this.step2.Realisations.forEach((realisation, index) => {
+        const realisationErrors = {};
+        if (!realisation.Realisation) {
+          realisationErrors.Realisation = 'Ce champs est obligatoire!';
+            isValid = false;
+        }
+     
+        
+        this.errors.step5.Realisations[index] = realisationErrors;
+    });
+    return isValid;
+},
+
 async nextStep(modalId) {   
         try {
                
@@ -1309,34 +1324,15 @@ async nextStep(modalId) {
 
           
     }
-    else if (this.currentStep === 5) {
-    
-      this.v$.step5.$touch();
-      if (this.v$.$errors.length == 0) {
-        this. submitSuivi(modalId)
-      } else {
-        console.log("errroor1", this.v$.$errors);
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-       
-      }
-    
-    
-
-          
+    else if (this.currentStep === 5) { 
+        this. submitSuivi(modalId)      
     }
 
        
     } catch (error) {
-        // Gérer les erreurs
+     
         console.log("errroor222", this.v$.$errors);
-
         console.error("Une erreur s'est produite :", error);
-        console.log("errroor222", this.v$.$errors);
-        
-
         window.scrollTo({ top: 0, behavior: "smooth" });
          this.loading = false;
     }
@@ -1388,14 +1384,13 @@ async nextStep(modalId) {
     const bailleurs = this.step2.Bailleurs.every(item => 
       !item.CodeBailleur && !item.MontantDecaisser) ? [] : this.step2.Bailleurs;
 
+      const realisations = this.step5.Realisations.map(i => i.Realisation)
+
     const dataToSend = {
         DateSuivi: this.step1.DateSuivi,
-        //  NiveauExecution: this.step1.NiveauExecutionGlobal,
-        // StatutProjet: this.step1.StatutProjet,
-        // Avance:this.step1.Avance,
          TauxAvancementPhysique: this.step1.TauxAvancementPhysique,
         Observations: this.step4.Observations,
-        Realisation: this.step5.Realisation,
+        Realisation: realisations,
         CodeProjet: this.Code,
         contraintes: contraintes,
         bailleurs: bailleurs,
@@ -1423,13 +1418,12 @@ async nextStep(modalId) {
 
                 },
                 this.step4 = { Observations:'',},
-                this.step4 = { Realisation:'',},
+                this.step5.Realisations = [{ Realisation:'',}],
                 this.step2.Contraintes = [{  TypeConstrainte:null , IntituleConstrainte:null, Mitigation:null , Acteurs:null,  Delai:null}];
                this.step3.Bailleurs = [{CodeBailleur:'', MontantDecaisser:'',}];
 
             this.v$.step1.$reset();
             this.v$.step4.$reset();
-            this.v$.step5.$reset();
             this.loading = false;
             await this.confirmFiles()
 
@@ -1670,7 +1664,19 @@ AddformDataBailleursUpdate() {
     return isValid;
 },
 
-
+AddformDataRealisationsUpdate() {
+       this.suivi.Realisations.push({Realisation:'',});
+       this.$nextTick(() => {
+    const index = this.suivi.Realisations.length - 1;
+    this.initQuillEditorForIndex(index);
+  });
+   },
+   deleteRowRealisationsUpdate(index) {
+  
+   if(index !== 0){
+     this.suivi.Realisations.splice(index, 1);
+   }
+  },
       async HandleIdUpdateSuivie(id) {
       this.loading = true;
 
@@ -1685,16 +1691,17 @@ AddformDataBailleursUpdate() {
         
           let data = response.data.data.suivi;
             this.suivi.DateSuivi = data.DateSuivi,
-            // this.suivi.NiveauExecutionGlobal = data.NiveauExecution,
-            // this.suivi.StatutProjet = data.StatutProjet,
             this.suivi.TauxAvancementPhysique = data.TauxAvancementPhysique,
-            // this.suivi.Avance= data.Avance
             this.suivi.Observations = data.Observations,
-            this.quill.root.innerHTML = data.Realisation;
+            this.suivi.Realisations = data.Realisation === null ? [] :  data.Realisation?.split('|').map((real , index) => ({
+              id: index,
+        Realisation: real, // Contenu HTML de chaque réalisation
+      }));
 
-            // this.contraintes.Contraintes = data.contraintes,
-            // this.bailleurs.Bailleurs = data.bailleurs,
             this.ToId = data.id;
+            this.$nextTick(() => {
+          this.initQuillEditors();
+        });
           this.loading = false;
         }
       } catch (error) {
@@ -1721,20 +1728,18 @@ AddformDataBailleursUpdate() {
     },
 
       async submitUpdateSuivi(modalId) {
-        console.log('bonj')
+      
  
 this.v$.suivi.$touch();
 if (this.v$.$errors.length == 0) {
 this.loading = true;
+const realisations = this.suivi.Realisations.map(i => i.Realisation)
 const dataToSend = {
     id_suivi: this.ToId,
     DateSuivi: this.suivi.DateSuivi,
-    // NiveauExecution: this.suivi.NiveauExecutionGlobal,
-    // StatutProjet: this.suivi.StatutProjet,
     TauxAvancementPhysique: this.suivi.TauxAvancementPhysique,
-    // Avance: this.suivi.Avance,
     Observations: this.suivi.Observations,
-    Realisation: this.quill.root.innerHTML,
+    Realisation: realisations,
     CodeProjet: this.Code,
    
 };
@@ -2071,5 +2076,10 @@ const dataToSend = {
     border: 1px solid var(--primary-color);
     color:#000;
   }
+
+  .quill-editor {
+  height: 80px;
+  margin-bottom: 10px;
+}
     
 </style>

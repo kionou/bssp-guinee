@@ -14283,7 +14283,7 @@ span.flatpickr-weekday {
 }
 
 .ql-editor {
-  min-height: 15.62rem !important;
+  /* min-height: 15.62rem !important; */
   overflow: visible !important;
 }
 
