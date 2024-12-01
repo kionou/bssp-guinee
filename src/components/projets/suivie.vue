@@ -2078,7 +2078,7 @@ const dataToSend = {
   }
 
   .quill-editor {
-  height: 80px;
+  height: auto;
   margin-bottom: 10px;
 }
     
