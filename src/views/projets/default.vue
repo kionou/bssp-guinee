@@ -140,10 +140,10 @@
                           </button>
   
                           <button class="btn btn-sm btn-icon btn-success btn-wave"
-                            v-if="projet.Visible === '1' && hasPermission(2)">
+                            v-if="projet.Visible === '1' && hasPermission(2)" @click="SubmitToggleProjet(projet.CodeProjet)">
                             <i class="ri-lock-unlock-line"></i>
                           </button>
-                          <button class="btn btn-sm btn-icon btn-warning btn-wave" v-else-if="hasPermission(2)">
+                          <button class="btn btn-sm btn-icon btn-warning btn-wave" v-else-if="hasPermission(2)" @click="SubmitToggleProjet(projet.CodeProjet)">
                             <i class="ri-lock-2-line"></i>
                           </button>
   
@@ -224,10 +224,10 @@
                         </button>
   
                         <button class="btn btn-sm btn-icon btn-success btn-wave"
-                          v-if="item.Visible === '1' && hasPermission(2)">
+                          v-if="item.Visible === '1' && hasPermission(2)" @click="SubmitToggleProjet(item.CodeProjet)">
                           <i class="ri-lock-unlock-line"></i>
                         </button>
-                        <button class="btn btn-sm btn-icon btn-warning btn-wave" v-else-if="hasPermission(2)">
+                        <button class="btn btn-sm btn-icon btn-warning btn-wave" v-else-if="hasPermission(2)" @click="SubmitToggleProjet(item.CodeProjet)">
                           <i class="ri-lock-2-line"></i>
                         </button>
   
@@ -860,7 +860,7 @@ export default {
   },
 
   async mounted() {
-    console.log("loggedInUser", this.loggedInUser.permissions);
+    
     await this.fetchProjets()
     await this.fetchFinancement()
     await this.fetchRegionOptions()
@@ -903,9 +903,9 @@ export default {
       try {
         const response = await axios.get('/projets', {
           headers: { Authorization: `Bearer ${this.loggedInUser.token}`, },
-          params:{for_con_user:this.connect   }
+          params:{for_con_user:this.connect  ,  visible: null }
         });
-        console.log(response.data);
+       
         this.data = response.data.data;
         this.projetssOptions = this.data;
         
@@ -1082,6 +1082,65 @@ export default {
 
         console.log('pas bon', this.v$.$errors);
 
+      }
+    },
+    async SubmitToggleProjet(id) {
+      // Affichez une boîte de dialogue Sweet Alert pour confirmer la suppression
+      const result = await Swal.fire({
+        title: "Êtes-vous sûr ?",
+        text: "Vous ne pourrez pas revenir en arrière !",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Oui, modifiez-le !",
+        cancelButtonText: "Non, annulez !",
+        reverseButtons: true,
+      });
+
+      // Si l'utilisateur confirme la suppression
+      if (result.isConfirmed) {
+        this.ToggleProjet(id);
+      }
+    },
+    async ToggleProjet(code) {
+      this.loading = true
+      try {
+        const response = await axios.get(`/projets/projet-visible/${code}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.loggedInUser.token}`,
+            },
+           
+          }
+        );
+
+        if (response.data.status === "success") {
+          this.successmsg(
+              "Données du projet mises à jour",
+              "Les données du projet ont été mises à jour avec succès !"
+            );
+            await this.fetchProjets()
+          
+        }
+      } catch (error) {
+        console.log(
+          "Erreur lors de la mise à jour des données MPME guinee :",
+          error
+        );
+        if (error.response.data.status === "error") {
+          console.log("aut", error.response.data.status === "error");
+
+          if (
+            error.response.data.message === "Vous n'êtes pas autorisé." ||
+            error.response.status === 401
+          ) {
+            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+            this.$router.push("/"); //a revoir
+          }
+        } else {
+          this.formatValidationErrors(error.response.data.errors);
+          this.loading = false;
+          return false;
+        }
       }
     },
     async HandleIdUpdate(id) {

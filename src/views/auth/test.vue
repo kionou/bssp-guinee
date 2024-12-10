@@ -80,7 +80,7 @@
                                     <small v-if="v$.step1.password.$error">{{v$.step1.password.$errors[0].$message}}</small>
                                 </div>
             
-                                <p class="signin" style="text-align: end; " @click="ChangePassword"> <span >Mot de passe oublié ?</span> </p>
+                                <p class="signin" style="text-align: end; "  data-bs-title="Add Password" data-bs-toggle="modal" data-bs-target="#change-password" > <span >Mot de passe oublié ?</span> </p>
                                 <div class="boutton">
                                 <button class="" @click="Hamdlelogin()">Connecter</button>
                                 </div>
@@ -93,78 +93,172 @@
             </div>
         </div> 
 
-        <!-- <div class="text-center pa-4">
-      <v-dialog v-model="dialogPassword"  width="auto">
-        
-        <v-sheet
-      class="py-8 px-6 mx-auto ma-4 text-center"
-      elevation="4"
-      max-width="500"
-      rounded="lg"
-      width="100%"
-    >
-      <h3 class="text-h5">Entrer votre Adresse Email</h3>
-  
-      <div class="text-subtitle-2 font-weight-light mb-3">
-          Pour réinitialiser votre mot de passe, veuillez entrer votre 
-          adresse e-mail et suivre les instructions à suivre.
-      </div>
-  
-                      <div class="mb-6">
-                      <v-text-field v-model="step3.email"  :counter="10" label="Adresse Email" name="email"   color="blue-grey-lighten-2" type="email" hide-details required variant="outlined" ></v-text-field>
-                     <small v-if="v$.step3.email.$error">{{v$.step3.email.$errors[0].$message}}</small> 
-                  </div>
-  
-      <div class="text-caption">
-          <div class="boutton">
-              <button class="" @click="PasswordOtp()">réinitialisation</button>
+        <div class="modal fade effect-rotate-bottom" id="change-password" tabindex="-1" aria-hidden="true"
+      data-bs-backdrop="static" ref="change-password">
+      <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content" v-if="isEmail">
+          <div class="modal-header float-start text-center justify-content-center"
+            style="background-color: var(--primary-rgb); padding-bottom: 10px">
+            <h2 class="modal-title text-white text-center" id="mail-ComposeLabel" style="font-size: 22px !important">
+              <b class="text-center">Entrez votre Adresse Email</b>
+            </h2>
+          </div>
+          <div class="modal-body px-4">
+            <div class="row gy-2 justify-content-center" style="
+                  border-width: 1px;
+                  border-style: solid;
+                  border-radius: 6px;
+                  border-color: rgb(0, 77, 134);
+                ">
+              <div class="row mt-3">
+                <small v-if="error">{{ error }} <br>  L'adresse email saisi n'existe pas dans le système ou bien vous avez mal saisi</small>
+
+                <div class="col-xl-12">
+                 
+                <MazInput  v-model="step3.email" type="email"  label="Adresse Email" color="info" name="email"   size="md" rounded-size="sm" />
+                <small v-if="v$.step3.email.$error">{{v$.step3.email.$errors[0].$message}}</small> 
+                            
+                 
+                </div>
+              
               </div>
+             
+  
+              <div class="row mb-3">
+                <div class="boutton">
+                  <button class="" @click.prevent="PasswordOtp('change-password')">
+                    Valider
+                  </button>
+                </div>
+              </div>
+  
+  
+            </div>
+  
+            <br />
+            <div class="modal-footer">
+              <div class="btn-group ms-auto">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" @click="close">
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-content" v-if="isCode">
+          <div class="modal-header float-start text-center justify-content-center"
+            style="background-color: var(--primary-rgb); padding-bottom: 10px">
+            <h2 class="modal-title text-white text-center" id="mail-ComposeLabel" style="font-size: 22px !important">
+              <b class="text-center">  Verification de  Code</b>
+            </h2>
+          </div>
+          <div class="modal-body px-4">
+            <div class="row gy-2 justify-content-center" style="
+                  border-width: 1px;
+                  border-style: solid;
+                  border-radius: 6px;
+                  border-color: rgb(0, 77, 134);
+                ">
+                    <small v-if="error">{{ error }}</small>
+
+                 <div class="text-subtitle-2 font-weight-bold mb-3">
+                  Veuillez entrer le code que nous avons envoyé à votre
+                  adresse e-mail pour réinitialiser votre mot de passe.
+                </div>
+              <div class="row mt-3">
+                <div class="col-xl-12">
+                 
+                <MazInput  v-model="step4.code" type="number"  label="entrez le code " color="info" name="code"   size="md" rounded-size="sm" />
+                <small v-if="v$.step4.code.$error">{{v$.step4.code.$errors[0].$message}}</small>  
+                </div>
+              
+              </div>
+             
+  
+              <div class="row mb-3">
+                <div class="boutton">
+                  <button class="" @click.prevent="HamdleOtpPassword('change-password')">
+                    Valider
+                  </button>
+                </div>
+              </div>
+  
+  
+            </div>
+  
+            <br />
+            <div class="modal-footer">
+              <div class="btn-group ms-auto">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-content" v-if="isValider">
+          <div class="modal-header float-start text-center justify-content-center"
+            style="background-color: var(--primary-rgb); padding-bottom: 10px">
+            <h2 class="modal-title text-white text-center" id="mail-ComposeLabel" style="font-size: 22px !important">
+              <b class="text-center">  Réinitialisation</b>
+            </h2>
+          </div>
+          <div class="modal-body px-4">
+            <div class="row gy-2 justify-content-center" style="
+                  border-width: 1px;
+                  border-style: solid;
+                  border-radius: 6px;
+                  border-color: rgb(0, 77, 134);
+                ">
+                    <small v-if="error">{{ error }}</small>
+
+                 <div class="text-subtitle-2 font-weight-bold mb-3">
+                  Connectez-vous à votre espace administrative
+                </div>
+              <div class="row mt-3">
+                <div class="col-xl-12 mb-3">
+                 
+                <MazInput  v-model="step5.password" type="password"  label="Nouveau mot de passe  " color="info" name="password"   size="md" rounded-size="sm" />
+                <small v-if="v$.step5.password.$error">{{v$.step5.password.$errors[0].$message}}</small>  
+                </div>
+                <div class="col-xl-12">
+                 
+                 <MazInput  v-model="step5.password_confirmation" type="password"  label="Confirmez le mot de passe  " color="info" name="password"   size="md" rounded-size="sm" />
+                 <small v-if="v$.step5.password_confirmation.$error">{{v$.step5.password_confirmation.$errors[0].$message}}</small>
+                 <small v-if="!validatePasswordsMatch()">Les mots de passe ne correspondent pas.</small>
+
+                 </div>
+              
+              </div>
+             
+  
+              <div class="row mb-3">
+                <div class="boutton">
+                  <button class="" @click.prevent="ValiderPassword('change-password')">
+                    Valider
+                  </button>
+                </div>
+              </div>
+  
+  
+            </div>
+  
+            <br />
+            <div class="modal-footer">
+              <div class="btn-group ms-auto">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </v-sheet>
-        
-      </v-dialog>
     </div>
-  
-    <div class="text-center pa-4">
-      <v-dialog v-model="dialogOtpPassword"  width="auto">
-        
-        <v-sheet
-      class="py-8 px-6 mx-auto ma-4 text-center"
-      elevation="4"
-      max-width="500"
-      rounded="lg"
-      width="100%"
-    >
-    <small>{{  errorOtp }}</small>
-      <h3 class="text-h5">Verification Code</h3>
-  
-      <div class="text-subtitle-2 font-weight-light mb-3">
-        Veuillez entrer le code que nous avons envoyé à votre
-         adresse e-mail pour réinitialiser votre mot de passe.
-      </div>
-  
-      <v-otp-input
-        v-model="step4.code"
-        class="mb-8"
-        divider="•"
-        length="4"
-        variant="outlined"
-        @input="onOtpInputPassworod"
-      ></v-otp-input>
-  
-      <div class="text-caption">
-        <v-btn
-          color="primary"
-          size="x-small"
-          text="Renvoyer un nouveau code"
-          variant="text"
-          @click="renew"
-        ></v-btn>
-      </div>
-    </v-sheet>
-        
-      </v-dialog>
-    </div> -->
+
+       
     </div>
 </template>
 <script>
@@ -175,6 +269,7 @@ import 'swiper/swiper-bundle.css';
 import axios from '@/lib/axiosConfig.js'
 import Loading from '@/components/others/loading.vue';
 import { mapActions } from 'vuex';
+import Swal from "sweetalert2";
 
 
 export default {
@@ -191,6 +286,10 @@ export default {
             dialogOtp:false,
             dialogPassword:false, 
             dialogOtpPassword:false,
+            isEmail:true,
+            isCode:false,
+            isValider:false,
+            error:"",
             InfoUser:'',
             errorOtp:'',
             step1:{
@@ -207,6 +306,10 @@ export default {
         },
         step4:{
              code:'',
+        },
+        step5:{
+             password:'',
+             password_confirmation:'',
         },
        
         v$: useVuelidate(),
@@ -240,10 +343,23 @@ export default {
     },
   },
     step4:{
-            code:{
+           code:{
         require,
       lgmin: lgmin(4),
       lgmax: lgmax(4),
+            }
+            
+        },
+
+        step5:{
+           password:{
+           require,
+          lgmin: lgmin(8),
+      
+            },
+            password_confirmation:{
+              require,
+              lgmin: lgmin(8),
             }
             
         },
@@ -252,6 +368,14 @@ export default {
   },
   methods: {
       ...mapActions('auth', ['setMyAuthenticatedUser']),
+      close(){
+        this.isEmail = true,
+        this.isCode = false,
+        this.isValider = false
+      },
+      validatePasswordsMatch() {
+     return this.step5.password === this.step5.password_confirmation;
+    },
   async Hamdlelogin(){
 
 this.error = '',
@@ -263,7 +387,6 @@ let DataUser = {
 email:this.step1.email,
 password:this.step1.password,
 }
-console.log("eeeee",DataUser);
 try {
 const response = await axios.post('/system/login' , DataUser);
 console.log('response.login', response.data); 
@@ -331,18 +454,13 @@ async fetchUserDetail(data) {
       }
     },
 
-async ChangePassword(){
-          this.dialogPassword = true
-          this.error = ''
-          
-  
-  }, 
+
 
   async PasswordOtp(){
-
+           this.error = ''
            this.v$.step3.$touch()
           if (this.v$.$errors.length == 0 ) {
-             this.loading = true
+          this.loading = true
           
           let CodeUserEmail ={
             email:1,
@@ -351,65 +469,55 @@ async ChangePassword(){
           }
 
           try {
-         const response = await axios.post('/mcipme/send-otp', CodeUserEmail);
-         
-; 
+         const response = await axios.post('/send-otp', CodeUserEmail);
+        console.log('response',response)
          if (response.data.status === 'success') {
-          this.dialogPassword = false
-         this.dialogOtpPassword = true
+          this.isEmail = false
+          this.isCode = true
          this.loading = false
          } else {
-          
+         this.loading = false
+
+          this.error = response.data.message
          }
     
-    } catch (error) {
-    
-    }
+        } catch (error) {
+          console.log('error',error)
+        
+        }
           }else{
           
      
-          
+          console.log('error', this.v$.$errors)
           
           }
   },
-
-  onOtpInputPassworod() {
-      // Vérifiez si l'OTP est complètement saisi (longueur de 4 chiffres)
-      this.errorOtp  = ''
-      if (this.step4.code.length === 4) {
-        // Déclenchez votre action ici, par exemple, appelez une méthode pour envoyer à l'API
-        this.HamdleOtpPassword();
-      }
-    },
     async  HamdleOtpPassword(){
         this.error = '',
          this.v$.step4.$touch()
           if (this.v$.$errors.length == 0 ) {
-             this.loading = true
+              this.loading = true
             
             let DataUser = {
             email: true,
             value: this. step3.email,
             code: this. step4.code
         }
-
-   
      
       try {
-      const response = await axios.post('/mcipme/verification-otp' , DataUser);
-
+      const response = await axios.post('/verification-otp' , DataUser);
+      console.log('response',response)
       if(response.data.status === 'success'){
-        localStorage.setItem('resetPasswordInfo', JSON.stringify({
-                  email: this.step3.email,
-                  code: this.step4.code// Assurez-vous de récupérer le code correctement
-                }));
-             this.$router.push('/reinitialiser');
-              this.loading = false
-              this.dialogOtpPassword = false
+      
+            this.isCode = false
+            this.isValider = true
+            this.loading = false
       }else{
       
-       this.errorOtp = "Echec de vérification du code."
+       this.error = "Echec de vérification du code."
        this. step4.code = ''
+      this.v$.step4.$reset();
+
        this.loading = false
       }
     
@@ -418,7 +526,7 @@ async ChangePassword(){
      
     } catch (error) {
    
-
+console.log('error',error)
       this.loading = false
       if (error.response.data.status === 'error') {
        return this.errorOtp = "L'authentification a échoué"
@@ -434,6 +542,81 @@ async ChangePassword(){
             }
 
     },
+    async  ValiderPassword(modalId){
+        this.error = '',
+         this.v$.step5.$touch()
+          if (this.v$.$errors.length == 0 ) {
+             this.loading = true
+            
+            let DataUser = {
+            email: true,
+            value: this. step3.email,
+            code: this. step4.code,
+            password:this.step5.password,
+            password_confirmation:this.step5.password_confirmation
+        }
+
+        console.log('DataUser' , DataUser)
+     
+      try {
+      const response = await axios.post('/password/reset' , DataUser);
+
+      if(response.data.status === 'success'){
+        this.closeModal(modalId);
+        Swal.fire({
+title: "Changement de mot passe réussi",
+text: "Votre mot de passe a été modifié avec succès. vous pouvez maintenant vous  connecter en toute sécurité. Merçi pour votre vigilance en matière de sécurité !",
+icon: "success",
+showCancelButton: false,
+confirmButtonColor: "#3085d6",
+cancelButtonColor: "#d33",
+confirmButtonText: "OK"
+}).then((result) => {
+if (result.isConfirmed) {
+  this.$router.push('/');
+ 
+}
+});
+this.loading = false
+
+      }else{
+      
+      console.log('response',response)
+       this.loading = false
+      }
+    
+        
+              
+     
+    } catch (error) {
+   
+console.log('error',error)
+      this.loading = false
+      if (error.response.data.status === 'error') {
+       return this.errorOtp = "L'authentification a échoué"
+        
+      } else {
+        
+      }
+    }
+            }else{
+            
+      
+            
+            }
+
+    },
+    closeModal(modalId) {
+      let modalElement = this.$refs[modalId];
+      modalElement.classList.remove("show");
+      modalElement.style.display = "none";
+      document.body.classList.remove("modal-open");
+      let modalBackdrop = document.querySelector(".modal-backdrop");
+      if (modalBackdrop) {
+        modalBackdrop.parentNode.removeChild(modalBackdrop);
+      }
+    },
+   
   },
 async  mounted() {
       

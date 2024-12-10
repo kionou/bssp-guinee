@@ -187,7 +187,11 @@
        
         const response = await axios.get('/projets', {
           headers: { Authorization: `Bearer ${this.loggedInUser.token}`, },
-          params:{for_con_user:this.connect  }
+          params:{
+            for_con_user:this.connect,
+            visible: 1
+
+           }
         });
         console.log('projet ',response)
         const ProjetsData =  response.data.data

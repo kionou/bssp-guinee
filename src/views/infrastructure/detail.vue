@@ -191,6 +191,7 @@
                       <th class="text-center" scope="col">N°</th>
                       <th scope="col">Date suivi</th>
                       <th scope="col" class="text-center">Niv. d'Avance.</th>
+                      <th scope="col" class="text-center">Taux Exc. Fina.</th>
                       <th scope="col">Mont. Décaiss.</th>
                       <th scope="col" class="text-center">Taux Av. Tech.</th>
                       <th scope="col">Difficultes</th>
@@ -210,6 +211,7 @@
                         </div>
                       </td>
                       <td  class="text-center">{{user.NiveauAvancement}}</td>
+                      <td  class="text-center">{{user.TauxExecutionFinanciere}}</td>
                       <td class="text-center"  style="width: 100px;">{{ formatBudget(user.MontantDecaisser) }}</td>
                       <td style="width: 100px;" class="text-center">{{user.TauxAvancementTechnique}}</td>
                       <td>{{user.Difficultes}}</td>
@@ -331,6 +333,17 @@
                   <small v-if="resultError['TauxAvancementTechnique']"> {{ resultError["TauxAvancementTechnique"] }}
                   </small>
                 </div>
+                <div class="col col-md-12 col-sm-12">
+                    <div class="mb-3 position-relative">
+                       <div class="input-groupe">
+                        <label for="password">Taux d'exécution financière <span class="text-danger">*</span></label>
+                        <MazInput v-model="step1.TauxExecutionFinanciere"  name="TauxExecutionFinanciere" color="info" placeholder="10"  type="number"
+                        min="0" max="100"  size="sm" rounded-size="sm" />
+                        <small v-if="v$.step1.TauxExecutionFinanciere.$error">{{v$.step1.TauxExecutionFinanciere.$errors[0].$message}}</small>
+                        <small v-if="resultError['TauxExecutionFinanciere']">{{resultError['TauxAvancementPhysique']}}</small>
+                       </div>
+                    </div>
+                </div> 
                 <!-- <div class="col-xl-12 col-md-12 col-sm-12">
                   <label for="Sigle">Trimestre<span class="text-danger">*</span></label>
                   <MazSelect v-model="step1.Trimestre" color="info" name="Trimestre" size="sm" rounded-size="sm"
@@ -464,6 +477,17 @@
                   <small v-if="resultError['TauxAvancementTechnique']"> {{ resultError["TauxAvancementTechnique"] }}
                   </small>
                 </div>
+                <div class="col col-md-12 col-sm-12">
+                    <div class="mb-3 position-relative">
+                       <div class="input-groupe">
+                        <label for="password">Taux d'exécution financière <span class="text-danger">*</span></label>
+                        <MazInput v-model="step2.TauxExecutionFinanciere"  name="TauxExecutionFinanciere" color="info" placeholder="10"  type="number"
+                        min="0" max="100"  size="sm" rounded-size="sm" />
+                        <small v-if="v$.step2.TauxExecutionFinanciere.$error">{{v$.step2.TauxExecutionFinanciere.$errors[0].$message}}</small>
+                        <small v-if="resultError['TauxExecutionFinanciere']">{{resultError['TauxAvancementPhysique']}}</small>
+                       </div>
+                    </div>
+                </div> 
                 <!-- <div class="col-xl-12 col-md-12 col-sm-12">
                   <label for="Sigle">Trimestre<span class="text-danger">*</span></label>
                   <MazSelect v-model="step2.Trimestre" color="info" name="Trimestre" size="sm" rounded-size="sm"
@@ -622,6 +646,7 @@ export default {
         NiveauAvancement: "",
         MontantDecaisser: "",
         TauxAvancementTechnique: "",
+        TauxExecutionFinanciere: "",
         Trimestre: ["T1"],
         images: [],
         videoss: "",
@@ -633,6 +658,7 @@ export default {
         NiveauAvancement: "",
         MontantDecaisser: "",
         TauxAvancementTechnique: "",
+        TauxExecutionFinanciere: "",
         Trimestre: ["T1"],
         images: [],
         videoss: "",
@@ -653,6 +679,12 @@ export default {
         vlmin: vlmin(0),
         vlmax: vlmax(100),
       },
+      TauxExecutionFinanciere: {
+        require,
+        ValidNumeri,
+        vlmin: vlmin(0),
+        vlmax: vlmax(100),
+      },
       Trimestre: {  },
       images: { require },
       videoss: {},
@@ -665,6 +697,12 @@ export default {
       MontantDecaisser: { require },
       TauxAvancementTechnique: {
         require, ValidNumeri,
+        vlmin: vlmin(0),
+        vlmax: vlmax(100),
+      },
+      TauxExecutionFinanciere: {
+        require,
+        ValidNumeri,
         vlmin: vlmin(0),
         vlmax: vlmax(100),
       },
@@ -785,6 +823,7 @@ export default {
         formData.append("CodeInfrastructure", this.data.CodeInfrastructure);
 
         formData.append("TauxAvancementTechnique", this.step1.TauxAvancementTechnique);
+        formData.append("TauxExecutionFinanciere", this.step1.TauxExecutionFinanciere);
         formData.append("Difficultes", this.step1.Difficultes);
        
         if (this.step1.Trimestre && this.step1.Trimestre.length > 0) {
@@ -819,6 +858,7 @@ export default {
                 NiveauAvancement: "",
                 MontantDecaisser: "",
                 TauxAvancementTechnique: "",
+                TauxExecutionFinanciere: "",
                 // Trimestre: [],
                 images: [],
                 videoss: "",
@@ -867,6 +907,7 @@ export default {
             NiveauAvancement: data.NiveauAvancement,
             MontantDecaisser: data.MontantDecaisser,
             TauxAvancementTechnique: data.TauxAvancementTechnique,
+            TauxExecutionFinanciere: data.TauxExecutionFinanciere,
             Difficultes: data.Difficultes,
             //  Trimestre : data.Trimestre?.split(','),
             videoss: data.videos,
@@ -914,6 +955,7 @@ export default {
         formData.append("NiveauAvancement", this.step2.NiveauAvancement);
         formData.append("MontantDecaisser", this.step2.MontantDecaisser);
         formData.append("TauxAvancementTechnique", this.step2.TauxAvancementTechnique);
+        formData.append("TauxExecutionFinanciere", this.step2.TauxExecutionFinanciere);
         formData.append("Difficultes", this.step2.Difficultes);
         formData.append("CodeInfrastructure", this.data.CodeInfrastructure);
         formData.append("Trimestre[]", ["T1"]);

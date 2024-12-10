@@ -87,7 +87,7 @@
         <hr class="m-0">
         <div class=" p-2 d-flex d-block  justify-content-between bg-gray-200">
           <div class="col-4 text-center">
-            <span class=" fs-16 m-0">Taux Exec. Finan.</span><br>
+            <span class=" fs-16 m-0">Taux Decai. Global</span><br>
             <span class="fw-semibold " :style="{ color: getProgressColor(projetTauxDecaissement(projet)) }">{{
               projetTauxDecaissement(projet).toFixed(2) }}%</span>
             <div class="progress mb-1" role="progressbar" aria-valuemin="0" aria-valuemax="100">

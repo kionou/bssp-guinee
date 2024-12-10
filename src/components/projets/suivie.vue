@@ -44,6 +44,7 @@
                                 </span>
                                   Suivi du <b class="fs-16  ml-2" style="color:red;">  {{ formatDate(item.DateSuivi) }} </b> </p>
                                 <p class="mb-2 fw-semibold fs-16">Taux Ex. Physique : <span class="fs-14 mb-1 text-secondary fw-semibold">{{item.TauxAvancementPhysique}} %</span></p>
+                                <p class="mb-2 fw-semibold fs-16">Taux Ex. Financière : <span class="fs-14 mb-1 text-secondary fw-semibold">{{item.TauxExecutionFinanciere}} %</span></p>
                                 <p class="mb-2 fw-semibold fs-16">Récap. : <span class="fs-14 mb-1  fw-semibold truncate" >{{getTruncate(item.Observations ,20) }} </span></p>
                                 
                             </div>
@@ -165,7 +166,7 @@
           <div class="form-container">
           
             <div class="row mt-3 content-group">
-                  <div class="col col-md-12 col-sm-12">
+                  <div class="col col-md-6 col-sm-6">
                     <div class="input-groupe">
                       <label for="userpassword"
                         >Date du suivi <span class="text-danger">*</span></label
@@ -188,7 +189,7 @@
                     </div>
                   </div>
                  
-                  <div class="col col-md-12 col-sm-12">
+                  <div class="col col-md-6 col-sm-6">
                     <div class="mb-3 position-relative">
                        <div class="input-groupe">
                         <label for="password">Taux d'exécution physique <span class="text-danger">*</span></label>
@@ -196,6 +197,17 @@
                         min="0" max="100"  size="sm" rounded-size="sm" />
                         <small v-if="v$.step1.TauxAvancementPhysique.$error">{{v$.step1.TauxAvancementPhysique.$errors[0].$message}}</small>
                         <small v-if="resultError['TauxAvancementPhysique']">{{resultError['TauxAvancementPhysique']}}</small>
+                       </div>
+                    </div>
+                </div>
+                <div class="col col-md-12 col-sm-12">
+                    <div class="mb-3 position-relative">
+                       <div class="input-groupe">
+                        <label for="password">Taux d'exécution financière <span class="text-danger">*</span></label>
+                        <MazInput v-model="step1.TauxExecutionFinanciere"  name="TauxExecutionFinanciere" color="info" placeholder="10"  type="number"
+                        min="0" max="100"  size="sm" rounded-size="sm" />
+                        <small v-if="v$.step1.TauxExecutionFinanciere.$error">{{v$.step1.TauxExecutionFinanciere.$errors[0].$message}}</small>
+                        <small v-if="resultError['TauxExecutionFinanciere']">{{resultError['TauxAvancementPhysique']}}</small>
                        </div>
                     </div>
                 </div>
@@ -355,131 +367,14 @@
         </div>
         <!-- Étape 3 -->
         <div v-if="currentStep === 3">
-            <div class="form-container">
-            <!-- debut infos genral -->
-              
-              <!-- contrainte -->
-              <div style="position:relative">
-                <p class="titre">Les Contraintes</p>
-                <div class="btn-list" style="position:absolute ; right: 7px; top: 5px;" >
-                <button class="btn btn-sm  btn-primary btn-wave" @click="AddformDataContraintes(index)"  >
-                       <i class="ri-add-line"></i> contrainte
-                      </button>
-                </div>
-                <div class="row align-items-center p-2  border-bottom " v-for="(contrainte, index) in step3.Contraintes" :key="contrainte.id">
-                  <div class="col-11">
-                    <span class="nombre">
-                            {{index + 1}}
-                        </span>
-                        <div class="row  content-group">
-                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12   ">
-                        <div class="input-groupe ">
-                        <div >
-                        <label for="userpassword">Type de contrainte <span class="text-danger">*</span></label>
-                        <MazSelect  v-model="contrainte.TypeConstrainte" type="text"  color="info" @click="clearError(index, 'TypeConstrainte')"  name="contrainte.TypeConstrainte" size="sm" rounded-size="sm" :options="contraintess" />
-                        </div>
-                        <small v-if="errors.step3.Contraintes && errors.step3.Contraintes[index] && errors.step3.Contraintes[index].TypeConstrainte">{{ errors.step3.Contraintes[index].TypeConstrainte }}</small>
-                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small>
-                        </div>
-                        </div>
-
-                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 ">
-                        <div class="input-groupe ">
-                        <div >
-                        <label for="userpassword">Description de la contrainte <span class="text-danger">*</span></label>
-                        <textarea class="form-control" id="text-area"  v-model="contrainte.IntituleConstrainte" rows="1"  @input="clearError(index, 'IntituleConstrainte')"></textarea>
-                       
-                        </div>
-                        <small v-if="errors.step3.Contraintes && errors.step3.Contraintes[index] && errors.step3.Contraintes[index].IntituleConstrainte">{{ errors.step3.Contraintes[index].IntituleContrainte }}</small>
-                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small> 
-                        </div>
-                        </div>
-
-                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 ">
-                        <div class="input-groupe ">
-                        <div >
-                        <label for="userpassword">Mitigation <span class="text-danger">*</span></label>
-                        <textarea class="form-control" id="text-area"  v-model="contrainte.Mitigation" rows="1" ></textarea>
-                       
-                        </div>
-                        <small v-if="errors.step3.Contraintes && errors.step3.Contraintes[index] && errors.step3.Contraintes[index].Mitigation">{{ errors.step3.Contraintes[index].IntituleConstrainte }}</small>
-                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small> 
-                        </div>
-                        </div>
-
-                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12   ">
-                        <div class="input-groupe ">
-                        <div >
-                        <label for="userpassword">Acteur-s (Responsables) <span class="text-danger">*</span></label>
-                        <MazInput  v-model="contrainte.Acteurs" type="text"  color="info" @click="clearError(index, 'Acteurs')"  name="contrainte.Acteurs" size="sm" rounded-size="sm"  />
-                        </div>
-                        <small v-if="errors.step3.Contraintes && errors.step3.Contraintes[index] && errors.step3.Contraintes[index].Acteurs">{{ errors.step3.Contraintes[index].Acteurs }}</small>
-                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small>
-                        </div>
-                        </div>
-
-                        <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-6 col-sm-12   ">
-                        <div class="input-groupe ">
-                        <div >
-                        <label for="userpassword">Délai de la mise en oeuvre <span class="text-danger">*</span></label>
-                        <MazInput  v-model="contrainte.Delai"  color="info" @click="clearError(index, 'Delai')"  name="contrainte.Delai" size="sm" rounded-size="sm" type="date" />
-                        </div>
-                        <small v-if="errors.step3.Contraintes && errors.step3.Contraintes[index] && errors.step3.Contraintes[index].Delai">{{ errors.step3.Contraintes[index].Delai }}</small>
-                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small>
-                        </div>
-                        </div>
-
-<!--                        
-                        <div class="col-xxl-12 col-xl-6 col-lg-6 col-md-6 col-sm-12   ">
-                        <div class="input-groupe ">
-                        <div >
-                        <label for="userpassword">Statut <span class="text-danger">*</span></label>
-                        <MazSelect  v-model="contrainte.Statut" type="text"  color="info" @input="clearError(index, 'Statut')"  name="contrainte.Statut" size="sm" rounded-size="sm" search :options="status"  />
-                        </div>
-                        <small v-if="errors.step3.Contraintes && errors.step3.Contraintes[index] && errors.step3.Contraintes[index].Statut">{{ errors.step3.Contraintes[index].Statut }}</small>
-                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small>
-                        </div>
-                        </div> -->
-
-                     
-                        
-                      
-
-                     
-
-                </div>
-
-               
-                  </div>
-                  <div class="col-1" style="position: relative">
-                    
-                      <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="deleteRowContraintes(index)"  style=" position:absolute !important ; top: 18px !important; background:red;">
-                       <i class="ri-delete-bin-line"></i>
-                      </button>
-                  </div>
-
-                </div> 
-               </div>
-            <!-- fin infos genral -->
-
-          </div>
-          <div class="btnForm py-3 d-flex items-center justify-content-between">
-            <button class="btnLogin" @click.prevent="prevStep">Précédent</button>
-            <button class="btnLogin" @click.prevent="nextStep('add_suivi')">Suivant</button>
-          </div>
-        </div>
-  
-       
-        <!-- Étape 4 -->
-         <div v-if="currentStep === 4">
           <div class="form-container">
                <div class="row mt-3 content-group">
               
                <div class="col-12 col-md-12 col-sm-12">
          <div class="input-groupe">
            <label for="employment_date_begin">Récapitulatif du projet <span class="text-danger">*</span></label>
-           <MazTextarea v-model="step4.Observations"  color="info" name="Observations" size="sm" rounded-size="sm"  />
-           <small v-if="v$.step4.Observations.$error">{{v$.step4.Observations.$errors[0].$message}}</small>
+           <MazTextarea v-model="step3.Observations"  color="info" name="Observations" size="sm" rounded-size="sm"  />
+           <small v-if="v$.step3.Observations.$error">{{v$.step3.Observations.$errors[0].$message}}</small>
            <small v-if="resultError['Observations']">{{resultError['Observations']}}</small>
          </div>
        </div>
@@ -492,8 +387,11 @@
           <button class="btnLogin" @click.prevent="nextStep('add_suivi')">Suivant</button>
           </div>
          </div>
-            <!-- Étape 5 -->
-            <div v-if="currentStep === 5">
+  
+       
+        <!-- Étape 4 -->
+         
+         <div v-if="currentStep === 4">
           <div class="form-container">
             <div style="position:relative">
                 <p class="titre">Les Realisations</p>
@@ -502,7 +400,7 @@
                        <i class="ri-add-line"></i> realisation
                       </button>
                 </div>
-                <div class="row align-items-center p-2  border-bottom " v-for="(realisation, index) in step5.Realisations" :key="realisation.id">
+                <div class="row align-items-center p-2  border-bottom " v-for="(realisation, index) in step4.Realisations" :key="realisation.id">
                   <div class="col-11">
                     <span class="nombre">
                             {{index + 1}}
@@ -532,10 +430,129 @@
         </div>
        
          <div class="btnForm py-3 d-flex items-center justify-content-between">
-            <button class="btnLogin" @click.prevent="prevStep">Précédent</button>
-            <button class="btnLogin" @click.prevent="nextStep('add_suivi')">Valider</button>
+          <button class="btnLogin" @click.prevent="prevStep">Précédent</button>
+            <button class="btnLogin" @click.prevent="nextStep('add_suivi')">Suivant</button>
+           
           </div>
          </div>
+            <!-- Étape 5 -->
+           
+
+         <div v-if="currentStep === 5">
+            <div class="form-container">
+            <!-- debut infos genral -->
+              
+              <!-- contrainte -->
+              <div style="position:relative">
+                <p class="titre">Les Contraintes</p>
+                <div class="btn-list" style="position:absolute ; right: 7px; top: 5px;" >
+                <button class="btn btn-sm  btn-primary btn-wave" @click="AddformDataContraintes(index)"  >
+                       <i class="ri-add-line"></i> contrainte
+                      </button>
+                </div>
+                <div class="row align-items-center p-2  border-bottom " v-for="(contrainte, index) in step5.Contraintes" :key="contrainte.id">
+                  <div class="col-11">
+                    <span class="nombre">
+                            {{index + 1}}
+                        </span>
+                        <div class="row  content-group">
+                          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12   ">
+                        <div class="input-groupe ">
+                        <div >
+                        <label for="userpassword">Type de contrainte <span class="text-danger">*</span></label>
+                        <MazSelect  v-model="contrainte.TypeConstrainte" type="text"  color="info" @click="clearError(index, 'TypeConstrainte')"  name="contrainte.TypeConstrainte" size="sm" rounded-size="sm" :options="contraintess" />
+                        </div>
+                        <small v-if="errors.step5.Contraintes && errors.step5.Contraintes[index] && errors.step5.Contraintes[index].TypeConstrainte">{{ errors.step5.Contraintes[index].TypeConstrainte }}</small>
+                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small>
+                        </div>
+                        </div>
+
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 ">
+                        <div class="input-groupe ">
+                        <div >
+                        <label for="userpassword">Description de la contrainte <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="text-area"  v-model="contrainte.IntituleConstrainte" rows="1"  @input="clearError(index, 'IntituleConstrainte')"></textarea>
+                       
+                        </div>
+                        <small v-if="errors.step5.Contraintes && errors.step5.Contraintes[index] && errors.step5.Contraintes[index].IntituleConstrainte">{{ errors.step5.Contraintes[index].IntituleContrainte }}</small>
+                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small> 
+                        </div>
+                        </div>
+
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 ">
+                        <div class="input-groupe ">
+                        <div >
+                        <label for="userpassword">Mitigation <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="text-area"  v-model="contrainte.Mitigation" rows="1" ></textarea>
+                       
+                        </div>
+                        <small v-if="errors.step5.Contraintes && errors.step5.Contraintes[index] && errors.step5.Contraintes[index].Mitigation">{{ errors.step5.Contraintes[index].IntituleConstrainte }}</small>
+                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small> 
+                        </div>
+                        </div>
+
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12   ">
+                        <div class="input-groupe ">
+                        <div >
+                        <label for="userpassword">Acteur-s (Responsables) <span class="text-danger">*</span></label>
+                        <MazInput  v-model="contrainte.Acteurs" type="text"  color="info" @click="clearError(index, 'Acteurs')"  name="contrainte.Acteurs" size="sm" rounded-size="sm"  />
+                        </div>
+                        <small v-if="errors.step5.Contraintes && errors.step5.Contraintes[index] && errors.step5.Contraintes[index].Acteurs">{{ errors.step5.Contraintes[index].Acteurs }}</small>
+                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small>
+                        </div>
+                        </div>
+
+                        <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-6 col-sm-12   ">
+                        <div class="input-groupe ">
+                        <div >
+                        <label for="userpassword">Délai de la mise en oeuvre <span class="text-danger">*</span></label>
+                        <MazInput  v-model="contrainte.Delai"  color="info" @click="clearError(index, 'Delai')"  name="contrainte.Delai" size="sm" rounded-size="sm" type="date" />
+                        </div>
+                        <small v-if="errors.step5.Contraintes && errors.step5.Contraintes[index] && errors.step5.Contraintes[index].Delai">{{ errors.step5.Contraintes[index].Delai }}</small>
+                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small>
+                        </div>
+                        </div>
+
+<!--                        
+                        <div class="col-xxl-12 col-xl-6 col-lg-6 col-md-6 col-sm-12   ">
+                        <div class="input-groupe ">
+                        <div >
+                        <label for="userpassword">Statut <span class="text-danger">*</span></label>
+                        <MazSelect  v-model="contrainte.Statut" type="text"  color="info" @input="clearError(index, 'Statut')"  name="contrainte.Statut" size="sm" rounded-size="sm" search :options="status"  />
+                        </div>
+                        <small v-if="errors.step5.Contraintes && errors.step5.Contraintes[index] && errors.step5.Contraintes[index].Statut">{{ errors.step5.Contraintes[index].Statut }}</small>
+                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small>
+                        </div>
+                        </div> -->
+
+                     
+                        
+                      
+
+                     
+
+                </div>
+
+               
+                  </div>
+                  <div class="col-1" style="position: relative">
+                    
+                      <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="deleteRowContraintes(index)"  style=" position:absolute !important ; top: 18px !important; background:red;">
+                       <i class="ri-delete-bin-line"></i>
+                      </button>
+                  </div>
+
+                </div> 
+               </div>
+            <!-- fin infos genral -->
+
+          </div>
+          <div class="btnForm py-3 d-flex items-center justify-content-between">
+            <button class="btnLogin" @click.prevent="prevStep">Précédent</button>
+            <button class="btnLogin" @click.prevent="nextStep('add_suivi')">Valider</button>
+            
+          </div>
+        </div>
         
           </div>
  
@@ -641,7 +658,17 @@
                       </div>
                     </div>
                 </div>
-                                 
+                <div class="col col-md-12 col-sm-12">
+                    <div class="mb-3 position-relative">
+                       <div class="input-groupe">
+                        <label for="password">Taux d'exécution financière <span class="text-danger">*</span></label>
+                        <MazInput v-model="suivi.TauxExecutionFinanciere"  name="TauxExecutionFinanciere" color="info" placeholder="10"  type="number"
+                        min="0" max="100"  size="sm" rounded-size="sm" />
+                        <small v-if="v$.suivi.TauxExecutionFinanciere.$error">{{v$.suivi.TauxExecutionFinanciere.$errors[0].$message}}</small>
+                        <small v-if="resultError['TauxExecutionFinanciere']">{{resultError['TauxAvancementPhysique']}}</small>
+                       </div>
+                    </div>
+                </div>             
                 </div>
             
                 <div class="row mt-3 content-group">
@@ -929,8 +956,8 @@ export default {
         UsersOptions:[],     
         errors: {
           step2: { Bailleurs: []  },
-          step3: { Contraintes: [] },
-          step5: { Realisations: [] },
+          step5: { Contraintes: [] },
+          step4: { Realisations: [] },
 
           contraintes: { Contraintes: [] },
           bailleurs: { Bailleurs: []  },
@@ -956,6 +983,7 @@ export default {
         // NiveauExecutionGlobal: "",
         // StatutProjet: "",
         TauxAvancementPhysique: "",
+        TauxExecutionFinanciere:"",
         // Avance:"",
 
         },
@@ -963,14 +991,14 @@ export default {
         Bailleurs:[{ CodeBailleur:'', MontantDecaisser:'',}],
 
         },
-        step3:{
+        step5:{
           Contraintes:[{  TypeConstrainte:null , IntituleConstrainte:null, Mitigation:null , Acteurs:null,  Delai:null}],
         },
       
-        step4: { Observations:'',
+        step3: { Observations:'',
                 
         },
-        step5: { Realisations:[{Realisation:null}]},
+        step4: { Realisations:[{Realisation:null}]},
         Fichiers:{
           images:[],
           videoss:[],
@@ -981,6 +1009,7 @@ export default {
         // NiveauExecutionGlobal: "",
         // StatutProjet: "",
         TauxAvancementPhysique: "",
+        TauxExecutionFinanciere:"",
         Observations:"",
         Realisations:[],
 
@@ -999,10 +1028,13 @@ export default {
          TauxAvancementPhysique:{ require ,  ValidNumeri,
            vlmin: vlmin(0) ,
            vlmax: vlmax(100) , },
+           TauxExecutionFinanciere:{ require ,  ValidNumeri,
+           vlmin: vlmin(0) ,
+           vlmax: vlmax(100) , },
         //    Avance:{require},
         // Observations:{  },
         },
-        step4: {
+        step3: {
           Observations:{ require },
          
       },
@@ -1016,6 +1048,9 @@ export default {
         // NiveauExecutionGlobal:{ require },
         // StatutProjet:{  },
         TauxAvancementPhysique:{ require ,  ValidNumeri,
+           vlmin: vlmin(0) ,
+           vlmax: vlmax(100) , },
+           TauxExecutionFinanciere:{ require ,  ValidNumeri,
            vlmin: vlmin(0) ,
            vlmax: vlmax(100) , },
           //  Avance:{require},
@@ -1154,24 +1189,24 @@ export default {
   }
 },
       AddformDataContraintes() {
-       this.step3.Contraintes.push({  TypeConstrainte:null , IntituleConstrainte:null, Mitigation:null , Acteurs:null,  Delai:null});
+       this.step5.Contraintes.push({  TypeConstrainte:null , IntituleConstrainte:null, Mitigation:null , Acteurs:null,  Delai:null});
    },
    deleteRowContraintes(index) {
   
    if(index !== 0){
-     this.step3.Contraintes.splice(index, 1);
+     this.step5.Contraintes.splice(index, 1);
    }
   },
   clearError(index, field) {   
-     if (this.errors.step3.Contraintes[index]) {
-       this.errors.step3.Contraintes[index][field] = null;
+     if (this.errors.step5.Contraintes[index]) {
+       this.errors.step5.Contraintes[index][field] = null;
      }
    },
  
   validateStep1() {
     let isValid = true;
-    this.errors.step3 = { Contraintes: [] };
-    this.step3.Contraintes.forEach((contrainte, index) => {
+    this.errors.step5 = { Contraintes: [] };
+    this.step5.Contraintes.forEach((contrainte, index) => {
         const contrainteErrors = {};
         if (!contrainte.Code) {
           contrainteErrors.Code = 'Ce champs est obligatoire!';
@@ -1194,7 +1229,7 @@ export default {
           contrainteErrors.Delai = 'Ce champs est obligatoire!';
             isValid = false;
         }
-        this.errors.step3.Contraintes[index] = contrainteErrors;
+        this.errors.step5.Contraintes[index] = contrainteErrors;
     });
     return isValid;
 },
@@ -1234,21 +1269,21 @@ AddformDataBailleurs() {
 },
 
 AddformDataRealisations() {
-       this.step5.Realisations.push({Realisation:'',});
+       this.step4.Realisations.push({Realisation:'',});
    },
    deleteRowRealisations(index) {
   
    if(index !== 0){
-     this.step5.Realisations.splice(index, 1);
+     this.step4.Realisations.splice(index, 1);
    }
   },
   clearErrorRealisations(index, field) {   
-     if (this.errors.step5.Realisations[index]) {
-       this.errors.step5.Realisations[index][field] = null;
+     if (this.errors.step4.Realisations[index]) {
+       this.errors.step4.Realisations[index][field] = null;
      }
    },
  
-  validateStep5() {
+  validateStep4() {
     let isValid = true;
     this.errors.step2 = { Realisations: [] };
     this.step2.Realisations.forEach((realisation, index) => {
@@ -1295,19 +1330,9 @@ async nextStep(modalId) {
      
     }
    else if (this.currentStep === 3) {
-    this.currentStep++;
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-          });
-     
 
-     
-         
-    }
-    else if (this.currentStep === 4) {
-      this.v$.step4.$touch();
-      if (this.v$.$errors.length == 0) {
+    if (this.v$.$errors.length == 0) {
+       this.v$.step3.$touch();
         this.currentStep++;
         window.scrollTo({
             top: 0,
@@ -1322,7 +1347,16 @@ async nextStep(modalId) {
        
       }
 
-          
+
+         
+    }
+    else if (this.currentStep === 4) {
+     
+      this.currentStep++;
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
     }
     else if (this.currentStep === 5) { 
         this. submitSuivi(modalId)      
@@ -1378,25 +1412,24 @@ async nextStep(modalId) {
      
          
              this.loading = true
-    const contraintes = this.step3.Contraintes.every(item => 
-    !item.IntituleConstrainte && !item.TypeConstrainte) ? [] : this.step3.Contraintes;
+    const contraintes = this.step5.Contraintes.every(item => 
+    !item.IntituleConstrainte && !item.TypeConstrainte) ? [] : this.step5.Contraintes;
 
     const bailleurs = this.step2.Bailleurs.every(item => 
       !item.CodeBailleur && !item.MontantDecaisser) ? [] : this.step2.Bailleurs;
 
-      const realisations = this.step5.Realisations.map(i => i.Realisation)
+      const realisations = this.step4.Realisations.map(i => i.Realisation)
 
     const dataToSend = {
         DateSuivi: this.step1.DateSuivi,
          TauxAvancementPhysique: this.step1.TauxAvancementPhysique,
-        Observations: this.step4.Observations,
+         TauxExecutionFinanciere: this.step1.TauxExecutionFinanciere,
+        Observations: this.step3.Observations,
         Realisation: realisations,
         CodeProjet: this.Code,
         contraintes: contraintes,
         bailleurs: bailleurs,
     };
-      console.log("data", dataToSend);
-
         try {
           const response = await axios.post("/projet-suivis", dataToSend, {
             headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
@@ -1417,13 +1450,13 @@ async nextStep(modalId) {
                 // Avance:"",
 
                 },
-                this.step4 = { Observations:'',},
-                this.step5.Realisations = [{ Realisation:'',}],
+                this.step3 = { Observations:'',},
+                this.step4.Realisations = [{ Realisation:'',}],
                 this.step2.Contraintes = [{  TypeConstrainte:null , IntituleConstrainte:null, Mitigation:null , Acteurs:null,  Delai:null}];
-               this.step3.Bailleurs = [{CodeBailleur:'', MontantDecaisser:'',}];
+               this.step5.Bailleurs = [{CodeBailleur:'', MontantDecaisser:'',}];
 
             this.v$.step1.$reset();
-            this.v$.step4.$reset();
+            this.v$.step3.$reset();
             this.loading = false;
             await this.confirmFiles()
 
@@ -1692,6 +1725,7 @@ AddformDataRealisationsUpdate() {
           let data = response.data.data.suivi;
             this.suivi.DateSuivi = data.DateSuivi,
             this.suivi.TauxAvancementPhysique = data.TauxAvancementPhysique,
+            this.suivi.TauxExecutionFinanciere = data.TauxExecutionFinanciere,
             this.suivi.Observations = data.Observations,
             this.suivi.Realisations = data.Realisation === null ? [] :  data.Realisation?.split('|').map((real , index) => ({
               id: index,
@@ -1738,6 +1772,7 @@ const dataToSend = {
     id_suivi: this.ToId,
     DateSuivi: this.suivi.DateSuivi,
     TauxAvancementPhysique: this.suivi.TauxAvancementPhysique,
+    TauxExecutionFinanciere: this.suivi.TauxExecutionFinanciere,
     Observations: this.suivi.Observations,
     Realisation: realisations,
     CodeProjet: this.Code,

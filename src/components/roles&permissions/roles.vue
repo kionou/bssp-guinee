@@ -771,7 +771,10 @@ export default {
         if (response.data.status === "success") {
           if (selectedMenuIds.length === 0) {
               this.closeModal(modalId);
-              this.successmsg("Création d'un rôle",'Votre rôle a été crée avec succès !')
+              this.successmsg(
+            "Données du rôle mises à jour",
+            "Les données du rôle ont été mises à jour avec succès !"
+          );
               await this.fetchRoles()
             
           } else {
@@ -814,7 +817,10 @@ export default {
         if (response.data.status === "success") {
        
               this.closeModal(modalId);
-              this.successmsg("Création d'un rôle",'Votre rôle a été crée avec succès !')
+              this.successmsg(
+            "Données du rôle mises à jour",
+            "Les données du rôle ont été mises à jour avec succès !"
+          );
               await this.fetchRoles()
         
         

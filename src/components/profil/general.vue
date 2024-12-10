@@ -368,7 +368,6 @@ export default {
     });
     await this.fetchUserDetail();
     await this.fetchRegionOptions()
-    console.log("dataespace", this.loggedInUser);
   },
   methods: {
     ...mapActions("auth", ["setMyAuthenticatedUser"]),
@@ -385,19 +384,19 @@ export default {
         });
         console.log("Réponse du téléversement :", response);
         if (response.data.status === "success") {
-          const selectedActualites = response.data.data;
+          const profil = response.data.data;
 
-          console.log(selectedActualites);
-          this.step2.nom = selectedActualites.Nom;
-          this.step2.prenom = selectedActualites.Prenoms;
-          this.step2.username= selectedActualites.username;
-          this.step2.email = selectedActualites.email;
-          this.step2.phoneNumber = selectedActualites.Whatsapp;
-          this.step2.region = selectedActualites.region;
-          this.id = selectedActualites.id;
-          this.image = selectedActualites.photo,
-          this.menus = selectedActualites.roles[0].menus
-          this.permissions = selectedActualites.roles[0].permissions
+        
+          this.step2.nom = profil.Nom;
+          this.step2.prenom = profil.Prenoms;
+          this.step2.username= profil.username;
+          this.step2.email = profil.email;
+          this.step2.phoneNumber = profil.Whatsapp;
+          this.step2.region = profil.region;
+          this.id = profil.id;
+          this.image = profil.photo,
+          this.menus = profil.roles[0].menus
+          this.permissions = profil.roles[0].permissions
             
           this.loading = false;
         }
@@ -449,7 +448,6 @@ export default {
         region: this.step2.region,
         
       };
-      console.log("data", DataUser);
       try {
         const response = await axios.put("/auth-user-update", DataUser, {
           headers: {
