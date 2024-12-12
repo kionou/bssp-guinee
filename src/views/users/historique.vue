@@ -205,11 +205,9 @@ export default {
   
           });
 
-   console.log('response',response)
         if (response.data.status === "success") {
             this.data  = response.data.data.data ;
               this.ClientOptions = this.data
-   console.log('response', this.data)
 
           
           this.loading =  false

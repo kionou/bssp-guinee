@@ -902,12 +902,8 @@ export default {
           this.loading = false
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+       
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -934,7 +930,6 @@ export default {
           }
         );
 
-     console.log('response',response.data.data)
         if (response.data.status === "success") {
    
           this.MissionsOptions = response.data.data
@@ -955,12 +950,8 @@ export default {
           this.loading = false
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -977,17 +968,13 @@ export default {
       }
     },
     handleFileUploadLogo(event) {
-      console.log("File input change");
       const file = event.target.files[0];
-      console.log("handleFileUploadLogo Selected file:", file);
       // this.submitFile(file )
       this.step1.Logo = file
 
     },
     handleFileUploadLogoUpdate(event) {
-      console.log("File input change");
       const file = event.target.files[0];
-      console.log("handleFileUploadLogo Selected file:", file);
       // this.submitFile(file )
       this.step2.Logo = file
 
@@ -1006,7 +993,6 @@ export default {
             'Content-Type': 'multipart/form-data'
           }
         });
-        console.log('Réponse du téléversement :', response);
         if (response.data.status === "success") {
           this.step1.Logo = response.data.data.url
 
@@ -1016,7 +1002,6 @@ export default {
 
         }
       } catch (error) {
-        console.log('response.login', error);
 
         this.loading = false
         if (error.response.data.status === "error") {
@@ -1068,7 +1053,6 @@ export default {
             const position = await this.getCurrentPosition();
             this.step1.GeoInfrastructure = [position.coords.latitude, position.coords.longitude];
           } catch (error) {
-            console.error('Erreur lors de la récupération des coordonnées :', error);
             this.error = "Impossible de récupérer votre position actuelle.";
             this.loading = false;
             return;
@@ -1092,7 +1076,6 @@ export default {
           CodeProjet: this.Code,
         };
 
-        console.log('data', data);
 
         const formData = new FormData();
         formData.append("CodeInfrastructure", this.step1.CodeInfrastructure);
@@ -1118,7 +1101,6 @@ export default {
             }
           });
 
-          console.log("Réponse du téléversement :", response);
 
           if (response.data.status === "success") {
             this.closeModal(modalId);
@@ -1150,7 +1132,6 @@ export default {
             // Gérer les erreurs du serveur ici
           }
         } catch (error) {
-          console.log("response.login", error);
 
           this.loading = false;
           if (error.response.data.status === "error") {
@@ -1160,7 +1141,6 @@ export default {
           }
         }
       } else {
-        console.log("error", this.v$.$errors);
       }
     },
 
@@ -1201,7 +1181,6 @@ CodeInfrastructure: "",
           },
         });
 
-        console.log("response", response);
         if (response) {
     
           let data = response.data.data;
@@ -1247,12 +1226,8 @@ CodeInfrastructure: "",
           this.loading = false;
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -1300,7 +1275,6 @@ CodeInfrastructure: "",
 
         }
 
-        console.log(dataSend);
         const formData = new FormData();
         formData.append("CodeInfrastructure", this.step2.CodeInfrastructure);
         formData.append("CodeProjet", this.Code);
@@ -1331,7 +1305,6 @@ CodeInfrastructure: "",
 
           });
 
-          console.log("usersOptions", response.data);
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.successmsg(
@@ -1343,12 +1316,8 @@ CodeInfrastructure: "",
             this.$emit('indicateur-updated');
           }
         } catch (error) {
-          console.log(
-            "Erreur lors de la mise à jour des données MPME guinee :",
-            error
-          );
+          
           if (error.response.data.status === "error") {
-            console.log("aut", error.response.data.status === "error");
 
             if (
               error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -1367,7 +1336,6 @@ CodeInfrastructure: "",
 
 
       } else {
-        console.log("cest pas bon ", this.v$.$errors);
         this.loading = false;
       }
     },
@@ -1398,7 +1366,6 @@ CodeInfrastructure: "",
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
-        console.log("Réponse de suppression:", response);
         if (response.data.status === "success") {
           this.loading = false;
           this.successmsg(
@@ -1409,11 +1376,9 @@ CodeInfrastructure: "",
           this.loading = false;
           this.$emit('indicateur-updated');
         } else {
-          console.log("error", response.data);
           this.loading = false;
         }
       } catch (error) {
-        console.error("Erreur lors de la suppression:", error);
 
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -1457,7 +1422,6 @@ CodeInfrastructure: "",
          
          
         };
-        console.log('data', data);
         try {
           const response = await axios.post("/missions", data, {
             headers: {
@@ -1466,7 +1430,6 @@ CodeInfrastructure: "",
             }
           });
 
-          console.log("Réponse du téléversement :", response);
 
           if (response.data.status === "success") {
             this.closeModal(modalId);
@@ -1496,7 +1459,6 @@ CodeInfrastructure: "",
             // Gérer les erreurs du serveur ici
           }
         } catch (error) {
-          console.log("response.login", error);
 
           this.loading = false;
           if (error.response.data.status === "error") {
@@ -1506,7 +1468,6 @@ CodeInfrastructure: "",
           }
         }
       } else {
-        console.log("error", this.v$.$errors);
       }
     },
 

@@ -766,21 +766,11 @@ async formatValidationErrors(errors) {
 
       for (const field in errors) {
         const errorMessages = errors[field]; 
-        console.log(" errorMessages", errorMessages, typeof errorMessages);
-
         const concatenatedError = errorMessages.join(", "); 
-        console.log(
-          " concatenatedError",
-          concatenatedError,
-          typeof concatenatedError
-        );
-
         formattedErrors[field] = concatenatedError; 
       }
 
       this.resultError = formattedErrors; 
-
-      console.log("resultError", this.resultError);
     },
   }
 }

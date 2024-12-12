@@ -250,12 +250,8 @@ export default {
           
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||

@@ -132,7 +132,6 @@
       
      },
     async mounted() {
-       console.log("uusers",this.loggedInUser);
      
      },
      methods: {
@@ -173,13 +172,11 @@
                 password:this.step1.password,
                 password_confirmation:this.step1.password_confirmation
              }
-             console.log("eeeee",DataUser);
              try {
             
              const response = await axios.post('/auth-change-password' , DataUser, {
                  headers: { Authorization: `Bearer ${this.loggedInUser.token}`, },
                });
-             console.log('response.login', response.data); 
              if (response.data.status === "success") { 
                
                this.loading = false
@@ -215,10 +212,8 @@
     
          for (const field in errors) {
            const errorMessages = errors[field]; // Liste complète des messages d'erreur
-           console.log(" errorMessages", errorMessages, typeof errorMessages);
     
            const concatenatedError = errorMessages.join(", "); // Concaténer les messages d'erreur
-           console.log(" concatenatedError", concatenatedError, typeof concatenatedError);
     
            formattedErrors[field] = concatenatedError; // Utilisez le nom du champ comme clé
          }
@@ -226,7 +221,6 @@
          this.resultError = formattedErrors; // Stockez les erreurs dans un objet
     
          // Maintenant, this.resultError est un objet où les clés sont les noms des champs
-         console.log("resultError", this.resultError);
        },
 
       

@@ -336,7 +336,6 @@ methods: {
              this.loading = false;
           
           } catch (error) {
-            // console.error('errorqqqqq',error);
             if (error.response.data.message==="Vous n'êtes pas autorisé." || error.response.status === 401) {
               await this.$store.dispatch('user/clearLoggedInUser');
             this.$router.push("/");  //a revoir
@@ -358,7 +357,6 @@ methods: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
-        // console.log("Réponse du téléversement :", response);
         if (response.data.status === "success") {
          this.closeModal(modalId);
         this.successmsg("Création d'une permission",'Votre permission a été crée avec succès !')
@@ -366,14 +364,12 @@ methods: {
           
         } 
       } catch (error) {
-        // console.error("Erreur lors du téléversement :", error);
         if (error.response.data.message==="Vous n'êtes pas autorisé." || error.response.status === 401) {
           await this.$store.dispatch('user/clearLoggedInUser');
         this.$router.push("/");  //a revoir
       }
       }
     } else {
-      console.log("cest pas bon ", this.v$.$errors);
     }
 },
 async HandleIdUpdate(id) {
@@ -382,7 +378,6 @@ async HandleIdUpdate(id) {
     try {
         const response = this.RolesOptions.find(item => item.id === id);
       if (response) {
-        console.log("responsedata", response);
         let data = response;
           this.step2.role = data.name,
           this.ToId = data.id;
@@ -441,7 +436,6 @@ async HandleIdUpdate(id) {
         }
       }
     } else {
-      // console.log("cest pas bon ", this.v$.$errors);
       this.loading = false;
     }
   },
@@ -471,7 +465,6 @@ async HandleIdUpdate(id) {
           Authorization: `Bearer ${this.loggedInUser.token}`,
         },
       });
-      console.log("Réponse de suppression:", response);
       if (response.data.status === "success") {
         this.loading = false;
         this.successmsg(

@@ -340,7 +340,7 @@ export default {
 
   },
   async mounted() {
-    console.log("loggedInUser", this.loggedInUser);
+  
     await this.fetchRoles();
     await this.fetchPermissions();
 
@@ -356,19 +356,19 @@ export default {
           },
 
         });
-        console.log(response);
+       
         this.datas = response.data.data
         this.RolesOptions = this.datas;
         this.RoleSelect = response.data.data.map(item => ({
           label: item.name,
           value: item.id,
         }));;
-        console.log('this.RolesOptions', this.RolesOptions);
+      
 
         this.loading = false;
 
       } catch (error) {
-        console.error('errorqqqqq', error);
+      
 
         if (error.response.data.message === "Vous n'êtes pas autorisé." || error.response.status === 401) {
           await this.$store.dispatch('user/clearLoggedInUser');
@@ -385,18 +385,18 @@ export default {
           },
 
         });
-        console.log(response);
+     
         this.data = response.data.data
         this.PermissionsOptions = response.data.data.data.map(item => ({
           label: item.name,
           value: item.id,
         }));;
-        console.log('this.RolesOptions', this.RolesOptions);
+       
 
         this.loading = false;
 
       } catch (error) {
-        console.error('errorqqqqq', error);
+   
 
         if (error.response.data.message === "Vous n'êtes pas autorisé." || error.response.status === 401) {
           await this.$store.dispatch('user/clearLoggedInUser');
@@ -407,10 +407,10 @@ export default {
     async SubmitRole(modalId) {
 
       this.v$.step1.$touch();
-      console.log("bonjour");
+     
 
       if (this.v$.$errors.length == 0) {
-        console.log("bonjour");
+     
         this.loading = true;
         const dataCath = {
           code: this.step1.role,
@@ -418,7 +418,7 @@ export default {
 
         }
 
-        console.log(dataCath);
+      
 
         try {
           const response = await axios.post("/roles/assign-permissions", dataCath, {
@@ -427,7 +427,7 @@ export default {
               Authorization: `Bearer ${this.loggedInUser.token}`,
             },
           });
-          console.log("Réponse du téléversement :", response);
+        
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.successmsg("Création d'assignation une permission", 'Votre assignation a été crée avec succès !')
@@ -435,7 +435,7 @@ export default {
 
           }
         } catch (error) {
-          console.error("Erreur lors du téléversement :", error);
+        
           if (error.response.data.message === "Vous n'êtes pas autorisé." || error.response.status === 401) {
             await this.$store.dispatch('user/clearLoggedInUser');
             this.$router.push("/");  //a revoir
@@ -455,9 +455,9 @@ export default {
           },
         });
 
-        // console.log("response", response);
+       
         if (response.data.status === "success") {
-          console.log("responsedata", response.data.data.permissions);
+          
            this.DetailRoles = response.data.data.permissions;
 
           this.loading = false;
@@ -468,7 +468,7 @@ export default {
           error
         );
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+         
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -494,9 +494,8 @@ export default {
           },
         });
 
-        // console.log("response", response);
         if (response.data.status === "success") {
-          console.log("responsedata", response.data.data);
+        
           this.step2.role = response.data.data.name
          const permissionIds = response.data.data.permissions.map(permission => permission.id);
          this.step2.permission = permissionIds;
@@ -510,7 +509,7 @@ export default {
           error
         );
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+         
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -530,7 +529,7 @@ export default {
       this.v$.step2.$touch();
 
       if (this.v$.$errors.length == 0) {
-        console.log("bonjour");
+       
         this.loading = true;
         const dataCath = {
           code: this.ToId,
@@ -538,7 +537,7 @@ export default {
 
         }
 
-        console.log(dataCath);
+     
 
         try {
           const response = await axios.post("/roles/assign-permissions", dataCath, {
@@ -547,7 +546,7 @@ export default {
               Authorization: `Bearer ${this.loggedInUser.token}`,
             },
           });
-          console.log("Réponse du téléversement :", response);
+      
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.successmsg("Mise à jour  d'une assignation une permission", 'Votre assignation a été mise à jour  avec succès !')
@@ -555,7 +554,7 @@ export default {
 
           }
         } catch (error) {
-          console.error("Erreur lors du téléversement :", error);
+     
           if (error.response.data.message === "Vous n'êtes pas autorisé." || error.response.status === 401) {
             await this.$store.dispatch('user/clearLoggedInUser');
             this.$router.push("/");  //a revoir
@@ -592,7 +591,7 @@ export default {
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
-        console.log("Réponse de suppression:", response);
+       
         if (response.data.status === "success") {
           this.loading = false;
           this.successmsg(
@@ -601,11 +600,11 @@ export default {
           );
           await this.fetchRoles();
         } else {
-          console.log("error", response.data);
+         
           this.loading = false;
         }
       } catch (error) {
-        console.error("Erreur lors de la suppression:", error);
+       
 
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||

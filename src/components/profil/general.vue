@@ -382,7 +382,6 @@ export default {
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
-        console.log("Réponse du téléversement :", response);
         if (response.data.status === "success") {
           const profil = response.data.data;
 
@@ -401,7 +400,6 @@ export default {
           this.loading = false;
         }
       } catch (error) {
-        console.error("Erreur lors du téléversement :", error);
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||
           error.response.status === 401
@@ -419,7 +417,6 @@ export default {
           JSON.stringify(this.$store.getters["getRegionOptions2"])
          
         ); // Accéder aux options des pays via le getter
-        console.log(options);
         this.regionOptions = options.map(region => ({
         label: region.NomRegion,
         value: region.CodeRegion,
@@ -427,10 +424,7 @@ export default {
         // Affecter les options à votre propriété sortedCountryOptions
         this.loading = false
       } catch (error) {
-        console.error(
-          "Erreur lors de la récupération des options des pays :",
-          error.message
-        );
+        
       }
     },
 
@@ -454,7 +448,6 @@ export default {
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
-        console.log(response);
         if (response && response.data && response.data.status === "success") {
           const updatedUser = response.data.data;
           let role_id;
@@ -463,7 +456,6 @@ export default {
       } else {
         role_id = this.loggedInUser.role_id;
       }
-      console.log('menus',this.menus);
       
 
       this.$store.dispatch('auth/setMyAuthenticatedUser', {
@@ -493,10 +485,8 @@ export default {
           );
         } else {
           this.loading = false;
-          console.log(response);
         }
       } catch (error) {
-        console.error("errorzzzz", error);
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||
           error.response.status === 401
@@ -532,7 +522,6 @@ export default {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log("response", response);
 
         if (response.data.status === "success") {
           const updatedUser = response.data.data;
@@ -568,14 +557,10 @@ export default {
           );
 
         } else {
-          console.log("errorrr", response.data);
           this.errorImage = "L'enregistrement a échoué !!!";
         }
       } catch (error) {
-        console.error(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||
           error.response.status === 401
@@ -618,13 +603,11 @@ export default {
                 password:this.step1.password,
                 password_confirmation:this.step1.password_confirmation
              }
-             console.log("eeeee",DataUser);
              try {
             
              const response = await axios.post('/auth-change-password' , DataUser, {
                  headers: { Authorization: `Bearer ${this.loggedInUser.token}`, },
                });
-             console.log('response.login', response.data); 
              if (response.data.status === "success") { 
                
                this.loading = false
@@ -638,7 +621,6 @@ export default {
     
     
        } catch (error) {
-       console.log('response.login', error); 
     
        this.loading = false
        if (error.response.data.message==="Vous n'êtes pas autorisé." || error.response.status === 401) {
@@ -660,10 +642,8 @@ export default {
     
          for (const field in errors) {
            const errorMessages = errors[field]; // Liste complète des messages d'erreur
-           console.log(" errorMessages", errorMessages, typeof errorMessages);
     
            const concatenatedError = errorMessages.join(", "); // Concaténer les messages d'erreur
-           console.log(" concatenatedError", concatenatedError, typeof concatenatedError);
     
            formattedErrors[field] = concatenatedError; // Utilisez le nom du champ comme clé
          }
@@ -671,7 +651,6 @@ export default {
          this.resultError = formattedErrors; // Stockez les erreurs dans un objet
     
          // Maintenant, this.resultError est un objet où les clés sont les noms des champs
-         console.log("resultError", this.resultError);
        },
   },
 };

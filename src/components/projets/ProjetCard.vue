@@ -276,23 +276,23 @@ export default {
   
   if (
         (Taux_Physique >= Taux_Duree && Taux_Physique >= Taux_Financiere) ||
-        (Taux_Duree - Taux_Physique > 0 && Taux_Duree - Taux_Physique <= 5) ||
-        (Taux_Financiere - Taux_Physique > 0 && Taux_Financiere - Taux_Physique <= 5) ||
-        (Taux_Financiere >= 100 && Taux_Financiere < 110)
+        (Taux_Duree - Taux_Physique > 0 && Taux_Duree - Taux_Physique <= 10) ||
+        ( Taux_Financiere - Taux_Physique  > 0 && Taux_Financiere - Taux_Physique <= 10) ||
+        ( Taux_Financiere >= 100 && Taux_Financiere < 110)
     ) {
-        GlobalTaux = 3;
+        GlobalTaux = 3; //color green step1 
     } else if (
-        (Taux_Duree - Taux_Physique > 5 && Taux_Duree - Taux_Physique <= 20) ||
-        Taux_Financiere - Taux_Physique > 20 ||
-        Taux_Financiere > 130
+        (Taux_Duree - Taux_Physique > 25 ) ||
+       ( Taux_Financiere - Taux_Physique > 25 ) ||
+        (  Taux_Financiere > 130)
     ) {
-        GlobalTaux = 2;
+        GlobalTaux = 2;  // color orang warning step 2
     } else if (
-      Taux_Duree - Taux_Physique > 20 ||
-        (Taux_Financiere - Taux_Physique >= 5 && Taux_Financiere - Taux_Physique <= 20) ||
-        (Taux_Financiere >= 110 && Taux_Financiere < 130)
+    (  Taux_Duree - Taux_Physique > 10 &&  Taux_Duree - Taux_Physique <=  25) ||
+        (Taux_Financiere - Taux_Physique > 10 && Taux_Financiere - Taux_Physique <= 25) ||
+        (Taux_Financiere > 110 && Taux_Financiere <= 130)
     ) {
-        GlobalTaux = 1;
+        GlobalTaux = 1; // color red danger step 3
     } else {
         GlobalTaux = '';
     }

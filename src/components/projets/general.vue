@@ -1725,7 +1725,6 @@ async submitObjectifs(modalId) {
              projet:this.Code,
              objectives: this.Objectifs
         };
-    console.log("data", dataToSend);
 
 
         try {
@@ -1734,7 +1733,6 @@ async submitObjectifs(modalId) {
            
           }
           });
-          console.log("Réponse du téléversement :", response);
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.successmsg(
@@ -1747,7 +1745,6 @@ async submitObjectifs(modalId) {
           } else {
           }
         } catch (error) {
-          console.log("response.login", error);
 
           this.loading = false;
           if (error.response.data.status === "error") {
@@ -1759,7 +1756,6 @@ async submitObjectifs(modalId) {
           }
         }
       } else {
-        console.log("error", this.v$.$errors);
       }
     },
     async HandleIdUpdateObjectif(id) {
@@ -1782,12 +1778,8 @@ async submitObjectifs(modalId) {
           this.loading = false;
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -1841,12 +1833,8 @@ async submitObjectifs(modalId) {
           this.$emit('indicateur-updated');
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -1863,7 +1851,6 @@ async submitObjectifs(modalId) {
       }
 
       } else {
-        console.log("cest pas bon ", this.v$.$errors);
         this.loading = false;
       }
     },
@@ -1904,11 +1891,9 @@ async submitObjectifs(modalId) {
           this.loading = false;
           this.$emit('indicateur-updated');
         } else {
-          console.log("error", response.data);
           this.loading = false;
         }
       } catch (error) {
-        console.error("Erreur lors de la suppression:", error);
 
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -2011,7 +1996,6 @@ async submitBailleurs(modalId) {
           }
         }
       } else {
-        console.log("error", this.v$.$errors);
       }
     },
     async HandleIdUpdateBailleur(id , Idbailleur) {
@@ -2043,12 +2027,8 @@ async submitBailleurs(modalId) {
           this.loading = false;
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+       
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -2102,12 +2082,8 @@ async submitBailleurs(modalId) {
           this.$emit('indicateur-updated');
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+       
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -2124,7 +2100,6 @@ async submitBailleurs(modalId) {
       }
 
       } else {
-        console.log("cest pas bon ", this.v$.$errors);
         this.loading = false;
       }
     },
@@ -2175,11 +2150,9 @@ async submitBailleurs(modalId) {
           this.loading = false;
           this.$emit('indicateur-updated');
         } else {
-          console.log("error", response.data);
           this.loading = false;
         }
       } catch (error) {
-        console.error("Erreur lors de la suppression:", error);
 
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -2268,7 +2241,6 @@ async submitIndicateur(modalId) {
     const dataToSend = {
              indicateurs: this.Indicateurs
         };
-    console.log("data", dataToSend);
 
 
         try {
@@ -2277,7 +2249,6 @@ async submitIndicateur(modalId) {
            
           }
           });
-          console.log("Réponse du téléversement :", response);
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.successmsg(
@@ -2290,7 +2261,6 @@ async submitIndicateur(modalId) {
           } else {
           }
         } catch (error) {
-          console.log("response.login", error);
 
           this.loading = false;
           if (error.response.data.status === "error") {
@@ -2300,7 +2270,6 @@ async submitIndicateur(modalId) {
           }
         }
       } else {
-        console.log("error", this.v$.$errors);
       }
     },
     async HandleIdUpdateIndicateur(id) {
@@ -2313,9 +2282,7 @@ async submitIndicateur(modalId) {
           },
         });
 
-        console.log("response", response);
         if (response) {
-          console.log("responsedata", response.data.data);
           let data = response.data.data;
             this.indicateur.CodeIndicateur = data.CodeIndicateur,
             this.indicateur.IntituleIndicateur = data.IntituleIndicateur,
@@ -2324,12 +2291,8 @@ async submitIndicateur(modalId) {
           this.loading = false;
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -2365,7 +2328,6 @@ async submitIndicateur(modalId) {
          
         }
 
-        console.log(dataSend);
         try {
         const response = await axios.put('/indicateurs/update',dataSend, {
           headers: {
@@ -2374,7 +2336,6 @@ async submitIndicateur(modalId) {
          
         });
 
-        console.log("usersOptions", response.data);
         if (response.data.status === "success") {
           this.closeModal(modalId);
           this.successmsg(
@@ -2385,12 +2346,8 @@ async submitIndicateur(modalId) {
           this.$emit('indicateur-updated');
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+       
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -2409,7 +2366,6 @@ async submitIndicateur(modalId) {
 
 
       } else {
-        console.log("cest pas bon ", this.v$.$errors);
         this.loading = false;
       }
     },
@@ -2440,7 +2396,6 @@ async submitIndicateur(modalId) {
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
-        console.log("Réponse de suppression:", response);
         if (response.data.status === "success") {
           this.loading = false;
           this.successmsg(
@@ -2450,11 +2405,9 @@ async submitIndicateur(modalId) {
           this.loading = false;
           this.$emit('indicateur-updated');
         } else {
-          console.log("error", response.data);
           this.loading = false;
         }
       } catch (error) {
-        console.error("Erreur lors de la suppression:", error);
 
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -2523,21 +2476,15 @@ async submitIndicateur(modalId) {
 
       for (const field in errors) {
         const errorMessages = errors[field]; 
-        console.log(" errorMessages", errorMessages, typeof errorMessages);
 
         const concatenatedError = errorMessages.join(", "); 
-        console.log(
-          " concatenatedError",
-          concatenatedError,
-          typeof concatenatedError
-        );
+       
 
         formattedErrors[field] = concatenatedError; 
       }
 
       this.resultError = formattedErrors; 
 
-      console.log("resultError", this.resultError);
     },
 
     async formatValidationErrorsMultiple(errors, entity) {
@@ -2560,7 +2507,6 @@ async submitIndicateur(modalId) {
 
   this.errors = formattedErrors;
 
-  console.log("Formatted errors:", this.errors);
 }
 
 

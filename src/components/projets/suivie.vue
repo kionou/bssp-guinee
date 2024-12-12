@@ -1064,7 +1064,6 @@ export default {
    
     watch: {
       // codeProjet(newVal) {
-      //    console.log("codeProjet has changed:", newVal);
       //    this.handleCodeProjetChange(newVal);
       // },
       data: {
@@ -1311,7 +1310,6 @@ async nextStep(modalId) {
             behavior: "smooth",
           });
       } else {
-        console.log("errroor1", this.v$.$errors);
         window.scrollTo({
           top: 0,
           behavior: "smooth",
@@ -1339,7 +1337,6 @@ async nextStep(modalId) {
             behavior: "smooth",
           });
       } else {
-        console.log("errroor1", this.v$.$errors);
         window.scrollTo({
           top: 0,
           behavior: "smooth",
@@ -1365,8 +1362,6 @@ async nextStep(modalId) {
        
     } catch (error) {
      
-        console.log("errroor222", this.v$.$errors);
-        console.error("Une erreur s'est produite :", error);
         window.scrollTo({ top: 0, behavior: "smooth" });
          this.loading = false;
     }
@@ -1463,7 +1458,6 @@ async nextStep(modalId) {
           } else {
           }
         } catch (error) {
-          console.log("response.login", error);
          
 
           this.loading = false;
@@ -1509,13 +1503,11 @@ async nextStep(modalId) {
    }
        },
        async submitFileSuivi(modalId){
-        console.log('files',this.Fichiers.images , this.Fichiers.videoss)
     
   this.loading = true
  const formData = new FormData();
  if (this.Fichiers.images && this.Fichiers.images.length > 0) {
           for (let i = 0; i < this.Fichiers.images.length; i++) {
-            console.log(this.Fichiers.images);
             formData.append("images[]", this.Fichiers.images[i]);
           }
         }
@@ -1551,7 +1543,6 @@ async nextStep(modalId) {
 
 
 } catch (error) {
-console.log('response.login', error); 
 
 this.loading = false
 if (error.response.data.status === "error") {
@@ -1593,7 +1584,6 @@ this.formatValidationErrors(error.response.data.errors);
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
-        console.log("Réponse de suppression:", response);
         if (response.data.status === "success") {
           this.loading = false;
           this.successmsg(
@@ -1603,11 +1593,9 @@ this.formatValidationErrors(error.response.data.errors);
           this.loading = false;
           this.$emit('indicateur-updated');
         } else {
-          console.log("error", response.data);
           this.loading = false;
         }
       } catch (error) {
-        console.error("Erreur lors de la suppression:", error);
 
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -1739,12 +1727,8 @@ AddformDataRealisationsUpdate() {
           this.loading = false;
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+       
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -1798,7 +1782,6 @@ const dataToSend = {
           } else {
           }
         } catch (error) {
-          console.log("response.login", error);
 
           this.loading = false;
           if (error.response.data.status === "error") {
@@ -1808,21 +1791,16 @@ const dataToSend = {
           }
         }
       } else {
-        console.log("errroor1", this.v$.$errors);
       }
       
     },
     handleFileUploadVideo(event) {
-      console.log("File input change");
       const file = event.target.files[0];
-      console.log("handleFileUploadLogo Selected file:", file);
       this.Fichiers.videoss = file
 
     },
     handleFileUploadImages(event) {
-      console.log("File input change");
       const files = event.target.files;
-      console.log("Selected files:", files);
       // Créer un tableau pour stocker les fichiers
       this.Fichiers.images = [];
 
@@ -1832,7 +1810,6 @@ const dataToSend = {
       }
 
 
-      console.log("Images stored:", this.Fichiers.images);
 
     },
     handleFileUploadImagesUpdateNew(event) {
@@ -1881,14 +1858,9 @@ const dataToSend = {
 
       for (const field in errors) {
         const errorMessages = errors[field]; // Liste complète des messages d'erreur
-        console.log(" errorMessages", errorMessages, typeof errorMessages);
 
         const concatenatedError = errorMessages.join(", "); // Concaténer les messages d'erreur
-        console.log(
-          " concatenatedError",
-          concatenatedError,
-          typeof concatenatedError
-        );
+       
 
         formattedErrors[field] = concatenatedError; // Utilisez le nom du champ comme clé
       }
@@ -1896,7 +1868,6 @@ const dataToSend = {
       this.resultError = formattedErrors; // Stockez les erreurs dans un objet
 
       // Maintenant, this.resultError est un objet où les clés sont les noms des champs
-      console.log("resultError", this.resultError);
     },
 
     filterByName() {
