@@ -122,9 +122,9 @@
                               
                          </div>
                    <div class="col-xl-12">
-                    <div class=" fs-20 mt-1 fw-semibold mb-2  lh-1 text-muted"> <b>LES RESPONSABLES:</b> 
+                    <div class=" fs-20 mt-1 fw-semibold mb-2  lh-1 text-muted"> <b>MAîTRE D'OUVRAGE:</b> 
                       <div class="  fs-20 fw-semibold lh-1 " >
-                      <span class="mt-4  fs-20 fw-semibold lh-1 text-success " v-if="data.responsables?.length ===0"  >
+                      <span class="mt-4  fs-20 fw-semibold lh-1 text-success " v-if="data.infrastructures?.length ===0"  >
                              Aucun responsable rattaché à ce projet.
                                   </span>
                                     <span class="mt-4  fs-20 fw-semibold text-success responsables-text" v-else>
@@ -1363,17 +1363,16 @@ export default {
         .join(', ');
     },
     formattedResponsables() {
-    if (!this.data || !this.data.responsables) {
+    if (!this.data || !this.data?.infrastructures) {
       return '';
     }
-    return this.data.responsables
-      .map(responsable => {
-        const nom = responsable.user?.Nom || '';
-        const prenoms = responsable.user?.Prenoms || '';
-        return `${nom} ${prenoms}`;
-      })
-      .filter(name => name.trim() !== '') // Filtre pour enlever les noms vides
-      .join(', '); // Using non-breaking space here
+     const arrayInfrastructure =  this.data?.infrastructures[0].MaitreOuvrage
+    // const arrayInfrastructure =  this.data?.infrastructures.map(i => i.MaitreOuvrage) 
+    return arrayInfrastructure
+      // .map(responsable => {
+      //   return responsable?.MaitreOuvrage; })
+      // .filter(name => name.trim() !== '') // Filtre pour enlever les noms vides
+      // .join(', '); // Using non-breaking space here
   },
   
    // Pour ObjectisOptions

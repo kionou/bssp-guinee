@@ -121,10 +121,10 @@
               <span class=" fs-16">Etat Projet</span> <br>
               <div class="fs-18">
                 <b style="font-size:25px !important">
-                  <i v-if="projetEtat(projet) === 1" class="ri-close-circle-fill text-danger"></i>
+                  <i v-if="projetEtat(projet) === 1" class="ri-close-circle-fill text-warning"></i>
 
                   <i v-if="projetEtat(projet) === 2"
-                    class="ri-error-warning-fill text-warning"></i>
+                    class="ri-error-warning-fill text-danger"></i>
                   <i v-if="projetEtat(projet)=== 3" class="ri-checkbox-circle-fill text-success"></i>
                 </b>
               </div>
