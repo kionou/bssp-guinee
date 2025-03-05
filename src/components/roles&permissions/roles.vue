@@ -19,7 +19,7 @@
                                         @input="filterByName"
                                     />
                                     </div>
-                                    <div v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#create-role">
+                                    <div  v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#create-role">
                                     <i class="ri-add-line"> </i>
                                     </div>
                                   
@@ -255,7 +255,7 @@
 
 
                                <!-- les droits et permissions  -->
-                         <div class="modal fade effect-rotate-bottom" id="create-menu-permissions" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" ref="create-menu-permissions">
+       <div class="modal fade effect-rotate-bottom" id="create-menu-permissions" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" ref="create-menu-permissions">
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div
@@ -343,84 +343,84 @@
                   </div>
                   <div class="col-12">
                     <div style="overflow-x: scroll !important" class="table-responsive">
-  <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th scope="col">Menu</th>
-        <th scope="col">Descriptions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Ligne pour les menus principaux -->
-      <tr>
-        <td colspan="2" class="fw-bold bg-light">Menus principaux</td>
-      </tr>
-      
-      <!-- Boucle sur les menus principaux -->
-      <template v-for="menu in MenusOptions" :key="menu.id">
-        <tr>
-          <!-- Menu Parent -->
-          <td style="width: 220px !important">
-            <input 
-              type="checkbox" 
-              :id="'parent-' + menu.id" 
-              v-model="menu.checked" 
-              @change="toggleParent(menu)"
-              :disabled="step3.role === 1"
-            >
-            <label class="text-uppercase fw-semibold fs-14" :for="'parent-' + menu.id">{{ menu.label }}</label>
-          </td>
-          <td>{{ menu.description }}</td>
-        </tr>
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Menu</th>
+                        <th scope="col">Descriptions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Ligne pour les menus principaux -->
+                      <tr>
+                        <td colspan="2" class="fw-bold bg-light">Menus principaux</td>
+                      </tr>
+                      
+                      <!-- Boucle sur les menus principaux -->
+                      <template v-for="menu in MenusOptions" :key="menu.id">
+                        <tr>
+                          <!-- Menu Parent -->
+                          <td style="width: 220px !important">
+                            <input 
+                              type="checkbox" 
+                              :id="'parent-' + menu.id" 
+                              v-model="menu.checked" 
+                              @change="toggleParent(menu)"
+                              :disabled="step3.role === 1"
+                            >
+                            <label class="text-uppercase fw-semibold fs-14" :for="'parent-' + menu.id">{{ menu.label }}</label>
+                          </td>
+                          <td>{{ menu.description }}</td>
+                        </tr>
 
-        <!-- Sous-menus -->
-        <tr v-for="child in menu.children" :key="child.id">
-          <td>
-            <div style="padding-left: 20px;">
-              <input 
-                type="checkbox" 
-                :id="'child-' + child.id" 
-                v-model="child.checked" 
-                @change="toggleChild(menu)"
-                :disabled="step3.role === 1"
-              >
-              <label :for="'child-' + child.id">{{ child.label }}</label>
-            </div>
-          </td>
-          <td>{{ child.description }}</td>
-        </tr>
-      </template>
+                        <!-- Sous-menus -->
+                        <tr v-for="child in menu.children" :key="child.id">
+                          <td>
+                            <div style="padding-left: 20px;">
+                              <input 
+                                type="checkbox" 
+                                :id="'child-' + child.id" 
+                                v-model="child.checked" 
+                                @change="toggleChild(menu)"
+                                :disabled="step3.role === 1"
+                              >
+                              <label :for="'child-' + child.id">{{ child.label }}</label>
+                            </div>
+                          </td>
+                          <td>{{ child.description }}</td>
+                        </tr>
+                      </template>
 
-      <!-- Ligne pour les autres menus -->
-      <tr>
-        <td colspan="2" class="fw-bold bg-light">Autres menus</td>
-      </tr>
+                      <!-- Ligne pour les autres menus -->
+                      <tr>
+                        <td colspan="2" class="fw-bold bg-light">Autres menus</td>
+                      </tr>
 
-      <!-- Boucle pour les autres menus -->
-      <!-- Ajouter ici la boucle pour les autres menus si nécessaire -->
-      <!-- Exemple : -->
-      
-      <template v-for="otherMenu in OtherMenuOptions " :key="otherMenu.id">
-        <tr >
-          <td style="width: 220px !important">
-            <input 
-              type="checkbox" 
-              :id="'other-' + otherMenu.id" 
-              v-model="otherMenu.checked"
-        
-              :disabled="step3.role === 1"
-            >
-            <label class="  fs-14" :for="'other-' + otherMenu.id">{{ otherMenu.label }}</label>
-          </td>
-          <td>{{ otherMenu.description }}</td>
-        </tr>
-      </template>
-      
-    </tbody>
-  </table>
-</div>
+                      <!-- Boucle pour les autres menus -->
+                      <!-- Ajouter ici la boucle pour les autres menus si nécessaire -->
+                      <!-- Exemple : -->
+                      
+                      <template v-for="otherMenu in OtherMenuOptions " :key="otherMenu.id">
+                        <tr >
+                          <td style="width: 220px !important">
+                            <input 
+                              type="checkbox" 
+                              :id="'other-' + otherMenu.id" 
+                              v-model="otherMenu.checked"
+                        
+                              :disabled="step3.role === 1"
+                            >
+                            <label class="  fs-14" :for="'other-' + otherMenu.id">{{ otherMenu.label }}</label>
+                          </td>
+                          <td>{{ otherMenu.description }}</td>
+                        </tr>
+                      </template>
+                      
+                    </tbody>
+                  </table>
+                 </div>
 
-</div>
+               </div>
 
                 </div>
             
@@ -551,7 +551,7 @@ export default {
 
                this.data = response.data.data
               this.RolesOptions =  this.data ;
-         this.RoleOption = this.data.map(item => ({
+               this.RoleOption = this.data.map(item => ({
                   label: item.name,
                   value: item.id,
                 }));
@@ -609,52 +609,52 @@ export default {
           }
         },
         async fetchDetailRoles(id) {
-  this.loading = true;
-  await this.resetMenus();
-  try {
-    const response = await axios.get(`/roles/${id}`, {
-      headers: {
-        Authorization: `Bearer ${this.loggedInUser.token}`, 
-      },
-    });
+          this.loading = true;
+          await this.resetMenus();
+          try {
+            const response = await axios.get(`/roles/${id}`, {
+              headers: {
+                Authorization: `Bearer ${this.loggedInUser.token}`, 
+              },
+            });
 
-    const dataRole = response.data.data;
-    this.step3.role = dataRole.id;
-    this.step3.permissions = dataRole.permissions.map(permission => permission.id);
-    const roleMenus = dataRole.menus.map(menu => menu.menu.id);
-  
-    // Parcourir les MenusOptions et cocher les cases si elles existent dans roleMenus
-    this.MenusOptions.forEach(menu => {
-      if (roleMenus.includes(menu.id)) {
-        menu.checked = true;
-      }
-      if (menu.children) {
-        menu.children.forEach(child => {
-          if (roleMenus.includes(child.id)) {
-            child.checked = true;
+            const dataRole = response.data.data;
+            this.step3.role = dataRole.id;
+            this.step3.permissions = dataRole.permissions.map(permission => permission.id);
+            const roleMenus = dataRole.menus.map(menu => menu.menu.id);
+          
+            // Parcourir les MenusOptions et cocher les cases si elles existent dans roleMenus
+            this.MenusOptions.forEach(menu => {
+              if (roleMenus.includes(menu.id)) {
+                menu.checked = true;
+              }
+              if (menu.children) {
+                menu.children.forEach(child => {
+                  if (roleMenus.includes(child.id)) {
+                    child.checked = true;
+                  }
+                });
+              }
+            });
+
+            // Parcourir les OtherMenuOptions (type 0) et cocher les cases si elles existent dans roleMenus
+            this.OtherMenuOptions.forEach(menu => {
+              if (roleMenus.includes(menu.id)) {
+                menu.checked = true;
+              }
+            });
+
+            this.loading = false;
+
+          } catch (error) {
+            if (error.response.data.message === "Vous n'êtes pas autorisé." || error.response.status === 401) {
+              await this.$store.dispatch('user/clearLoggedInUser');
+              this.$router.push("/");  // à revoir
+            }
           }
-        });
-      }
-    });
+        },
 
-    // Parcourir les OtherMenuOptions (type 0) et cocher les cases si elles existent dans roleMenus
-    this.OtherMenuOptions.forEach(menu => {
-      if (roleMenus.includes(menu.id)) {
-        menu.checked = true;
-      }
-    });
-
-    this.loading = false;
-
-  } catch (error) {
-    if (error.response.data.message === "Vous n'êtes pas autorisé." || error.response.status === 401) {
-      await this.$store.dispatch('user/clearLoggedInUser');
-      this.$router.push("/");  // à revoir
-    }
-  }
-},
-
-        toggleParent(menu) {
+       toggleParent(menu) {
       // Coche ou décoche tous les enfants lorsque le parent est coché/décoché
       if (menu.children) {
         menu.children.forEach(child => {
@@ -671,22 +671,19 @@ export default {
       }
        },
        async  resetMenus() {
-    this.MenusOptions.forEach(menu => {
-     menu.checked = false;
-    if (menu.children) {
-      menu.children.forEach(child => {
-        child.checked = false;
-      });
-    }
+        this.MenusOptions.forEach(menu => {
+        menu.checked = false;
+        if (menu.children) {
+          menu.children.forEach(child => {
+            child.checked = false;
+          });
+        }
   });
 
   this.OtherMenuOptions.forEach(menu => {
     menu.checked = false;
   });
        },
-
-
-
        collectCheckedMenuIds() {
     const selectedMenuIds = [];
 

@@ -8,6 +8,7 @@ import HighchartsVue from 'highcharts-vue'
 import Highcharts from 'highcharts'
 import highchartsMore from 'highcharts/highcharts-more'
 import solidGauge from 'highcharts/modules/solid-gauge'
+import TippyDirective from './directives/tippy';
 
 
 import Toast from 'vue-toastification'
@@ -28,6 +29,7 @@ import MazSwitch from 'maz-ui/components/MazSwitch'
  import MazRadioButtons from 'maz-ui/components/MazRadioButtons'
 import 'sweetalert2/dist/sweetalert2.min.css';
 import 'vue-toastification/dist/index.css';
+
 
 // import AOS from 'aos'
 // import 'aos/dist/aos.css'
@@ -63,6 +65,7 @@ store.dispatch('auth/loadMyAuthenticatedUser').then(() => {
   app.use(store);
   app.use(HighchartsVue)
   app.use(Toast)
+  app.directive('tippy', TippyDirective);
  
   
   app.mount('#app')

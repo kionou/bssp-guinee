@@ -198,6 +198,7 @@
                       <!-- <th scope="col">Trimestres</th> -->
                       <th scope="col">Images</th>
                       <th scope="col">Videos</th>
+                      <th scope="col" v-if="hasPermission(6)">Etat</th>
                       <th scope="col">Actions</th>
                     </tr>
                   </thead>
@@ -231,6 +232,12 @@
                           <i class="bi bi-play-btn"></i>
                         </button>
                         <span v-else>Aucune vidéo</span>
+                      </td>
+                      <td style="width:120PX" v-if="hasPermission(6)" >
+                        <button class="btn " :class=" user?.Validated == '1' ? 'bg-success' : 'bg-danger'" :disabled="user?.Validated == '1'" style=" color:white" @click="validateSelection(user?.id)">
+                        <i class="bi bi-check2-circle"></i>
+                        {{ user?.Validated == '1' ? 'Valider' : 'Non Valider' }}
+                      </button>
                       </td>
   
                       <td style="width: 80px;">

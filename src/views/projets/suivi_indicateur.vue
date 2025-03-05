@@ -122,7 +122,7 @@
                   <th scope="col" class="text-center"> <span class="fw-semibold" >Date du suivi</span></th>
                   <th scope="col" class="text-center"> <span class="fw-semibold" >Réalisation</span></th>
                   <th scope="col" class="text-center"> <span class="fw-semibold" >Observation</span></th>
-                  <th scope="col" class="text-center"> <span class="fw-semibold" >Etat</span></th>
+                  <th scope="col" class="text-center" v-if="hasPermission(6)"> <span class="fw-semibold" >Etat</span></th>
                   <th scope="col">Actions</th>
                 </tr>
               </thead>
@@ -145,7 +145,7 @@
                     <span class="fw-semibold fs-14">{{item.Observations}}</span>
                   </td>
                  
-                  <td style="width: 80px;">
+                  <td style="width: 80px;" v-if="hasPermission(6)">
                 <div class="btn-list w-100 d-flex justify-content-center">
                   <div>
                     <div class="btn btn-sm  btn-success btn-wave" v-if="item.Accepted === '1' "

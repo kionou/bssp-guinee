@@ -395,8 +395,7 @@ this.InfoUser = response.data.data
 this.setMyAuthenticatedUser(this.InfoUser);
 this.fetchUserDetail(this.InfoUser)
 this.loading = false
-
-    this.$router.push('/bspp'); 
+this.$router.push('/bspp'); 
 
 } else {
 
@@ -430,7 +429,7 @@ async fetchUserDetail(data) {
             Authorization: `Bearer ${data.access_token}`,
           },
         });
-          console.log('role/id',response.data.data.roles[0])
+       
         if (response.data.status === "success") {
           const selectedActualites = response.data.data.roles[0].menus;
           const selectedPermissions = response.data.data.roles[0].permissions

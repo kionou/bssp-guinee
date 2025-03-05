@@ -60,6 +60,12 @@
                                     <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(item.id)">
                                     <i class="ri-delete-bin-line"></i>
                                 </button>
+                                <button v-if="hasPermission(6)" class="btn btn-sm btn-icon  " 
+                                :class=" item?.Validated == '1' ? 'bg-success' : 'bg-warning'" :disabled="item?.Validated == '1' || index !==0" style=" color:white" @click="validateSelection(item?.id)" 
+                                v-tippy="{ content: 'Activer ou déactiver le suivi',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                                >
+                                  <i :class="item?.Validated == '1' ? 'ri-lock-2-line' : 'ri-unlock-lock-line'"> </i>
+                                </button>
                                 </div>
                                 
                             </div>
@@ -1868,6 +1874,67 @@ const dataToSend = {
       this.resultError = formattedErrors; // Stockez les erreurs dans un objet
 
       // Maintenant, this.resultError est un objet où les clés sont les noms des champs
+    },
+    async validateSelection(id) {
+     const result = await Swal.fire({
+        title: 'Êtes-vous sûr ?',
+        text: 'Vous ne pourrez pas annuler cette action !',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Oui, validez !',
+        cancelButtonText: 'Non, annulez !',
+        reverseButtons: true
+     });
+  
+     // Si l'utilisateur confirme la suppression
+     if (result.isConfirmed) {
+       this.validateSelection1(id);
+     }
+         },
+       async  validateSelection1(id) {
+        const data = {
+          id:id
+        }
+    
+      this.loading = true
+         
+         try {
+           const response = await axios.put('/projet-suivis/confirmer',data, {
+            headers: {
+              Authorization: `Bearer ${this.loggedInUser.token}`,
+            },
+           
+   
+   
+           });
+       
+           if (response.status === 200) {
+             this.loading = false
+             this.successmsg(
+                  "Validation du suivi",
+                  "Votre suivi  a été validé avec succès !"
+              );  
+              this.$emit('indicateur-updated');
+              this.loading = false
+              
+   
+           } else {
+        
+            this.handleErrors(error);
+           }
+         } catch (error) {
+          console.log('error',error)
+              this.loading = false
+              Swal.fire({
+              icon: "error",
+              title: "Suivi validé",
+              text: "Ce suivi a été déjà valider merci.",
+            
+            });
+            // this.handleErrors(error);
+           
+         }
+
     },
 
     filterByName() {

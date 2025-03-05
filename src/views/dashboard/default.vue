@@ -1064,7 +1064,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import axios from "@/lib/axiosConfig.js";
+
 
 export default {
   name: "BsppGuineeLayout",
@@ -1182,30 +1182,7 @@ organizedMenus() {
     },
   },
   methods: {
-    async fetchUserDetail() {
-      try {
-        const response = await axios.get("/auth-user", {
-          headers: {
-            Authorization: `Bearer ${this.loggedInUser.token}`,
-          },
-        });
-    
-        if (response.data.status === "success") {
-          const selectedActualites = response.data.data.roles[0].menus;
-
-          this.loading = false;
-        }
-      } catch (error) {
-        console.error("Erreur lors du téléversement :", error);
-        if (
-          error.response.data.message === "Vous n'êtes pas autorisé." ||
-          error.response.status === 401
-        ) {
-          await this.$store.dispatch("auth/clearMyAuthenticatedUser");
-          this.$router.push("/"); //a revoir
-        }
-      }
-    },
+ 
     async logout() {
       try {
         await this.$store.dispatch("auth/clearMyAuthenticatedUser"); // Appel de l'action pour déconnecter l'utilisateur

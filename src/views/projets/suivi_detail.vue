@@ -20,6 +20,12 @@
       <div class="float-end w-20 mt-1 mx-1">
         <a class="px-2 bg-primary text-white  fs-15 " @click="goBack" href="#"> &larr; Retour</a>
       </div>
+      <div  class="position-fixed  my-1" style="left: 60%; z-index:2" v-if="hasPermission(6)" >
+      <button class="btn " :class=" data?.Validated == '1' ? 'bg-success' : 'bg-danger'" :disabled="data?.Validated == '1'" style=" color:white" @click="validateSelection(data?.id)">
+        <i class="bi bi-check2-circle"></i>
+        {{ data?.Validated == '1' ? 'Valider' : 'Non Valider' }}
+      </button>
+    </div>
       <div class="card-body">
   
         <div class="row align-items-center mb-2">
@@ -1210,10 +1216,6 @@ MontantDecaisser:{ require }
           IdSuiviProjet: this.id
 
         }
-        console.log('data', data);
-
-
-
         try {
           const response = await axios.post("/contraintes", data, {
             headers: {
@@ -1856,6 +1858,67 @@ if (this.v$.$errors.length == 0) {
       const montantDecaisse = item.decaissement && item.decaissement[0] && item.decaissement[0].montant_decaisser || 0;
       if (!item.Budget) return 0;
       return (parseFloat(montantDecaisse) / parseFloat(item.Budget)) * 100;
+    },
+    async validateSelection(id) {
+     const result = await Swal.fire({
+        title: 'Êtes-vous sûr ?',
+        text: 'Vous ne pourrez pas annuler cette action !',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Oui, validez !',
+        cancelButtonText: 'Non, annulez !',
+        reverseButtons: true
+     });
+  
+     // Si l'utilisateur confirme la suppression
+     if (result.isConfirmed) {
+       this.validateSelection1(id);
+     }
+         },
+       async  validateSelection1(id) {
+        const data = {
+          id:id
+        }
+    
+      this.loading = true
+         
+         try {
+           const response = await axios.put('/projet-suivis/confirmer',data, {
+            headers: {
+              Authorization: `Bearer ${this.loggedInUser.token}`,
+            },
+           
+   
+   
+           });
+       
+           if (response.status === 200) {
+             this.loading = false
+             this.successmsg(
+                  "Validation du suivi",
+                  "Votre suivi  a été validé avec succès !"
+              );  
+              await this.fetchDetailProjet();
+              this.loading = false
+              
+   
+           } else {
+        
+            this.handleErrors(error);
+           }
+         } catch (error) {
+          console.log('error',error)
+              this.loading = false
+              Swal.fire({
+              icon: "error",
+              title: "Suivi validé",
+              text: "Ce suivi a été déjà valider merci.",
+            
+            });
+            // this.handleErrors(error);
+           
+         }
+
     },
     filterByName() {
       this.currentPage = 1; // Reset to the first page on search
