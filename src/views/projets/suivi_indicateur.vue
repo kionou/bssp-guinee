@@ -100,6 +100,7 @@
               </div>
   
               <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
+                v-tippy="{ content: 'Créer un nouvel élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                 data-bs-toggle="modal" data-bs-target="#add_indicateur_suivi">
                 <i class="ri-add-line">
                 </i></button>
@@ -160,15 +161,18 @@
   
                 </div>
               </td>
-                  <td class="" style="width: 130px;">
+                  <td class="" style="width: 80px;">
                     <div class="btn-list w-25 d-flex">
 
                       <button v-if="hasPermission(2)" class="btn btn-sm btn-icon btn-info btn-wave " data-bs-toggle="modal"
-                        data-bs-target="#update_indicateur_suivi" @click="HandleIdUpdateSuivie(item.id)">
+                      
+                        data-bs-target="#update_indicateur_suivi" @click="HandleIdUpdateSuivie(item.id)"
+                        v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
                         <i class="ri-edit-line"></i>
                       </button>
 
-                      <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(item.id)">
+                      <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(item.id)"
+                        v-tippy="{ content: 'Supprimer l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
                         <i class="ri-delete-bin-line"></i>
                       </button>
                     </div>

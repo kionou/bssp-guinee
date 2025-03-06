@@ -31,6 +31,7 @@
           </div>
   
           <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
+            v-tippy="{ content: 'Créer un nouvel élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
             data-bs-toggle="modal" data-bs-target="#add_user">
             <i class="ri-add-line"> </i>
           </button>
@@ -111,12 +112,15 @@
                 <div class="btn-list w-100 d-flex justify-content-center" >
                   <div>
                     <div class="btn btn-sm  btn-success btn-wave" v-if="user.Statut === '1'"
-                      @click="HandleIdStatut(user.id)">
-                      <i class="ri-lock-unlock-line"></i> 
-                    </div>
-                    <button class="btn btn-sm  btn-warning btn-wave" v-if="user.Statut === '0'"
+                      v-tippy="{ content: 'Activer cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+
                       @click="HandleIdStatut(user.id)">
                       <i class="ri-lock-2-line"></i> 
+                    </div>
+                    <button class="btn btn-sm  btn-warning btn-wave" v-if="user.Statut === '0'"
+                      v-tippy="{ content: 'Désactiver cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                      @click="HandleIdStatut(user.id)">
+                      <i class="ri-lock-unlock-line"></i> 
                     </button>
                   </div>
   
@@ -126,21 +130,30 @@
                 <div class="btn-list w-100 d-flex justify-content-center" >
   
                   <button v-if="hasPermission(2)" class="btn btn-sm btn-icon btn-info btn-wave " data-bs-toggle="modal"
+                   v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                     data-bs-target="#update_user" @click="HandleIdUpdate(user.id)">
                     <i class="ri-edit-line"></i>
                   </button>
   
-                  <button  class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(user.id)" v-if="user.roles[0]?.name ==='Administrateur' && hasPermission(5)" >
+                  <button  class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(user.id)" 
+                  v-tippy="{ content: 'Supprimer cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                  v-if="user.roles[0]?.name ==='Administrateur' && hasPermission(5)" >
                     <i class="ri-delete-bin-line"></i>
                   </button>
-                  <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(user.id)" v-else-if="user.roles[0]?.name ==='Administrateur' &&  hasPermission(4) " disabled>
+                  <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(user.id)"
+                  v-tippy="{ content: 'Supprimer cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                   v-else-if="user.roles[0]?.name ==='Administrateur' &&  hasPermission(4) " disabled>
                     <i class="ri-delete-bin-line"></i>
                   </button>
-                  <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(user.id)" v-else-if="user.roles[0]?.name !=='Administrateur' && ( hasPermission(4)  ||  hasPermission(5))" >
+                  <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(user.id)"
+                  v-tippy="{ content: 'Supprimer cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                   v-else-if="user.roles[0]?.name !=='Administrateur' && ( hasPermission(4)  ||  hasPermission(5))" >
                     <i class="ri-delete-bin-line"></i>
                   </button>
 
-                  <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(user.id)" v-else disabled>
+                  <button class="btn btn-sm btn-icon btn-danger btn-wave" 
+                  v-tippy="{ content: 'Supprimer cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                  @click="HandleIdDelete(user.id)" v-else disabled>
                     <i class="ri-delete-bin-line"></i>
                   </button>
   

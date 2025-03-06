@@ -85,7 +85,8 @@
                                                         <td>
                                                             <div class="hstack gap-2 fs-15">
                                                        
-                                                                <button v-if="hasPermission(4)"  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-danger"  
+                                                                <button v-if="hasPermission(4)"  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-danger" 
+                                                                v-tippy="{ content: 'Supprimer cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}" 
                                                                      @click="HandleIdDelete(data.CodeRegions)"><i class="ri-delete-bin-line"></i></button>
                                                             </div>
                                                         </td>

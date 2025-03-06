@@ -49,12 +49,14 @@
               <td class="text-center" style="width: 180px;" >
             <div v-if="item.progress.length === 0">
               <!-- <button class="btn btn-secondary btn-sm"></button> -->
-                <router-link :to="{ name: 'suivi-indicateur', params: { id: item.id }}" class="text-white btn btn-secondary btn-sm">
+                <router-link :to="{ name: 'suivi-indicateur', params: { id: item.id }}" class="text-white btn btn-secondary btn-sm"
+                  v-tippy="{ content: 'Suivre cet indicateur',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
                   suivre
                 </router-link>
               
             </div>
-            <div v-else>
+            <div v-else 
+            v-tippy="{ content: 'Suivre cet indicateur',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"> >
               <!-- <span class="d-block text-center text-danger fw-bold mb-1">
                 {{ realisationPercentage(item).toFixed(2) }}%
               </span> -->

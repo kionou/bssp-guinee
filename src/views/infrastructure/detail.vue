@@ -173,6 +173,7 @@
                   </div>
   
                   <button v-if="hasPermission(3)" class="btn  btn-primary ms-2" data-bs-placement="top"
+                    v-tippy="{ content: 'Créer un nouvel élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                     data-bs-title="Add Contact" data-bs-toggle="modal" data-bs-target="#create-suivi">
                     <i class="ri-add-line"> suivi </i>
                   </button>
@@ -221,13 +222,16 @@
                          
                       </td> -->
                       <td class="text-center"  style="width: 80px;">
-                        <button v-if="user.Photos" @click="openGallery(user.Photos)" class="btn btn-primary btn-sm">
+                        <button v-if="user.Photos" @click="openGallery(user.Photos)" class="btn btn-primary btn-sm"
+                         v-tippy="{ content: 'Afficher les images',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                        >
                           <i class="bi bi-card-image"></i>
                         </button>
                         <span v-else>Aucune image</span>
                       </td>
                       <td  style="width: 80px;">
                         <button v-if="user.videos" @click="openVideo(user.videos)"
+                          v-tippy="{ content: 'Afficher les vidéos',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                           class="btn btn-primary btn-sm text-center">
                           <i class="bi bi-play-btn"></i>
                         </button>
@@ -244,9 +248,11 @@
                         <div class="hstack gap-2 fs-1">
   
                           <div v-if="hasPermission(2)" class="btn btn-icon btn-sm btn-info btn-wave waves-effect "
+                            v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                             data-bs-toggle="modal" data-bs-target="#update-suivi" @click="HandleIdUpdate(user.id)"><i
                               class="ri-edit-line"></i></div>
                           <a v-if="hasPermission(4)" aria-label="anchor" href="javascript:void(0);"
+                            v-tippy="{ content: 'Supprimer l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                             class="btn btn-icon btn-sm btn-danger btn-wave waves-effect waves-light"><i
                               class="ri-delete-bin-line" @click="HandleIdDelete(user.id)"></i></a>
                         </div>
@@ -1282,6 +1288,67 @@ export default {
 
       const endIndex = startIndex + this.itemsPerPage;
       return this.SuiviOptions.slice(startIndex, endIndex);
+    },
+    async validateSelection(id) {
+     const result = await Swal.fire({
+        title: 'Êtes-vous sûr ?',
+        text: 'Vous ne pourrez pas annuler cette action !',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Oui, validez !',
+        cancelButtonText: 'Non, annulez !',
+        reverseButtons: true
+     });
+  
+     // Si l'utilisateur confirme la suppression
+     if (result.isConfirmed) {
+       this.validateSelection1(id);
+     }
+        },
+        async  validateSelection1(id) {
+        const data = {
+          id:id
+        }
+    
+      this.loading = true
+         
+         try {
+           const response = await axios.put('/infrastructures/suivis/confirmer',data, {
+            headers: {
+              Authorization: `Bearer ${this.loggedInUser.token}`,
+            },
+           
+   
+   
+           });
+       
+           if (response.status === 200) {
+             this.loading = false
+             this.successmsg(
+                  "Validation du suivi",
+                  "Votre suivi  a été validé avec succès !"
+              );  
+              await this.fetchDetailInfra();
+              this.loading = false
+              
+   
+           } else {
+        
+            this.handleErrors(error);
+           }
+         } catch (error) {
+         
+              this.loading = false
+              Swal.fire({
+              icon: "error",
+              title: "Suivi validé",
+              text: "Ce suivi a été déjà valider merci.",
+            
+            });
+            // this.handleErrors(error);
+           
+         }
+
     },
     filterByName() {
       this.currentPage = 1;

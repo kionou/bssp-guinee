@@ -69,6 +69,7 @@
                 <i class="ri-add-line"> </i>
               </div> -->
           <div v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-title="Add Contact"
+           v-tippy="{ content: 'Créer un nouvel élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
             data-bs-toggle="modal" data-bs-target="#add_projet">
             <i class="ri-add-line"> </i>
           </div>
@@ -124,27 +125,33 @@
                         style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
                         <div class="btn-list w-100 d-flex justify-content-center">
                           <router-link v-if="hasPermission(1)" :to="{ name: 'detail-projet', params: { id: projet.id }}"
+                          v-tippy="{ content: 'Afficher les détails',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                             class="btn btn-sm btn-icon btn-success btn-wave">
                             <i class="ri-eye-line"></i>
                           </router-link>
   
                           <button v-if="hasPermission(2)" class="btn btn-sm btn-icon btn-info btn-wave"
+                          v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                             data-bs-title="Add Contact" data-bs-toggle="modal" data-bs-target="#update_projet"
                             @click="HandleIdUpdate(projet.id)">
                             <i class="ri-edit-line"></i>
                           </button>
   
                           <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave"
+                            v-tippy="{ content: 'Supprimer cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                             @click="HandleIdDelete(projet.id)">
                             <i class="ri-delete-bin-line"></i>
                           </button>
   
                           <button class="btn btn-sm btn-icon btn-success btn-wave"
+                            v-tippy="{ content: 'Activer/Desactiver cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                             v-if="projet.Visible === '1' && hasPermission(2)" @click="SubmitToggleProjet(projet.CodeProjet)">
-                            <i class="ri-lock-unlock-line"></i>
-                          </button>
-                          <button class="btn btn-sm btn-icon btn-warning btn-wave" v-else-if="hasPermission(2)" @click="SubmitToggleProjet(projet.CodeProjet)">
                             <i class="ri-lock-2-line"></i>
+                          </button>
+                          <button class="btn btn-sm btn-icon btn-warning btn-wave"
+                            v-tippy="{ content: 'Activer/Desactiver cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                           v-else-if="hasPermission(2)" @click="SubmitToggleProjet(projet.CodeProjet)">
+                            <i class="ri-lock-unlock-line"></i>
                           </button>
   
   
@@ -208,27 +215,33 @@
                       style="border: 3px solid #eff2f7; background-color: white; padding: 5px;">
                       <div class="btn-list w-100 d-flex justify-content-center">
                         <router-link v-if="hasPermission(1)" :to="{ name: 'detail-projet', params: { id: item.id }}"
+                          v-tippy="{ content: 'Afficher les détails',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                           class="btn btn-sm btn-icon btn-success btn-wave">
                           <i class="ri-eye-line"></i>
                         </router-link>
   
                         <button v-if="hasPermission(2)" class="btn btn-sm btn-icon btn-info btn-wave"
                           data-bs-title="Add Contact" data-bs-toggle="modal" data-bs-target="#update_projet"
+                          v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                           @click="HandleIdUpdate(item.id)">
                           <i class="ri-edit-line"></i>
                         </button>
   
                         <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave"
+                          v-tippy="{ content: 'Supprimer cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                           @click="HandleIdDelete(item.id)">
                           <i class="ri-delete-bin-line"></i>
                         </button>
   
                         <button class="btn btn-sm btn-icon btn-success btn-wave"
+                          v-tippy="{ content: 'Activer/Desactiver cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                           v-if="item.Visible === '1' && hasPermission(2)" @click="SubmitToggleProjet(item.CodeProjet)">
-                          <i class="ri-lock-unlock-line"></i>
-                        </button>
-                        <button class="btn btn-sm btn-icon btn-warning btn-wave" v-else-if="hasPermission(2)" @click="SubmitToggleProjet(item.CodeProjet)">
                           <i class="ri-lock-2-line"></i>
+                        </button>
+                        <button class="btn btn-sm btn-icon btn-warning btn-wave"
+                          v-tippy="{ content: 'Activer/Desactiver cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                         v-else-if="hasPermission(2)" @click="SubmitToggleProjet(item.CodeProjet)">
+                          <i class="ri-lock-unlock-line"></i>
                         </button>
   
   

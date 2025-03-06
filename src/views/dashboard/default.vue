@@ -1198,8 +1198,7 @@ organizedMenus() {
   },
 
  async  mounted() {
-  await this.fetchUserDetail()
-    console.log("index", this.loggedInUser);
+ 
   
     // this.menus = this.loggedInUser.menus
 

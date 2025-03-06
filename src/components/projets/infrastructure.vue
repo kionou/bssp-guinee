@@ -19,6 +19,7 @@
           </div>
   
           <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-placement="top"
+           v-tippy="{ content: 'Créer un nouvel élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
             data-bs-title="Add Contact" data-bs-toggle="modal" data-bs-target="#create-infrastructure">
             <i class="ri-add-line"> </i>
           </button>
@@ -87,11 +88,14 @@
   
                 <div class="btn-list w-100 d-flex justify-content-center">
                   <div>
-                    <div class="btn btn-sm  btn-success btn-wave" v-if="item.Visible === '1'">
-                      <i class="ri-lock-unlock-line"></i>
-                    </div>
-                    <button class="btn btn-sm  btn-warning btn-wave" v-if="item.Visible === '0'">
+                    <div class="btn btn-sm  btn-success btn-wave" v-if="item.Visible === '1'"
+                      v-tippy="{ content: 'Visible',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
+                      
                       <i class="ri-lock-2-line"></i>
+                    </div>
+                    <button class="btn btn-sm  btn-warning btn-wave" v-if="item.Visible === '0'"
+                      v-tippy="{ content: 'Invisible',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
+                      <i class="ri-lock-unlock-line"></i>
                     </button>
                   </div>
   
@@ -101,15 +105,18 @@
               <td>
                 <div class="hstack gap-2 fs-1">
                   <router-link v-if="hasPermission(1)" :to="{ name: 'detail_infrastructures', params: { id: item.id }}"
+                  v-tippy="{ content: 'Afficher les détails',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                     class="btn btn-sm btn-icon btn-primary btn-wave">
                     <i class="ri-eye-line"></i>
                   </router-link>
                   <button v-if="hasPermission(2)" class="btn btn-sm btn-icon btn-info btn-wave " data-bs-toggle="modal"
+                    v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                     data-bs-target="#update-infrastructure" @click="HandleIdUpdateInfra(item.id)">
                     <i class="ri-edit-line"></i>
                   </button>
   
                   <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave"
+                    v-tippy="{ content: 'Supprimer l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                     @click="HandleIdDeleteInfrastructure(item.id)">
                     <i class="ri-delete-bin-line"></i>
                   </button>

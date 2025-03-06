@@ -51,7 +51,9 @@
                                               <td style="width: 120px;">
                                                   <div class="hstack gap-2 fs-1">
                                                     
-                                                      <div v-if="hasPermission(2)" class="btn btn-icon btn-sm btn-info btn-wave waves-effect " data-bs-toggle="modal" data-bs-target="#update_permissions"  @click="HandleIdUpdate(user.id)"><i class="ri-edit-line"></i></div>
+                                                      <div v-if="hasPermission(2)" class="btn btn-icon btn-sm btn-info btn-wave waves-effect " data-bs-toggle="modal" data-bs-target="#update_permissions" 
+                                                       v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                                                       @click="HandleIdUpdate(user.id)"><i class="ri-edit-line"></i></div>
                                                       <!-- <a aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-danger btn-wave waves-effect waves-light"><i class="ri-delete-bin-line" @click="HandleIdDelete(user.id)"></i></a> -->
                                                   </div>
                                               </td>

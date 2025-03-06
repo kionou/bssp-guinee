@@ -268,3 +268,12 @@ width: 100%;
   border-color: var( --primary-rgb) !important;
   color: #000 !important;
 }
+
+.tippy-box[data-theme='custom'] {
+  background-color: #FF5733;
+  color: white;
+}
+
+.tippy-box[data-theme='custom'] .tippy-arrow {
+  color: #FF5733;
+}

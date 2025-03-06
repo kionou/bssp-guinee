@@ -227,15 +227,17 @@
                                                   ></div>
                                                 </div>
                                               </td> -->
-                           <td class="" style="width: 130px;">
+                           <td class="" style="width: 80px;">
                                             <div class="btn-list w-25 d-flex">
     
                                               <button class="btn btn-sm btn-icon btn-info btn-wave " data-bs-toggle="modal"
+                                                v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                                                 data-bs-target="#update_bailleur" @click="HandleIdUpdateBailleurs(item.id)">
                                                 <i class="ri-edit-line"></i>
                                               </button>
     
-                                              <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDeleteBailleur(item.id)">
+                                              <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDeleteBailleur(item.id)" 
+                                                v-tippy="{ content: 'Supprimer l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
                                                 <i class="ri-delete-bin-line"></i>
                                               </button>
     
@@ -290,6 +292,7 @@
                   <b> Les contraintes liées au suivi</b>
   
                   <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2 " data-bs-placement="top"
+                    v-tippy="{ content: 'Créer un nouvel élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                     data-bs-title="Add Contact" data-bs-toggle="modal" data-bs-target="#add_contrainte">
                     <i class="ri-add-line"> </i>
                   </button>
@@ -323,23 +326,28 @@
                         <td>{{ item.Mitigation }}</td>
                         <td>{{ item.Acteurs }}</td>
                         <td class="text-center" style="width: 100px;">
-                          <router-link v-if="item.suivis_contrainte.length > 0" to="#" class="text-white btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#add_contrainte_suivi" @click="fetchSuiviContrainte(item.id)">
+                          <router-link v-if="item.suivis_contrainte.length > 0" to="#" class="text-white btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#add_contrainte_suivi" @click="fetchSuiviContrainte(item.id)"
+                            v-tippy="{ content: 'Suivre cette contrainte',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
                             {{item.suivis_contrainte[0].Statut}}
                           </router-link>
-                          <router-link v-else to="#" class="text-white btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#add_contrainte_suivi" @click="fetchSuiviContrainte(item.id)">
+                          <router-link v-else to="#" class="text-white btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#add_contrainte_suivi" @click="fetchSuiviContrainte(item.id)"
+                            v-tippy="{ content: 'Suivre cette contrainte',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
                             suivre
                           </router-link>
                         </td>
                         <td style="color:red ; width:100px">{{ formatDate(item.Delai)}}</td>
-                        <td style="width:100px">
+                        <td style="width:80px">
                           <div class="hstack gap-2 fs-1">
                             <button v-if="hasPermission(2)" class="btn btn-sm btn-icon btn-info btn-wave"
                               data-bs-toggle="modal" data-bs-target="#update_contrainte"
-                              @click="HandleIdUpdateContrainte(item.id)">
+                              @click="HandleIdUpdateContrainte(item.id)" 
+                              v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
                               <i class="ri-edit-line"></i>
                             </button>
                             <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave"
-                              @click="HandleIdDeleteContrainte(item.id)">
+
+                              @click="HandleIdDeleteContrainte(item.id)"
+                              v-tippy="{ content: 'Supprimer l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
                               <i class="ri-delete-bin-line"></i>
                             </button>
                           </div>
@@ -665,7 +673,9 @@
                 
     
                 <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
-                @click="handleModal('create_suivi')">
+
+                @click="handleModal('create_suivi')"
+                v-tippy="{ content: 'Créer un nouvel élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
                   <i class="ri-add-line">
                   </i></button>
               </div>
@@ -709,15 +719,18 @@
                       <span class="fw-semibold fs-14" >{{item.Statut}}</span>
                     </td>
                   
-                    <td class="" style="width: 130px;">
+                    <td class="" style="width: 80px;">
                       <div class="btn-list w-25 d-flex">
   
                         <button v-if="hasPermission(2)" class="btn btn-sm btn-icon btn-info btn-wave " 
-                          @click="HandleIdUpdateSuivi(item.id)" :disabled="index !==0">
+                          @click="HandleIdUpdateSuivi(item.id)" 
+                           v-tippy="{ content: 'Créer un nouvel élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                          :disabled="index !==0">
                           <i class="ri-edit-line"></i>
                         </button>
   
-                        <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDeleteSuivi(item.id)">
+                        <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDeleteSuivi(item.id)"
+                          v-tippy="{ content: 'Supprimer l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
                           <i class="ri-delete-bin-line"></i>
                         </button>
                       </div>

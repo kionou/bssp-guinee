@@ -31,6 +31,7 @@
                                             </div>
                                            
                                             <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" 
+                                             v-tippy="{ content: 'Créer un nouvel élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                                              data-bs-placement="top"
                                               data-bs-title="Add Contact"
                                               data-bs-toggle="modal"
@@ -94,10 +95,13 @@
                                                             <span  v-if="data.Statut === '1'" class="badge bg-success">Activer</span>
                                                             <span  v-else class="badge bg-warning">Desactiver</span>
                                                         </td>
-                                                        <td>
+                                                        <td style="width: 80px;">
                                                             <div class="hstack gap-2 fs-15">
-                                                                <button v-if="hasPermission(2)" class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-info"  data-bs-toggle="modal"  data-bs-target="#update_client" @click="HandleIdUpdate(data.CodeRegion)"><i class="ri-edit-line"></i></button>
+                                                                <button v-if="hasPermission(2)" class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-info"
+                                                                 v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                                                                  data-bs-toggle="modal"  data-bs-target="#update_client" @click="HandleIdUpdate(data.CodeRegion)"><i class="ri-edit-line"></i></button>
                                                                 <button v-if="hasPermission(4)"  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-danger"  
+                                                                 v-tippy="{ content: 'Supprimer cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                                                                      @click="HandleIdDelete(data.CodeRegion)"><i class="ri-delete-bin-line"></i></button>
                                                             </div>
                                                         </td>
@@ -144,7 +148,7 @@
               style="font-size: 22px !important"
             >
               <b class="text-center"
-                >Ajputer une zone</b
+                >Ajouter une zone</b
               >
             </h2>
           </div>

@@ -35,6 +35,7 @@
                                             data-bs-title="Add Contact"
                                             data-bs-toggle="modal"
                                              data-bs-target="#add_infrastructure"
+                                              v-tippy="{ content: 'Créer un nouvel élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                                             >
                                               <i class="ri-add-line">
                                                   </i></button>
@@ -95,10 +96,15 @@
                                                           <span  v-if="data.Visible === '1'" class="badge bg-success">Activer</span>
                                                           <span  v-else class="badge bg-warning">Desactiver</span>
                                                       </td>
-                                                      <td>
+                                                      <td style="width: 80px;">
                                                           <div class="hstack gap-2 fs-15">
-                                                              <button v-if="hasPermission(2)" class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-info"  data-bs-toggle="modal"  data-bs-target="#update_infrastructure" @click="HandleIdUpdate(data.id)"><i class="ri-edit-line"></i></button>
+                                                              <button v-if="hasPermission(2)" class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-info" 
+                                                               v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                                                               data-bs-toggle="modal"  data-bs-target="#update_infrastructure"
+
+                                                                @click="HandleIdUpdate(data.id)"><i class="ri-edit-line"></i></button>
                                                               <button v-if="hasPermission(4)" class="btn btn-icon btn-wave waves-effect btn-sm btn-danger"  
+                                                                v-tippy="{ content: 'Supprimer l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                                                                    @click="HandleIdDelete(data.id)"><i class="ri-delete-bin-line"></i></button>
                                                           </div>
                                                       </td>
@@ -162,7 +168,9 @@
             <div>
               <div class="btn-list" style="position:absolute ; right: 7px; top: 5px;" >
         <div class="bouttons" >
-      <div class="boutton" style=" width: 38px; z-index:1000" @click="AddformDataInfrastructures" ><i  class="ri-add-line"></i></div>
+      <div class="boutton" style=" width: 38px; z-index:1000" @click="AddformDataInfrastructures" 
+      v-tippy="{ content: 'Ajouter un nouveau type d\'infrastructure',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+      ><i  class="ri-add-line"></i></div>
       </div>
         </div>
               <div class="row align-items-center p-2  border-bottom " v-for="(infrastructure, index) in Infrastructures" :key="index">
@@ -214,7 +222,8 @@
                 </div>
                 <div class="col-1" style="position: relative">
                   
-                    <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="deleteRowInfrastructures(index)"  style=" position:absolute !important ; top: 18px !important; background:red;">
+                    <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="deleteRowInfrastructures(index)"  style=" position:absolute !important ; top: 18px !important; background:red;"
+                    v-tippy="{ content: 'Supprimer le type d\'infrastructure',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
                      <i class="ri-delete-bin-line"></i>
                     </button>
                 </div>

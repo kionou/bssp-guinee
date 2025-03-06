@@ -173,6 +173,7 @@
                               </div>
                       
                               <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
+                                v-tippy="{ content: 'Créer un nouvel élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                                 data-bs-toggle="modal" data-bs-target="#add_objectif">
                                 <i class="ri-add-line"> </i>
                               </button>
@@ -203,14 +204,17 @@
                                         <span  v-if="item.Visible === '1'" class="badge bg-success">Activer</span>
                                         <span  v-else class="badge bg-warning">Desactiver</span>
                                       </td>
-                                      <td style="width: 120px;">
+                                      <td style="width: 80px;">
                                         <div class="btn-list w-25 d-flex ">
                                           <button v-if="hasPermission(2)" class="btn btn-sm btn-icon btn-info btn-wave " data-bs-toggle="modal"
+                                           v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                                             data-bs-target="#update_objectif" @click="HandleIdUpdateObjectif(item.id)">
                                             <i class="ri-edit-line"></i>
                                           </button>
                           
-                                          <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDelete(item.id)">
+                                          <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave" 
+                                          v-tippy="{ content: 'Supprimer cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                                          @click="HandleIdDelete(item.id)">
                                             <i class="ri-delete-bin-line"></i>
                                           </button>
                           
@@ -246,12 +250,14 @@
                                     <div class="input-group">
                                       <input type="text" class="form-control bg-light border-0" placeholder="Recherchez..."
                                         aria-describedby="search-member" v-model="searchBailleur" @input="filterByName" />
-                                      <button class="btn btn-light" type="button" id="search-contact-member">
+                                      <button class="btn btn-light" type="button" id="search-contact-member" 
+                                      >
                                         <i class="ri-search-line text-muted"></i>
                                       </button>
                                     </div>
 
                                     <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
+                                      v-tippy="{ content: 'Créer un nouvel élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                                       data-bs-toggle="modal" data-bs-target="#add_bailleur">
                                       <i class="ri-add-line"> </i>
                                     </button>
@@ -310,15 +316,17 @@
             </td>
             <td><span class="d-block fw-semibold  mb-1"> {{item.Commentaire ?? "-"}}</span></td>
 
-                                      <td class="" style="width: 130px;">
+                                      <td class="" style="width: 80px;">
                                         <div class="btn-list w-25 d-flex">
 
                                           <button v-if="hasPermission(2)" class="btn btn-sm btn-icon btn-info btn-wave " data-bs-toggle="modal"
+                                            v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                                             data-bs-target="#update_bailleur" @click="HandleIdUpdateBailleur(data.id , item.id)">
                                             <i class="ri-edit-line"></i>
                                           </button>
 
-                                          <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDeleteBailleur(item.CodeBailleur)">
+                                          <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDeleteBailleur(item.CodeBailleur)" 
+                                          v-tippy="{ content: 'Supprimer cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
                                             <i class="ri-delete-bin-line"></i>
                                           </button>
 
@@ -389,6 +397,7 @@
                               </div>
                       
                               <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-placement="top" data-bs-title="Add Contact"
+                                v-tippy="{ content: 'Créer un nouvel élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                                 data-bs-toggle="modal" data-bs-target="#add_indicateur">
                                 <i class="ri-add-line"> </i>
                               </button>
@@ -431,15 +440,17 @@
               
   
             
-              <td style="width: 130px;">
+              <td style="width: 80px;">
                 <div class="btn-list w-25 d-flex ">
   
                   <button v-if="hasPermission(2)" class="btn btn-sm btn-icon btn-info btn-wave " data-bs-placement="top" data-bs-title="Add Contact" data-bs-toggle="modal"
+                    v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                     data-bs-target="#update_indicateurs" @click="HandleIdUpdateIndicateur(item.id)">
                     <i class="ri-edit-line"></i>
                   </button>
   
-                  <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDeleteIndicateur(item.id)">
+                  <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave" @click="HandleIdDeleteIndicateur(item.id)"
+                    v-tippy="{ content: 'Supprimer cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
                     <i class="ri-delete-bin-line"></i>
                   </button>
   
@@ -585,7 +596,9 @@
               <div>
                 <div class="btn-list" style="position:absolute ; right: 7px; top: 5px;" >
           <div class="bouttons" >
-        <div class="boutton" style=" width: 100px; z-index:1000 ; max-width: 200px !important" @click="AddformDataBailleurs" ><i  class="ri-add-line"></i>Ajouter</div>
+        <div class="boutton" style=" width: 100px; z-index:1000 ; max-width: 200px !important" @click="AddformDataBailleurs"
+         v-tippy="{ content: 'Créer une nouvelle ligne',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+         ><i  class="ri-add-line"></i>Ajouter</div>
         </div>
           </div>
                 <div class="row align-items-center p-2  border-bottom " v-for="(bailleur, index) in Bailleurs" :key="bailleur.id">
@@ -658,7 +671,8 @@
                   </div>
                   <div class="col-1" style="position: relative">
                     
-                      <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="deleteRowBailleurs(index)"  style=" position:absolute !important ; top: 18px !important; background:red;">
+                      <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="deleteRowBailleurs(index)"  style=" position:absolute !important ; top: 18px !important; background:red;" 
+                      v-tippy="{ content: 'Supprimer cette ligne',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
                        <i class="ri-delete-bin-line"></i>
                       </button>
                   </div>
@@ -870,7 +884,9 @@
               <div>
                 <div class="btn-list" style="position:absolute ; right: 7px; top: 5px;" >
           <div class="bouttons" >
-        <div class="boutton" style=" width: 38px; z-index:1000" @click="AddformDataObjectifs" ><i  class="ri-add-line"></i></div>
+        <div class="boutton" style=" width: 38px; z-index:1000" @click="AddformDataObjectifs"
+          v-tippy="{ content: 'Créer une nouvelle ligne',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+         ><i  class="ri-add-line"></i></div>
         </div>
           </div>
                 <div class="row align-items-center p-2  border-bottom " v-for="(objectif, index) in Objectifs" :key="objectif.id">
@@ -923,7 +939,9 @@
                   </div>
                   <div class="col-1" style="position: relative">
                     
-                      <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="deleteRowObjectifs(index)"  style=" position:absolute !important ; top: 18px !important; background:red;">
+                      <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="deleteRowObjectifs(index)" 
+                      v-tippy="{ content: 'Supprimer cette ligne',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                        style=" position:absolute !important ; top: 18px !important; background:red;">
                        <i class="ri-delete-bin-line"></i>
                       </button>
                   </div>
@@ -1070,7 +1088,9 @@
               <div>
                 <div class="btn-list" style="position:absolute ; right: 7px; top: 5px;" >
           <div class="bouttons" >
-        <div class="boutton" style=" width: 38px; z-index:1000" @click="AddformDataIndicateurs" ><i  class="ri-add-line"></i></div>
+        <div class="boutton" style=" width: 38px; z-index:1000" @click="AddformDataIndicateurs" 
+        v-tippy="{ content: 'Créer une nouvelle ligne',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+        ><i  class="ri-add-line"></i></div>
         </div>
           </div>
                 <div class="row align-items-center p-2  border-bottom " v-for="(indicateur, index) in Indicateurs" :key="indicateur.id">
@@ -1140,7 +1160,10 @@
                   </div>
                   <div class="col-1" style="position: relative">
                     
-                      <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="deleteRowIndicateurs(index)"  style=" position:absolute !important ; top: 18px !important; background:red;">
+                      <button class="btn btn-sm btn-icon btn-danger btn-wave" @click="deleteRowIndicateurs(index)" 
+                      v-tippy="{ content: 'Supprimer cette ligne',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                        style=" position:absolute !important ; top: 18px !important; background:red;">
+                       style=" position:absolute !important ; top: 18px !important; background:red;">
                        <i class="ri-delete-bin-line"></i>
                       </button>
                   </div>

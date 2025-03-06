@@ -19,7 +19,9 @@
                                         @input="filterByName"
                                     />
                                     </div>
-                                    <div  v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#create-role">
+                                    <div  v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2"
+                                     v-tippy="{ content: 'Créer un nouvel élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                                     data-bs-toggle="modal" data-bs-target="#create-role">
                                     <i class="ri-add-line"> </i>
                                     </div>
                                   
@@ -53,16 +55,22 @@
                                                 <td style="width: 180px;" class="text-center">
                                                     <div class="d-flex align-items-center lh-1 justify-content-center ">
                                                         
-                                                        <a href="#"  style="color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1)) !important;  text-decoration: underline !important;"  data-bs-toggle="modal" data-bs-target="#create-menu-permissions" @click="fetchDetailRoles(user.id)" >Gérer les accès</a>
+                                                        <a href="#"  style="color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1)) !important;  text-decoration: underline !important;"
+                                                          v-tippy="{ content: 'Gérer les accès',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                                                          data-bs-toggle="modal" data-bs-target="#create-menu-permissions" @click="fetchDetailRoles(user.id)" >Gérer les accès</a>
                                                     </div>
                                                 </td>
                                               
                                                
-                                                <td style="width: 120px;">
+                                                <td style="width: 80px;">
                                                     <div class="hstack gap-2 fs-1">
                                                       
-                                                        <div v-if="hasPermission(2)" :class="{ 'disabled': user.id === 1 }" class="btn btn-icon btn-sm btn-info btn-wave waves-effect " data-bs-toggle="modal" data-bs-target="#update_role"  @click="HandleIdUpdate(user.id)"><i class="ri-edit-line"></i></div>
-                                                        <a v-if="hasPermission(4)" :class="{ 'disabled': user.id === 1 }" aria-label="anchor" href="javascript:void(0);" class="btn btn-icon btn-sm btn-danger btn-wave waves-effect waves-light"><i class="ri-delete-bin-line" @click="HandleIdDelete(user.id)"></i></a>
+                                                        <div v-if="hasPermission(2)" :class="{ 'disabled': user.id === 1 }" class="btn btn-icon btn-sm btn-info btn-wave waves-effect "
+                                                         v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                                                         data-bs-toggle="modal" data-bs-target="#update_role"  @click="HandleIdUpdate(user.id)"><i class="ri-edit-line"></i></div>
+                                                        <a v-if="hasPermission(4)" :class="{ 'disabled': user.id === 1 }" aria-label="anchor" href="javascript:void(0);"
+                                                          v-tippy="{ content: 'Supprimer l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}" 
+                                                        class="btn btn-icon btn-sm btn-danger btn-wave waves-effect waves-light"><i class="ri-delete-bin-line" @click="HandleIdDelete(user.id)"></i></a>
                                                     </div>
                                                 </td>
                                             </tr>

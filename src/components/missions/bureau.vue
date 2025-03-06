@@ -19,6 +19,7 @@
                     </div>
     
                     <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-placement="top"
+                     v-tippy="{ content: 'Créer un nouvel élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                         data-bs-title="Add Contact" data-bs-toggle="modal" data-bs-target="#add_infrastructure">
                         <i class="ri-add-line">
                         </i></button>
@@ -65,10 +66,12 @@
                                     <td style="width: 100px !important;">
                                         <div class="hstack gap-2 fs-15">
                                             <button v-if="hasPermission(2)"
+                                             v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                                                 class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-info"
                                                 data-bs-toggle="modal" data-bs-target="#update_infrastructure"
                                                 @click="HandleIdUpdate(data.id)"><i class="ri-edit-line"></i></button>
                                             <button v-if="hasPermission(4)"
+                                              v-tippy="{ content: 'Supprimer l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                                                 class="btn btn-icon btn-wave waves-effect btn-sm btn-danger"
                                                 @click="HandleIdDelete(data.id)"><i class="ri-delete-bin-line"></i></button>
                                         </div>
@@ -117,6 +120,7 @@
                                 <div class="btn-list" style="position:absolute ; right: 7px; top: 5px;">
                                     <div class="bouttons">
                                         <div class="boutton" style=" width: 38px; z-index:1000"
+                                            v-tippy="{ content: 'Ajouter un élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                                             @click="AddformDataInfrastructures"><i class="ri-add-line"></i></div>
                                     </div>
                                 </div>
@@ -177,7 +181,9 @@
                                     <div class="col-1" style="position: relative">
     
                                         <button class="btn btn-sm btn-icon btn-danger btn-wave"
+
                                             @click="deleteRowInfrastructures(index)"
+                                            v-tippy="{ content: 'Supprimer cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                                             style=" position:absolute !important ; top: 18px !important; background:red;">
                                             <i class="ri-delete-bin-line"></i>
                                         </button>
