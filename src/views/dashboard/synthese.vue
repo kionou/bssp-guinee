@@ -219,7 +219,7 @@ export default {
     };
   },
   async mounted() {
-    console.log("loggedInUser", this.loggedInUser);
+
     await this.fetchDetailProjet();
 
   },
@@ -234,7 +234,7 @@ export default {
           },
         });
 
-        console.log("usersOptions", response.data);
+        
         if (response.data.status === "success") {
           this.data = response.data.data;
 
@@ -243,18 +243,14 @@ export default {
           this.BailleursOptions = response.data.data.bailleurs
           //   this.InfrastructuresOptions =  response.data.data.infrastructures
 
-          console.log("usersOptions", this.data);
 
           this.loading = false;
 
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+       
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+         
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||

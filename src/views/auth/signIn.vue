@@ -183,10 +183,10 @@ let DataUser = {
 email:this.step1.email,
 password:this.step1.password,
 }
-console.log("eeeee",DataUser);
+
 try {
 const response = await axios.post('/system/login' , DataUser);
-console.log('response.login', response.data); 
+
 if (response.data.status === "success") {
 this.InfoUser = response.data.data
 this.setMyAuthenticatedUser(this.InfoUser);
@@ -202,7 +202,7 @@ this.loading = false
 
 
 } catch (error) {
-console.log('response.login', error); 
+
 
 this.loading = false
 if (error.response.data.status === "error") {
@@ -239,7 +239,7 @@ async fetchUserDetail(data) {
           this.loading = false;
         }
       } catch (error) {
-        console.error("Erreur lors du téléversement :", error);
+       
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||
           error.response.status === 401

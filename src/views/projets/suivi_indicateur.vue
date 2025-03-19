@@ -456,7 +456,7 @@ export default {
     },
   },
   async mounted() {
-    console.log("loggedInUser", this.loggedInUser);
+   
     await this.fetchIndicateurDetail()
 
 
@@ -475,8 +475,7 @@ export default {
       );
     },
     handleCodeProjetChange(codeProjet) {
-      // Logique pour gérer les changements de codeProjet
-      console.log("Handling codeProjet change:", codeProjet);
+   
       this.Code = codeProjet
       // Par exemple, mettre à jour les indicateurs ou autres données
     },
@@ -495,7 +494,7 @@ export default {
          
         });
 
-        console.log("usersOptionys", response.data.data);
+      
         if (response.data.status === "success") {
           this.data = response.data.data;
           this.dataSuivi =  response.data.data.suivis
@@ -504,12 +503,11 @@ export default {
 
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        this.loading = false;
+        
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+          this.loading = false;
+       
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -537,7 +535,7 @@ export default {
         const dataToSend = {
           indicateurs: this.Indicateurs
         };
-        console.log("data", dataToSend);
+       
 
 
         try {
@@ -547,7 +545,7 @@ export default {
 
             }
           });
-          console.log("Réponse du téléversement :", response);
+         
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.successmsg(
@@ -560,7 +558,8 @@ export default {
           } else {
           }
         } catch (error) {
-          console.log("response.login", error);
+          this.loading = false;
+         
 
           this.loading = false;
           if (error.response.data.status === "error") {
@@ -570,7 +569,8 @@ export default {
           }
         }
       } else {
-        console.log("error", this.v$.$errors);
+        this.loading = false;
+      
       }
     },
     async HandleIdUpdateSuivie(id) {
@@ -583,9 +583,8 @@ export default {
           },
         });
 
-        console.log("response", response);
         if (response) {
-          console.log("responsedata", response.data.data);
+
           let data = response.data.data;
           this.suiviUpdate.DateSuivi = data.DateSuivi,
             this.suiviUpdate.Realisation = data.Realisation,
@@ -594,12 +593,11 @@ export default {
           this.loading = false;
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        this.loading = false;
+       
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+          this.loading = false;
+        
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -630,7 +628,7 @@ export default {
               Observations: this.suiviUpdate.Observations,
         }
 
-        console.log(dataSend);
+      
         try {
           const response = await axios.post('/indicateurs/suivis', dataSend, {
             headers: {
@@ -639,7 +637,7 @@ export default {
 
           });
 
-          console.log("usersOptions", response.data);
+          
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.successmsg(
@@ -662,7 +660,7 @@ export default {
 
 
       } else {
-        console.log("cest pas bon ", this.v$.$errors);
+      
         this.loading = false;
       }
     },
@@ -693,7 +691,7 @@ export default {
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
-        console.log("Réponse de suppression:", response);
+       
         if (response.data.status === "success") {
           this.loading = false;
           this.successmsg(
@@ -703,11 +701,12 @@ export default {
           await this.fetchIndicateurDetail();
           this.loading = false;
         } else {
-          console.log("error", response.data);
+         
           this.loading = false;
         }
       } catch (error) {
-        console.error("Erreur lors de la suppression:", error);
+        this.loading = false;
+       
 
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -730,7 +729,7 @@ export default {
         }
 
 
-        console.log("data", data);
+     
 
         try {
           const response = await axios.post("/indicateurs/suivis", data, {
@@ -738,7 +737,7 @@ export default {
 
           }
           });
-          console.log("Réponse du téléversement :", response);
+        
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.successmsg(
@@ -749,7 +748,7 @@ export default {
           } else {
           }
         } catch (error) {
-          console.log("response.login", error);
+         
 
           this.loading = false;
           if (error.response.data.status === "error") {
@@ -759,7 +758,8 @@ export default {
           }
         }
       } else {
-        console.log("error", this.v$.$errors);
+        this.loading = false;
+       
       }
     },
     async HandleIdStatut(id) {
@@ -775,7 +775,7 @@ export default {
           
         });
 
-        console.log("usersOptions", response.data);
+       
         if (response.data.status === "success") {
           this.successmsg(
             "Données du suivi mises à jour",
@@ -815,22 +815,17 @@ export default {
 
       for (const field in errors) {
         const errorMessages = errors[field]; // Liste complète des messages d'erreur
-        console.log(" errorMessages", errorMessages, typeof errorMessages);
+       
 
         const concatenatedError = errorMessages.join(", "); // Concaténer les messages d'erreur
-        console.log(
-          " concatenatedError",
-          concatenatedError,
-          typeof concatenatedError
-        );
+       
 
         formattedErrors[field] = concatenatedError; // Utilisez le nom du champ comme clé
       }
 
       this.resultError = formattedErrors; // Stockez les erreurs dans un objet
 
-      // Maintenant, this.resultError est un objet où les clés sont les noms des champs
-      console.log("resultError", this.resultError);
+   
     },
 
     filterByName() {

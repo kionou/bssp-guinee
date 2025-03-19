@@ -1178,7 +1178,7 @@ organizedMenus() {
 
   watch: {
     isAuthenticated(newValue) {
-      console.log("User is logged in:", newValue);
+      // console.log("User is logged in:", newValue);
     },
   },
   methods: {
@@ -1795,7 +1795,7 @@ organizedMenus() {
           //         document
           //           .querySelector("#responsive-overlay")
           //           .classList.remove("active");
-          //         console.log(i.id);
+          //       
           //         menuClose();
           //       });
           //   }
@@ -1808,7 +1808,7 @@ organizedMenus() {
           //   });
           // }, 100);
         } else {
-          // console.log("have to close");
+         
           html.setAttribute("data-toggled", "close");
         }
       }

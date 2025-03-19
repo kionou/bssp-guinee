@@ -2250,7 +2250,7 @@ export default {
           this.handleErrors(error);
         }
       } catch (error) {
-        console.log("error", error);
+       
         this.loading = false;
         Swal.fire({
           icon: "error",

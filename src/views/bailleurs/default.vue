@@ -527,7 +527,7 @@ export default {
     },
   },
   async mounted() {
-    // console.log("loggedInUser", this.loggedInUser);
+   
     await this.fetchClients();
   },
 
@@ -682,7 +682,8 @@ export default {
           }
         }
       } else {
-        // console.log("error", this.v$.$errors);
+        this.loading = false;
+     
       }
     },
     async HandleIdUpdate(id) {

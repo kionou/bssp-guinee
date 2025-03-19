@@ -201,10 +201,10 @@ let DataUser = {
 email:this.step1.email,
 password:this.step1.password,
 }
-console.log("eeeee",DataUser);
+
 try {
 const response = await axios.post('/login' , DataUser);
-console.log('response.login', response.data); 
+
 if (response.data.status === "success") {
 this.InfoUser = response.data.data
 this.setMyAuthenticatedUser(this.InfoUser);
@@ -219,7 +219,7 @@ this.loading = false
 
 
 } catch (error) {
-console.log('response.login', error); 
+
 
 this.loading = false
 if (error.response.data.status === "error") {
@@ -231,7 +231,7 @@ return this.error = "L'authentification a échoué"
 }
   }else{
   
-  console.log('pas bon', this.v$.$errors);
+ 
   
   } 
 },
@@ -254,11 +254,11 @@ async ChangePassword(){
             value:this.step3.email
           
           }
-          console.log("eee",CodeUserEmail);
+         
           try {
          const response = await axios.post('/mcipme/send-otp', CodeUserEmail);
          
-         console.log('response.Code', response); 
+        
          if (response.data.status === 'success') {
           this.dialogPassword = false
          this.dialogOtpPassword = true
@@ -268,11 +268,13 @@ async ChangePassword(){
          }
     
     } catch (error) {
-        console.log('error',error);
+        this.loading = false;
+       
     }
           }else{
           
-        console.log('error',this.v$.$errors);
+            this.loading = false;
+       
           
           
           }
@@ -297,12 +299,12 @@ async ChangePassword(){
             value: this. step3.email,
             code: this. step4.code
         }
-      console.log("eeeee",DataUser);
+    
    
      
       try {
       const response = await axios.post('/mcipme/verification-otp' , DataUser);
-      console.log('response.login', response.data); 
+    
       if(response.data.status === 'success'){
         localStorage.setItem('resetPasswordInfo', JSON.stringify({
                   email: this.step3.email,
@@ -322,7 +324,8 @@ async ChangePassword(){
               
      
     } catch (error) {
-      console.log('response.login', error); 
+        this.loading = false;
+    
 
       this.loading = false
       if (error.response.data.status === 'error') {
@@ -334,7 +337,8 @@ async ChangePassword(){
     }
             }else{
             
-            console.log('pas bon', this.v$.$errors);
+          this.loading = false;
+           
             
             }
 

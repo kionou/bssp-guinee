@@ -733,8 +733,7 @@ export default {
       selector: '.glightbox'
     });
     lightboxVideo.on('slide_changed', ({ prev, current }) => {
-      console.log('Prev slide', prev);
-      console.log('Current slide', current);
+     
 
       const { slideIndex, slideNode, slideConfig, player } = current;
     });
@@ -783,31 +782,21 @@ export default {
           },
         });
 
-        console.log("SuiviOptions", response.data);
+    
         if (response.data.status === "success") {
           this.data = response.data.data;
           this.datas = this.data.suivis
           this.SuiviOptions = this.datas
-          //   this.setCodeProjet(this.data.CodeProjet);
-          //   console.log("CodeProjet", this.code); 
-          //   this.ObjectisOptions =  response.data.data.objectifs   
-          //   this.SuivisOptions =  response.data.data.suivis
-          //   this.BailleursOptions =  response.data.data.bailleurs
-          //   this.InfrastructuresOptions =  response.data.data.infrastructures
-
-          // await this.fetchObjectif(this.code)
-          console.log("SuiviOptions", this.data);
+         
 
           this.loading = false;
 
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        this.loading = false;
+      
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+       
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -827,7 +816,7 @@ export default {
       this.v$.step1.$touch();
       if (this.v$.$errors.length == 0) {
         this.loading = true;
-        console.log('rrrrrrrrrr', this.step1.images);
+       
 
         const formData = new FormData();
         formData.append("DateSuivi", this.step1.DateSuivi);
@@ -841,13 +830,12 @@ export default {
        
         if (this.step1.Trimestre && this.step1.Trimestre.length > 0) {
           for (let i = 0; i < this.step1.Trimestre.length; i++) {
-            console.log(this.step1.Trimestre);
+           
             formData.append("Trimestre[]", this.step1.Trimestre[i]);
           }
         }
         if (this.step1.images && this.step1.images.length > 0) {
           for (let i = 0; i < this.step1.images.length; i++) {
-            console.log(this.step1.images);
             formData.append("images[]", this.step1.images[i]);
           }
         }
@@ -863,7 +851,6 @@ export default {
             }
           });
 
-          console.log("Réponse du téléversement :", response);
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.step1 = {
@@ -887,7 +874,6 @@ export default {
             
           }
         } catch (error) {
-          console.log("Erreur lors de la soumission", error);
           this.loading = false;
           if (error.response && error.response.data.status === "error") {
             this.error = error.response.data.message;
@@ -896,7 +882,8 @@ export default {
           }
         }
       } else {
-        console.log("Erreurs de validation", this.v$.$errors);
+        this.loading = false;
+        
       }
 
 
@@ -912,7 +899,6 @@ export default {
         });
 
         if (response.data.status === "success") {
-          console.log("responsedata", response.data.data);
           let data = response.data.data
 
           this.step2 = {
@@ -933,12 +919,11 @@ export default {
 
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        this.loading = false;
+       
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+          this.loading = false;
+          
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -974,7 +959,7 @@ export default {
         formData.append("Trimestre[]", ["T1"]);
         formData.append("id", this.ToId);
 
-        console.log('fivle', this.step2.Trimestre);
+     
         ;
 
       
@@ -996,7 +981,7 @@ export default {
 
             },
           });
-          console.log("Réponse du téléversement :", response);
+         
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.successmsg(
@@ -1008,7 +993,8 @@ export default {
 
           }
         } catch (error) {
-          console.error("Erreur lors du téléversement :", error);
+          this.loading = false;
+        
 
           if (error.response.data.message === "Vous n'êtes pas autorisé." || error.response.status === 401) {
             await this.$store.dispatch('auth/clearMyAuthenticatedUser');
@@ -1021,7 +1007,7 @@ export default {
           }
         }
       } else {
-        console.log("cest pas bon ", this.v$.$errors);
+     
         this.loading = false;
 
       }
@@ -1038,7 +1024,8 @@ export default {
 
         return new File([blob], filename, { type: mimeType });
       } catch (error) {
-        console.error('Erreur lors de la conversion de l\'URL en fichier:', error);
+        this.loading = false;
+      
         return null;
       }
     },
@@ -1055,7 +1042,8 @@ export default {
         if (file && file.size > 0) { // Vérifie que le fichier a bien été créé avec du contenu
           files.push(file);
         } else {
-          console.warn(`Le fichier ${filename} est vide ou n'a pas pu être créé.`);
+          this.loading = false;
+         
         }
       }
 
@@ -1099,7 +1087,7 @@ export default {
 
 
         });
-        console.log('Réponse de suppression:', response);
+       
         if (response.data.status === 'success') {
           this.loading = false
           this.successmsg(
@@ -1109,11 +1097,11 @@ export default {
           await this.fetchDetailInfra();
 
         } else {
-          console.log('error', response.data)
+       
           this.loading = false
         }
       } catch (error) {
-        console.error('Erreur lors de la suppression:', error);
+      
 
         if (error.response.data.message === "Vous n'êtes pas autorisé." || error.response.status === 401) {
           await this.$store.dispatch('auth/clearMyAuthenticatedUser');
@@ -1197,10 +1185,9 @@ export default {
       });
     },
     handleFileUploadImages(event) {
-      console.log("File input change");
+    
       const files = event.target.files;
-      console.log("Selected files:", files);
-      // Créer un tableau pour stocker les fichiers
+    
       this.step1.images = [];
 
       // Ajouter chaque fichier au tableau
@@ -1209,7 +1196,7 @@ export default {
       }
 
 
-      console.log("Images stored:", this.step1.images);
+  
 
     },
     handleFileUploadImagesUpdateNew(event) {
@@ -1224,29 +1211,11 @@ export default {
       }
     },
     handleFileUploadImagesUpdate(event) {
-      //     const files = event.target.files;
-      //     console.log('files',files);
+     
 
-      // for (let i = 0; i < files.length; i++) {
-      //   const reader = new FileReader();
-      //   reader.onload = (e) => {
-      //     if (index !== undefined) {
-      //       // Mise à jour d'une image existante
-      //       this.step2.imagesUrls[index] = e.target.result;
-      //       this.step2.images[index] = files[i];
-      //     } else {
-      //       // Ajout d'une nouvelle image
-      //       this.step2.imagesUrls.push(e.target.result);
-      //       this.step2.images.push(files[i]);
-      //     }
-      //   };
-      //   reader.readAsDataURL(files[i]);
-      // }
-
-      console.log("File input change");
+   
       const files = event.target.files;
-      console.log("Selected files:", files);
-      // Créer un tableau pour stocker les fichiers
+    
       this.step2.images = [];
 
       // Ajouter chaque fichier au tableau
@@ -1255,14 +1224,12 @@ export default {
       }
 
 
-      console.log("Images stored:", this.step2.images);
-
+    
 
     },
     handleFileUploadVideo(event) {
-      console.log("File input change");
+    
       const file = event.target.files[0];
-      console.log("handleFileUploadLogo Selected file:", file);
       this.step1.videoss = file
 
     },

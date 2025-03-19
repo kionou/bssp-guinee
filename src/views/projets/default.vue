@@ -837,7 +837,7 @@ export default {
   watch: {
   loggedInUser(newUser) {
     if (newUser) {
-      console.log('connect', this.connect, typeof(this.connect));
+     
       this.fetchProjets(); // Appeler l'action lorsque `loggedInUser` est chargé
     }
   }
@@ -921,12 +921,12 @@ export default {
        
         this.data = response.data.data;
         this.projetssOptions = this.data;
-        
-        console.log("this.usersOptions", this.projetssOptions);
+       
         this.loading = false;
 
       } catch (error) {
-        console.error('errorqqqqq', error);
+        this.loading = false;
+      
 
         if (error.response.data.message === "Vous n'êtes pas autorisé." || error.response.status === 401) {
           await this.$store.dispatch('auth/clearMyAuthenticatedUser');
@@ -947,7 +947,7 @@ export default {
           }
         );
 
-        console.log("responseclienteschools-level", response.data);
+      
         if (response.data.status === "success") {
 
           this.FinancementOptions = response.data.data.map(item => ({
@@ -957,12 +957,9 @@ export default {
           this.loading = false
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+      
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -988,20 +985,18 @@ export default {
 
         ); // Accéder aux options des pays via le getter
         const filteredOptions = options.filter(item => item.Statut === '1');
-        console.log(options);
+     
         this.RegionsOptions = filteredOptions.map(item => ({
           label: item.NomRegion,
           value: item.CodeRegion,
         }));;
-        console.log(this.RegionsOptions);
+      
 
         // Affecter les options à votre propriété sortedCountryOptions
         this.loading = false
       } catch (error) {
-        console.error(
-          "Erreur lors de la récupération des options des pays :",
-          error.message
-        );
+        this.loading = false;
+       
       }
     },
     validateDateFin() {
@@ -1044,7 +1039,7 @@ export default {
          NiveauAvancementGlobal:this.step1.NiveauAvancementGlobal
 
         }
-        console.log("eeeee", DataUser);
+       
         try {
 
           const response = await axios.post('/projets', DataUser, {
@@ -1054,7 +1049,7 @@ export default {
 
 
           });
-          console.log('response.login', response.data);
+       
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.step1 =  {
@@ -1081,7 +1076,8 @@ export default {
 
 
         } catch (error) {
-          console.log('response.login', error);
+          this.loading = false;
+         
 
           this.loading = false
           if (error.response.data.status === "error") {
@@ -1093,7 +1089,8 @@ export default {
         }
       } else {
 
-        console.log('pas bon', this.v$.$errors);
+        this.loading = false;
+      
 
       }
     },
@@ -1135,12 +1132,11 @@ export default {
           
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        this.loading = false;
+       
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+          this.loading = false;
+          
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -1179,9 +1175,9 @@ export default {
           },
         });
 
-        console.log("response", response);
+        
         if (response) {
-          console.log("responsedata", response);
+        
           let data = response.data.data;
           this.step2.CodeProjet = data.CodeProjet,
             this.step2.Sigle = data.Sigle,
@@ -1194,18 +1190,15 @@ export default {
             this.step2.Avance = data.Avance
            this.step2.NiveauAvancementGlobal = data.NiveauAvancementGlobal
           const ZonesIds = data.regions.map(zone => zone.CodeRegion);
-          console.log('zz', ZonesIds);
           this.step2.zones = ZonesIds
           this.ToId = data.id;
           this.loading = false;
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        this.loading = false;
+        
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+         
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -1247,7 +1240,7 @@ export default {
           Visible: this.step2.Visible
         }
 
-        console.log(data);
+       
         try {
           const response = await axios.put(`/projets/${this.ToId}`, data, {
             headers: {
@@ -1256,7 +1249,7 @@ export default {
 
           });
 
-          console.log("usersOptions", response.data);
+        
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.successmsg(
@@ -1267,12 +1260,11 @@ export default {
             this.loading = false;
           }
         } catch (error) {
-          console.log(
-            "Erreur lors de la mise à jour des données MPME guinee :",
-            error
-          );
+          this.loading = false;
+         
           if (error.response.data.status === "error") {
-            console.log("aut", error.response.data.status === "error");
+          this.loading = false;
+            
 
             if (
               error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -1291,7 +1283,7 @@ export default {
 
 
       } else {
-        console.log("cest pas bon ", this.v$.$errors);
+       
         this.loading = false;
       }
     },
@@ -1322,7 +1314,7 @@ export default {
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
-        console.log("Réponse de suppression:", response);
+       
         if (response.data.status === "success") {
           this.loading = false;
           this.successmsg(
@@ -1331,11 +1323,12 @@ export default {
           );
           await this.fetchProjets();
         } else {
-          console.log("error", response.data);
+        
           this.loading = false;
         }
       } catch (error) {
-        console.error("Erreur lors de la suppression:", error);
+        this.loading = false;
+       
 
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -1465,22 +1458,17 @@ export default {
 
       for (const field in errors) {
         const errorMessages = errors[field]; // Liste complète des messages d'erreur
-        console.log(" errorMessages", errorMessages, typeof errorMessages);
+        
 
         const concatenatedError = errorMessages.join(", "); // Concaténer les messages d'erreur
-        console.log(
-          " concatenatedError",
-          concatenatedError,
-          typeof concatenatedError
-        );
+       
 
         formattedErrors[field] = concatenatedError; // Utilisez le nom du champ comme clé
       }
 
       this.resultError = formattedErrors; // Stockez les erreurs dans un objet
 
-      // Maintenant, this.resultError est un objet où les clés sont les noms des champs
-      console.log("resultError", this.resultError);
+    
     },
 
     updateCurrentPage(pageNumber) {

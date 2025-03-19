@@ -371,16 +371,14 @@ size="sm" rounded-size="sm" />
         this.v$.step1.$touch();
 
         if (this.v$.$errors.length === 0 && isStep1Valid && isStep2Valid) {
-            console.log("Form is valid");
-            // Continue with form submission logic
+           
         } else {
-            console.log("Le formulaire contient des erreurs");
-            console.log("Errors:", this.v$.$errors);
+           
             window.scrollTo({ top: 0, behavior: "smooth" });
             this.loading = false;
         }
     } catch (error) {
-        console.error("Une erreur s'est produite :", error);
+     
         window.scrollTo({ top: 0, behavior: "smooth" });
         this.loading = false;
     }
@@ -437,7 +435,7 @@ validateStep2() {
        }
       
      } catch (error) {
-       console.log("Erreur lors de la mise à jour des données MPME guinee :", error);
+      
      
        
      }
@@ -510,7 +508,7 @@ validateStep2() {
      ]);
      
    } catch (error) {
-     console.error("Erreur lors du chargement des données:", error);
+    
    }
       
       

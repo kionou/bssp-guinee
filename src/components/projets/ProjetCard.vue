@@ -4,18 +4,22 @@
       <div class="card custom-card border border-warning" data-aos="zoom-in">
         <div class="card-header p-2 d-block">
           <div class="row">
-            <div class=" col-xl-10  px-0 flex- text-center">
+            <div class=" col-xl-9  px-0 flex- text-center">
               <span class="fs-16 fw-bold text-uppercase">{{truncateText(projet.NomProjet, 55)}}</span>
             </div>
            
-            <div class=" col-xl-2 px-0 text-sm-center">
+            <div class=" col-xl-3 px-0 text-sm-center">
                 <a :href="`https://project-files.org/bspp/public/api/fiche-projet/${projet.id}`" target="_blank"  class="btn btn-sm btn-icon btn-info btn-wave" 
                v-tippy="{ content: 'Voir la fiche du projet',theme: 'custom',animation: 'shift-away'}">
-                  <i class="ri-line-chart-fill"></i>
+               <i class="ri-file-list-line"></i>
+              </a>
+              <a :href="`https://project-files.org/bspp/public/api/fiche-synoptique/${projet.id}`" target="_blank"  class="btn btn-sm btn-icon btn-warning btn-wave ms-1" 
+               v-tippy="{ content: 'Voir la fiche synoptique du projet',theme: 'custom',animation: 'shift-away'}">
+               <i class="ri-file-text-line"></i>
               </a>
 
               <router-link :to="{ name: 'detail-projet', params: { id: projet.id }}" 
-                class="btn btn-sm btn-icon btn-success btn-wave ms-2" v-tippy="{ content: 'Afficher les détails',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
+                class="btn btn-sm btn-icon btn-success btn-wave ms-1" v-tippy="{ content: 'Afficher les détails',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
                 <i class="ri-eye-line"></i>
               </router-link>
               </div>

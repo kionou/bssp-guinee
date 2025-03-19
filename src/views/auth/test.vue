@@ -389,7 +389,7 @@ password:this.step1.password,
 }
 try {
 const response = await axios.post('/system/login' , DataUser);
-console.log('response.login', response.data); 
+
 if (response.data.status === "success") {
 this.InfoUser = response.data.data
 this.setMyAuthenticatedUser(this.InfoUser);
@@ -404,7 +404,7 @@ this.$router.push('/bspp');
 
 
 } catch (error) {
-console.log('response.login', error); 
+
 
 this.loading = false
 if (error.response.data.status === "error") {
@@ -442,7 +442,8 @@ async fetchUserDetail(data) {
           this.loading = false;
         }
       } catch (error) {
-        console.error("Erreur lors du téléversement :", error);
+        this.loading = false;
+       
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||
           error.response.status === 401
@@ -469,7 +470,7 @@ async fetchUserDetail(data) {
 
           try {
          const response = await axios.post('/send-otp', CodeUserEmail);
-        console.log('response',response)
+      
          if (response.data.status === 'success') {
           this.isEmail = false
           this.isCode = true
@@ -481,13 +482,15 @@ async fetchUserDetail(data) {
          }
     
         } catch (error) {
-          console.log('error',error)
+          this.loading = false;
+         
         
         }
           }else{
           
      
-          console.log('error', this.v$.$errors)
+            this.loading = false;
+          
           
           }
   },
@@ -505,7 +508,7 @@ async fetchUserDetail(data) {
      
       try {
       const response = await axios.post('/verification-otp' , DataUser);
-      console.log('response',response)
+   
       if(response.data.status === 'success'){
       
             this.isCode = false
@@ -525,7 +528,7 @@ async fetchUserDetail(data) {
      
     } catch (error) {
    
-console.log('error',error)
+
       this.loading = false
       if (error.response.data.status === 'error') {
        return this.errorOtp = "L'authentification a échoué"
@@ -555,7 +558,7 @@ console.log('error',error)
             password_confirmation:this.step5.password_confirmation
         }
 
-        console.log('DataUser' , DataUser)
+     
      
       try {
       const response = await axios.post('/password/reset' , DataUser);
@@ -580,7 +583,7 @@ this.loading = false
 
       }else{
       
-      console.log('response',response)
+     
        this.loading = false
       }
     
@@ -589,7 +592,7 @@ this.loading = false
      
     } catch (error) {
    
-console.log('error',error)
+
       this.loading = false
       if (error.response.data.status === 'error') {
        return this.errorOtp = "L'authentification a échoué"

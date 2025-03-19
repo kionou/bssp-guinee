@@ -945,7 +945,7 @@ export default {
     },
     filteredBailleurs() {
       if (!this.searchBailleur) {
-        console.log('this.BailleursOptions', this.BailleursOptions);
+     
         return this.BailleursOptions;
       }
       const searchValue = this.searchBailleur.toLowerCase();
@@ -1093,7 +1093,7 @@ MontantDecaisser:{ require }
 
   async mounted() {
     this.initGlightbox();
-    console.log("loggedInUser", this.loggedInUser);
+   
     await this.fetchDetailProjet()
     // await   this.fetchUserAll()
 
@@ -1135,7 +1135,7 @@ MontantDecaisser:{ require }
           },
         });
 
-        // console.log("usersOptions", response.data);
+      
         if (response.data.status === "success") {
           this.data = response.data.data.suivi;
           this.BailleursOptions = this.data.bailleurs
@@ -1154,12 +1154,10 @@ MontantDecaisser:{ require }
           // localStorage.setItem('reload', 'true'); 
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        this.loading = false;
+        
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+        
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -1236,7 +1234,7 @@ MontantDecaisser:{ require }
 
             }
           });
-          console.log('data.response', response);
+         
 
           if (response.data.status === "success") {
             this.closeModal(modalId);
@@ -1256,7 +1254,8 @@ MontantDecaisser:{ require }
           } else {
           }
         } catch (error) {
-          console.log('error', error);
+          this.loading = false;
+       
 
 
           this.loading = false;
@@ -1298,7 +1297,8 @@ MontantDecaisser:{ require }
         }
       } catch (error) {
 
-        console.log('error', error);
+        this.loading = false;
+       
 
       }
 
@@ -1320,7 +1320,7 @@ MontantDecaisser:{ require }
           Acteurs:this.step2.Acteurs,
           IdSuiviProjet: this.id
         }
-        console.log('data', data)
+      
 
 
 
@@ -1387,7 +1387,7 @@ MontantDecaisser:{ require }
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
-        console.log("Réponse de suppression:", response);
+      
         if (response.data.status === "success") {
           this.loading = false;
           this.successmsg(
@@ -1398,11 +1398,12 @@ MontantDecaisser:{ require }
           this.loading = false;
 
         } else {
-          console.log("error", response.data);
+       
           this.loading = false;
         }
       } catch (error) {
-        console.error("Erreur lors de la suppression:", error);
+        this.loading = false;
+       
 
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -1420,7 +1421,7 @@ MontantDecaisser:{ require }
       this.loading = true;
       try {
         const response = this.data.bailleurs.find(u => u.id === id)
-        console.log('',response)
+      
       
         if (response) {
             this.UpdateBailleur.CodeBailleur = response.CodeBailleur,
@@ -1431,7 +1432,8 @@ MontantDecaisser:{ require }
         }
       } catch (error) {
 
-        console.log('error', error);
+        this.loading = false;
+      
 
       }
 
@@ -1520,7 +1522,7 @@ if (this.v$.$errors.length == 0) {
             identity:id
           }
         });
-        console.log("Réponse de suppression:", response);
+       
         if (response.data.status === "success") {
           this.loading = false;
           this.successmsg(
@@ -1531,11 +1533,12 @@ if (this.v$.$errors.length == 0) {
           this.loading = false;
 
         } else {
-          console.log("error", response.data);
+        
           this.loading = false;
         }
       } catch (error) {
-        console.error("Erreur lors de la suppression:", error);
+        this.loading = false;
+       
 
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -1562,7 +1565,7 @@ if (this.v$.$errors.length == 0) {
          
         });
 
-        console.log("usersOptionys", response.data);
+
         if (response.data.status === "success") {
           // this.data = response.data.data;
           // this.dataSuivi =  response.data.data.suivis
@@ -1571,12 +1574,11 @@ if (this.v$.$errors.length == 0) {
 
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        this.loading = false;
+       
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+          this.loading = false;
+        
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -1623,7 +1625,7 @@ if (this.v$.$errors.length == 0) {
         
        
      
-      console.log('data', data);
+ 
       try {
         const response = await axios.post("/contraintes/suivis", data, {
           headers: {
@@ -1632,7 +1634,7 @@ if (this.v$.$errors.length == 0) {
           }
         });
 
-        console.log("Réponse du téléversement :", response);
+        
 
         if (response.data.status === "success") {
           this.closeModal(modalId);
@@ -1653,7 +1655,7 @@ if (this.v$.$errors.length == 0) {
           // Gérer les erreurs du serveur ici
         }
       } catch (error) {
-        console.log("response.login", error);
+       
 
         this.loading = false;
         if (error.response.data.status === "error") {
@@ -1667,7 +1669,7 @@ if (this.v$.$errors.length == 0) {
         }
       }
     } else {
-      console.log("error", this.v$.$errors);
+    
     }
   },
   async HandleIdUpdateSuivi(id) {
@@ -1682,7 +1684,7 @@ if (this.v$.$errors.length == 0) {
         });
       
         if (response) {
-          console.log('res',response)
+         
           let data = response.data.data
             this.UpdateSuivi.DateSuivi = data.DateSuivi,
             this.UpdateSuivi.Statue = data.Statut,
@@ -1695,7 +1697,8 @@ if (this.v$.$errors.length == 0) {
         }
       } catch (error) {
 
-        console.log('error', error);
+        this.loading = false;
+     
 
       }
 
@@ -1715,7 +1718,7 @@ if (this.v$.$errors.length == 0) {
     Observations: this.UpdateSuivi.Observations,  
     IdContrainte: this.IdContrainte
   }
-  console.log('data', data)
+
 
 
 
@@ -1790,7 +1793,7 @@ if (this.v$.$errors.length == 0) {
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
-        console.log("Réponse de suppression:", response);
+       
         if (response.data.status === "success") {
           this.loading = false;
           this.successmsg(
@@ -1801,11 +1804,12 @@ if (this.v$.$errors.length == 0) {
           this.loading = false;
 
         } else {
-          console.log("error", response.data);
+         
           this.loading = false;
         }
       } catch (error) {
-        console.error("Erreur lors de la suppression:", error);
+        this.loading = false;
+       
 
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -1920,7 +1924,7 @@ if (this.v$.$errors.length == 0) {
             this.handleErrors(error);
            }
          } catch (error) {
-          console.log('error',error)
+         
               this.loading = false
               Swal.fire({
               icon: "error",
@@ -1971,23 +1975,17 @@ if (this.v$.$errors.length == 0) {
       const formattedErrors = {};
 
       for (const field in errors) {
-        const errorMessages = errors[field]; // Liste complète des messages d'erreur
-        console.log(" errorMessages", errorMessages, typeof errorMessages);
+        const errorMessages = errors[field]; 
 
         const concatenatedError = errorMessages.join(", "); // Concaténer les messages d'erreur
-        console.log(
-          " concatenatedError",
-          concatenatedError,
-          typeof concatenatedError
-        );
+      
 
         formattedErrors[field] = concatenatedError; // Utilisez le nom du champ comme clé
       }
 
       this.resultError = formattedErrors; // Stockez les erreurs dans un objet
 
-      // Maintenant, this.resultError est un objet où les clés sont les noms des champs
-      console.log("resultError", this.resultError);
+      
     },
 
 

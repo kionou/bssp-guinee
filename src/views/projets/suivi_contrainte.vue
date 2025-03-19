@@ -453,7 +453,7 @@
       },
     },
     async mounted() {
-      console.log("loggedInUser", this.loggedInUser);
+   
       await this.fetchIndicateurDetail()
   
   
@@ -473,7 +473,7 @@
       },
       handleCodeProjetChange(codeProjet) {
         // Logique pour gérer les changements de codeProjet
-        console.log("Handling codeProjet change:", codeProjet);
+       
         this.Code = codeProjet
         // Par exemple, mettre à jour les indicateurs ou autres données
       },
@@ -493,7 +493,7 @@
            
           });
   
-          console.log("usersOptionys", response.data.data);
+         
           if (response.data.status === "success") {
             this.data = response.data.data;
             // this.dataSuivi =  response.data.data.suivis
@@ -502,12 +502,10 @@
   
           }
         } catch (error) {
-          console.log(
-            "Erreur lors de la mise à jour des données MPME guinee :",
-            error
-          );
+          this.loading = false;
+         
           if (error.response.data.status === "error") {
-            console.log("aut", error.response.data.status === "error");
+            
   
             if (
               error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -535,7 +533,7 @@
           const dataToSend = {
             indicateurs: this.Indicateurs
           };
-          console.log("data", dataToSend);
+        
   
   
           try {
@@ -545,7 +543,7 @@
   
               }
             });
-            console.log("Réponse du téléversement :", response);
+           
             if (response.data.status === "success") {
               this.closeModal(modalId);
               this.successmsg(
@@ -558,7 +556,8 @@
             } else {
             }
           } catch (error) {
-            console.log("response.login", error);
+          this.loading = false;
+            
   
             this.loading = false;
             if (error.response.data.status === "error") {
@@ -568,7 +567,8 @@
             }
           }
         } else {
-          console.log("error", this.v$.$errors);
+          this.loading = false;
+          
         }
       },
       async HandleIdUpdateSuivie(id) {
@@ -581,9 +581,9 @@
             },
           });
   
-          console.log("response", response);
+         
           if (response) {
-            console.log("responsedata", response.data.data);
+
             let data = response.data.data;
             this.suiviUpdate.DateSuivi = data.DateSuivi,
               this.suiviUpdate.Realisation = data.Realisation,
@@ -592,12 +592,10 @@
             this.loading = false;
           }
         } catch (error) {
-          console.log(
-            "Erreur lors de la mise à jour des données MPME guinee :",
-            error
-          );
+          this.loading = false;
+          
           if (error.response.data.status === "error") {
-            console.log("aut", error.response.data.status === "error");
+           
   
             if (
               error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -628,7 +626,7 @@
                 Observations: this.suiviUpdate.Observations,
           }
   
-          console.log(dataSend);
+       
           try {
             const response = await axios.post('/indicateurs/suivis', dataSend, {
               headers: {
@@ -637,7 +635,7 @@
   
             });
   
-            console.log("usersOptions", response.data);
+
             if (response.data.status === "success") {
               this.closeModal(modalId);
               this.successmsg(
@@ -649,12 +647,9 @@
             
             }
           } catch (error) {
-            console.log(
-              "Erreur lors de la mise à jour des données MPME guinee :",
-              error
-            );
+           
             if (error.response.data.status === "error") {
-              console.log("aut", error.response.data.status === "error");
+              
   
               if (
                 error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -673,7 +668,7 @@
   
   
         } else {
-          console.log("cest pas bon ", this.v$.$errors);
+          
           this.loading = false;
         }
       },
@@ -704,7 +699,7 @@
               Authorization: `Bearer ${this.loggedInUser.token}`,
             },
           });
-          console.log("Réponse de suppression:", response);
+
           if (response.data.status === "success") {
             this.loading = false;
             this.successmsg(
@@ -714,11 +709,11 @@
             await this.fetchIndicateurDetail();
             this.loading = false;
           } else {
-            console.log("error", response.data);
+           
             this.loading = false;
           }
         } catch (error) {
-          console.error("Erreur lors de la suppression:", error);
+         
   
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -741,7 +736,7 @@
           }
   
   
-          console.log("data", data);
+       
   
           try {
             const response = await axios.post("/indicateurs/suivis", data, {
@@ -749,7 +744,7 @@
   
             }
             });
-            console.log("Réponse du téléversement :", response);
+
             if (response.data.status === "success") {
               this.closeModal(modalId);
               this.successmsg(
@@ -760,7 +755,8 @@
             } else {
             }
           } catch (error) {
-            console.log("response.login", error);
+          this.loading = false;
+           
   
             this.loading = false;
             if (error.response.data.status === "error") {
@@ -770,7 +766,8 @@
             }
           }
         } else {
-          console.log("error", this.v$.$errors);
+          this.loading = false;
+
         }
       },
       async HandleIdStatut(id) {
@@ -786,7 +783,6 @@
             
           });
   
-          console.log("usersOptions", response.data);
           if (response.data.status === "success") {
             this.successmsg(
               "Données du suivi mises à jour",
@@ -796,12 +792,10 @@
             this.loading = false;
           }
         } catch (error) {
-          console.log(
-            "Erreur lors de la mise à jour des données MPME guinee :",
-            error
-          );
+          this.loading = false;
+         
           if (error.response.data.status === "error") {
-            console.log("aut", error.response.data.status === "error");
+          
   
             if (
               error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -840,22 +834,17 @@
   
         for (const field in errors) {
           const errorMessages = errors[field]; // Liste complète des messages d'erreur
-          console.log(" errorMessages", errorMessages, typeof errorMessages);
+         
   
           const concatenatedError = errorMessages.join(", "); // Concaténer les messages d'erreur
-          console.log(
-            " concatenatedError",
-            concatenatedError,
-            typeof concatenatedError
-          );
+          
   
           formattedErrors[field] = concatenatedError; // Utilisez le nom du champ comme clé
         }
   
         this.resultError = formattedErrors; // Stockez les erreurs dans un objet
   
-        // Maintenant, this.resultError est un objet où les clés sont les noms des champs
-        console.log("resultError", this.resultError);
+        
       },
   
       filterByName() {

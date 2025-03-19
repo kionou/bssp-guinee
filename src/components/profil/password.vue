@@ -161,7 +161,7 @@
          }
            }else{
            
-           console.log('pas bon', this.v$.$errors);
+          
            
            } 
              },
@@ -190,7 +190,8 @@
     
     
        } catch (error) {
-       console.log('response.login', error); 
+        this.loading = false;
+      
     
        this.loading = false
        if (error.response.data.message==="Vous n'êtes pas autorisé." || error.response.status === 401) {

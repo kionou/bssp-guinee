@@ -503,7 +503,7 @@ export default {
       if (this.v$.$errors.length == 0) {
         this.HamdleSign();
       } else {
-        console.log("pas bon", this.v$.$errors);
+      
       }
     },
 
@@ -591,8 +591,8 @@ export default {
            this.confirmDelete();
          }
            }else{
-           
-           console.log('pas bon', this.v$.$errors);
+          
+          
            
            } 
              },

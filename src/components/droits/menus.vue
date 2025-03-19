@@ -442,7 +442,7 @@ export default {
           }
         }
       } else {
-        console.log("cest pas bon ", this.v$.$errors);
+    
       }
     },
     async DetailPermission(id) {
@@ -463,10 +463,8 @@ export default {
           this.loading = false;
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        this.loading = false;
+       
         if (error.response.data.status === "error") {
          
 
@@ -504,10 +502,8 @@ export default {
         }
 
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        this.loading = false;
+        
         if (error.response.data.status === "error") {
          
 
@@ -561,7 +557,7 @@ export default {
           }
         }
       } else {
-        console.log("cest pas bon ", this.v$.$errors);
+        
       }
     },
     async HandleIdDelete(id) {

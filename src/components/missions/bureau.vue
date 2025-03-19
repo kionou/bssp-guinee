@@ -616,7 +616,8 @@ export default {
 
           }
         } catch (error) {
-          console.error("Erreur lors du téléversement :", error);
+          this.loading = false;
+          
 
           if (error.response.data.message === "Vous n'êtes pas autorisé." || error.response.status === 401) {
             await this.$store.dispatch('auth/clearMyAuthenticatedUser');
@@ -679,7 +680,8 @@ export default {
           this.loading = false
         }
       } catch (error) {
-        console.error('Erreur lors de la suppression:', error);
+        this.loading = false;
+      
 
         if (error.response.data.message === "Vous n'êtes pas autorisé." || error.response.status === 401) {
           await this.$store.dispatch('auth/clearMyAuthenticatedUser');
@@ -765,7 +767,7 @@ export default {
 
   this.errors = formattedErrors;
 
-  console.log("Formatted errors:", this.errors);
+ 
 },
 async formatValidationErrors(errors) {
       const formattedErrors = {};

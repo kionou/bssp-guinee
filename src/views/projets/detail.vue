@@ -195,7 +195,7 @@
     },
   
     async mounted() {
-      console.log("loggedInUser", this.loggedInUser);
+    
       await this.fetchDetailProjet()
     const activeTab = localStorage.getItem('activeTab');
   if (activeTab) {
@@ -222,7 +222,7 @@
           },
         });
 
-        console.log("projetdetail", response.data);
+     
         if (response.data.status === "success") {
           this.data = response.data.data;
           this.code = this.data.CodeProjet 
@@ -240,12 +240,10 @@
           // localStorage.setItem('reload', 'true'); 
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        this.loading = false;
+       
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+          
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -272,14 +270,12 @@
         });
         if (response.data.status === "success") {
           this.indicateursOptions = response.data.data 
-          console.log('this.indicateursOptions',this.indicateursOptions);        }
+                }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+          this.loading = false;
+         
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -304,19 +300,17 @@
         },
         params:{projet:Code , statut:false}
       });
-      console.log('this.indicateursOptions',response); 
+     
 
       if (response.data.status === "success") {
         this.ObjectisOptions = response.data.data 
-        console.log('this.indicateursOptions',this.ObjectisOptions); 
+         
       }
     } catch (error) {
-      console.log(
-        "Erreur lors de la mise à jour des données MPME guinee :",
-        error
-      );
+      this.loading = false;
+      
       if (error.response.data.status === "error") {
-        console.log("aut", error.response.data.status === "error");
+       
 
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||

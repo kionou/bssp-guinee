@@ -109,7 +109,7 @@
     watch: {
   loggedInUser(newUser) {
     if (newUser) {
-      console.log('connect', this.connect, typeof(this.connect));
+    
       this.fetchProjets(); // Appeler l'action lorsque `loggedInUser` est chargé
     }
   }
@@ -136,8 +136,7 @@
     },
   
     async mounted() {
-      console.log('projet',this.loggedInUser)
-      console.log('connect', this.connect, typeof(this.connect));
+      
        await this.fetchProjets()
 
 
@@ -193,7 +192,7 @@
 
            }
         });
-        console.log('projet ',response)
+     
         const ProjetsData =  response.data.data
         // this.selectprojet =[]
         // this.Allprojets = []
@@ -210,7 +209,8 @@
         this.loading = false;
 
       } catch (error) {
-        console.error('errorqqqqq', error);
+        this.loading = false;
+     
 
         if (error.response.data.message === "Vous n'êtes pas autorisé." || error.response.status === 401) {
           await this.$store.dispatch('auth/clearMyAuthenticatedUser');

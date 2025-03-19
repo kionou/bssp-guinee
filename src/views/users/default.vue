@@ -781,7 +781,7 @@ export default {
         this.loading = false;
 
       } catch (error) {
-        console.error('errorqqqqq', error);
+       
 
         if (error.response.data.message === "Vous n'êtes pas autorisé." || error.response.status === 401) {
           await this.$store.dispatch('auth/clearMyAuthenticatedUser');
@@ -802,7 +802,8 @@ export default {
         this.loading = false;
 
       } catch (error) {
-        console.error('errorqqqqq', error);
+        this.loading = false;
+      
 
         if (error.response.data.message === "Vous n'êtes pas autorisé." || error.response.status === 401) {
           await this.$store.dispatch('auth/clearMyAuthenticatedUser');
@@ -1013,7 +1014,8 @@ export default {
           }
         } catch (error) {
         
-          console.error("Erreur lors du téléversement :", error);
+          this.loading = false;
+          
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -1061,7 +1063,7 @@ export default {
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
-        console.log('response',response)
+       
     
         if (response.data.status === "success") {
           this.loading = false;
@@ -1080,10 +1082,8 @@ export default {
           this.loading = false;
         }
       } catch (error) {
-        console.log('errror',error)
-
-
-        console.error("Erreur lors de la suppression:", error);
+        this.loading = false;
+       
 
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||

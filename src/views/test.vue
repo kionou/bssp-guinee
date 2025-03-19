@@ -79,7 +79,7 @@ export default {
       config: {
         events: {
           initialized: function () {
-            console.log('initialized')
+           
           }
         }
       },

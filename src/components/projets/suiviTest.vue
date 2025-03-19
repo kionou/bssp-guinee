@@ -612,7 +612,7 @@ export default {
   watch: {
     SuivisOptions: {
       handler(newVal) {
-        console.log('newVal',newVal);
+       
         this.data = newVal;
       },
       immediate: true,
@@ -620,7 +620,7 @@ export default {
     }
   },
     async mounted() {
-       console.log("loggedInUser", this.loggedInUser);
+      
        this.Code = localStorage.getItem('CodeProjet');
       
     },
@@ -719,7 +719,7 @@ AddformDataBailleurs() {
         contraintes: contraintes,
         bailleurs: bailleurs
     };
-      console.log("data", dataToSend);
+     
 
 
         try {
@@ -728,7 +728,7 @@ AddformDataBailleurs() {
            
           }
           });
-          console.log("Réponse du téléversement :", response);
+       
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.successmsg(
@@ -741,7 +741,7 @@ AddformDataBailleurs() {
           } else {
           }
         } catch (error) {
-          console.log("response.login", error);
+        
 
           this.loading = false;
           if (error.response.data.status === "error") {
@@ -751,7 +751,7 @@ AddformDataBailleurs() {
           }
         }
       } else {
-        console.log("error", this.v$.$errors);
+       
       }
     },
     async HandleIdUpdateIndicateur(id) {
@@ -764,9 +764,9 @@ AddformDataBailleurs() {
           },
         });
 
-        console.log("response", response);
+       
         if (response) {
-          console.log("responsedata", response.data.data);
+         
           let data = response.data.data;
             this.indicateur.CodeIndicateur = data.CodeIndicateur,
             this.indicateur.IntituleIndicateur = data.IntituleIndicateur,
@@ -775,12 +775,10 @@ AddformDataBailleurs() {
           this.loading = false;
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        this.loading = false;
+        
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+          
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -816,7 +814,7 @@ AddformDataBailleurs() {
          
         }
 
-        console.log(dataSend);
+     
         try {
         const response = await axios.put('/indicateurs/update',dataSend, {
           headers: {
@@ -825,7 +823,7 @@ AddformDataBailleurs() {
          
         });
 
-        console.log("usersOptions", response.data);
+       
         if (response.data.status === "success") {
           this.closeModal(modalId);
           this.successmsg(
@@ -836,12 +834,9 @@ AddformDataBailleurs() {
           this.$emit('indicateur-updated');
         }
       } catch (error) {
-        console.log(
-          "Erreur lors de la mise à jour des données MPME guinee :",
-          error
-        );
+        
         if (error.response.data.status === "error") {
-          console.log("aut", error.response.data.status === "error");
+         
 
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -860,7 +855,7 @@ AddformDataBailleurs() {
 
 
       } else {
-        console.log("cest pas bon ", this.v$.$errors);
+        
         this.loading = false;
       }
     },
@@ -891,7 +886,7 @@ AddformDataBailleurs() {
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
-        console.log("Réponse de suppression:", response);
+      
         if (response.data.status === "success") {
           this.loading = false;
           this.successmsg(
@@ -901,11 +896,11 @@ AddformDataBailleurs() {
           this.loading = false;
           this.$emit('indicateur-updated');
         } else {
-          console.log("error", response.data);
+         
           this.loading = false;
         }
       } catch (error) {
-        console.error("Erreur lors de la suppression:", error);
+      
 
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||
@@ -950,22 +945,17 @@ AddformDataBailleurs() {
 
       for (const field in errors) {
         const errorMessages = errors[field]; // Liste complète des messages d'erreur
-        console.log(" errorMessages", errorMessages, typeof errorMessages);
+     
 
         const concatenatedError = errorMessages.join(", "); // Concaténer les messages d'erreur
-        console.log(
-          " concatenatedError",
-          concatenatedError,
-          typeof concatenatedError
-        );
+       
 
         formattedErrors[field] = concatenatedError; // Utilisez le nom du champ comme clé
       }
 
       this.resultError = formattedErrors; // Stockez les erreurs dans un objet
 
-      // Maintenant, this.resultError est un objet où les clés sont les noms des champs
-      console.log("resultError", this.resultError);
+ 
     },
 
     filterByName() {

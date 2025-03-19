@@ -281,7 +281,7 @@
                                         <span class="fw-semibold">Montant Décaissé</span>
                                       </th>
                                       <th scope="col" class="text-center">
-                                        <span class="fw-semibold">Taux Exec. Financière</span>
+                                        <span class="fw-semibold">Taux décaissement</span>
                                       </th>
                                       <th scope="col"  class="text-center">  <span class="fw-semibold" >Commentaire</span></th>
 

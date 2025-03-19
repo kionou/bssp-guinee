@@ -358,9 +358,7 @@ export default {
    }, 
    methods: {
     handleFileUploadLogo(event) {
-    console.log("File input change");
     const file = event.target.files[0];
-    console.log("handleFileUploadLogo Selected file:", file);
       this.step1.logo = file
 
   },
@@ -393,36 +391,9 @@ export default {
         formData.append("FileNif",  this.step1.DateSuiv);
         formData.append("FileNif",  this.step1.Difficultes);
 
- 
-
-        // try {
-        //   const response = await axios.post("/clients", data, {
-        //     headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
-           
-        //   }
-        //   });
-        //   console.log("Réponse du téléversement :", response);
-        //   if (response.data.status === "success") {
-        //     this.closeModal(modalId);
-        //     this.successmsg(
-        //       "Client Created Successfully",
-        //       " The new client has been successfully created!"
-        //     );
-        //     await this.fetchClients();
-        //   } else {
-        //   }
-        // } catch (error) {
-        //   console.log("response.login", error);
-
-        //   this.loading = false;
-        //   if (error.response.data.status === "error") {
-        //     return (this.error = error.response.data.message);
-        //   } else {
-        //     this.formatValidationErrors(error.response.data.errors);
-        //   }
-        // }
+        
       } else {
-        console.log("error", this.v$.$errors);
+       
       }
     },
 
