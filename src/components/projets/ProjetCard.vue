@@ -127,9 +127,9 @@
               <span class=" fs-16">Etat Projet</span> <br>
               <div class="fs-18">
                 <b style="font-size:25px !important">
-                  <i v-if="projetEtat(projet) === 1" class="ri-close-circle-fill text-warning"></i>
+                  <i v-if="projetEtat(projet) === 2" class="ri-close-circle-fill text-warning"></i>
 
-                  <i v-if="projetEtat(projet) === 2"
+                  <i v-if="projetEtat(projet) === 1"
                     class="ri-error-warning-fill text-danger"></i>
                   <i v-if="projetEtat(projet)=== 3" class="ri-checkbox-circle-fill text-success"></i>
                 </b>
@@ -258,52 +258,81 @@ export default {
       return { years, months };
     },
     projetEtat(projet) {
-      const totalBudget = this.projetBudget(projet);
-      const totalMontantDecaisse = projet.bailleurs.reduce((total, bailleur) => {
-        return total + parseFloat((bailleur.decaissement && bailleur.decaissement[0] && bailleur.decaissement[0].montant_decaisser) || 0);
-      }, 0);
+      // const totalBudget = this.projetBudget(projet);
+      // const totalMontantDecaisse = projet.bailleurs.reduce((total, bailleur) => {
+      //   return total + parseFloat((bailleur.decaissement && bailleur.decaissement[0] && bailleur.decaissement[0].montant_decaisser) || 0);
+      // }, 0);
 
-      const TotalJours = Math.floor((new Date(projet.DateFin) - new Date(projet.DateDebut)) / (1000 * 60 * 60 * 24));
-      const TotalJoursNewDate = Math.floor((new Date() - new Date(projet.DateDebut)) / (1000 * 60 * 60 * 24));
+      // const TotalJours = Math.floor((new Date(projet.DateFin) - new Date(projet.DateDebut)) / (1000 * 60 * 60 * 24));
+      // const TotalJoursNewDate = Math.floor((new Date() - new Date(projet.DateDebut)) / (1000 * 60 * 60 * 24));
 
 
 
-      const decaisse = parseFloat(totalMontantDecaisse);
-      const budget = parseFloat(totalBudget);
-      const physique = parseFloat(projet.suivis_dash?.TauxAvancementPhysique ?? 0);
-      const duree = parseFloat(((TotalJoursNewDate / TotalJours) * 100).toFixed(2) )   
+      // const decaisse = parseFloat(totalMontantDecaisse);
+      // const budget = parseFloat(totalBudget);
+      // const physique = parseFloat(projet.suivis_dash?.TauxAvancementPhysique ?? 0);
+      // const duree = parseFloat(((TotalJoursNewDate / TotalJours) * 100).toFixed(2) )   
 
-          // liste des taux 
-          const Taux_Duree =  parseFloat(duree); // deja en %
-          const Taux_Financiere = decaisse > 0 && budget > 0 ? ((decaisse / budget) * 100).toFixed(2) : 0
-          const Taux_Physique =physique > 0 ? physique : 0;
+          
+      //     const Taux_Duree =  parseFloat(duree); // deja en %
+      //     const Taux_Financiere = decaisse > 0 && budget > 0 ? ((decaisse / budget) * 100).toFixed(2) : 0
+      //     const Taux_Physique =physique > 0 ? physique : 0;
          
-      let GlobalTaux = 0;
+      // let GlobalTaux = 0;
   
-  if (
-        (Taux_Physique >= Taux_Duree && Taux_Physique >= Taux_Financiere) ||
-        (Taux_Duree - Taux_Physique > 0 && Taux_Duree - Taux_Physique <= 10) ||
-        ( Taux_Financiere - Taux_Physique  > 0 && Taux_Financiere - Taux_Physique <= 10) ||
-        ( Taux_Financiere >= 100 && Taux_Financiere < 110)
-    ) {
-        GlobalTaux = 3; //color green step1 
-    } else if (
-        (Taux_Duree - Taux_Physique > 25 ) ||
-       ( Taux_Financiere - Taux_Physique > 25 ) ||
-        (  Taux_Financiere > 130)
-    ) {
-        GlobalTaux = 2;  // color orang warning step 2
-    } else if (
-    (  Taux_Duree - Taux_Physique > 10 &&  Taux_Duree - Taux_Physique <=  25) ||
-        (Taux_Financiere - Taux_Physique > 10 && Taux_Financiere - Taux_Physique <= 25) ||
-        (Taux_Financiere > 110 && Taux_Financiere <= 130)
-    ) {
-        GlobalTaux = 1; // color red danger step 3
-    } else {
-        GlobalTaux = '';
-    }
+  // if (
+  //       (Taux_Physique >= Taux_Duree && Taux_Physique >= Taux_Financiere) ||
+  //       (Taux_Duree - Taux_Physique > 0 && Taux_Duree - Taux_Physique <= 10) ||
+  //       ( Taux_Financiere - Taux_Physique  > 0 && Taux_Financiere - Taux_Physique <= 10) ||
+  //       ( Taux_Financiere >= 100 && Taux_Financiere < 110)
+  //   ) {
+  //       GlobalTaux = 3;
+  //        //color green step1 
+  //   } else if (
+  //       (Taux_Duree - Taux_Physique > 25 ) ||
+  //      ( Taux_Financiere - Taux_Physique > 25 ) ||
+  //       (  Taux_Financiere > 130)
+  //   ) {
+  //       GlobalTaux = 2; 
+  //        // color orange warning step 2
+  //   } else if (
+  //   (  Taux_Duree - Taux_Physique > 10 &&  Taux_Duree - Taux_Physique <=  25) ||
+  //       (Taux_Financiere - Taux_Physique > 10 && Taux_Financiere - Taux_Physique <= 25) ||
+  //       (Taux_Financiere > 110 && Taux_Financiere <= 130)
+  //   ) {
+  //       GlobalTaux = 1;
+  //        // color red danger step 3
+  //   } else {
+  //       GlobalTaux = '';
+  //   }
      
-      return GlobalTaux;
+  //     return GlobalTaux;
+
+
+
+  const TotalJours = Math.floor((new Date(projet.DateFin) - new Date(projet.DateDebut)) / (1000 * 60 * 60 * 24));
+  const TotalJoursNewDate = Math.floor((new Date() - new Date(projet.DateDebut)) / (1000 * 60 * 60 * 24));
+  const duree = parseFloat(((TotalJoursNewDate / TotalJours) * 100).toFixed(2) )   
+
+          
+  const Taux_Duree =  parseFloat(duree); // deja en %
+  const Taux_Financiere = parseFloat(projet?.suivis[0].TauxExecutionFinanciere) 
+  const Taux_Physique = parseFloat(projet?.suivis[0].TauxAvancementPhysique)
+ 
+
+  let GlobalTaux = 0;  
+ if ( (Taux_Financiere - Taux_Physique <= 15) && (Taux_Duree - Taux_Physique  <= 25) && ( Taux_Financiere  < 150)) {
+        GlobalTaux = 3;
+         //color green step1 
+    } else if ((Taux_Financiere - Taux_Physique <= 25) && (Taux_Duree - Taux_Physique  <= 50) && ( Taux_Financiere  < 150) 
+    ) {
+        GlobalTaux = 2; 
+         // color orange warning step 2
+    } else  {
+        GlobalTaux = 1;
+         // color red danger step 3
+    }
+    return GlobalTaux;
     },
 
 
@@ -351,7 +380,7 @@ export default {
         return total + parseFloat((bailleur.decaissement && bailleur.decaissement[0] && bailleur.decaissement[0].montant_decaisser) || 0);
       }, 0);
 
-      //   const TotalJours = Math.floor((new Date(projet.DateFin) - new Date(projet.DateDebut))/(1000 * 60 * 60 * 24) )
+      //   const TotalJours = Math.floor((new Date(projet.DateFin) - new Da te(projet.DateDebut))/(1000 * 60 * 60 * 24) )
 
       //   const TotalJoursNewDate = Math.floor((new Date() - new Date(projet.DateDebut)) /(1000 * 60 * 60 * 24) )
 
