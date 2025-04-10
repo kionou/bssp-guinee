@@ -91,9 +91,10 @@
   
         </div>
         <hr class="m-0">
-        <div class=" p-2 d-flex d-block  justify-content-between bg-gray-200">
-          <div class="col-4 text-center">
-            <span class=" fs-16 m-0">Taux Decai. Global</span><br>
+        <div class=" p-0 py-1  d-flex justify-content-center">
+          <div class="row bg-gray-200" style="width:98%">
+            <div class="col-6 text-center">
+            <span class=" fs-16 m-0">Taux Décaissement Global:</span><br>
             <span class="fw-semibold " :style="{ color: getProgressColor(projetTauxDecaissement(projet)) }">{{
               projetTauxDecaissement(projet).toFixed(2) }}%</span>
             <div class="progress mb-1" role="progressbar" aria-valuemin="0" aria-valuemax="100">
@@ -103,10 +104,10 @@
             </div>
   
           </div>
-          <div class="col-4">
+          <div class="col-6">
             <div class="mt-sm-0 mt-2 text-center">
   
-              <span class=" fs-16">Taux Exc. Phys.:</span> <br>
+              <span class=" fs-16">Taux Exécution Physique:</span> <br>
               <span class="fw-semibold "
                 :style="{ color: getProgressColor(projet.suivis_dash?.TauxAvancementPhysique ?? 0) }">{{
                 projet.suivis_dash?.TauxAvancementPhysique ?? 0
@@ -121,23 +122,42 @@
             </div>
           </div>
   
-          <div class="col-3">
+          <div class="col-6">
+            <div class="mt-sm-0 mt-2 text-center">
+  
+              <span class=" fs-16">Taux Exécution financière:</span> <br>
+              <span class="fw-semibold "
+                :style="{ color: getProgressColor(projet.suivis_dash?.TauxExecutionFinanciere ?? 0) }">{{
+                projet.suivis_dash?.TauxExecutionFinanciere ?? 0
+                }}%</span>
+              <div class="progress mb-1" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar progress-bar-striped"
+                  :class="getProgressClass( projet.suivis_dash?.TauxExecutionFinanciere)"
+                  :style="{ width:  projet.suivis_dash?.TauxExecutionFinanciere + '%' }"
+                  :aria-valuenow=" projet.suivis_dash?.TauxExecutionFinanciere ?? 0">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
             <div class="mt-sm-0 mt-2 text-center">
   
               <span class=" fs-16">Etat Projet</span> <br>
               <div class="fs-18">
                 <b style="font-size:25px !important">
-                  <i v-if="projetEtat(projet) === 2" class="ri-close-circle-fill text-warning"></i>
+                  <i v-if="projetEtat(projet) === 2" class="ri-close-circle-fill text-warning" v-tippy="{ content: 'Risque  moderé',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"></i>
 
                   <i v-if="projetEtat(projet) === 1"
-                    class="ri-error-warning-fill text-danger"></i>
-                  <i v-if="projetEtat(projet)=== 3" class="ri-checkbox-circle-fill text-success"></i>
+                    class="ri-error-warning-fill text-danger" v-tippy="{ content: 'Risque elevé',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"></i>
+                  <i v-if="projetEtat(projet)=== 3" class="ri-checkbox-circle-fill text-success" v-tippy="{ content: ' En bonne voie',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"></i>
                 </b>
               </div>
   
             </div>
           </div>
-  
+          
+          </div>
+        
         </div>
       </div>
     </div>
@@ -310,8 +330,8 @@ export default {
 
 
 
-  const TotalJours = Math.floor((new Date(projet.DateFin) - new Date(projet.DateDebut)) / (1000 * 60 * 60 * 24));
-  const TotalJoursNewDate = Math.floor((new Date() - new Date(projet.DateDebut)) / (1000 * 60 * 60 * 24));
+  const TotalJours = Math.floor((new Date(projet.DateFin) - new Date(projet.DateDebut)) / (1000 * 60 * 60 * 24 * 30));
+  const TotalJoursNewDate = Math.floor((new Date() - new Date(projet.DateDebut)) / (1000 * 60 * 60 * 24 * 30));
   const duree = parseFloat(((TotalJoursNewDate / TotalJours) * 100).toFixed(2) )   
 
           
