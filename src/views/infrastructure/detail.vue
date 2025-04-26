@@ -209,14 +209,14 @@
                       <td>
                         <div class="d-flex align-items-center lh-1">
   
-                          <div style="color:red">{{ formatDate(user.DateSuivi) }}</div>
+                          <div style="color:red ; width: 85px" >{{ formatDate(user.DateSuivi) }}</div>
                         </div>
                       </td>
-                      <td  class="text-center">{{user.NiveauAvancement}}</td>
+                      <td  class="" v-html="user.NiveauAvancement"></td>
                       <td  class="text-center">{{user.TauxExecutionFinanciere}}</td>
                       <td class="text-center"  style="width: 100px;">{{ formatBudget(user.MontantDecaisser) }}</td>
                       <td style="width: 100px;" class="text-center">{{user.TauxAvancementTechnique}}</td>
-                      <td>{{user.Difficultes}}</td>
+                      <td v-html="user.Difficultes"></td>
                       <!-- <td>
                         {{user.Trimestre}}
                          
@@ -237,7 +237,7 @@
                         </button>
                         <span v-else>Aucune vidéo</span>
                       </td>
-                      <td style="width:120PX" v-if="hasPermission(6)" >
+                      <td style="width:125px" v-if="hasPermission(6)" >
                         <button class="btn " :class=" user?.Validated == '1' ? 'bg-success' : 'bg-danger'" :disabled="user?.Validated == '1'" style=" color:white" @click="validateSelection(user?.id)">
                         <i class="bi bi-check2-circle"></i>
                         {{ user?.Validated == '1' ? 'Valider' : 'Non Valider' }}
@@ -318,16 +318,19 @@
                   <small v-if="v$.step1.DateSuivi.$error">{{ v$.step1.DateSuivi.$errors[0].$message}}</small>
                   <small v-if="resultError['DateSuivi']"> {{ resultError["DateSuivi"] }} </small>
                 </div>
-  
                 <div class="col-xl-6 col-md-6 col-sm-12">
-                  <label for="Nom">Niveau d'avancement<span class="text-danger">*</span></label>
-                  <MazInput v-model="step1.NiveauAvancement" color="info" name="NiveauAvancement" size="sm"
-                    rounded-size="sm" type="text" />
-                  <small v-if="v$.step1.NiveauAvancement.$error">{{
-                    v$.step1.NiveauAvancement.$errors[0].$message}}</small>
-                  <small v-if="resultError['NiveauAvancement']"> {{ resultError["NiveauAvancement"] }} </small>
+                    <div class="mb-3 position-relative">
+                       <div class="input-groupe">
+                        <label for="password">Taux d'exécution financière <span class="text-danger">*</span></label>
+                        <MazInput v-model="step1.TauxExecutionFinanciere"  name="TauxExecutionFinanciere" color="info" placeholder="10"  type="number"
+                        min="0" max="100"  size="sm" rounded-size="sm" />
+                        <small v-if="v$.step1.TauxExecutionFinanciere.$error">{{v$.step1.TauxExecutionFinanciere.$errors[0].$message}}</small>
+                        <small v-if="resultError['TauxExecutionFinanciere']">{{resultError['TauxAvancementPhysique']}}</small>
+                       </div>
+                    </div>
+                </div> 
   
-                </div>
+                
                 <div class="col-xl-6 col-md-6 col-sm-12">
                   <label for="Sigle">Montant décaissé<span class="text-danger">*</span></label>
                   <MazInput v-model="step1.MontantDecaisser" color="info" name="MontantDecaisser" size="sm"
@@ -346,24 +349,8 @@
                   <small v-if="resultError['TauxAvancementTechnique']"> {{ resultError["TauxAvancementTechnique"] }}
                   </small>
                 </div>
-                <div class="col col-md-12 col-sm-12">
-                    <div class="mb-3 position-relative">
-                       <div class="input-groupe">
-                        <label for="password">Taux d'exécution financière <span class="text-danger">*</span></label>
-                        <MazInput v-model="step1.TauxExecutionFinanciere"  name="TauxExecutionFinanciere" color="info" placeholder="10"  type="number"
-                        min="0" max="100"  size="sm" rounded-size="sm" />
-                        <small v-if="v$.step1.TauxExecutionFinanciere.$error">{{v$.step1.TauxExecutionFinanciere.$errors[0].$message}}</small>
-                        <small v-if="resultError['TauxExecutionFinanciere']">{{resultError['TauxAvancementPhysique']}}</small>
-                       </div>
-                    </div>
-                </div> 
-                <!-- <div class="col-xl-12 col-md-12 col-sm-12">
-                  <label for="Sigle">Trimestre<span class="text-danger">*</span></label>
-                  <MazSelect v-model="step1.Trimestre" color="info" name="Trimestre" size="sm" rounded-size="sm"
-                    :options="trimestre" multiple search />
-                  <small v-if="v$.step1.Trimestre.$error">{{ v$.step1.Trimestre.$errors[0].$message}}</small>
-                  <small v-if="resultError['Trimestre']"> {{ resultError["Trimestre"] }} </small>
-                </div> -->
+               
+                
                 <div class="col-xl-6 col-md-6 col-sm-12">
                   <label for="date_end">Images<span class="text-danger">*</span></label>
                   <input class="form-control" type="file" id="input-file" accept="image/*" multiple
@@ -380,19 +367,25 @@
                   <small v-if="v$.step1.videoss.$error">{{ v$.step1.videoss.$errors[0].$message}}</small>
                   <small v-if="resultError['videoss[]']"> {{ resultError["videoss[]"] }} </small>
                 </div>
+                <div class="col-12">
+                  <label for="Nom">Niveau d'avancement<span class="text-danger">*</span></label>
+
+                  <!-- <MazInput v-model="step1.NiveauAvancement" color="info" name="NiveauAvancement" size="sm"
+                    rounded-size="sm" type="text" /> -->
+                  <QuillEditor v-model="step1.NiveauAvancement" />
+                  <small v-if="v$.step1.NiveauAvancement.$error">{{
+                    v$.step1.NiveauAvancement.$errors[0].$message}}</small>
+                  <small v-if="resultError['NiveauAvancement']"> {{ resultError["NiveauAvancement"] }} </small>
+  
+                </div>
   
                 <div class="col-12">
                   <label for="infrastructure_id">Difficultes</label>
-                  <MazTextarea v-model="step1.Difficultes" color="info" name="Difficultes" size="sm" rounded-size="sm" />
+                  <QuillEditor v-model="step1.Difficultes" />
+                  <!-- <MazTextarea v-model="step1.Difficultes" color="info" name="Difficultes" size="sm" rounded-size="sm" /> -->
                   <small v-if="v$.step1.Difficultes.$error">{{ v$.step1.Difficultes.$errors[0].$message}}</small>
                   <small v-if="resultError['Difficultes']"> {{ resultError["Difficultes"] }} </small>
                 </div>
-  
-  
-  
-  
-  
-  
               </div>
   
               <div class="row mb-3">
@@ -462,25 +455,6 @@
                   <small v-if="v$.step2.DateSuivi.$error">{{ v$.step2.DateSuivi.$errors[0].$message}}</small>
                   <small v-if="resultError['DateSuivi']"> {{ resultError["DateSuivi"] }} </small>
                 </div>
-  
-                <div class="col-xl-6 col-md-6 col-sm-12">
-                  <label for="Nom">Niveau d'avancement<span class="text-danger">*</span></label>
-                  <MazInput v-model="step2.NiveauAvancement" color="info" name="NiveauAvancement" size="sm"
-                    rounded-size="sm" type="text" />
-                  <small v-if="v$.step2.NiveauAvancement.$error">{{
-                    v$.step2.NiveauAvancement.$errors[0].$message}}</small>
-                  <small v-if="resultError['NiveauAvancement']"> {{ resultError["NiveauAvancement"] }} </small>
-  
-                </div>
-                <div class="col-xl-6 col-md-6 col-sm-12">
-                  <label for="Sigle">Montant décaissé<span class="text-danger">*</span></label>
-                  <MazInput v-model="step2.MontantDecaisser" color="info" name="MontantDecaisser" size="sm"
-                    rounded-size="sm" type="number" />
-                  <small v-if="v$.step2.MontantDecaisser.$error">{{
-                    v$.step2.MontantDecaisser.$errors[0].$message}}</small>
-                  <small v-if="resultError['MontantDecaisser']"> {{ resultError["MontantDecaisser"] }} </small>
-                </div>
-  
                 <div class="col-xl-6 col-md-6 col-sm-12">
                   <label for="date_start">Taux d'avancement technique<span class="text-danger">*</span></label>
                   <MazInput v-model="step2.TauxAvancementTechnique" color="info" name="TauxAvancementTechnique" size="sm"
@@ -490,7 +464,19 @@
                   <small v-if="resultError['TauxAvancementTechnique']"> {{ resultError["TauxAvancementTechnique"] }}
                   </small>
                 </div>
-                <div class="col col-md-12 col-sm-12">
+  
+             
+                <div class="col-xl-6 col-md-6 col-sm-12">
+                  <label for="Sigle">Montant décaissé<span class="text-danger">*</span></label>
+                  <MazInput v-model="step2.MontantDecaisser" color="info" name="MontantDecaisser" size="sm"
+                    rounded-size="sm" type="number" />
+                  <small v-if="v$.step2.MontantDecaisser.$error">{{
+                    v$.step2.MontantDecaisser.$errors[0].$message}}</small>
+                  <small v-if="resultError['MontantDecaisser']"> {{ resultError["MontantDecaisser"] }} </small>
+                </div>
+  
+              
+                <div class="col-xl-6 col-md-6 col-sm-12">
                     <div class="mb-3 position-relative">
                        <div class="input-groupe">
                         <label for="password">Taux d'exécution financière <span class="text-danger">*</span></label>
@@ -501,13 +487,6 @@
                        </div>
                     </div>
                 </div> 
-                <!-- <div class="col-xl-12 col-md-12 col-sm-12">
-                  <label for="Sigle">Trimestre<span class="text-danger">*</span></label>
-                  <MazSelect v-model="step2.Trimestre" color="info" name="Trimestre" size="sm" rounded-size="sm"
-                    :options="trimestre" multiple search />
-                  <small v-if="v$.step2.Trimestre.$error">{{ v$.step2.Trimestre.$errors[0].$message}}</small>
-                  <small v-if="resultError['Trimestre']"> {{ resultError["Trimestre"] }} </small>
-                </div> -->
                 <div class="col-xl-6 col-md-6 col-sm-12">
                   <label for="date_end">Images<span class="text-danger">*</span></label>
                   <input class="form-control" type="file" id="input-file" accept="image/*" multiple
@@ -515,44 +494,7 @@
                   <small v-if="v$.step2.images.$error">{{ v$.step2.images.$errors[0].$message}}</small>
                   <small v-if="resultError['images[]']"> {{ resultError["images[]"] }} </small>
                 </div>
-                <!-- <div class="col-xl-12 col-md-12 col-sm-12">
-                                        <label for="date_end">Images<span class="text-danger">*</span></label>
-                                        <div class="image-container">
-                                          <div v-for="(imageUrl, index) in step2.imagesUrls" :key="index" class="image-wrapper">
-                                            <img 
-                                              :src="imageUrl" 
-                                              alt="Image" 
-                                              class="img-thumbnail mb-2" 
-                                              @click="triggerFileInput(index)"
-                                            >
-                                            <div class="overlay">
-                                              <span class="change-text">Changer</span>
-                                            </div>
-                                            <input 
-                                              type="file" 
-                                              :id="`input-file-${index}`" 
-                                              accept="image/*" 
-                                              @change="handleFileUploadImagesUpdate($event, index)" 
-                                              class="file-input"
-                                            >
-                                          </div>
-                                          <div class="image-wrapper add-image">
-                                          <div class="plus-icon">+</div>
-                                          <input 
-                                            type="file" 
-                                            id="input-file-new" 
-                                            accept="image/*" 
-                                            multiple 
-                                            @change="handleFileUploadImagesUpdate($event)" 
-                                            class="file-input"
-                                          >
-                                          <small v-if="v$.step2.images.$error">{{ v$.step2.images.$errors[0].$message }}</small>
-                                          <small v-if="resultError['images[]']">{{ resultError["images[]"] }}</small>
-                                        </div>
-                                        </div>
-                                      </div> -->
-  
-  
+              
                 <div class="col-xl-6 col-md-6 col-sm-12">
                   <label for="date_end">Videos</label>
                   <input class="form-control" type="file" id="input-file" accept="video/*"
@@ -560,19 +502,21 @@
                   <small v-if="v$.step2.videoss.$error">{{ v$.step2.videoss.$errors[0].$message}}</small>
                   <small v-if="resultError['videoss[]']"> {{ resultError["videoss[]"] }} </small>
                 </div>
+                <div class="col-xl-12 col-md-12 col-sm-12 avancement">
+                  <label for="Nom">Niveau d'avancement<span class="text-danger">*</span></label>
+                  <div id="quillEditor"  class="quill-editor"></div>
+                  <small v-if="v$.step2.NiveauAvancement.$error">{{
+                    v$.step2.NiveauAvancement.$errors[0].$message}}</small>
+                  <small v-if="resultError['NiveauAvancement']"> {{ resultError["NiveauAvancement"] }} </small>
   
-                <div class="col-12">
+                </div>
+  
+                <div class="col-12 difficulte">
                   <label for="infrastructure_id">Difficultes</label>
-                  <MazTextarea v-model="step2.Difficultes" color="info" name="Difficultes" size="sm" rounded-size="sm" />
+                  <div id="quillEditorDifficultes" class="quill-editor"></div>
                   <small v-if="v$.step2.Difficultes.$error">{{ v$.step2.Difficultes.$errors[0].$message}}</small>
                   <small v-if="resultError['Difficultes']"> {{ resultError["Difficultes"] }} </small>
                 </div>
-  
-  
-  
-  
-  
-  
               </div>
   
               <div class="row mb-3">
@@ -613,11 +557,12 @@ import Swal from 'sweetalert2'
 import { successmsg } from "@/lib/modal.js"
 import GLightbox from 'glightbox';
 import 'glightbox/dist/css/glightbox.min.css';
+import QuillEditor from '@/components/projets/QuillEditor.vue';
 
 export default {
   name: "ComponentlisteInfra",
   props: ['id'],
-  components: { Loading, MazPhoneNumberInput, Pag },
+  components: { Loading, MazPhoneNumberInput, Pag , QuillEditor},
   computed: {
     loggedInUser() {
       return this.$store.getters["auth/myAuthenticatedUser"];
@@ -647,6 +592,8 @@ export default {
       SuiviOptions: [],
       datas: [],
       ToId: "",
+      quillEditorAvancement: null,
+        quillEditorDifficultes: null,
       v$: useVuelidate(),
       trimestre: [
         { label: "Trimestre 1", value: "T1" },
@@ -677,6 +624,7 @@ export default {
         videoss: "",
         Difficultes: "",
         imagesUrls: [],
+        
 
       },
     }
@@ -890,7 +838,7 @@ export default {
     },
     async HandleIdUpdate(id) {
       this.loading = true;
-
+      this.resetQuillEditors(); 
       try {
         const response = await axios.get(`/infrastructures/suivis/detail/${id}`, {
           headers: {
@@ -903,18 +851,17 @@ export default {
 
           this.step2 = {
             DateSuivi: data.DateSuivi,
-            NiveauAvancement: data.NiveauAvancement,
             MontantDecaisser: data.MontantDecaisser,
             TauxAvancementTechnique: data.TauxAvancementTechnique,
             TauxExecutionFinanciere: data.TauxExecutionFinanciere,
-            Difficultes: data.Difficultes,
-            //  Trimestre : data.Trimestre?.split(','),
             videoss: data.videos,
             images: [],
             imagesUrls: data.Photos.split('|'),
           };
 
           this.ToId = data.id;
+          await this.initQuillEditor(data?.NiveauAvancement)
+          await this.initQuillEditorDifficultes(data?.Difficultes);
           this.loading = false;
 
         }
@@ -941,7 +888,8 @@ export default {
 
     },
     async submitUpdateInfrastructureSuivi(modalId) {
-
+      console.log('this.step2.NiveauAvancement',this.step2.NiveauAvancement)
+      console.log('this.step2.NiveauAvancement',this.step2.Difficultes)
       this.v$.step2.$touch();
 
 
@@ -958,12 +906,6 @@ export default {
         formData.append("CodeInfrastructure", this.data.CodeInfrastructure);
         formData.append("Trimestre[]", ["T1"]);
         formData.append("id", this.ToId);
-
-     
-        ;
-
-      
-
         if (this.step2.images.length > 0) {
           for (let i = 0; i < this.step2.images.length; i++) {
             formData.append("images[]", this.step2.images[i]);
@@ -1007,11 +949,128 @@ export default {
           }
         }
       } else {
-     
+          console.log('this.v$.$errors',this.v$.$errors)
         this.loading = false;
 
       }
     },
+
+    initQuillEditor(contenu) {
+    const editorElement = document.getElementById("quillEditor");
+    
+    if (editorElement) {
+      const quill = new Quill(editorElement, {
+        theme: "snow",
+        modules: {
+          toolbar: [
+            ["bold", "italic", "underline", "strike"],
+            [{ header: 1 }, { header: 2 }],
+            [{ direction: "rtl" }],
+            [{ size: ["small", false, "large", "huge"] }],
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+            [{ font: [] }],
+            ["clean"],
+          ],
+        },
+      });
+
+      if (contenu) {
+      quill.clipboard.dangerouslyPasteHTML(0, contenu);
+      // Synchronisez IMMÉDIATEMENT avec le modèle step2
+      this.step2.NiveauAvancement = quill.root.innerHTML;
+    }
+    
+    quill.on("text-change", () => {
+      this.step2.NiveauAvancement = quill.root.innerHTML;
+      console.log('Mise à jour NiveauAvancement:', this.step2.NiveauAvancement);
+    });
+    }
+  },
+  initQuillEditorDifficultes(contenu) {
+  const editorElement = document.getElementById("quillEditorDifficultes");
+
+
+  if (editorElement) {
+    const quill = new Quill(editorElement, {
+      theme: "snow",
+      modules: {
+        toolbar: [
+          ["bold", "italic", "underline", "strike"],
+          [{ header: 1 }, { header: 2 }],
+          [{ direction: "rtl" }],
+          [{ size: ["small", false, "large", "huge"] }],
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+          [{ font: [] }],
+          ["clean"],
+        ],
+      },
+    });
+
+   
+
+    if (contenu) {
+      quill.clipboard.dangerouslyPasteHTML(0, contenu);
+      // Synchronisez IMMÉDIATEMENT avec le modèle step2
+      this.step2.Difficultes = quill.root.innerHTML;
+    }
+    
+    quill.on("text-change", () => {
+      this.step2.Difficultes = quill.root.innerHTML;  
+    });
+  
+  this.quillEditorDifficultes = quill;
+  }
+},
+resetQuillEditors() {
+  // Réinitialiser l'éditeur d'avancement
+
+  if (this.quillEditorAvancement) {
+    this.quillEditorAvancement.off("text-change");
+    this.quillEditorAvancement = null;
+  }
+  
+  // Réinitialiser l'éditeur de difficultés
+ 
+
+  if (this.quillEditorDifficultes) {
+    this.quillEditorDifficultes.off("text-change");
+    this.quillEditorDifficultes = null;
+  }
+  
+  const allEditors = document.querySelectorAll('.quill-editor');
+  allEditors.forEach(editor => {
+    if (editor.parentNode) {
+      editor.parentNode.removeChild(editor);
+    }
+  });
+  
+  // Supprimer également tous les conteneurs de toolbar Quill
+  const allToolbars = document.querySelectorAll('.ql-toolbar');
+  allToolbars.forEach(toolbar => {
+    if (toolbar.parentNode) {
+      toolbar.parentNode.removeChild(toolbar);
+    }
+  });
+  
+  // Recréer les conteneurs proprement
+  const editorContainer = document.querySelector(".avancement");
+  const diffEditorContainer = document.querySelector(".difficulte");
+  
+  if (editorContainer) {
+    const newEditor = document.createElement("div");
+    newEditor.id = "quillEditor";
+    newEditor.className = "quill-editor";
+    editorContainer.appendChild(newEditor);
+  }
+  
+  if (diffEditorContainer) {
+    const newDiffEditor = document.createElement("div");
+    newDiffEditor.id = "quillEditorDifficultes";
+    newDiffEditor.className = "quill-editor";
+    diffEditorContainer.appendChild(newDiffEditor);
+  }
+},
+
     async urlToFile(url, filename, mimeType) {
       try {
         const response = await fetch(url, { mode: 'no-cors' });
@@ -1424,5 +1483,41 @@ export default {
   height: 100%;
   opacity: 0;
   cursor: pointer;
+}
+
+.quill-editor {
+  height: auto;
+  margin-bottom: 10px;
+}
+
+:deep(.ql-toolbar.ql-snow) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 4px 4px 0 0;
+}
+
+:deep(.ql-formats) {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-right: 0 !important;
+}
+:deep(.ql-toolbar.ql-snow + .ql-container.ql-snow) {
+  height: 150px;
+  overflow:scroll;
+}
+:deep(.ql-toolbar button) {
+  height: 28px;
+  width: 28px;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:deep(.ql-editor) {
+  min-height: 150px;
 }
 </style>

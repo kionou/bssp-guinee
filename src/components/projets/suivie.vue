@@ -1067,10 +1067,7 @@
                                       >
 
                                       <!-- Div pour chaque instance de QuillEditor -->
-                                      <div
-                                        :id="'quillEditor-' + index"
-                                        class="quill-editor"
-                                      ></div>
+                                      <div :id="'quillEditor-' + index" class="quill-editor"></div>
                                     </div>
                                   </div>
                                 </div>
@@ -1327,7 +1324,6 @@ export default {
       search: "",
       currentStep: 1,
       currentData: "",
-
       currentPage: 1,
       itemsPerPage: 12,
       totalPageArray: [],
