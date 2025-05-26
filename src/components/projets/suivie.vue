@@ -791,7 +791,7 @@
                               </div>
 
                               <div
-                                class="col-xxl-12 col-xl-12 col-lg-12 col-md-6 col-sm-12"
+                                class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12"
                               >
                                 <div class="input-groupe">
                                   <div>
@@ -823,17 +823,39 @@
                                 </div>
                               </div>
 
-                              <!--                        
-                        <div class="col-xxl-12 col-xl-6 col-lg-6 col-md-6 col-sm-12   ">
-                        <div class="input-groupe ">
-                        <div >
-                        <label for="userpassword">Statut <span class="text-danger">*</span></label>
-                        <MazSelect  v-model="contrainte.Statut" type="text"  color="info" @input="clearError(index, 'Statut')"  name="contrainte.Statut" size="sm" rounded-size="sm" search :options="status"  />
-                        </div>
-                        <small v-if="errors.step5.Contraintes && errors.step5.Contraintes[index] && errors.step5.Contraintes[index].Statut">{{ errors.step5.Contraintes[index].Statut }}</small>
-                        <small v-if="resultError['Contraintes']"> {{ resultError["Contraintes"] }} </small>
-                        </div>
-                        </div> -->
+                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                <div class="input-groupe">
+                                  <div>
+                                    <label for="userpassword"
+                                      >Catégorie
+                                      <span class="text-danger">*</span></label
+                                    >
+                                    <MazSelect
+                                      v-model="contrainte.Categorie"
+                                      type="text"
+                                      color="info"
+                                      @click="clearError(index, 'Categorie')"
+                                      name="contrainte.Categorie"
+                                      size="sm"
+                                      rounded-size="sm"
+                                      :options="CategoriesOptions"
+                                    />
+                                  </div>
+                                  <small
+                                    v-if="
+                                      errors.step5.Contraintes &&
+                                      errors.step5.Contraintes[index] &&
+                                      errors.step5.Contraintes[index].Categorie
+                                    "
+                                    >{{
+                                      errors.step5.Contraintes[index].Categorie
+                                    }}</small
+                                  >
+                                  <small v-if="resultError['Contraintes']">
+                                    {{ resultError["Contraintes"] }}
+                                  </small>
+                                </div>
+                              </div>
                             </div>
                           </div>
                           <div class="col-1" style="position: relative">
@@ -1351,6 +1373,11 @@ export default {
         { label: "Phase d’exécution ", value: "Phase d’exécution" },
         { label: "Phase de clôture ", value: "Phase de clôture" },
       ],
+      CategoriesOptions: [
+        { label: "Catégorie 1 ", value: "1" },
+        { label: "Catégorie 2 ", value: "2" },
+       
+      ],
       step1: {
         DateSuivi: "",
         // NiveauExecutionGlobal: "",
@@ -1370,6 +1397,8 @@ export default {
             Mitigation: null,
             Acteurs: null,
             Delai: null,
+            Categorie:null
+            
           },
         ],
       },
@@ -1569,6 +1598,7 @@ export default {
         Mitigation: null,
         Acteurs: null,
         Delai: null,
+        Categorie:null
       });
     },
     deleteRowContraintes(index) {
@@ -1606,6 +1636,10 @@ export default {
 
         if (!contrainte.Delai) {
           contrainteErrors.Delai = "Ce champs est obligatoire!";
+          isValid = false;
+        }
+        if (!contrainte.Categorie) {
+          contrainteErrors.Categorie = "Ce champs est obligatoire!";
           isValid = false;
         }
         this.errors.step5.Contraintes[index] = contrainteErrors;
@@ -1809,6 +1843,7 @@ export default {
                 Mitigation: null,
                 Acteurs: null,
                 Delai: null,
+                Categorie:null
               },
             ]);
           this.step5.Bailleurs = [{ CodeBailleur: "", MontantDecaisser: "" }];
@@ -1962,6 +1997,7 @@ export default {
         TypeConstrainte: "",
         Mitigation: null,
         Delai: null,
+        Categorie:null
       });
     },
     deleteRowContraintesUpdate(index) {
@@ -1994,6 +2030,10 @@ export default {
         }
         if (!contrainte.Delai) {
           contrainteErrors.Delai = "Ce champs est obligatoire!";
+          isValid = false;
+        }
+        if (!contrainte.Categorie) {
+          contrainteErrors.Categorie = "Ce champs est obligatoire!";
           isValid = false;
         }
         this.errors.contraintes.Contraintes[index] = contrainteErrors;

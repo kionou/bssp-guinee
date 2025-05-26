@@ -336,8 +336,8 @@ export default {
 
           
   const Taux_Duree =  parseFloat(duree); // deja en %
-  const Taux_Financiere = parseFloat(projet?.suivis[0].TauxExecutionFinanciere) 
-  const Taux_Physique = parseFloat(projet?.suivis[0].TauxAvancementPhysique)
+  const Taux_Financiere = parseFloat(projet?.suivis[0]?.TauxExecutionFinanciere) 
+  const Taux_Physique = parseFloat(projet?.suivis[0]?.TauxAvancementPhysique)
  
 
   let GlobalTaux = 0;  

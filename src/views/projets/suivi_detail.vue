@@ -155,16 +155,8 @@
             </div>
              </div>
             </div>
-          
-         
-  
-  
-        
           </div>
         </div>
-
-       
-
         <div class="row">
           <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
             <div class="card custom-card">
@@ -309,6 +301,7 @@
                         <th scope="col" class="text-dark fw-semibold">Contraintes</th>
                         <th scope="col" class="text-dark fw-semibold">Mitigation</th>
                         <th scope="col" class="text-dark fw-semibold">Acteur-s (Responsables)</th>
+                        <th scope="col" class="text-dark fw-semibold">Catégorie</th>
                         <th scope="col" class="text-dark fw-semibold text-center">Statut</th>
                         <th scope="col" class="text-dark fw-semibold text-center">Delai</th>
                         <th scope="col" class="text-dark fw-semibold text-center">Actions</th> <!-- Colonne Actions -->
@@ -325,6 +318,7 @@
                         </td>
                         <td>{{ item.Mitigation }}</td>
                         <td>{{ item.Acteurs }}</td>
+                        <td>{{ item?.Categorie == "1" ? 'Catégorie 1' : item?.Categorie == "2" ? 'Catégorie 2' :  'Non classée' }}</td>
                         <td class="text-center" style="width: 100px;">
                           <router-link v-if="item.suivis_contrainte.length > 0" to="#" class="text-white btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#add_contrainte_suivi" @click="fetchSuiviContrainte(item.id)"
                             v-tippy="{ content: 'Suivre cette contrainte',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
@@ -364,6 +358,7 @@
                         </td>
                         <td>{{ item.Mitigation }}</td>
                         <td>{{ item.Acteurs }}</td>
+                        <td>{{ item?.Categorie == "1" ? 'Catégorie 1' : item?.Categorie == "2" ? 'Catégorie 2' :  'Non classée' }}</td>
                         <td class="text-center" style="width: 100px;">
                           <router-link v-if="item.suivis_contrainte.length > 0" to="#" class="text-white btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#add_contrainte_suivi" @click="fetchSuiviContrainte(item.id)">
                             {{item.suivis_contrainte[0].Statut}}
@@ -451,11 +446,25 @@
                   <small v-if="resultError['Acteurs']"> {{ resultError["Acteurs"] }} </small>
                         
                         </div>
-                <div class="col-xl-12 col-md-12 col-sm-12">
+                <div class="col-xl-6 col-md-6 col-sm-6">
                   <label for="date_start">Delai <span class="text-danger">*</span></label>
                   <MazInput v-model="step1.Delai" color="info" name="Delai" size="sm" rounded-size="sm" type="date" />
                   <small v-if="v$.step1.Delai.$error">{{ v$.step1.Delai.$errors[0].$message}}</small>
                   <small v-if="resultError['Delai']"> {{ resultError["Delai"] }} </small>
+                </div>
+                <div class="col-xl-6 col-md-6 col-sm-6">
+                  <label for="date_start">Catégorie <span class="text-danger">*</span></label>
+                  <MazSelect
+                                      v-model="step1.Categorie"
+                                      type="text"
+                                      
+                                      name="contrainte.Categorie"
+                                      size="sm"
+                                      rounded-size="sm"
+                                      :options="CategoriesOptions"
+                                    />
+                  <small v-if="v$.step1.Categorie.$error">{{ v$.step1.Categorie.$errors[0].$message}}</small>
+                  <small v-if="resultError['Categorie']"> {{ resultError["Categorie"] }} </small>
                 </div>
 
               
@@ -548,11 +557,25 @@
                      
                         </div>
   
-                <div class="col-xl-12 col-md-12 col-sm-12">
+                <div class="col-xl-6 col-md-6 col-sm-6">
                   <label for="date_start">Delai <span class="text-danger">*</span></label>
                   <MazInput v-model="step2.Delai" color="info" name="Delai" size="sm" rounded-size="sm" type="date" />
                   <small v-if="v$.step2.Delai.$error">{{ v$.step2.Delai.$errors[0].$message}}</small>
                   <small v-if="resultError['Delai']"> {{ resultError["Delai"] }} </small>
+                </div>
+                <div class="col-xl-6 col-md-6 col-sm-6">
+                  <label for="date_start">Catégorie <span class="text-danger">*</span></label>
+                  <MazSelect
+                                      v-model="step2.Categorie"
+                                      type="text"
+                                      
+                                      name="contrainte.Categorie"
+                                      size="sm"
+                                      rounded-size="sm"
+                                      :options="CategoriesOptions"
+                                    />
+                  <small v-if="v$.step2.Categorie.$error">{{ v$.step2.Categorie.$errors[0].$message}}</small>
+                  <small v-if="resultError['Categorie']"> {{ resultError["Categorie"] }} </small>
                 </div>
 
               
@@ -1023,12 +1046,18 @@ export default {
           { label: "En cours", value: 'En cours' },
           { label: "Réalisé", value: 'Réalisé' },
         ],
+        CategoriesOptions: [
+        { label: "Catégorie 1 ", value: "1" },
+        { label: "Catégorie 2 ", value: "2" },
+       
+      ],
       step1: {
         IntituleConstrainte: "",
         Mitigation: "",
         Delai: "",
         TypeConstrainte: "",
         Acteurs:"",
+        Categorie:"",
       },
       step2: {
         IntituleConstrainte: "",
@@ -1036,6 +1065,7 @@ export default {
         Delai: "",
         TypeConstrainte: "",
         Acteurs:"",
+        Categorie:"",
 
       },
       mission:{
@@ -1064,6 +1094,7 @@ export default {
       Delai: {},
       TypeConstrainte: { require },
       Acteurs: {  },
+      Categorie: { require },
 
     },
     step2: {
@@ -1072,6 +1103,8 @@ export default {
       Delai: {},
       TypeConstrainte: { require },
       Acteurs: {  },
+      Categorie: { require },
+
 
     },
     mission:{
@@ -1224,7 +1257,8 @@ MontantDecaisser:{ require }
           Delai: this.step1.Delai,
           TypeConstrainte: this.step1.TypeConstrainte,
           Acteurs:this.step1.Acteurs,
-          IdSuiviProjet: this.id
+          IdSuiviProjet: this.id,
+          Categorie:this.step1.Categorie,
 
         }
         try {
@@ -1244,6 +1278,7 @@ MontantDecaisser:{ require }
                 Delai: "",
                 TypeConstrainte: "",
                 Acteurs:"",
+                Categorie:"",
               },
                 this.v$.step1.$reset();
             this.successmsg(
@@ -1276,6 +1311,7 @@ MontantDecaisser:{ require }
         Delai: "",
         Acteurs: "",
         TypeConstrainte: "",
+        Categorie:"",
       }
       
 
@@ -1290,6 +1326,7 @@ MontantDecaisser:{ require }
             this.step2.Delai = response?.Delai,
             this.step2.Acteurs = response?.Acteurs,
             this.step2.TypeConstrainte = response?.TypeConstrainte,
+            this.step2.Categorie = response?.Categorie,
 
             this.ToId = response.id
           this.loading = false;
@@ -1318,6 +1355,7 @@ MontantDecaisser:{ require }
           Delai: this.step2.Delai,
           TypeConstrainte: this.step2.TypeConstrainte,
           Acteurs:this.step2.Acteurs,
+          Categorie:this.step2.Categorie,
           IdSuiviProjet: this.id
         }
       
