@@ -31,8 +31,9 @@ import ListeInsfrastructures from '../views/infrastructure/liste.vue'
 import DetailInsfrastructures from '../views/infrastructure/detail.vue'
 
 import Synthese from '../views/synthese/default.vue'
-
+import Page404 from '../views/page404/default.vue'
 import Zones from '../views/zones/default.vue'
+
 
 
 import Test from '../views/test.vue'
@@ -46,6 +47,11 @@ const router = createRouter({
       path: '/',
       name: 'Connexion',
       component: SignIn
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: Page404
     },
    
     {
