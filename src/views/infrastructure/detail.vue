@@ -726,7 +726,8 @@ export default {
       try {
         const response = await axios.get(`infrastructures/detail/${this.id}`, {
           headers: {
-            Authorization: `Bearer ${this.loggedInUser.token}`,
+              Authorization: `Bearer ${this.loggedInUser.token}`,
+            
           },
         });
 
@@ -795,6 +796,7 @@ export default {
           const response = await axios.post("/infrastructures/suivis", formData, {
             headers: {
               Authorization: `Bearer ${this.loggedInUser.token}`,
+              
               'Content-Type': 'multipart/form-data'
             }
           });
@@ -842,7 +844,8 @@ export default {
       try {
         const response = await axios.get(`/infrastructures/suivis/detail/${id}`, {
           headers: {
-            Authorization: `Bearer ${this.loggedInUser.token}`
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+            
           }
         });
 
@@ -920,6 +923,7 @@ export default {
             headers: {
 
               Authorization: `Bearer ${this.loggedInUser.token}`,
+              
 
             },
           });
@@ -1140,6 +1144,7 @@ resetQuillEditors() {
         const response = await axios.delete(`/infrastructures/suivis/${id}`, {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
+            
 
 
           },
@@ -1341,7 +1346,10 @@ resetQuillEditors() {
          try {
            const response = await axios.put('/infrastructures/suivis/confirmer',data, {
             headers: {
-              Authorization: `Bearer ${this.loggedInUser.token}`,
+              // Authorization: `Bearer ${this.loggedInUser.token}`,
+              withCredentials: true,
+
+              
             },
            
    

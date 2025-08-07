@@ -5,7 +5,7 @@
     <div
       class="d-md-flex d-block pt-12  align-items-center justify-content-between my-4 page-header-breadcrumb"
     >
-      <h1 class="page-title fw-semibold fs-18 mb-0">Modes de financement</h1>
+      <h1 class="page-title fw-semibold fs-18 mb-0">Suivi des paiements</h1>
       <div class="ms-md-1 ms-0">
         <nav>
           <ol class="breadcrumb mb-0">
@@ -13,7 +13,7 @@
               <a href="javascript:void(0);">BSPP</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                Modes de financement
+                Suivi des paiements
             </li>
           </ol>
         </nav>
@@ -47,7 +47,7 @@
                                 <div class="card custom-card">
                                     <div class="card-header justify-content-between">
                                         <div class="card-title">
-                                          Liste des Modes de financement 
+                                          Liste des paiements 
                                         </div>
                                        
                                     </div>
@@ -57,9 +57,11 @@
                                                 <thead>
                                                     <tr>
                                                        
-                                                        <th scope="col">Code </th>
-                                                        <th scope="col">Intitule</th>
-                                                        <th scope="col">Etat</th>
+                                                        <th scope="col">Date </th>
+                                                        <th scope="col">Delai requis</th>
+                                                        <th scope="col">Financement</th>
+                                                        <th scope="col">Acteur</th>
+                                                        <th scope="col">Etape</th>
                                                         <th scope="col">Action</th>
                                                     </tr>
                                                 </thead>
@@ -92,6 +94,21 @@
                                                             <span  v-if="data.Visible === '1'" class="badge bg-success">Activer</span>
                                                             <span  v-else class="badge bg-warning">Desactiver</span>
                                                         </td>
+                                                        <td>
+                                                           
+                                                           <span  v-if="data.Visible === '1'" class="badge bg-success">Activer</span>
+                                                           <span  v-else class="badge bg-warning">Desactiver</span>
+                                                       </td>
+                                                       <td>
+                                                           
+                                                           <span  v-if="data.Visible === '1'" class="badge bg-success">Activer</span>
+                                                           <span  v-else class="badge bg-warning">Desactiver</span>
+                                                       </td>
+                                                       <td>
+                                                           
+                                                           <span  v-if="data.Visible === '1'" class="badge bg-success">Activer</span>
+                                                           <span  v-else class="badge bg-warning">Desactiver</span>
+                                                       </td>
                                                         <td style="width: 80px;">
                                                             <div class="hstack gap-2 fs-15">
                                                                 <button  v-if="hasPermission(2)"  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-info" 
@@ -145,7 +162,7 @@
               style="font-size: 22px !important"
             >
               <b class="text-center"
-                >Ajouter un mode de financement</b
+                >Ajouter un paiement</b
               >
             </h2>
           </div>
@@ -162,7 +179,7 @@
                   <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        > Code <span class="text-danger">*</span></label
+                        > Date d'emission <span class="text-danger">*</span></label
                       >
                       <MazInput
                         v-model="step1.CodeBailleur"
@@ -170,7 +187,7 @@
                         name="CodeBailleur"
                         size="sm"
                         rounded-size="sm"
-                        type="text"
+                        type="date"
                         
                         
                       />
@@ -188,12 +205,12 @@
                   <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Intitule
+                        >Delai requis
                         <span class="text-danger">*</span></label
                       >
                       <MazInput
                         v-model="step1.NomBailleur"
-                        type="text"
+                        type="number"
                         color="info"
                         name="NomBailleur"
                         size="sm"
@@ -215,7 +232,7 @@
                   <div class="col">
                     <div class="input-groupe">
                       <label for="userpassword"
-                        >Visible
+                        >Mode de financement
                         <span class="text-danger">*</span></label
                       >
                       <MazSelect
@@ -225,7 +242,62 @@
                         name="Visible"
                         size="sm"
                         rounded-size="sm"
-                         :options="choix"
+                        :options="ModeFinancementOptions"
+                       
+                      />
+                      <small v-if="v$.step1.Visible.$error">{{
+                        v$.step1.Visible.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['Visible']">
+                        {{ resultError["Visible"] }}
+                      </small>
+                    </div>
+                  </div>
+              
+                </div>
+                <div class="row mt-3 content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Acteur
+                        <span class="text-danger">*</span></label
+                      >
+                      <MazSelect
+                        v-model="step1.NomBailleur"
+                        type="text"
+                        color="info"
+                        name="NomBailleur"
+                        size="sm"
+                        rounded-size="sm"
+                        :options="ActeursOptions"
+                       
+                      />
+                      <small v-if="v$.step1.NomBailleur.$error">{{
+                        v$.step1.NomBailleur.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['NomBailleur']">
+                        {{ resultError["NomBailleur"] }}
+                      </small>
+                    </div>
+                  </div>
+              
+                </div>
+
+                <div class="row mt-3 content-group">
+                  <div class="col">
+                    <div class="input-groupe">
+                      <label for="userpassword"
+                        >Etape
+                        <span class="text-danger">*</span></label
+                      >
+                      <MazSelect
+                        v-model="step1.Visible"
+                        type="text"
+                        color="info"
+                        name="Visible"
+                        size="sm"
+                        rounded-size="sm"
+                         :options="EtapesOptions"
                        
                       />
                       <small v-if="v$.step1.Visible.$error">{{
@@ -291,7 +363,7 @@
               style="font-size: 22px !important"
             >
               <b class="text-center"
-                >Modifier un mode de financement</b
+                >Modifier un paiement</b
               >
             </h2>
           </div>
@@ -448,6 +520,9 @@ export default {
     return{
       loading: true,
       ClientOptions: [],
+      ActeursOptions:[],
+      EtapesOptions:[],
+      ModeFinancementOptions:[],
       data:[],
       currentPage: 1,
       itemsPerPage: 10,
@@ -495,6 +570,7 @@ export default {
   async mounted() {
  
     await this.fetchClients();
+    await this.fetchModeFinancement()
 
   },
 
@@ -523,10 +599,10 @@ export default {
     },
     async fetchClients() {
       try {
-        const response = await axios.get( '/mode-financements',
+        const response = await axios.get( '/payment-suivis',
           {
             headers: {
-              Authorization: `Bearer ${this.loggedInUser.token}`,
+                Authorization: `Bearer ${this.loggedInUser.token}`,
               
             },
             params:{
@@ -558,6 +634,39 @@ export default {
           this.formatValidationErrors(error.response.data.errors);
           this.loading = false;
           return false;
+        }
+      }
+    },
+    async fetchModeFinancement() {
+      try {
+        const response = await axios.get("/mode-financements", {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`, 
+          },
+          params: {
+            statut: true,
+          },
+        });
+
+        if (response.data.status === "success") {
+          this.ModeFinancementOptions = [];
+
+          response.data.data.map((item) => {
+            this.ModeFinancementOptions.push({
+              label: item.Code + "(" + item.Intitule + ")",
+              value: item.Code,
+            });
+          });
+        }
+      } catch (error) {
+        if (error.response.data.status === "error") {
+          if (
+            error.response.data.message === "Vous n'êtes pas autorisé." ||
+            error.response.status === 401
+          ) {
+            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+            this.$router.push("/");
+          }
         }
       }
     },
@@ -615,8 +724,8 @@ export default {
       try {
         const response = await axios.get(`/mode-financements/detail/${id}`, {
           headers: {
-            Authorization: `Bearer ${this.loggedInUser.token}`,
-            
+              Authorization: `Bearer ${this.loggedInUser.token}`,
+              
           }
         });
 
@@ -749,6 +858,7 @@ export default {
              headers: {
                Authorization: `Bearer ${this.loggedInUser.token}`,
               
+               
    
              },
    

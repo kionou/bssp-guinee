@@ -239,6 +239,7 @@ export default {
         const response = await axios.get('/indicateurs', {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
+            
           },
           params:{projet:this.Code}
         });

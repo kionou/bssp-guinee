@@ -175,7 +175,9 @@
              try {
             
              const response = await axios.post('/auth-change-password' , DataUser, {
-                 headers: { Authorization: `Bearer ${this.loggedInUser.token}`, },
+                 headers: { 
+                  Authorization: `Bearer ${this.loggedInUser.token}`,
+                 },
                });
              if (response.data.status === "success") { 
                

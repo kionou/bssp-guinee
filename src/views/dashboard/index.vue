@@ -185,7 +185,7 @@
       try {
        
         const response = await axios.get('/projets', {
-          headers: { Authorization: `Bearer ${this.loggedInUser.token}`, },
+          headers: { Authorization: `Bearer ${this.loggedInUser.token}`},
           params:{
             for_con_user:this.connect,
             visible: 1

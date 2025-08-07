@@ -231,6 +231,7 @@ export default {
         const response = await axios.get(`projets/detail/${this.id}`, {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
+            
           },
         });
 

@@ -28,14 +28,16 @@
                   <div>
                       <ul class="nav nav-tabs nav-tabs-header mb-0" role="tablist">
                           <li class="nav-item" role="presentation">
-                              <a class="nav-link active" data-bs-toggle="tab" role="tab" aria-current="page" href="#roles" aria-selected="true">Bureau de contrôle</a>
+                              <a class="nav-link active" data-bs-toggle="tab" role="tab" aria-current="page" href="#bureau" aria-selected="true">Bureau de contrôle</a>
                           </li>
 
                           <li class="nav-item" role="presentation">
-                              <a class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#permissions" aria-selected="false" tabindex="-1"> Entreprise de travaux</a>
+                              <a class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#entreprise" aria-selected="false" tabindex="-1"> Entreprise de travaux</a>
                           </li>
 
-                         
+                          <li class="nav-item" role="presentation">
+                            <a class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#ouvrage" aria-selected="false" tabindex="-1"> Maître d'ouvrage</a>
+                          </li>
                       </ul>
                   </div>
                  
@@ -50,12 +52,15 @@
 <div class="row p-0">
   <div class="col-xl-12 p-0">
       <div class="tab-content">
-          <div class="tab-pane show active p-0 border-0" id="roles" role="tabpanel">
+          <div class="tab-pane show active p-0 border-0" id="bureau" role="tabpanel">
               <Bureau></Bureau>
         
           </div>
-          <div class="tab-pane p-0" id="permissions" role="tabpanel">
+          <div class="tab-pane p-0" id="entreprise" role="tabpanel">
              <Entreprise></Entreprise>
+          </div>
+          <div class="tab-pane p-0" id="ouvrage" role="tabpanel">
+             <Ouvrage></Ouvrage>
           </div>
       </div>
   </div>
@@ -70,10 +75,11 @@
 
 import Bureau from '@/components/missions/bureau.vue'
 import Entreprise from '@/components/missions/entreprise.vue'
+import Ouvrage from '@/components/missions/ouvrage.vue'
 
 export default {
   components: {
-      Entreprise , Bureau 
+      Entreprise , Bureau , Ouvrage
   },
 }
 </script>

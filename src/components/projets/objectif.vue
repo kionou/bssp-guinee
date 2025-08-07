@@ -603,6 +603,7 @@ export default {
         const response = await axios.get('/indicateurs', {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
+            
           },
           params:{projet:this.Code}
         });
@@ -647,7 +648,9 @@ export default {
 
         try {
           const response = await axios.post("/indicateurs", dataToSend, {
-            headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
+            headers: { 
+              Authorization: `Bearer ${this.loggedInUser.token}`,
+              
            
           }
           });
@@ -681,6 +684,7 @@ export default {
         const response = await axios.get(`/indicateurs/detail/${id}`, {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
+            
           },
         });
 
@@ -734,6 +738,7 @@ export default {
         const response = await axios.put('/indicateurs/update',dataSend, {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
+            
           },
          
         });
@@ -796,6 +801,7 @@ export default {
         const response = await axios.delete(`/indicateurs/${id}`, {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
+            
           },
         });
         if (response.data.status === "success") {
@@ -883,8 +889,9 @@ export default {
 
         // try {
         //   const response = await axios.post("/duties-services", data, {
-        //     headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
-           
+        //     headers: { 
+        //       // Authorization: `Bearer ${this.loggedInUser.token}`,
+        //       withCredentials: true,
         //   }
         //   });
         //   if (response.data.status === "success") {

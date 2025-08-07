@@ -522,7 +522,9 @@ async submitInfrastructure(modalId) {
 
       try {
         const response = await axios.post("/infrastructures/types", dataToSend, {
-          headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
+          headers: { 
+              Authorization: `Bearer ${this.loggedInUser.token}`,
+            
          
         }
         });
@@ -562,6 +564,7 @@ async submitInfrastructure(modalId) {
         {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
+            
           },
         }
       );
@@ -600,7 +603,8 @@ async  HandleIdUpdate(id){
     try {
       const response = await axios.get(`/infrastructures/types/detail/${id}`, {
         headers: {
-          Authorization: `Bearer ${this.loggedInUser.token}`
+          Authorization: `Bearer ${this.loggedInUser.token}`,
+          
         }
       });
 
@@ -662,6 +666,7 @@ async  HandleIdUpdate(id){
         headers: {
          
           Authorization: `Bearer ${this.loggedInUser.token}`,
+          
         
         },
       });

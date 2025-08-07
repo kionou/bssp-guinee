@@ -376,8 +376,10 @@ export default {
      return this.step1.password === this.step1.password_confirmation;
     },
     async fetchUserDetail() {
+      console.log("fetchUserDetail");
       try {
         const response = await axios.get("/auth-user", {
+          withCredentials: true,
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },
@@ -606,7 +608,10 @@ export default {
              try {
             
              const response = await axios.post('/auth-change-password' , DataUser, {
-                 headers: { Authorization: `Bearer ${this.loggedInUser.token}`, },
+                 headers: { 
+                  Authorization: `Bearer ${this.loggedInUser.token}`, 
+                 },
+
                });
              if (response.data.status === "success") { 
                

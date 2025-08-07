@@ -224,7 +224,8 @@ async fetchUserDetail(data) {
       try {
         const response = await axios.get("/auth-user", {
           headers: {
-            Authorization: `Bearer ${data.access_token}`,
+            Authorization: `Bearer ${data.access_token}`,   
+            
           },
         });
 

@@ -389,13 +389,11 @@ password:this.step1.password,
 }
 try {
 const response = await axios.post('/system/login' , DataUser);
-
 if (response.data.status === "success") {
 this.InfoUser = response.data.data
-this.setMyAuthenticatedUser(this.InfoUser);
+// this.setMyAuthenticatedUser(this.InfoUser);
 this.fetchUserDetail(this.InfoUser)
-this.loading = false
-this.$router.push('/bspp'); 
+
 
 } else {
 
@@ -404,7 +402,7 @@ this.$router.push('/bspp');
 
 
 } catch (error) {
-
+console.log("errorLogin", error);
 
 this.loading = false
 if (error.response.data.status === "error") {
@@ -425,11 +423,11 @@ async fetchUserDetail(data) {
   
       try {
         const response = await axios.get("/auth-user", {
+
           headers: {
-            Authorization: `Bearer ${data.access_token}`,
+             Authorization: `Bearer ${data.access_token}`,
           },
         });
-       
         if (response.data.status === "success") {
           const selectedActualites = response.data.data.roles[0].menus;
           const selectedPermissions = response.data.data.roles[0].permissions
@@ -437,6 +435,7 @@ async fetchUserDetail(data) {
           data.permissions = selectedPermissions;
           data.user_role = response.data.data.roles[0].id
           this.setMyAuthenticatedUser(data);
+          this.$router.push('/bspp');
 
    
           this.loading = false;

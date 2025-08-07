@@ -332,6 +332,7 @@ methods: {
             const response = await axios.get('/permissions', {
             headers: {
               Authorization: `Bearer ${this.loggedInUser.token}`, 
+              
             }, });
              this.data = response.data.data.data
              this.RolesOptions =  this.data ;
@@ -356,7 +357,8 @@ methods: {
         const response = await axios.post("/permissions", dataCath, {
           headers: {
             
-            Authorization: `Bearer ${this.loggedInUser.token}`,
+            // Authorization: `Bearer ${this.loggedInUser.token}`,
+            withCredentials: true,
           },
         });
         if (response.data.status === "success") {
@@ -413,7 +415,8 @@ async HandleIdUpdate(id) {
       try {
         const response = await axios.put(`permissions/${this.ToId}`, data, {
           headers: {
-            Authorization: `Bearer ${this.loggedInUser.token}`
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+            
             
           },
         });
@@ -465,6 +468,7 @@ async HandleIdUpdate(id) {
       const response = await axios.delete(`/permissions/${id}`, {
         headers: {
           Authorization: `Bearer ${this.loggedInUser.token}`,
+          
         },
       });
       if (response.data.status === "success") {

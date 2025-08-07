@@ -594,7 +594,10 @@ export default {
 
         try {
           const response = await axios.post("/bailleurs", dataToSend, {
-            headers: { Authorization: `Bearer ${this.loggedInUser.token}` },
+            headers: { 
+              Authorization: `Bearer ${this.loggedInUser.token}`,
+              
+             },
           });
 
           if (response.data.status === "success") {
@@ -624,6 +627,7 @@ export default {
         const response = await axios.get("/bailleurs", {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
+            
           },
         });
 
@@ -661,7 +665,10 @@ export default {
 
         try {
           const response = await axios.post("/duties-services", data, {
-            headers: { Authorization: `Bearer ${this.loggedInUser.token}` },
+                headers: { 
+              Authorization: `Bearer ${this.loggedInUser.token}`,
+              
+             },
           });
 
           if (response.data.status === "success") {
@@ -692,7 +699,8 @@ export default {
       try {
         const response = await axios.get(`/bailleurs/detail/${id}`, {
           headers: {
-            Authorization: `Bearer ${this.loggedInUser.token}`,
+              Authorization: `Bearer ${this.loggedInUser.token}`,
+            
           },
         });
 
@@ -740,6 +748,7 @@ export default {
           const response = await axios.put("/bailleurs/update", dataSend, {
             headers: {
               Authorization: `Bearer ${this.loggedInUser.token}`,
+              
             },
           });
 
@@ -792,6 +801,7 @@ export default {
         const response = await axios.delete(`/bailleurs/${id}`, {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
+            
           },
         });
 

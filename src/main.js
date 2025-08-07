@@ -56,6 +56,8 @@ const app = createApp(App)
   app.component('MazAccordion', MazAccordion)
   app.component('MazInputCode', MazInputCode)
   app.component('MazRadioButtons', MazRadioButtons)
+
+  
   
 
   // AOS.init()

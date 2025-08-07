@@ -915,7 +915,10 @@ export default {
     
       try {
         const response = await axios.get('/projets', {
-          headers: { Authorization: `Bearer ${this.loggedInUser.token}`, },
+          headers: { 
+            Authorization: `Bearer ${this.loggedInUser.token}`, 
+              
+          },
           params:{for_con_user:this.connect  ,  visible: null }
         });
        
@@ -940,6 +943,7 @@ export default {
           {
             headers: {
               Authorization: `Bearer ${this.loggedInUser.token}`,
+              
             },
             params: {
               statut: false
@@ -1045,6 +1049,7 @@ export default {
           const response = await axios.post('/projets', DataUser, {
             headers: {
               Authorization: `Bearer ${this.loggedInUser.token}`,
+              
             },
 
 
@@ -1118,6 +1123,7 @@ export default {
           {
             headers: {
               Authorization: `Bearer ${this.loggedInUser.token}`,
+              
             },
            
           }
@@ -1172,6 +1178,7 @@ export default {
         const response = await axios.get(`/projets/detail/${id}`, {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
+            
           },
         });
 
@@ -1245,6 +1252,7 @@ export default {
           const response = await axios.put(`/projets/${this.ToId}`, data, {
             headers: {
               Authorization: `Bearer ${this.loggedInUser.token}`,
+              
             },
 
           });
@@ -1312,6 +1320,7 @@ export default {
         const response = await axios.delete(`/projets/${id}`, {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
+            
           },
         });
        

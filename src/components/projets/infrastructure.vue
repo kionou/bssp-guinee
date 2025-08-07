@@ -892,7 +892,8 @@ export default {
         const response = await axios.get('/infrastructures/types',
           {
             headers: {
-              Authorization: `Bearer ${this.loggedInUser.token}`,
+              // Authorization: `Bearer ${this.loggedInUser.token}`,
+              withCredentials: true,
             },
           }
         );
@@ -932,7 +933,8 @@ export default {
         const response = await axios.get('/missions',
           {
             headers: {
-              Authorization: `Bearer ${this.loggedInUser.token}`,
+              // Authorization: `Bearer ${this.loggedInUser.token}`,
+              withCredentials: true,
             },
           }
         );
@@ -1103,7 +1105,8 @@ export default {
         try {
           const response = await axios.post("/infrastructures", formData, {
             headers: {
-              Authorization: `Bearer ${this.loggedInUser.token}`,
+              // Authorization: `Bearer ${this.loggedInUser.token}`,
+              withCredentials: true,
               'Content-Type': 'multipart/form-data',
             }
           });
@@ -1184,7 +1187,8 @@ CodeInfrastructure: "",
       try {
         const response = await axios.get(`/infrastructures/detail/${id}`, {
           headers: {
-            Authorization: `Bearer ${this.loggedInUser.token}`,
+            //  Authorization: `Bearer ${this.loggedInUser.token}`,
+            withCredentials: true,
           },
         });
 
@@ -1306,7 +1310,8 @@ CodeInfrastructure: "",
         try {
           const response = await axios.post('/infrastructures/update', formData, {
             headers: {
-              Authorization: `Bearer ${this.loggedInUser.token}`,
+              // Authorization: `Bearer ${this.loggedInUser.token}`,
+              withCredentials: true,
               'Content-Type': 'multipart/form-data'
             },
 
@@ -1370,7 +1375,8 @@ CodeInfrastructure: "",
         // Faites une requête pour supprimer l'élément avec l'ID itemId
         const response = await axios.delete(`/infrastructures/${id}`, {
           headers: {
-            Authorization: `Bearer ${this.loggedInUser.token}`,
+            // Authorization: `Bearer ${this.loggedInUser.token}`,
+            withCredentials: true,
           },
         });
         if (response.data.status === "success") {
@@ -1432,7 +1438,8 @@ CodeInfrastructure: "",
         try {
           const response = await axios.post("/missions", data, {
             headers: {
-              Authorization: `Bearer ${this.loggedInUser.token}`,
+              // Authorization: `Bearer ${this.loggedInUser.token}`,
+              withCredentials: true,
              
             }
           });

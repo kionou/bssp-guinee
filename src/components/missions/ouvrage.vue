@@ -7,7 +7,7 @@
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
                     <div class="card-title">
-                        Liste des bureaux de contrôle
+                        Liste des maîtres d'ouvrage
                     </div>
 
                     <div class="d-flex mt-sm-0 mt-2 align-items-center">
@@ -20,7 +20,7 @@
     
                     <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-placement="top"
                      v-tippy="{ content: 'Créer un nouvel élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
-                        data-bs-title="Add Contact" data-bs-toggle="modal" data-bs-target="#add_infrastructure">
+                        data-bs-title="Add Contact" data-bs-toggle="modal" data-bs-target="#add-ouvrage">
                         <i class="ri-add-line">
                         </i></button>
                 </div>
@@ -68,7 +68,7 @@
                                             <button v-if="hasPermission(2)"
                                              v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                                                 class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-info"
-                                                data-bs-toggle="modal" data-bs-target="#update_infrastructure"
+                                                data-bs-toggle="modal" data-bs-target="#update-ouvrage"
                                                 @click="HandleIdUpdate(data.id)"><i class="ri-edit-line"></i></button>
                                             <button v-if="hasPermission(4)"
                                               v-tippy="{ content: 'Supprimer l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
@@ -96,15 +96,15 @@
     
         <!-- add indicateur -->
     
-        <div class="modal fade effect-rotate-bottom " id="add_infrastructure" tabindex="-1" aria-hidden="true"
-            data-bs-backdrop="static" ref="add_infrastructure">
+        <div class="modal fade effect-rotate-bottom " id="add-ouvrage" tabindex="-1" aria-hidden="true"
+            data-bs-backdrop="static" ref="add-ouvrage">
             <div class="modal-dialog modal-dialog-centered  modal-lg">
                 <div class="modal-content">
                     <div class="modal-header float-start text-center justify-content-center"
                         style="background-color: var(--primary-rgb); padding-bottom: 10px">
                         <h2 class="modal-title text-white text-center" id="mail-ComposeLabel"
                             style="font-size: 22px !important">
-                            <b class="text-center">Ajouter un bureau de contrôle </b>
+                            <b class="text-center">Ajouter un maître d'ouvrage </b>
                         </h2>
                     </div>
                     <div class="modal-body px-4">
@@ -132,7 +132,7 @@
     
                                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                                 <div class="input-groupe">
-                                                    <label for="userpassword">Code de contrôle <span
+                                                    <label for="userpassword">Code d'ouvrage <span
                                                             class="text-danger">*</span></label>
                                                     <MazInput v-model="infrastructure.CodeMission" color="info"
                                                         name="CodeMission" size="sm" rounded-size="sm" type="text"
@@ -146,7 +146,7 @@
                                             </div>
                                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                                 <div class="input-groupe">
-                                                    <label for="userpassword">Nom de contrôle <span
+                                                    <label for="userpassword">Nom d'ouvrage <span
                                                             class="text-danger">*</span></label>
                                                     <MazInput v-model="infrastructure.NomMission" color="info"
                                                         name="NomMission" size="sm" rounded-size="sm"
@@ -161,7 +161,7 @@
     
                                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                                 <div class="input-groupe">
-                                                    <label for="userpassword">Description de contrôle </label>
+                                                    <label for="userpassword">Description d'ouvrage </label>
                                                     <textarea class="form-control"
                                                         style="border-radius:0 !important; border:1px solid #e5eaee !important"
                                                         id="text-area" v-model="infrastructure.Description"
@@ -192,7 +192,7 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="boutton">
-                                    <button class="" @click.prevent="submitInfrastructure('add_infrastructure')">
+                                    <button class="" @click.prevent="submitInfrastructure('add-ouvrage')">
                                         Valider
                                     </button>
                                 </div>
@@ -213,15 +213,15 @@
         </div>
     
     
-        <div class="modal fade effect-rotate-bottom" id="update_infrastructure" tabindex="-1" aria-hidden="true"
-            data-bs-backdrop="static" ref="update_infrastructure">
+        <div class="modal fade effect-rotate-bottom" id="update-ouvrage" tabindex="-1" aria-hidden="true"
+            data-bs-backdrop="static" ref="update-ouvrage">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header float-start text-center justify-content-center"
                         style="background-color: var(--primary-rgb); padding-bottom: 10px">
                         <h2 class="modal-title text-white text-center" id="mail-ComposeLabel"
                             style="font-size: 22px !important">
-                            <b class="text-center">Modifier un bureau de contrôle</b>
+                            <b class="text-center">Modifier un maître d'ouvrage</b>
                         </h2>
                     </div>
                     <div class="modal-body px-4">
@@ -236,7 +236,7 @@
                                 <div class="row  content-group">
                                     <div class="col">
                                         <div class="input-groupe">
-                                            <label for="userpassword">Code de contrôle
+                                            <label for="userpassword">Code d'ouvrage
                                                 <span class="text-danger">*</span></label>
                                             <MazInput v-model="step2.CodeMission" type="text" color="info"
                                                 name="CodeMission" size="sm" rounded-size="sm" />
@@ -254,7 +254,7 @@
                                 <div class="row mt-3 content-group">
                                     <div class="col">
                                         <div class="input-groupe">
-                                            <label for="userpassword">Nom de contrôle
+                                            <label for="userpassword">Nom d'ouvrage
                                                 <span class="text-danger">*</span></label>
                                             <MazInput v-model="step2.NomMission" type="text" color="info" name="NomMission"
                                                 size="sm" rounded-size="sm" />
@@ -271,7 +271,7 @@
                                 <div class="row mt-3 content-group">
                                     <div class="col">
                                         <div class="input-groupe">
-                                            <label for="userpassword">Description de contrôle
+                                            <label for="userpassword">Description d'ouvrage
                                             </label>
                                             <textarea class="form-control"
                                                 style="border-radius:0 !important; border:1px solid #e5eaee !important"
@@ -289,7 +289,7 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="boutton">
-                                    <button class="" @click.prevent="submitUpdateInfrastructure('update_infrastructure')">
+                                    <button class="" @click.prevent="submitUpdateInfrastructure('update-ouvrage')">
                                         Valider
                                     </button>
                                 </div>
@@ -332,19 +332,19 @@ export default {
       return this.$store.getters["auth/myAuthenticatedUser"];
     },
     totalPages() {
-      return Math.ceil(this.ClientOptions.length / this.itemsPerPage);
+      return Math.ceil(this.OuvrageOptions.length / this.itemsPerPage);
     },
     paginatedItems() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.ClientOptions.slice(startIndex, endIndex);
+      return this.OuvrageOptions.slice(startIndex, endIndex);
     },
 
   },
   data() {
     return {
       loading: true,
-      ClientOptions: [],
+      OuvrageOptions: [],
       data: [],
       currentPage: 1,
       itemsPerPage: 10,
@@ -389,7 +389,7 @@ export default {
   },
   async mounted() {
 
-    await this.fetchClients();
+    await this.fetchOuvrage();
 
   },
 
@@ -449,7 +449,7 @@ export default {
         try {
           const response = await axios.post("/missions", dataToSend, {
             headers: {
-              Authorization: `Bearer ${this.loggedInUser.token}`,
+              Authorization: `Bearer ${this.loggedInUser.token}`, 
 
             }
           });
@@ -458,11 +458,11 @@ export default {
             this.Infrastructures = [{ CodeMission: "", NomMission: "", Description: "", }];
             this.closeModal(modalId);
             this.successmsg(
-              "Bureaux de contrôle créés avec succès",
-              "Des nouveaux bureaux de contrôle ont été créés avec succès !"
+              "Maîtres d'ouvrage créés avec succès",
+              "Des nouveaux maîtres d'ouvrage ont été créés avec succès !"
 
             );
-            await this.fetchClients()
+            await this.fetchOuvrage()
             this.loading = false
 
 
@@ -484,9 +484,9 @@ export default {
     },
 
 
-    async fetchClients() {
+    async fetchOuvrage() {
       try {
-        const response = await axios.get('/missions',
+        const response = await axios.get('/maitres',
           {
             headers: {
               Authorization: `Bearer ${this.loggedInUser.token}`,
@@ -497,7 +497,7 @@ export default {
 
         if (response.data.status === "success") {
           this.data = response.data.data.filter((i) => i.Statut == "1");
-          this.ClientOptions = this.data
+          this.OuvrageOptions = this.data
 
           this.loading = false
         }
@@ -532,9 +532,9 @@ export default {
       this.loading = true;
 
       try {
-        const response = await axios.get(`/missions/detail/${id}`, {
+        const response = await axios.get(`/maitres/detail/${id}`, {
           headers: {
-            Authorization: `Bearer ${this.loggedInUser.token}`
+            Authorization: `Bearer ${this.loggedInUser.token}`,
           }
         });
 
@@ -595,7 +595,7 @@ export default {
 
 
         try {
-          const response = await axios.put('/missions/update', dataSend, {
+          const response = await axios.put('/maitres/update', dataSend, {
             headers: {
 
               Authorization: `Bearer ${this.loggedInUser.token}`,
@@ -606,10 +606,10 @@ export default {
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.successmsg(
-              "Données du bureau de contrôle mises à jour",
-              "Les données du bureau de contrôle ont été mises à jour avec succès !"
+              "Données du maître d'ouvrage mises à jour",
+              "Les données du maître d'ouvrage ont été mises à jour avec succès !"
             );
-            await this.fetchClients();
+            await this.fetchOuvrage();
 
 
           }
@@ -624,6 +624,7 @@ export default {
           else {
             this.formatValidationErrors(error.response.data.errors);
             this.loading = false;
+
 
           }
         }
@@ -655,7 +656,7 @@ export default {
 
       try {
         // Faites une requête pour supprimer l'élément avec l'ID itemId
-        const response = await axios.delete(`/missions/${id}`, {
+        const response = await axios.delete(`/maitres/${id}`, {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
 
@@ -668,10 +669,10 @@ export default {
         if (response.data.status === 'success') {
           this.loading = false
           this.successmsg(
-            "Bureau de contrôle supprimé avec succès",
-            "Le bureau de contrôle a été supprimé avec succès !"
+            "Maître d'ouvrage supprimé avec succès",
+            "Le maître d'ouvrage a été supprimé avec succès !"
           );
-          await this.fetchClients();
+          await this.fetchOuvrage();
 
         } else {
 
@@ -701,7 +702,7 @@ export default {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
 
       const endIndex = startIndex + this.itemsPerPage;
-      return this.ClientOptions.slice(startIndex, endIndex);
+      return this.OuvrageOptions.slice(startIndex, endIndex);
     },
 
     filterByName() {
@@ -709,7 +710,7 @@ export default {
       if (this.search !== null) {
         const tt = this.search;
         const searchValue = tt.toLowerCase()
-        this.ClientOptions = this.data.filter(user => {
+        this.OuvrageOptions = this.data.filter(user => {
           const Nom = user.CodeMission || '';
           const Descriptions = user.NomMission || '';
 
@@ -717,7 +718,7 @@ export default {
         });
 
       } else {
-        this.ClientOptions = [...this.data];
+        this.OuvrageOptions = [...this.data];
 
       }
 
@@ -733,7 +734,7 @@ export default {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
 
       const endIndex = startIndex + this.itemsPerPage;
-      return this.ClientOptions.slice(startIndex, endIndex);
+      return this.OuvrageOptions.slice(startIndex, endIndex);
     },
     closeModal(modalId) {
       let modalElement = this.$refs[modalId];

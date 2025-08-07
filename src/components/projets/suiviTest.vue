@@ -724,7 +724,9 @@ AddformDataBailleurs() {
 
         try {
           const response = await axios.post("/projet-suivis", dataToSend, {
-            headers: { Authorization: `Bearer ${this.loggedInUser.token}` ,
+            headers: { 
+              // Authorization: `Bearer ${this.loggedInUser.token}`,
+              withCredentials: true,
            
           }
           });
@@ -760,7 +762,8 @@ AddformDataBailleurs() {
       try {
         const response = await axios.get(`/indicateurs/detail/${id}`, {
           headers: {
-            Authorization: `Bearer ${this.loggedInUser.token}`,
+            // Authorization: `Bearer ${this.loggedInUser.token}`,
+            withCredentials: true,
           },
         });
 
@@ -818,7 +821,8 @@ AddformDataBailleurs() {
         try {
         const response = await axios.put('/indicateurs/update',dataSend, {
           headers: {
-            Authorization: `Bearer ${this.loggedInUser.token}`,
+            // Authorization: `Bearer ${this.loggedInUser.token}`,
+            withCredentials: true,
           },
          
         });
@@ -883,7 +887,8 @@ AddformDataBailleurs() {
         // Faites une requête pour supprimer l'élément avec l'ID itemId
         const response = await axios.delete(`/indicateurs/${id}`, {
           headers: {
-            Authorization: `Bearer ${this.loggedInUser.token}`,
+            // Authorization: `Bearer ${this.loggedInUser.token}`,
+            withCredentials: true,
           },
         });
       

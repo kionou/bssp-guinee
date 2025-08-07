@@ -26,6 +26,8 @@ import Bailleurs from '../views/bailleurs/default.vue'
 import Financements from '../views/financement/default.vue'
 import Missions from '../views/missions/default.vue'
 
+
+
 import Insfrastructures from '../views/infrastructure/default.vue'
 import ListeInsfrastructures from '../views/infrastructure/liste.vue'
 import DetailInsfrastructures from '../views/infrastructure/detail.vue'
@@ -33,6 +35,9 @@ import DetailInsfrastructures from '../views/infrastructure/detail.vue'
 import Synthese from '../views/synthese/default.vue'
 import Page404 from '../views/page404/default.vue'
 import Zones from '../views/zones/default.vue'
+
+import Paiement from '../views/paiement/default.vue'
+import Parametre from '../views/paiement/parametre.vue'
 
 
 
@@ -203,7 +208,18 @@ const router = createRouter({
           meta: { requiresAuth: true },
            component: Zones
         },
-       
+        {
+          path: 'suivi-paiements',
+          name: 'suivi-paiements',
+          meta: { requiresAuth: true },
+           component: Paiement
+        },
+        {
+          path: 'acteurs-etapes',
+          name: 'acteurs-etapes',
+          meta: { requiresAuth: true },
+           component: Parametre
+        },
 
 
       ]

@@ -553,6 +553,7 @@ export default {
               headers: {
                 Authorization: `Bearer ${this.loggedInUser.token}`,
                 
+                
               },
     
             });
@@ -579,6 +580,7 @@ export default {
             const response = await axios.get('/permissions', {
             headers: {
               Authorization: `Bearer ${this.loggedInUser.token}`, 
+              
             }, });
             
              this.PermissionsOptions =  response.data.data.data.map(item => ({
@@ -599,6 +601,7 @@ export default {
             const response = await axios.get('/menus', {
             headers: {
               Authorization: `Bearer ${this.loggedInUser.token}`, 
+              
             }, });
          
             
@@ -622,7 +625,7 @@ export default {
           try {
             const response = await axios.get(`/roles/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.loggedInUser.token}`, 
+                 Authorization: `Bearer ${this.loggedInUser.token}`, 
               },
             });
 
@@ -732,6 +735,7 @@ export default {
             headers: {
               
               Authorization: `Bearer ${this.loggedInUser.token}`,
+              
             },
           });
           if (response.data.status === "success") {
@@ -767,6 +771,7 @@ export default {
           headers: {
             
             Authorization: `Bearer ${this.loggedInUser.token}`,
+            
           },
         });
       
@@ -814,6 +819,7 @@ export default {
           headers: {
             
             Authorization: `Bearer ${this.loggedInUser.token}`,
+            
           },
         });
    
@@ -878,7 +884,8 @@ export default {
         try {
           const response = await axios.put(`roles/${this.ToId}`, data, {
             headers: {
-              Authorization: `Bearer ${this.loggedInUser.token}`
+              Authorization: `Bearer ${this.loggedInUser.token}`,
+              
               
             },
           });
@@ -931,6 +938,7 @@ export default {
         const response = await axios.delete(`/roles/${id}`, {
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
+            
           },
         });
         if (response.data.status === "success") {
