@@ -1763,8 +1763,7 @@ export default {
       try {
         const response = await axios.get("/auth-users", {
           headers: {
-            // Authorization: `Bearer ${this.loggedInUser.token}`,
-            withCredentials: true,  
+            Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
 
@@ -1823,8 +1822,7 @@ export default {
       try {
         const response = await axios.post("/projet-suivis", dataToSend, {
             headers: { 
-            // Authorization: `Bearer ${this.loggedInUser.token}`,
-            withCredentials: true,
+            Authorization: `Bearer ${this.loggedInUser.token}`,
            },
         });
 
@@ -1918,8 +1916,7 @@ export default {
           formData,
           {
             headers: {
-              // Authorization: `Bearer ${this.loggedInUser.token}`,
-              withCredentials: true,
+              Authorization: `Bearer ${this.loggedInUser.token}`,
               "Content-Type": "multipart/form-data",
             },
           }
@@ -1969,8 +1966,7 @@ export default {
         // Faites une requête pour supprimer l'élément avec l'ID itemId
         const response = await axios.delete(`/projet-suivis/${id}`, {
           headers: {
-            // Authorization: `Bearer ${this.loggedInUser.token}`,
-            withCredentials: true,
+            Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
         if (response.data.status === "success") {
@@ -2098,8 +2094,7 @@ export default {
       try {
         const response = await axios.get(`/projet-suivis/detail/${id}`, {
           headers: {
-            // Authorization: `Bearer ${this.loggedInUser.token}`,
-            withCredentials: true,
+            Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
 
@@ -2158,8 +2153,7 @@ export default {
         try {
           const response = await axios.put("/projet-suivis/update", dataToSend, {
               headers: { 
-              // Authorization: `Bearer ${this.loggedInUser.token}`,
-              withCredentials: true,
+              Authorization: `Bearer ${this.loggedInUser.token}`,
              },
           });
 
@@ -2280,8 +2274,7 @@ export default {
       try {
         const response = await axios.put("/projet-suivis/confirmer", data, {
           headers: {
-            // Authorization: `Bearer ${this.loggedInUser.token}`,
-            withCredentials: true,
+            Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
 

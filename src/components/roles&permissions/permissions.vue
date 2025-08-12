@@ -357,8 +357,7 @@ methods: {
         const response = await axios.post("/permissions", dataCath, {
           headers: {
             
-            // Authorization: `Bearer ${this.loggedInUser.token}`,
-            withCredentials: true,
+            Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
         if (response.data.status === "success") {

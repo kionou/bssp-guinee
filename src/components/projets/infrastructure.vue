@@ -1,26 +1,47 @@
-<template >
+<template>
   <div>
     <Loading v-if="loading" style="z-index: 99999"></Loading>
     <!-- Page Header -->
-  
-  
+
     <div class="contact-header mb-3 py-2 px-1">
       <div class="d-sm-flex d-block align-items-center justify-content-between">
-  
-        <div class="fs-16 fw-semibold mb-0 text-primary ">{{data.NomProjet}}</div>
-  
+        <div class="fs-16 fw-semibold mb-0 text-primary">
+          {{ data.NomProjet }}
+        </div>
+
         <div class="d-flex mt-sm-0 mt-2 align-items-center">
           <div class="input-group">
-            <input type="text" class="form-control bg-light border-0" placeholder="Recherchez..."
-              aria-describedby="search-member" v-model="search" @input="filterByName" />
-            <button class="btn btn-light" type="button" id="search-contact-member">
+            <input
+              type="text"
+              class="form-control bg-light border-0"
+              placeholder="Recherchez..."
+              aria-describedby="search-member"
+              v-model="search"
+              @input="filterByName"
+            />
+            <button
+              class="btn btn-light"
+              type="button"
+              id="search-contact-member"
+            >
               <i class="ri-search-line text-muted"></i>
             </button>
           </div>
-  
-          <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-placement="top"
-           v-tippy="{ content: 'Créer un nouvel élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
-            data-bs-title="Add Contact" data-bs-toggle="modal" data-bs-target="#create-infrastructure">
+
+          <button
+            v-if="hasPermission(3)"
+            class="btn btn-icon btn-primary ms-2"
+            data-bs-placement="top"
+            v-tippy="{
+              content: 'Créer un nouvel élément',
+              theme: 'custom',
+              animation: 'shift-away',
+              backgroundColor: '#FF5733',
+            }"
+            data-bs-title="Add Contact"
+            data-bs-toggle="modal"
+            data-bs-target="#create-infrastructure"
+          >
             <i class="ri-add-line"> </i>
           </button>
         </div>
@@ -28,25 +49,29 @@
     </div>
     <div class="row task-card" data-aos="zoom-in">
       <div v-if="paginatedItems.length === 0" class="noresul">
-        <span> Vous n'avez pas encore d'infrastructure, vous pouvez également en ajouter une !! </span>
+        <span>
+          Vous n'avez pas encore d'infrastructure, vous pouvez également en
+          ajouter une !!
+        </span>
       </div>
-      <div style="overflow-x: scroll !important" class="table-responsive" v-else>
+      <div
+        style="overflow-x: scroll !important"
+        class="table-responsive"
+        v-else
+      >
         <div class="btn-list text-end mb-2">
-          <button class="btn btn-danger  label-btn" @click=" exportPDF">
+          <button class="btn btn-danger label-btn" @click="exportPDF">
             <i class="bi bi-filetype-pdf label-btn-icon me-1"></i>
             Exporter en pdf
           </button>
-          <button class="btn btn-info label-btn" @click=" exportToCSV">
+          <button class="btn btn-info label-btn" @click="exportToCSV">
             <i class="bi bi-filetype-csv label-btn-icon me-1"></i>
             Exporter en csv
           </button>
-          <button class="btn btn-success label-btn" @click=" exportToExcel">
+          <button class="btn btn-success label-btn" @click="exportToExcel">
             <i class="bi bi-file-earmark-excel label-btn-icon me-1"></i>
             Exporter en excel
           </button>
-  
-  
-  
         </div>
         <table class="table text-nowrap table-bordered">
           <thead>
@@ -61,15 +86,21 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item  in paginatedItems" :key="item.id">
-              <th style="width: 30px;" scope="row" class="ps-4">{{item.CodeInfrastructure}}</th>
+            <tr v-for="item in paginatedItems" :key="item.id">
+              <th style="width: 30px" scope="row" class="ps-4">
+                {{ item.CodeInfrastructure }}
+              </th>
               <td>
                 <div class="d-flex align-items-center lh-1">
                   <div class="me-2">
                     <span class="avatar avatar-xs">
-                      <img v-if="item.Logo.includes('https')" :src="item.Logo" alt="" @click="openGallery(item.Logo)">
-                      <img v-else src="@/assets/img/logo_mobile.png" alt="">
-  
+                      <img
+                        v-if="item.Logo.includes('https')"
+                        :src="item.Logo"
+                        alt=""
+                        @click="openGallery(item.Logo)"
+                      />
+                      <img v-else src="@/assets/img/logo_mobile.png" alt="" />
                     </span>
                   </div>
                   <div>{{ item.NomInfrastructure }}</div>
@@ -78,53 +109,106 @@
               <td class="text-warning">
                 {{ formatDate(item.DateDebut) }}
               </td>
-              <td style="color:red">
+              <td style="color: red">
                 {{ formatDate(item.DateFin) }}
               </td>
               <td>
                 {{ item.MaitreOuvrage }}
               </td>
               <td>
-  
                 <div class="btn-list w-100 d-flex justify-content-center">
                   <div>
-                    <div class="btn btn-sm  btn-success btn-wave" v-if="item.Visible === '1'"
-                      v-tippy="{ content: 'Visible',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
-                      
+                    <div
+                      class="btn btn-sm btn-success btn-wave"
+                      v-if="item.Visible === '1'"
+                      v-tippy="{
+                        content: 'Visible',
+                        theme: 'custom',
+                        animation: 'shift-away',
+                        backgroundColor: '#FF5733',
+                      }"
+                    >
                       <i class="ri-lock-2-line"></i>
                     </div>
-                    <button class="btn btn-sm  btn-warning btn-wave" v-if="item.Visible === '0'"
-                      v-tippy="{ content: 'Invisible',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}">
+                    <button
+                      class="btn btn-sm btn-warning btn-wave"
+                      v-if="item.Visible === '0'"
+                      v-tippy="{
+                        content: 'Invisible',
+                        theme: 'custom',
+                        animation: 'shift-away',
+                        backgroundColor: '#FF5733',
+                      }"
+                    >
                       <i class="ri-lock-unlock-line"></i>
                     </button>
                   </div>
-  
                 </div>
               </td>
-  
+
               <td>
                 <div class="hstack gap-2 fs-1">
-                  <router-link v-if="hasPermission(1)" :to="{ name: 'detail_infrastructures', params: { id: item.id }}"
-                  v-tippy="{ content: 'Afficher les détails',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
-                    class="btn btn-sm btn-icon btn-primary btn-wave">
+                  <router-link
+                    v-if="hasPermission(1)"
+                    :to="{
+                      name: 'detail_infrastructures',
+                      params: { id: item.id },
+                    }"
+                    v-tippy="{
+                      content: 'Afficher les détails',
+                      theme: 'custom',
+                      animation: 'shift-away',
+                      backgroundColor: '#FF5733',
+                    }"
+                    class="btn btn-sm btn-icon btn-primary btn-wave"
+                  >
                     <i class="ri-eye-line"></i>
                   </router-link>
-                  <button v-if="hasPermission(2)" class="btn btn-sm btn-icon btn-info btn-wave " data-bs-toggle="modal"
-                    v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
-                    data-bs-target="#update-infrastructure" @click="HandleIdUpdateInfra(item.id)">
+                  <button
+                    v-if="hasPermission(2) && hasPermission(3)"
+                    v-tippy="{
+                      content: 'Suivre un payement',
+                      theme: 'custom',
+                      animation: 'shift-away',
+                      backgroundColor: '#FF5733',
+                    }"
+                    class="btn btn-sm btn-icon btn-teal btn-wave"
+                    @click="openSuiviPaiementModal(item.CodeInfrastructure)"
+                  >
+                    <i class="ri-bank-card-fill"></i>
+                  </button>
+                  <button
+                    v-if="hasPermission(2)"
+                    class="btn btn-sm btn-icon btn-info btn-wave"
+                    data-bs-toggle="modal"
+                    v-tippy="{
+                      content: 'Modifier l\'élément sélectionné',
+                      theme: 'custom',
+                      animation: 'shift-away',
+                      backgroundColor: '#FF5733',
+                    }"
+                    data-bs-target="#update-infrastructure"
+                    @click="HandleIdUpdateInfra(item.id)"
+                  >
                     <i class="ri-edit-line"></i>
                   </button>
-  
-                  <button v-if="hasPermission(4)" class="btn btn-sm btn-icon btn-danger btn-wave"
-                    v-tippy="{ content: 'Supprimer l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
-                    @click="HandleIdDeleteInfrastructure(item.id)">
+
+                  <button
+                    v-if="hasPermission(4)"
+                    class="btn btn-sm btn-icon btn-danger btn-wave"
+                    v-tippy="{
+                      content: 'Supprimer l\'élément sélectionné',
+                      theme: 'custom',
+                      animation: 'shift-away',
+                      backgroundColor: '#FF5733',
+                    }"
+                    @click="HandleIdDeleteInfrastructure(item.id)"
+                  >
                     <i class="ri-delete-bin-line"></i>
                   </button>
                 </div>
               </td>
             </tr>
-  
-  
           </tbody>
         </table>
       </div>
@@ -132,136 +216,281 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="container_pagination">
-          <Pag :current-page="currentPage" :total-pages="totalPages" @page-change="updateCurrentPage" />
+          <Pag
+            :current-page="currentPage"
+            :total-pages="totalPages"
+            @page-change="updateCurrentPage"
+          />
         </div>
       </div>
     </div>
-  
+
     <!-- Start:: Create infrastructure -->
-  
-  
-    <div class="modal fade effect-rotate-bottom" id="create-infrastructure" tabindex="-1" aria-hidden="true"
-      data-bs-backdrop="static" ref="create-infrastructure">
+
+    <div
+      class="modal fade effect-rotate-bottom"
+      id="create-infrastructure"
+      tabindex="-1"
+      aria-hidden="true"
+      data-bs-backdrop="static"
+      ref="create-infrastructure"
+    >
       <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
-          <div class="modal-header float-start text-center justify-content-center"
-            style="background-color: var(--primary-rgb); padding-bottom: 10px">
-            <h2 class="modal-title text-white text-center" id="mail-ComposeLabel" style="font-size: 22px !important">
+          <div
+            class="modal-header float-start text-center justify-content-center"
+            style="background-color: var(--primary-rgb); padding-bottom: 10px"
+          >
+            <h2
+              class="modal-title text-white text-center"
+              id="mail-ComposeLabel"
+              style="font-size: 22px !important"
+            >
               <b class="text-center">Créer une infrastructure</b>
             </h2>
           </div>
           <div class="modal-body px-4">
-            <div class="row gy-2 justify-content-center" style="
-                  border-width: 1px;
-                  border-style: solid;
-                  border-radius: 6px;
-                  border-color: rgb(0, 77, 134);
-                ">
+            <div
+              class="row gy-2 justify-content-center"
+              style="
+                border-width: 1px;
+                border-style: solid;
+                border-radius: 6px;
+                border-color: rgb(0, 77, 134);
+              "
+            >
               <div class="row">
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                  <label for="MaitreOuvrage">Maître d'ouvrage<span class="text-danger">*</span></label>
-                  <MazInput v-model="step1.MaitreOuvrage" color="info" name="MaitreOuvrage" size="sm" rounded-size="sm"
-                    type="text" />
-                  <small v-if="v$.step1.MaitreOuvrage.$error">{{ v$.step1.MaitreOuvrage.$errors[0].$message}}</small>
-                  <small v-if="resultError['MaitreOuvrage']"> {{ resultError["MaitreOuvrage"] }} </small>
+                  <label for="MaitreOuvrage	"
+                    >Maître d'ouvrage<span class="text-danger">*</span></label
+                  >
+                  <MazSelect
+                    v-model="step1.MaitreOuvrage"
+                    color="info"
+                    name="MaitreOuvrage"
+                    size="sm"
+                    rounded-size="sm"
+                    search
+                    :options="OuvragesOptions"
+                  />
+                  <small v-if="v$.step1.MaitreOuvrage.$error">{{
+                    v$.step1.MaitreOuvrage.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['MaitreOuvrage']">
+                    {{ resultError["MaitreOuvrage"] }}
+                  </small>
                 </div>
-                
+
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                  <label for="infrastructure_id">Bureau de contrôle<span class="text-danger">*</span></label>
+                  <label for="infrastructure_id"
+                    >Bureau de contrôle<span class="text-danger">*</span></label
+                  >
                   <div class="row">
                     <div class="col-10">
-                  <MazSelect v-model="step1.CodeMission" color="info" name="CodeMission" size="sm"
-                    rounded-size="sm" :options="MissionsOptions" search />
-                  <small v-if="v$.step1.CodeMission.$error">{{
-                    v$.step1.CodeMission.$errors[0].$message}}</small>
-                  <small v-if="resultError['CodeMission']"> {{ resultError["CodeMission"] }} </small>
+                      <MazSelect
+                        v-model="step1.CodeMission"
+                        color="info"
+                        name="CodeMission"
+                        size="sm"
+                        rounded-size="sm"
+                        :options="MissionsOptions"
+                        search
+                      />
+                      <small v-if="v$.step1.CodeMission.$error">{{
+                        v$.step1.CodeMission.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['CodeMission']">
+                        {{ resultError["CodeMission"] }}
+                      </small>
+                    </div>
+
+                    <div class="col-2 p-0" v-if="hasPermission(3)">
+                      <button
+                        class="btn btn-icon btn-primary ms-2"
+                        @click="handleModal(1)"
+                      >
+                        <i class="ri-add-line"> </i>
+                      </button>
+                    </div>
                   </div>
-                
-                  <div class="col-2 p-0" v-if="hasPermission(3)">
-                    <button  class="btn btn-icon btn-primary ms-2" @click="handleModal(1)" >
-                    <i class="ri-add-line"> </i>
-                  </button>
-                  </div>
-                  </div>
-                 
                 </div>
-              
+
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                  <label for="EntrepriseResponsable">Entreprise de travaux<span class="text-danger">*</span></label>
+                  <label for="EntrepriseResponsable"
+                    >Entreprise de travaux<span class="text-danger"
+                      >*</span
+                    ></label
+                  >
                   <div class="row">
                     <div class="col-10">
-                      <MazSelect v-model="step1.EntrepriseResponsable" color="info" name="EntrepriseResponsable" size="sm"
-                    rounded-size="sm" search :options="EntrepriseOptions" />
-                  <small v-if="v$.step1.EntrepriseResponsable.$error">{{
-                    v$.step1.EntrepriseResponsable.$errors[0].$message}}</small>
-                  <small v-if="resultError['EntrepriseResponsable']"> {{ resultError["EntrepriseResponsable"] }} </small>
+                      <MazSelect
+                        v-model="step1.EntrepriseResponsable"
+                        color="info"
+                        name="EntrepriseResponsable"
+                        size="sm"
+                        rounded-size="sm"
+                        search
+                        :options="EntrepriseOptions"
+                      />
+                      <small v-if="v$.step1.EntrepriseResponsable.$error">{{
+                        v$.step1.EntrepriseResponsable.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['EntrepriseResponsable']">
+                        {{ resultError["EntrepriseResponsable"] }}
+                      </small>
                     </div>
                     <div class="col-2 p-0" v-if="hasPermission(3)">
-                    <button  class="btn btn-icon btn-primary ms-2" @click="handleModal(2)" >
-                    <i class="ri-add-line"> </i>
-                  </button>
+                      <button
+                        class="btn btn-icon btn-primary ms-2"
+                        @click="handleModal(2)"
+                      >
+                        <i class="ri-add-line"> </i>
+                      </button>
+                    </div>
                   </div>
-                  </div>
-                
                 </div>
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                  <label for="Code">Code<span class="text-danger">*</span></label>
-                  <MazInput v-model="step1.CodeInfrastructure" color="info" name="CodeInfrastructure" size="sm"
-                    rounded-size="sm" type="text" />
+                  <label for="Code"
+                    >Code<span class="text-danger">*</span></label
+                  >
+                  <MazInput
+                    v-model="step1.CodeInfrastructure"
+                    color="info"
+                    name="CodeInfrastructure"
+                    size="sm"
+                    rounded-size="sm"
+                    type="text"
+                  />
                   <small v-if="v$.step1.CodeInfrastructure.$error">{{
-                    v$.step1.CodeInfrastructure.$errors[0].$message}}</small>
-                  <small v-if="resultError['CodeInfrastructure']"> {{ resultError["CodeInfrastructure"] }} </small>
+                    v$.step1.CodeInfrastructure.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['CodeInfrastructure']">
+                    {{ resultError["CodeInfrastructure"] }}
+                  </small>
                 </div>
-  
+
                 <div class="col-xl-4 col-md-6 col-sm-12">
                   <label for="Nom">Nom<span class="text-danger">*</span></label>
-                  <MazInput v-model="step1.NomInfrastructure" color="info" name="NomInfrastructure" size="sm"
-                    rounded-size="sm" type="text" />
+                  <MazInput
+                    v-model="step1.NomInfrastructure"
+                    color="info"
+                    name="NomInfrastructure"
+                    size="sm"
+                    rounded-size="sm"
+                    type="text"
+                  />
                   <small v-if="v$.step1.NomInfrastructure.$error">{{
-                    v$.step1.NomInfrastructure.$errors[0].$message}}</small>
-                  <small v-if="resultError['NomInfrastructure']"> {{ resultError["NomInfrastructure"] }} </small>
-  
+                    v$.step1.NomInfrastructure.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['NomInfrastructure']">
+                    {{ resultError["NomInfrastructure"] }}
+                  </small>
                 </div>
                 <div class="col-xl-4 col-md-6 col-sm-12">
                   <label for="Sigle">Coût infrastructure</label>
-                  <MazInput v-model="step1.Cost" color="info" name="Cost" size="sm" rounded-size="sm" type="number" />
-                  <small v-if="v$.step1.Cost.$error">{{ v$.step1.Cost.$errors[0].$message}}</small>
-                  <small v-if="resultError['Cost']"> {{ resultError["Cost"] }} </small>
+                  <MazInput
+                    v-model="step1.Cost"
+                    color="info"
+                    name="Cost"
+                    size="sm"
+                    rounded-size="sm"
+                    type="number"
+                  />
+                  <small v-if="v$.step1.Cost.$error">{{
+                    v$.step1.Cost.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['Cost']">
+                    {{ resultError["Cost"] }}
+                  </small>
                 </div>
-  
+
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                  <label for="date_start">Date de début prévue<span class="text-danger">*</span></label>
-                  <MazInput v-model="step1.DateDebut" color="info" name="DateDebut" size="sm" rounded-size="sm"
-                    type="date" />
-                  <small v-if="v$.step1.DateDebut.$error">{{ v$.step1.DateDebut.$errors[0].$message}}</small>
-                  <small v-if="resultError['DateDebut']"> {{ resultError["DateDebut"] }} </small>
+                  <label for="date_start"
+                    >Date de début prévue<span class="text-danger"
+                      >*</span
+                    ></label
+                  >
+                  <MazInput
+                    v-model="step1.DateDebut"
+                    color="info"
+                    name="DateDebut"
+                    size="sm"
+                    rounded-size="sm"
+                    type="date"
+                  />
+                  <small v-if="v$.step1.DateDebut.$error">{{
+                    v$.step1.DateDebut.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['DateDebut']">
+                    {{ resultError["DateDebut"] }}
+                  </small>
                 </div>
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                  <label for="date_end">Date fin prévue<span class="text-danger">*</span></label>
-                  <MazInput v-model="step1.DateFin" :min="step1.DateDebut" color="info" name="DateFin" size="sm"
-                    rounded-size="sm" type="date" @change="validateDateFin" />
-                  <small v-if="v$.step1.DateFin.$error">{{ v$.step1.DateFin.$errors[0].$message}}</small>
-                  <small v-if="resultError['DateFin']"> {{ resultError["DateFin"] }} </small>
+                  <label for="date_end"
+                    >Date fin prévue<span class="text-danger">*</span></label
+                  >
+                  <MazInput
+                    v-model="step1.DateFin"
+                    :min="step1.DateDebut"
+                    color="info"
+                    name="DateFin"
+                    size="sm"
+                    rounded-size="sm"
+                    type="date"
+                    @change="validateDateFin"
+                  />
+                  <small v-if="v$.step1.DateFin.$error">{{
+                    v$.step1.DateFin.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['DateFin']">
+                    {{ resultError["DateFin"] }}
+                  </small>
                 </div>
                 <div class="col-xl-4 col-md-6 col-sm-12">
                   <label for="Logo">Logo</label>
-                  <input type="file" class="form-control" id="contact-mail" @change="handleFileUploadLogo"
-                    accept="image/*">
-                    <small class="fs-13">Formats autorisés : PNG, JPG, JPEG | Taille maximale : 2048 Mo</small>
-                  <small v-if="v$.step1.Logo.$error">{{ v$.step1.Logo.$errors[0].$message}}</small>
-                  <small v-if="resultError['Logo']"> {{ resultError["Logo"] }} </small>
+                  <input
+                    type="file"
+                    class="form-control"
+                    id="contact-mail"
+                    @change="handleFileUploadLogo"
+                    accept="image/*"
+                  />
+                  <small class="fs-13"
+                    >Formats autorisés : PNG, JPG, JPEG | Taille maximale : 2048
+                    Mo</small
+                  >
+                  <small v-if="v$.step1.Logo.$error">{{
+                    v$.step1.Logo.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['Logo']">
+                    {{ resultError["Logo"] }}
+                  </small>
                 </div>
-  
+
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                  <label for="infrastructure_id">Type d'infrastructure<span class="text-danger">*</span></label>
-                  
+                  <label for="infrastructure_id"
+                    >Type d'infrastructure<span class="text-danger"
+                      >*</span
+                    ></label
+                  >
+
                   <div class="row">
                     <div class="col-12">
-                      <MazSelect v-model="step1.TypeInfrastructure" color="info" name="TypeInfrastructure" size="sm"
-                    rounded-size="sm" :options="TypesOptions" search />
-                  <small v-if="v$.step1.TypeInfrastructure.$error">{{
-                    v$.step1.TypeInfrastructure.$errors[0].$message}}</small>
-                  <small v-if="resultError['TypeInfrastructure']"> {{ resultError["TypeInfrastructure"] }} </small>
+                      <MazSelect
+                        v-model="step1.TypeInfrastructure"
+                        color="info"
+                        name="TypeInfrastructure"
+                        size="sm"
+                        rounded-size="sm"
+                        :options="TypesOptions"
+                        search
+                      />
+                      <small v-if="v$.step1.TypeInfrastructure.$error">{{
+                        v$.step1.TypeInfrastructure.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['TypeInfrastructure']">
+                        {{ resultError["TypeInfrastructure"] }}
+                      </small>
                     </div>
                     <!-- <div class="col-2 p-0">
                     <button  class="btn btn-icon btn-primary ms-2" @click="handleModal" >
@@ -269,57 +498,90 @@
                   </button>
                   </div> -->
                   </div>
-                
-                 
-                 
                 </div>
 
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                  <label for="Localité">Localité<span class="text-danger">*</span></label>
-                  <MazSelect v-model="step1.LocalitesConcernees" color="info" name="LocalitesConcernees" size="sm"
-                    rounded-size="sm" :options="formattedRegionsOptions"  />
+                  <label for="Localité"
+                    >Localité<span class="text-danger">*</span></label
+                  >
+                  <MazSelect
+                    v-model="step1.LocalitesConcernees"
+                    color="info"
+                    name="LocalitesConcernees"
+                    size="sm"
+                    rounded-size="sm"
+                    :options="formattedRegionsOptions"
+                  />
                   <small v-if="v$.step1.LocalitesConcernees.$error">{{
-                    v$.step1.LocalitesConcernees.$errors[0].$message}}</small>
-                  <small v-if="resultError['LocalitesConcernees']"> {{ resultError["LocalitesConcernees"] }} </small>
-  
+                    v$.step1.LocalitesConcernees.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['LocalitesConcernees']">
+                    {{ resultError["LocalitesConcernees"] }}
+                  </small>
                 </div>
-  
-  
+
                 <div class="col-xl-4 col-md-6 col-sm-12">
                   <label for="projet_id">Geo Infrastructure</label>
-                  <MazInput v-model="step1.GeoInfrastructure" color="info" name="GeoInfrastructure" size="sm"
-                    rounded-size="sm" placeholder="12.22 , -23.33" />
+                  <MazInput
+                    v-model="step1.GeoInfrastructure"
+                    color="info"
+                    name="GeoInfrastructure"
+                    size="sm"
+                    rounded-size="sm"
+                    placeholder="12.22 , -23.33"
+                  />
                   <small v-if="v$.step1.GeoInfrastructure.$error">{{
-                    v$.step1.GeoInfrastructure.$errors[0].$message}}</small>
-                  <small v-if="resultError['GeoInfrastructure']"> {{ resultError["GeoInfrastructure"] }} </small>
+                    v$.step1.GeoInfrastructure.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['GeoInfrastructure']">
+                    {{ resultError["GeoInfrastructure"] }}
+                  </small>
                 </div>
-  
+
                 <div class="col-xl-12 col-md-12 col-sm-12">
-                  <label for="Visibilite">Visibilite<span class="text-danger">*</span></label>
-                  <MazSelect v-model="step1.Visible" color="info" name="Visible" size="sm" rounded-size="sm"
-                    :options="choix" />
-                  <small v-if="v$.step1.Visible.$error">{{ v$.step1.Visible.$errors[0].$message}}</small>
-                  <small v-if="resultError['Visible']"> {{ resultError["Visible"] }} </small>
+                  <label for="Visibilite"
+                    >Visibilite<span class="text-danger">*</span></label
+                  >
+                  <MazSelect
+                    v-model="step1.Visible"
+                    color="info"
+                    name="Visible"
+                    size="sm"
+                    rounded-size="sm"
+                    :options="choix"
+                  />
+                  <small v-if="v$.step1.Visible.$error">{{
+                    v$.step1.Visible.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['Visible']">
+                    {{ resultError["Visible"] }}
+                  </small>
                 </div>
-  
-  
               </div>
-  
+
               <div class="row mb-3">
                 <div class="boutton">
-                  <button class="" @click.prevent="submitInfrastructure('create-infrastructure')">
+                  <button
+                    class=""
+                    @click.prevent="
+                      submitInfrastructure('create-infrastructure')
+                    "
+                  >
                     Valider
                   </button>
                 </div>
               </div>
-  
-  
             </div>
-  
+
             <br />
             <div class="modal-footer">
               <div class="btn-group ms-auto">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
                   Fermer
                 </button>
               </div>
@@ -329,161 +591,327 @@
       </div>
     </div>
     <!-- End:: Create infrastructure -->
-  
+
     <!-- Start:: update infrastructure -->
-  
-  
-    <div class="modal fade effect-rotate-bottom" id="update-infrastructure" tabindex="-1" aria-hidden="true"
-      data-bs-backdrop="static" ref="update-infrastructure">
+
+    <div
+      class="modal fade effect-rotate-bottom"
+      id="update-infrastructure"
+      tabindex="-1"
+      aria-hidden="true"
+      data-bs-backdrop="static"
+      ref="update-infrastructure"
+    >
       <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
-          <div class="modal-header float-start text-center justify-content-center"
-            style="background-color: var(--primary-rgb); padding-bottom: 10px">
-            <h2 class="modal-title text-white text-center" id="mail-ComposeLabel" style="font-size: 22px !important">
+          <div
+            class="modal-header float-start text-center justify-content-center"
+            style="background-color: var(--primary-rgb); padding-bottom: 10px"
+          >
+            <h2
+              class="modal-title text-white text-center"
+              id="mail-ComposeLabel"
+              style="font-size: 22px !important"
+            >
               <b class="text-center">Modifier une infrastructure</b>
             </h2>
           </div>
           <div class="modal-body px-4">
-            <div class="row gy-2 justify-content-center" style="
-                  border-width: 1px;
-                  border-style: solid;
-                  border-radius: 6px;
-                  border-color: rgb(0, 77, 134);
-                ">
+            <div
+              class="row gy-2 justify-content-center"
+              style="
+                border-width: 1px;
+                border-style: solid;
+                border-radius: 6px;
+                border-color: rgb(0, 77, 134);
+              "
+            >
               <div class="row">
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                  <label for="MaitreOuvrage">Maître d'ouvrage<span class="text-danger">*</span></label>
-                  <MazInput v-model="step2.MaitreOuvrage" color="info" name="MaitreOuvrage" size="sm" rounded-size="sm"
-                    type="text" />
-                  <small v-if="v$.step2.MaitreOuvrage.$error">{{ v$.step2.MaitreOuvrage.$errors[0].$message}}</small>
-                  <small v-if="resultError['MaitreOuvrage']"> {{ resultError["MaitreOuvrage"] }} </small>
+                  <label for="MaitreOuvrage	"
+                    >Maître d'ouvrage<span class="text-danger">*</span></label
+                  >
+                  <MazSelect
+                    v-model="step2.MaitreOuvrage"
+                    color="info"
+                    name="MaitreOuvrage"
+                    size="sm"
+                    rounded-size="sm"
+                    search
+                    :options="OuvragesOptions"
+                  />
+                  <small v-if="v$.step2.MaitreOuvrage.$error">{{
+                    v$.step2.MaitreOuvrage.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['MaitreOuvrage']">
+                    {{ resultError["MaitreOuvrage"] }}
+                  </small>
                 </div>
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                  <label for="infrastructure_id">Bureau de contrôle<span class="text-danger">*</span></label>
+                  <label for="infrastructure_id"
+                    >Bureau de contrôle<span class="text-danger">*</span></label
+                  >
                   <div class="row">
                     <div class="col-12">
-                  <MazSelect v-model="step2.CodeMission" color="info" name="CodeMission" size="sm"
-                    rounded-size="sm" :options="MissionsOptions" search />
-                  <small v-if="v$.step2.CodeMission.$error">{{
-                    v$.step2.CodeMission.$errors[0].$message}}</small>
-                  <small v-if="resultError['CodeMission']"> {{ resultError["CodeMission"] }} </small>
+                      <MazSelect
+                        v-model="step2.CodeMission"
+                        color="info"
+                        name="CodeMission"
+                        size="sm"
+                        rounded-size="sm"
+                        :options="MissionsOptions"
+                        search
+                      />
+                      <small v-if="v$.step2.CodeMission.$error">{{
+                        v$.step2.CodeMission.$errors[0].$message
+                      }}</small>
+                      <small v-if="resultError['CodeMission']">
+                        {{ resultError["CodeMission"] }}
+                      </small>
+                    </div>
                   </div>
-                
-                 
-                  </div>
-                 
                 </div>
-                
+
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                  <label for="EntrepriseResponsable">Entreprise de travaux<span class="text-danger">*</span></label>
-                  <MazSelect v-model="step2.EntrepriseResponsable" color="info" name="EntrepriseResponsable" size="sm"
-                    rounded-size="sm" search :options="EntrepriseOptions" />
+                  <label for="EntrepriseResponsable"
+                    >Entreprise de travaux<span class="text-danger"
+                      >*</span
+                    ></label
+                  >
+                  <MazSelect
+                    v-model="step2.EntrepriseResponsable"
+                    color="info"
+                    name="EntrepriseResponsable"
+                    size="sm"
+                    rounded-size="sm"
+                    search
+                    :options="EntrepriseOptions"
+                  />
                   <small v-if="v$.step2.EntrepriseResponsable.$error">{{
-                    v$.step2.EntrepriseResponsable.$errors[0].$message}}</small>
-                  <small v-if="resultError['EntrepriseResponsable']"> {{ resultError["EntrepriseResponsable"] }} </small>
+                    v$.step2.EntrepriseResponsable.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['EntrepriseResponsable']">
+                    {{ resultError["EntrepriseResponsable"] }}
+                  </small>
                 </div>
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                  <label for="Code">Code<span class="text-danger">*</span></label>
-                  <MazInput v-model="step2.CodeInfrastructure" color="info" name="CodeInfrastructure" size="sm"
-                    rounded-size="sm" type="text" />
+                  <label for="Code"
+                    >Code<span class="text-danger">*</span></label
+                  >
+                  <MazInput
+                    v-model="step2.CodeInfrastructure"
+                    color="info"
+                    name="CodeInfrastructure"
+                    size="sm"
+                    rounded-size="sm"
+                    type="text"
+                  />
                   <small v-if="v$.step2.CodeInfrastructure.$error">{{
-                    v$.step2.CodeInfrastructure.$errors[0].$message}}</small>
-                  <small v-if="resultError['CodeInfrastructure']"> {{ resultError["CodeInfrastructure"] }} </small>
+                    v$.step2.CodeInfrastructure.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['CodeInfrastructure']">
+                    {{ resultError["CodeInfrastructure"] }}
+                  </small>
                 </div>
-  
+
                 <div class="col-xl-4 col-md-6 col-sm-12">
                   <label for="Nom">Nom<span class="text-danger">*</span></label>
-                  <MazInput v-model="step2.NomInfrastructure" color="info" name="NomInfrastructure" size="sm"
-                    rounded-size="sm" type="text" />
+                  <MazInput
+                    v-model="step2.NomInfrastructure"
+                    color="info"
+                    name="NomInfrastructure"
+                    size="sm"
+                    rounded-size="sm"
+                    type="text"
+                  />
                   <small v-if="v$.step2.NomInfrastructure.$error">{{
-                    v$.step2.NomInfrastructure.$errors[0].$message}}</small>
-                  <small v-if="resultError['NomInfrastructure']"> {{ resultError["NomInfrastructure"] }} </small>
-  
+                    v$.step2.NomInfrastructure.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['NomInfrastructure']">
+                    {{ resultError["NomInfrastructure"] }}
+                  </small>
                 </div>
                 <div class="col-xl-4 col-md-6 col-sm-12">
                   <label for="Sigle">Coût infrastructure</label>
-                  <MazInput v-model="step2.Cost" color="info" name="Cost" size="sm" rounded-size="sm" type="number" />
-                  <small v-if="v$.step2.Cost.$error">{{ v$.step2.Cost.$errors[0].$message}}</small>
-                  <small v-if="resultError['Cost']"> {{ resultError["Cost"] }} </small>
+                  <MazInput
+                    v-model="step2.Cost"
+                    color="info"
+                    name="Cost"
+                    size="sm"
+                    rounded-size="sm"
+                    type="number"
+                  />
+                  <small v-if="v$.step2.Cost.$error">{{
+                    v$.step2.Cost.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['Cost']">
+                    {{ resultError["Cost"] }}
+                  </small>
                 </div>
-  
+
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                  <label for="date_start">Date de debut prévue<span class="text-danger">*</span></label>
-                  <MazInput v-model="step2.DateDebut" color="info" name="DateDebut" size="sm" rounded-size="sm"
-                    type="date" />
-                  <small v-if="v$.step2.DateDebut.$error">{{ v$.step2.DateDebut.$errors[0].$message}}</small>
-                  <small v-if="resultError['DateDebut']"> {{ resultError["DateDebut"] }} </small>
+                  <label for="date_start"
+                    >Date de debut prévue<span class="text-danger"
+                      >*</span
+                    ></label
+                  >
+                  <MazInput
+                    v-model="step2.DateDebut"
+                    color="info"
+                    name="DateDebut"
+                    size="sm"
+                    rounded-size="sm"
+                    type="date"
+                  />
+                  <small v-if="v$.step2.DateDebut.$error">{{
+                    v$.step2.DateDebut.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['DateDebut']">
+                    {{ resultError["DateDebut"] }}
+                  </small>
                 </div>
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                  <label for="date_end">Date fin prévue<span class="text-danger">*</span></label>
-                  <MazInput v-model="step2.DateFin" :min="step2.DateDebut" color="info" name="DateFin" size="sm"
-                    rounded-size="sm" type="date" @change="validateDateFin2" />
-                  <small v-if="v$.step2.DateFin.$error">{{ v$.step2.date_start.$errors[0].$message}}</small>
-                  <small v-if="resultError['DateFin']"> {{ resultError["DateFin"] }} </small>
+                  <label for="date_end"
+                    >Date fin prévue<span class="text-danger">*</span></label
+                  >
+                  <MazInput
+                    v-model="step2.DateFin"
+                    :min="step2.DateDebut"
+                    color="info"
+                    name="DateFin"
+                    size="sm"
+                    rounded-size="sm"
+                    type="date"
+                    @change="validateDateFin2"
+                  />
+                  <small v-if="v$.step2.DateFin.$error">{{
+                    v$.step2.date_start.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['DateFin']">
+                    {{ resultError["DateFin"] }}
+                  </small>
                 </div>
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                  <label for="Logo">Logo<span class="text-danger">*</span></label>
-                  <input type="file" class="form-control" id="contact-mail" @change="handleFileUploadLogoUpdate"
-                    accept="image/*">
+                  <label for="Logo"
+                    >Logo<span class="text-danger">*</span></label
+                  >
+                  <input
+                    type="file"
+                    class="form-control"
+                    id="contact-mail"
+                    @change="handleFileUploadLogoUpdate"
+                    accept="image/*"
+                  />
                   <!-- <small v-if="v$.step2.Logo.$error">{{ v$.step2.Logo.$errors[0].$message}}</small> -->
-                  <small v-if="resultError['Logo']"> {{ resultError["Logo"] }} </small>
+                  <small v-if="resultError['Logo']">
+                    {{ resultError["Logo"] }}
+                  </small>
                 </div>
-  
+
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                  <label for="infrastructure_id">Type d'infrastructure<span class="text-danger">*</span></label>
-                  <MazSelect v-model="step2.TypeInfrastructure" color="info" name="TypeInfrastructure" size="sm"
-                    rounded-size="sm" :options="TypesOptions" search />
+                  <label for="infrastructure_id"
+                    >Type d'infrastructure<span class="text-danger"
+                      >*</span
+                    ></label
+                  >
+                  <MazSelect
+                    v-model="step2.TypeInfrastructure"
+                    color="info"
+                    name="TypeInfrastructure"
+                    size="sm"
+                    rounded-size="sm"
+                    :options="TypesOptions"
+                    search
+                  />
                   <small v-if="v$.step2.TypeInfrastructure.$error">{{
-                    v$.step2.TypeInfrastructure.$errors[0].$message}}</small>
-                  <small v-if="resultError['TypeInfrastructure']"> {{ resultError["TypeInfrastructure"] }} </small>
+                    v$.step2.TypeInfrastructure.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['TypeInfrastructure']">
+                    {{ resultError["TypeInfrastructure"] }}
+                  </small>
                 </div>
-                
+
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                  <label for="Localité">Localité<span class="text-danger">*</span></label>
-                  <MazSelect v-model="step2.LocalitesConcernees" color="info" name="LocalitesConcernees" size="sm"
-                    rounded-size="sm" :options="formattedRegionsOptions"  />
+                  <label for="Localité"
+                    >Localité<span class="text-danger">*</span></label
+                  >
+                  <MazSelect
+                    v-model="step2.LocalitesConcernees"
+                    color="info"
+                    name="LocalitesConcernees"
+                    size="sm"
+                    rounded-size="sm"
+                    :options="formattedRegionsOptions"
+                  />
                   <small v-if="v$.step2.LocalitesConcernees.$error">{{
-                    v$.step2.LocalitesConcernees.$errors[0].$message}}</small>
-                  <small v-if="resultError['LocalitesConcernees']"> {{ resultError["LocalitesConcernees"] }} </small>
-  
+                    v$.step2.LocalitesConcernees.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['LocalitesConcernees']">
+                    {{ resultError["LocalitesConcernees"] }}
+                  </small>
                 </div>
-  
-  
+
                 <div class="col-xl-4 col-md-6 col-sm-12">
                   <label for="projet_id">Geo Infrastructure</label>
-                  <MazInput v-model="step2.GeoInfrastructure" color="info" name="GeoInfrastructure" size="sm"
-                    rounded-size="sm" placeholder="12.22 , -23.33" />
+                  <MazInput
+                    v-model="step2.GeoInfrastructure"
+                    color="info"
+                    name="GeoInfrastructure"
+                    size="sm"
+                    rounded-size="sm"
+                    placeholder="12.22 , -23.33"
+                  />
                   <small v-if="v$.step2.GeoInfrastructure.$error">{{
-                    v$.step2.GeoInfrastructure.$errors[0].$message}}</small>
-                  <small v-if="resultError['GeoInfrastructure']"> {{ resultError["GeoInfrastructure"] }} </small>
+                    v$.step2.GeoInfrastructure.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['GeoInfrastructure']">
+                    {{ resultError["GeoInfrastructure"] }}
+                  </small>
                 </div>
-  
+
                 <div class="col-xl-12 col-md-12 col-sm-12">
-                  <label for="Visibilite">Visibilite<span class="text-danger">*</span></label>
-                  <MazSelect v-model="step2.Visible" color="info" name="Visible" size="sm" rounded-size="sm"
-                    :options="choix" />
-                  <small v-if="v$.step2.Visible.$error">{{ v$.step2.Visible.$errors[0].$message}}</small>
-                  <small v-if="resultError['Visible']"> {{ resultError["Visible"] }} </small>
+                  <label for="Visibilite"
+                    >Visibilite<span class="text-danger">*</span></label
+                  >
+                  <MazSelect
+                    v-model="step2.Visible"
+                    color="info"
+                    name="Visible"
+                    size="sm"
+                    rounded-size="sm"
+                    :options="choix"
+                  />
+                  <small v-if="v$.step2.Visible.$error">{{
+                    v$.step2.Visible.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['Visible']">
+                    {{ resultError["Visible"] }}
+                  </small>
                 </div>
-  
-  
-  
-  
+
                 <div class="row mb-3">
                   <div class="boutton">
-                    <button class="" @click.prevent="submitUpdateInfrastructure('update-infrastructure')">
+                    <button
+                      class=""
+                      @click.prevent="
+                        submitUpdateInfrastructure('update-infrastructure')
+                      "
+                    >
                       Valider
                     </button>
                   </div>
                 </div>
-  
-  
               </div>
-  
+
               <br />
               <div class="modal-footer">
                 <div class="btn-group ms-auto">
-                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  >
                     Fermer
                   </button>
                 </div>
@@ -495,67 +923,124 @@
       <!-- End:: update infrastructure -->
     </div>
 
+    <!-- Start:: Modal de suivi de paiement -->
+    <SuiviPaiementModal
+      ref="suiviPaiementModal"
+      :infrastructure-code="currentInfrastructureCode"
+    />
+    <!-- End:: Modal de suivi de paiement -->
 
-      <!-- Start::  create mission -->
-  
-  
-      <div class="modal fade effect-rotate-bottom" id="create_controle" tabindex="-1" aria-hidden="true"
-      data-bs-backdrop="static" ref="create_controle">
+    <!-- Start::  create mission -->
+
+    <div
+      class="modal fade effect-rotate-bottom"
+      id="create_controle"
+      tabindex="-1"
+      aria-hidden="true"
+      data-bs-backdrop="static"
+      ref="create_controle"
+    >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-          <div class="modal-header float-start text-center justify-content-center"
-            style="background-color: var(--primary-rgb); padding-bottom: 10px">
-            <h2 class="modal-title text-white text-center" id="mail-ComposeLabel" style="font-size: 22px !important">
+          <div
+            class="modal-header float-start text-center justify-content-center"
+            style="background-color: var(--primary-rgb); padding-bottom: 10px"
+          >
+            <h2
+              class="modal-title text-white text-center"
+              id="mail-ComposeLabel"
+              style="font-size: 22px !important"
+            >
               <b class="text-center">Ajouter un bureau de contrôle</b>
             </h2>
           </div>
           <div class="modal-body px-4">
-            <div class="row gy-2 justify-content-center" style="
-                  border-width: 1px;
-                  border-style: solid;
-                  border-radius: 6px;
-                  border-color: rgb(0, 77, 134);
-                ">
+            <div
+              class="row gy-2 justify-content-center"
+              style="
+                border-width: 1px;
+                border-style: solid;
+                border-radius: 6px;
+                border-color: rgb(0, 77, 134);
+              "
+            >
               <div class="row">
                 <div class="col-xl-12 col-md-12 col-sm-12">
-                  <label for="Code">Code du contrôle<span class="text-danger">*</span></label>
-                  <MazInput v-model="mission.CodeMission" color="info" name="CodeMission" size="sm"
-                    rounded-size="sm" type="text" />
+                  <label for="Code"
+                    >Code du contrôle<span class="text-danger">*</span></label
+                  >
+                  <MazInput
+                    v-model="mission.CodeMission"
+                    color="info"
+                    name="CodeMission"
+                    size="sm"
+                    rounded-size="sm"
+                    type="text"
+                  />
                   <small v-if="v$.mission.CodeMission.$error">{{
-                    v$.mission.CodeMission.$errors[0].$message}}</small>
-                  <small v-if="resultError['CodeMission']"> {{ resultError["CodeMission"] }} </small>
+                    v$.mission.CodeMission.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['CodeMission']">
+                    {{ resultError["CodeMission"] }}
+                  </small>
                 </div>
-  
+
                 <div class="col-xl-12 col-md-12 col-sm-12">
-                  <label for="Nom">Nom du contrôle<span class="text-danger">*</span></label>
-                  <MazInput v-model="mission.NomMission" color="info" name="NomMission" size="sm"
-                    rounded-size="sm" type="text" />
+                  <label for="Nom"
+                    >Nom du contrôle<span class="text-danger">*</span></label
+                  >
+                  <MazInput
+                    v-model="mission.NomMission"
+                    color="info"
+                    name="NomMission"
+                    size="sm"
+                    rounded-size="sm"
+                    type="text"
+                  />
                   <small v-if="v$.mission.NomMission.$error">{{
-                    v$.mission.NomMission.$errors[0].$message}}</small>
-                  <small v-if="resultError['NomMission']"> {{ resultError["NomMission"] }} </small>
-  
+                    v$.mission.NomMission.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['NomMission']">
+                    {{ resultError["NomMission"] }}
+                  </small>
                 </div>
                 <div class="col-xl-12 col-md-12 col-sm-12">
                   <label for="Sigle">Description du contrôle</label>
-                  <MazTextarea v-model="mission.Description" color="info" name="Description" size="sm" rounded-size="sm"  />
-                  <small v-if="v$.mission.Description.$error">{{ v$.mission.Description.$errors[0].$message}}</small>
-                  <small v-if="resultError['Description']"> {{ resultError["Description"] }} </small>
+                  <MazTextarea
+                    v-model="mission.Description"
+                    color="info"
+                    name="Description"
+                    size="sm"
+                    rounded-size="sm"
+                  />
+                  <small v-if="v$.mission.Description.$error">{{
+                    v$.mission.Description.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['Description']">
+                    {{ resultError["Description"] }}
+                  </small>
                 </div>
                 <div class="row mb-3">
                   <div class="boutton">
-                    <button class="" @click.prevent="submitMission('create_controle',1)">
+                    <button
+                      class=""
+                      @click.prevent="submitMission('create_controle', 1)"
+                    >
                       Valider
                     </button>
                   </div>
                 </div>
-  
-  
               </div>
-  
+
               <br />
               <div class="modal-footer">
                 <div class="btn-group ms-auto">
-                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  >
                     Fermer
                   </button>
                 </div>
@@ -567,66 +1052,123 @@
       <!-- End:: update infrastructure -->
     </div>
 
-     <!-- Start::  create mission -->
-  
-  
-     <div class="modal fade effect-rotate-bottom" id="create_entreprise" tabindex="-1" aria-hidden="true"
-      data-bs-backdrop="static" ref="create_entreprise">
+    <!-- Start::  create mission -->
+
+    <div
+      class="modal fade effect-rotate-bottom"
+      id="create_entreprise"
+      tabindex="-1"
+      aria-hidden="true"
+      data-bs-backdrop="static"
+      ref="create_entreprise"
+    >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-          <div class="modal-header float-start text-center justify-content-center"
-            style="background-color: var(--primary-rgb); padding-bottom: 10px">
-            <h2 class="modal-title text-white text-center" id="mail-ComposeLabel" style="font-size: 22px !important">
-              <b class="text-center">Ajouter une entreprise  de travaux</b>
+          <div
+            class="modal-header float-start text-center justify-content-center"
+            style="background-color: var(--primary-rgb); padding-bottom: 10px"
+          >
+            <h2
+              class="modal-title text-white text-center"
+              id="mail-ComposeLabel"
+              style="font-size: 22px !important"
+            >
+              <b class="text-center">Ajouter une entreprise de travaux</b>
             </h2>
           </div>
           <div class="modal-body px-4">
-            <div class="row gy-2 justify-content-center" style="
-                  border-width: 1px;
-                  border-style: solid;
-                  border-radius: 6px;
-                  border-color: rgb(0, 77, 134);
-                ">
+            <div
+              class="row gy-2 justify-content-center"
+              style="
+                border-width: 1px;
+                border-style: solid;
+                border-radius: 6px;
+                border-color: rgb(0, 77, 134);
+              "
+            >
               <div class="row">
                 <div class="col-xl-12 col-md-12 col-sm-12">
-                  <label for="Code">Code de l'entreprise  de travaux<span class="text-danger">*</span></label>
-                  <MazInput v-model="mission.CodeMission" color="info" name="CodeMission" size="sm"
-                    rounded-size="sm" type="text" />
+                  <label for="Code"
+                    >Code de l'entreprise de travaux<span class="text-danger"
+                      >*</span
+                    ></label
+                  >
+                  <MazInput
+                    v-model="mission.CodeMission"
+                    color="info"
+                    name="CodeMission"
+                    size="sm"
+                    rounded-size="sm"
+                    type="text"
+                  />
                   <small v-if="v$.mission.CodeMission.$error">{{
-                    v$.mission.CodeMission.$errors[0].$message}}</small>
-                  <small v-if="resultError['CodeMission']"> {{ resultError["CodeMission"] }} </small>
+                    v$.mission.CodeMission.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['CodeMission']">
+                    {{ resultError["CodeMission"] }}
+                  </small>
                 </div>
-  
+
                 <div class="col-xl-12 col-md-12 col-sm-12">
-                  <label for="Nom">Nom de l'entreprise  de travaux<span class="text-danger">*</span></label>
-                  <MazInput v-model="mission.NomMission" color="info" name="NomMission" size="sm"
-                    rounded-size="sm" type="text" />
+                  <label for="Nom"
+                    >Nom de l'entreprise de travaux<span class="text-danger"
+                      >*</span
+                    ></label
+                  >
+                  <MazInput
+                    v-model="mission.NomMission"
+                    color="info"
+                    name="NomMission"
+                    size="sm"
+                    rounded-size="sm"
+                    type="text"
+                  />
                   <small v-if="v$.mission.NomMission.$error">{{
-                    v$.mission.NomMission.$errors[0].$message}}</small>
-                  <small v-if="resultError['NomMission']"> {{ resultError["NomMission"] }} </small>
-  
+                    v$.mission.NomMission.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['NomMission']">
+                    {{ resultError["NomMission"] }}
+                  </small>
                 </div>
                 <div class="col-xl-12 col-md-12 col-sm-12">
-                  <label for="Sigle">Description de l'entreprise  de travaux</label>
-                  <MazTextarea v-model="mission.Description" color="info" name="Description" size="sm" rounded-size="sm"  />
-                  <small v-if="v$.mission.Description.$error">{{ v$.mission.Description.$errors[0].$message}}</small>
-                  <small v-if="resultError['Description']"> {{ resultError["Description"] }} </small>
+                  <label for="Sigle"
+                    >Description de l'entreprise de travaux</label
+                  >
+                  <MazTextarea
+                    v-model="mission.Description"
+                    color="info"
+                    name="Description"
+                    size="sm"
+                    rounded-size="sm"
+                  />
+                  <small v-if="v$.mission.Description.$error">{{
+                    v$.mission.Description.$errors[0].$message
+                  }}</small>
+                  <small v-if="resultError['Description']">
+                    {{ resultError["Description"] }}
+                  </small>
                 </div>
                 <div class="row mb-3">
                   <div class="boutton">
-                    <button class="" @click.prevent="submitMission('create_entreprise' , 2)">
+                    <button
+                      class=""
+                      @click.prevent="submitMission('create_entreprise', 2)"
+                    >
                       Valider
                     </button>
                   </div>
                 </div>
-  
-  
               </div>
-  
+
               <br />
               <div class="modal-footer">
                 <div class="btn-group ms-auto">
-                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  >
                     Fermer
                   </button>
                 </div>
@@ -640,40 +1182,40 @@
   </div>
 </template>
 <script>
-import Pag from "@/components/others/pagination.vue";
-import axios from "@/lib/axiosConfig";
 import Loading from "@/components/others/loading.vue";
-import useVuelidate from "@vuelidate/core";
-import { require, lgmin, lgmax, ValidEmail } from "@/functions/rules";
+import Pag from "@/components/others/pagination.vue";
+import SuiviPaiementModal from "@/components/projets/suivi-paiement-modal.vue";
+import { require } from "@/functions/rules";
+import axios from "@/lib/axiosConfig";
 import { successmsg } from "@/lib/modal.js";
+import useVuelidate from "@vuelidate/core";
+import GLightbox from "glightbox";
+import "glightbox/dist/css/glightbox.min.css";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import MazPhoneNumberInput from "maz-ui/components/MazPhoneNumberInput";
 import Swal from "sweetalert2";
-import { mapGetters } from 'vuex';
-import GLightbox from 'glightbox';
-import 'glightbox/dist/css/glightbox.min.css';
-import * as XLSX from 'xlsx';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import { mapGetters } from "vuex";
+import * as XLSX from "xlsx";
 export default {
   name: "ComponentlisteInfra",
   props: {
     data: {
       type: Object,
-      required: true
+      required: true,
     },
     InfrastructuresOptions: {
       type: Array,
-      required: true
+      required: true,
     },
-
   },
 
-  components: { Loading, MazPhoneNumberInput, Pag },
+  components: { Loading, MazPhoneNumberInput, Pag, SuiviPaiementModal },
   computed: {
     loggedInUser() {
       return this.$store.getters["auth/myAuthenticatedUser"];
     },
-    ...mapGetters('project', ['getCodeProjet']),
+    ...mapGetters("project", ["getCodeProjet"]),
     codeProjet() {
       return this.getCodeProjet;
     },
@@ -705,36 +1247,36 @@ export default {
     },
     formattedRegionsOptions() {
       if (!this.data || !this.data.regions) {
-        return '';
+        return "";
       }
-      return this.data.regions.map(item => ({
+      return this.data.regions.map((item) => ({
         label: item.region?.NomRegion,
-        value: item.region?.CodeRegion
+        value: item.region?.CodeRegion,
       }));
     },
     formattedGeoInfrastructure() {
-      return this.step1.GeoInfrastructure.split(',').map(coord => coord.trim());
+      return this.step1.GeoInfrastructure.split(",").map((coord) =>
+        coord.trim()
+      );
     },
     formattedGeoInfrastructureUpdate() {
-   
-
       let array;
-      if (Array.isArray(this.step2.GeoInfrastructure) || this.step2.GeoInfrastructure instanceof Proxy) {
+      if (
+        Array.isArray(this.step2.GeoInfrastructure) ||
+        this.step2.GeoInfrastructure instanceof Proxy
+      ) {
         array = Array.from(this.step2.GeoInfrastructure);
-      } else if (typeof this.step2.GeoInfrastructure === 'string') {
-        array = this.step2.GeoInfrastructure.split(',');
+      } else if (typeof this.step2.GeoInfrastructure === "string") {
+        array = this.step2.GeoInfrastructure.split(",");
       } else {
         array = [];
       }
 
-      return array.map(coord => parseFloat(coord).toFixed(2));
-    }
-
-
+      return array.map((coord) => parseFloat(coord).toFixed(2));
+    },
   },
   data() {
     return {
-
       loading: false,
       error: "",
       resultError: {},
@@ -744,8 +1286,9 @@ export default {
       currentPage: 1,
       itemsPerPage: 12,
       totalPageArray: [],
-      MissionsOptions:[],
-      EntrepriseOptions:[],
+      MissionsOptions: [],
+      EntrepriseOptions: [],
+      OuvragesOptions: [],
       TypesOptions: [],
       choix: [
         { label: "Oui", value: true },
@@ -773,7 +1316,6 @@ export default {
         TypeInfrastructure: "",
         CodeMission: "",
         Visible: "",
-
       },
       step2: {
         CodeInfrastructure: "",
@@ -790,21 +1332,32 @@ export default {
         TypeInfrastructure: "",
         CodeMission: "",
         Visible: "",
-
       },
-      mission:{
-        CodeMission:"",
-        NomMission:"",
-        Description:"",
-      }
-
-
+      mission: {
+        CodeMission: "",
+        NomMission: "",
+        Description: "",
+      },
+      // Données pour le suivi de paiement
+      currentInfrastructureCode: "",
+      acteursPaiement: [],
+      etapesPaiement: [],
+      ModeFinancementOptions: [],
+      acteurEtapeForm: {
+        Code: "",
+        Description: "",
+        CodeTypeFinancement: [],
+        TypeParam: "",
+      },
+      isEditing: false,
+      currentType: "",
+      editingId: null,
     };
   },
   validations: {
     step1: {
       CodeInfrastructure: { require },
-      Cost: {  },
+      Cost: {},
       Logo: {},
       NomInfrastructure: { require },
       MaitreOuvrage: { require },
@@ -819,7 +1372,7 @@ export default {
     },
     step2: {
       CodeInfrastructure: { require },
-      Cost: {  },
+      Cost: {},
       Logo: {},
       NomInfrastructure: { require },
       MaitreOuvrage: { require },
@@ -832,45 +1385,47 @@ export default {
       Visible: { require },
       CodeMission: { require },
     },
-    mission:{
-        CodeMission: { require },
-        NomMission: { require },
-        Description: {  },
-      }
+    mission: {
+      CodeMission: { require },
+      NomMission: { require },
+      Description: {},
+    },
+    acteurEtapeForm: {
+      Code: { require },
+      Description: { require },
+      CodeTypeFinancement: { require },
+    },
   },
   watch: {
-   
     data: {
       handler(newVal) {
-      
         this.Code = newVal.CodeProjet;
-        this.fetchData(newVal.infrastructures)
-
-
+        this.fetchData(newVal.infrastructures);
       },
       deep: true,
-      immediate: true
+      immediate: true,
     },
   },
 
   async mounted() {
-  
     await this.fetchTypes();
-    await this.fetchControle()
-
-
+    await this.fetchControle();
+    await this.fetchOuvrage();
+    // await this.fetchModeFinancement();
   },
   methods: {
     successmsg: successmsg,
     fetchData(a) {
-      return a
+      return a;
     },
     openGallery(imageUrl) {
       const lightbox = GLightbox({
-        elements: [{
-          href: imageUrl,
-          type: 'image'
-        }]
+        elements: [
+          {
+            href: imageUrl,
+            type: "image",
+          },
+        ],
       });
       lightbox.open();
     },
@@ -883,36 +1438,76 @@ export default {
       );
     },
     handleCodeProjetChange(codeProjet) {
-
-      this.Code = codeProjet
+      this.Code = codeProjet;
       // Par exemple, mettre à jour les indicateurs ou autres données
+    },
+    async openSuiviPaiementModal(infrastructureCode) {
+      // Fermer le modal existant s'il est ouvert
+      const existingModal = document.getElementById("view-payement");
+      if (existingModal) {
+        const bootstrapModal = bootstrap.Modal.getInstance(existingModal);
+        if (bootstrapModal) {
+          bootstrapModal.hide();
+        }
+      }
+
+      // Mettre à jour le code d'infrastructure
+      this.currentInfrastructureCode = infrastructureCode;
+
+      // Charger les données avant d'afficher le modal
+      try {
+        await this.$refs.suiviPaiementModal.fetchSuivisPaiement(
+          infrastructureCode
+        );
+
+        // Attendre un peu pour s'assurer que les données sont bien chargées
+        setTimeout(() => {
+          const modal = new bootstrap.Modal(
+            document.getElementById("view-payement")
+          );
+          modal.show();
+        }, 200);
+      } catch (error) {
+        console.error("Erreur lors du chargement des données:", error);
+        // Afficher le modal même en cas d'erreur
+        const modal = new bootstrap.Modal(
+          document.getElementById("view-payement")
+        );
+        modal.show();
+      }
+    },
+    closeSuiviPaiementModal() {
+      this.currentInfrastructureCode = "";
+      // Fermer le modal
+      const modal = document.getElementById("view-payement");
+      if (modal) {
+        const bootstrapModal = bootstrap.Modal.getInstance(modal);
+        if (bootstrapModal) {
+          bootstrapModal.hide();
+        }
+      }
     },
     async fetchTypes() {
       try {
-        const response = await axios.get('/infrastructures/types',
-          {
-            headers: {
-              // Authorization: `Bearer ${this.loggedInUser.token}`,
-              withCredentials: true,
-            },
-          }
-        );
-
+        const response = await axios.get("/infrastructures/types", {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+        });
 
         if (response.data.status === "success") {
-          const filteredOptions = response.data.data.filter(item => item.Visible === '1');
-          this.TypesOptions = filteredOptions.map(item => ({
+          const filteredOptions = response.data.data.filter(
+            (item) => item.Visible === "1"
+          );
+          this.TypesOptions = filteredOptions.map((item) => ({
             label: item.Intitule,
             value: item.id,
-          }))
-       
+          }));
 
-          this.loading = false
+          this.loading = false;
         }
       } catch (error) {
-       
         if (error.response.data.status === "error") {
-
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
             error.response.status === 401
@@ -930,38 +1525,63 @@ export default {
 
     async fetchControle() {
       try {
-        const response = await axios.get('/missions',
-          {
-            headers: {
-              // Authorization: `Bearer ${this.loggedInUser.token}`,
-              withCredentials: true,
-            },
-          }
-        );
+        const response = await axios.get("/missions", {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+        });
 
         if (response.data.status === "success") {
-   
           this.MissionsOptions = response.data.data
-          .filter(i => i.Statut ==="1" )
-          .map(item => ({
-            label: item.NomMission,
-            value: item.CodeMission,
-          }))
+            .filter((i) => i.Statut === "1")
+            .map((item) => ({
+              label: item.CodeMission,
+              value: item.CodeMission,
+            }));
 
           this.EntrepriseOptions = response.data.data
-          .filter(i => i.Statut ==="2" )
-          .map(item => ({
-            label: item.NomMission,
-            value: item.CodeMission,
-          }))
-   
+            .filter((i) => i.Statut === "2")
+            .map((item) => ({
+              label: item.CodeMission,
+              value: item.CodeMission,
+            }));
 
-          this.loading = false
+          this.loading = false;
         }
       } catch (error) {
-        
         if (error.response.data.status === "error") {
+          if (
+            error.response.data.message === "Vous n'êtes pas autorisé." ||
+            error.response.status === 401
+          ) {
+            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
+            this.$router.push("/"); //a revoir
+          }
+        } else {
+          this.formatValidationErrors(error.response.data.errors);
+          this.loading = false;
+          return false;
+        }
+      }
+    },
+    async fetchOuvrage() {
+      try {
+        const response = await axios.get("/maitres", {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+        });
 
+        if (response.data.status === "success") {
+          this.OuvragesOptions = response.data.data.map((item) => ({
+            label: item.Code,
+            value: item.Code,
+          }));
+
+          this.loading = false;
+        }
+      } catch (error) {
+        if (error.response.data.status === "error") {
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
             error.response.status === 401
@@ -979,70 +1599,70 @@ export default {
     handleFileUploadLogo(event) {
       const file = event.target.files[0];
       // this.submitFile(file )
-      this.step1.Logo = file
-
+      this.step1.Logo = file;
     },
     handleFileUploadLogoUpdate(event) {
       const file = event.target.files[0];
       // this.submitFile(file )
-      this.step2.Logo = file
-
+      this.step2.Logo = file;
     },
-
 
     async submitFile(file) {
       const formData = new FormData();
-      formData.append('Fichier', file);
-
+      formData.append("Fichier", file);
 
       try {
-        const response = await axios.post('/recruitment/insurance/uploads', formData, {
-          headers: {
-
-            'Content-Type': 'multipart/form-data'
+        const response = await axios.post(
+          "/recruitment/insurance/uploads",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
           }
-        });
+        );
         if (response.data.status === "success") {
-          this.step1.Logo = response.data.data.url
-
-
-
+          this.step1.Logo = response.data.data.url;
         } else {
-
         }
       } catch (error) {
-
-        this.loading = false
+        this.loading = false;
         if (error.response.data.status === "error") {
-          return this.error = error.response.data.message
-
+          return (this.error = error.response.data.message);
         } else {
           this.formatValidationErrors(error.response.data.errors);
         }
-
       }
-
-
     },
     validateDateFin() {
-      if (this.step1.DateFin && this.step1.DateDebut && this.step1.DateFin < this.step1.DateDebut) {
-        this.resultError['DateFin'] = "La date de fin ne peut pas être inférieure à la date de début.";
+      if (
+        this.step1.DateFin &&
+        this.step1.DateDebut &&
+        this.step1.DateFin < this.step1.DateDebut
+      ) {
+        this.resultError["DateFin"] =
+          "La date de fin ne peut pas être inférieure à la date de début.";
         return false;
       }
-      this.resultError['DateFin'] = ""; // Effacer l'erreur si tout est bon
+      this.resultError["DateFin"] = ""; // Effacer l'erreur si tout est bon
       return true;
     },
     validateDateFin2() {
-      if (this.step2.DateFin && this.step2.DateDebut && this.step2.DateFin < this.step2.DateDebut) {
-        this.resultError['DateFin'] = "La date de fin ne peut pas être inférieure à la date de début.";
+      if (
+        this.step2.DateFin &&
+        this.step2.DateDebut &&
+        this.step2.DateFin < this.step2.DateDebut
+      ) {
+        this.resultError["DateFin"] =
+          "La date de fin ne peut pas être inférieure à la date de début.";
         return false;
       }
-      this.resultError['DateFin'] = ""; // Effacer l'erreur si tout est bon
+      this.resultError["DateFin"] = ""; // Effacer l'erreur si tout est bon
       return true;
     },
-   
+
     async submitInfrastructure(modalId) {
-      this.error = '';
+      this.error = "";
       this.resultError = {};
 
       // Vérifiez la validité de la date de fin
@@ -1057,10 +1677,16 @@ export default {
         this.loading = true;
 
         // Vérifiez si les champs de coordonnées sont vides
-        if (!this.step1.GeoInfrastructure || this.step1.GeoInfrastructure.length === 0) {
+        if (
+          !this.step1.GeoInfrastructure ||
+          this.step1.GeoInfrastructure.length === 0
+        ) {
           try {
             const position = await this.getCurrentPosition();
-            this.step1.GeoInfrastructure = [position.coords.latitude, position.coords.longitude];
+            this.step1.GeoInfrastructure = [
+              position.coords.latitude,
+              position.coords.longitude,
+            ];
           } catch (error) {
             this.error = "Impossible de récupérer votre position actuelle.";
             this.loading = false;
@@ -1085,7 +1711,6 @@ export default {
           CodeProjet: this.Code,
         };
 
-
         const formData = new FormData();
         formData.append("CodeInfrastructure", this.step1.CodeInfrastructure);
         formData.append("CodeProjet", this.Code);
@@ -1094,55 +1719,57 @@ export default {
         formData.append("NomInfrastructure", this.step1.NomInfrastructure);
         formData.append("MaitreOuvrage", this.step1.MaitreOuvrage);
         formData.append("CodeMission", this.step1.CodeMission);
-        formData.append("EntrepriseResponsable", this.step1.EntrepriseResponsable);
+        formData.append(
+          "EntrepriseResponsable",
+          this.step1.EntrepriseResponsable
+        );
         formData.append("DateDebut", this.step1.DateDebut);
         formData.append("DateFin", this.step1.DateFin);
         formData.append("GeoInfrastructure[]", this.step1.GeoInfrastructure);
-        formData.append("LocalitesConcernees[]", this.step1.LocalitesConcernees);
+        formData.append(
+          "LocalitesConcernees[]",
+          this.step1.LocalitesConcernees
+        );
         formData.append("TypeInfrastructure", this.step1.TypeInfrastructure);
         formData.append("Visible", this.step1.Visible ? 1 : 0);
 
         try {
           const response = await axios.post("/infrastructures", formData, {
             headers: {
-              // Authorization: `Bearer ${this.loggedInUser.token}`,
-              withCredentials: true,
-              'Content-Type': 'multipart/form-data',
-            }
+              Authorization: `Bearer ${this.loggedInUser.token}`,
+              "Content-Type": "multipart/form-data",
+            },
           });
-
 
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.step1 = {
-
               CodeInfrastructure: "",
-                Cost: "",
-                CodeProjet: "",
-                Logo: "",
-                NomInfrastructure: "",
-                MaitreOuvrage: "",
-                EntrepriseResponsable: "",
-                DateDebut: "",
-                DateFin: "",
-                GeoInfrastructure: "",
-                LocalitesConcernees: [],
-                TypeInfrastructure: "",
-                CodeMission: "",
-                Visible: "",
-                }
-                this.v$.step1.$reset();
+              Cost: "",
+              CodeProjet: "",
+              Logo: "",
+              NomInfrastructure: "",
+              MaitreOuvrage: "",
+              EntrepriseResponsable: "",
+              DateDebut: "",
+              DateFin: "",
+              GeoInfrastructure: "",
+              LocalitesConcernees: [],
+              TypeInfrastructure: "",
+              CodeMission: "",
+              Visible: "",
+            };
+            this.v$.step1.$reset();
             this.successmsg(
               "Infrastructure créée avec succès",
               "La nouvelle infrastructure a été créée avec succès !"
             );
             this.loading = false;
-            this.$emit('indicateur-updated');
+            this.$emit("indicateur-updated");
           } else {
             // Gérer les erreurs du serveur ici
           }
         } catch (error) {
-
           this.loading = false;
           if (error.response.data.status === "error") {
             return (this.error = error.response.data.message);
@@ -1159,66 +1786,72 @@ export default {
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(resolve, reject);
         } else {
-          reject(new Error("La géolocalisation n'est pas prise en charge par ce navigateur."));
+          reject(
+            new Error(
+              "La géolocalisation n'est pas prise en charge par ce navigateur."
+            )
+          );
         }
       });
     },
 
     async HandleIdUpdateInfra(id) {
       this.step2 = {
-
-CodeInfrastructure: "",
-  Cost: "",
-  CodeProjet: "",
-  Logo: "",
-  NomInfrastructure: "",
-  MaitreOuvrage: "",
-  EntrepriseResponsable: "",
-  DateDebut: "",
-  DateFin: "",
-  GeoInfrastructure: "",
-  LocalitesConcernees: [],
-  TypeInfrastructure: "",
-  CodeMission: "",
-  Visible: "",
-  }
+        CodeInfrastructure: "",
+        Cost: "",
+        CodeProjet: "",
+        Logo: "",
+        NomInfrastructure: "",
+        MaitreOuvrage: "",
+        EntrepriseResponsable: "",
+        DateDebut: "",
+        DateFin: "",
+        GeoInfrastructure: "",
+        LocalitesConcernees: [],
+        TypeInfrastructure: "",
+        CodeMission: "",
+        Visible: "",
+      };
       this.loading = true;
 
       try {
         const response = await axios.get(`/infrastructures/detail/${id}`, {
           headers: {
-            //  Authorization: `Bearer ${this.loggedInUser.token}`,
-            withCredentials: true,
+            Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
 
         if (response) {
-    
           let data = response.data.data;
-          this.step2.CodeInfrastructure = data.CodeInfrastructure,
+          (this.step2.CodeInfrastructure = data.CodeInfrastructure),
             // this.step2.Logo = data.Logo,
-            this.step2.Cost = data.Cost,
-            this.step2.NomInfrastructure = data.NomInfrastructure,
-            this.step2.MaitreOuvrage = data.MaitreOuvrage,
-            this.step2.EntrepriseResponsable = data.EntrepriseResponsable,
-            this.step2.DateDebut = data.DateDebut,
-            this.step2.DateFin = data.DateFin,
-            this.step2.CodeMission = data.CodeMission
-            this.step2.TypeInfrastructure = parseInt(data.TypeInfrastructure),
-            this.step2.Visible = (data.Visible === "1") ? true : false,
-            this.Code = data.CodeProjet,
-            this.ToId = data.id;
+            (this.step2.Cost = data.Cost),
+            (this.step2.NomInfrastructure = data.NomInfrastructure),
+            (this.step2.MaitreOuvrage = data.MaitreOuvrage),
+            (this.step2.EntrepriseResponsable = data.EntrepriseResponsable),
+            (this.step2.DateDebut = data.DateDebut),
+            (this.step2.DateFin = data.DateFin),
+            (this.step2.CodeMission = data.CodeMission);
+          (this.step2.TypeInfrastructure = parseInt(data.TypeInfrastructure)),
+            (this.step2.Visible = data.Visible === "1" ? true : false),
+            (this.Code = data.CodeProjet),
+            (this.ToId = data.id);
           if (data.LocalitesConcernees.includes("|")) {
-            this.step2.LocalitesConcernees = data.LocalitesConcernees.split("|");
+            this.step2.LocalitesConcernees =
+              data.LocalitesConcernees.split("|");
           } else if (data.LocalitesConcernees.includes(",")) {
             // Vérification si c'est un JSON valide
             try {
-              this.step2.LocalitesConcernees = JSON.parse(data.LocalitesConcernees);
+              this.step2.LocalitesConcernees = JSON.parse(
+                data.LocalitesConcernees
+              );
             } catch (e) {
-              this.step2.LocalitesConcernees = data.LocalitesConcernees.split(",");
+              this.step2.LocalitesConcernees =
+                data.LocalitesConcernees.split(",");
             }
           } else {
-            this.step2.LocalitesConcernees = data.LocalitesConcernees.split(" ");
+            this.step2.LocalitesConcernees =
+              data.LocalitesConcernees.split(" ");
           }
 
           if (data.GeoInfrastructure.includes("|")) {
@@ -1237,9 +1870,7 @@ CodeInfrastructure: "",
           this.loading = false;
         }
       } catch (error) {
-        
         if (error.response.data.status === "error") {
-
           if (
             error.response.data.message === "Vous n'êtes pas autorisé." ||
             error.response.status === 401
@@ -1256,18 +1887,15 @@ CodeInfrastructure: "",
     },
 
     async submitUpdateInfrastructure(modalId) {
-      this.error = '',
-        this.resultError = {}
+      (this.error = ""), (this.resultError = {});
       if (!this.validateDateFin2()) {
         return;
       }
       this.v$.step2.$touch();
 
       if (this.v$.$errors.length == 0) {
-        this.loading = true
+        this.loading = true;
         const dataSend = {
-
-
           id: this.ToId,
           CodeInfrastructure: this.step2.CodeInfrastructure,
           Cost: this.step2.Cost,
@@ -1283,39 +1911,48 @@ CodeInfrastructure: "",
           TypeInfrastructure: this.step2.TypeInfrastructure,
           Visible: this.step2.Visible ? 1 : 0,
           CodeProjet: this.Code,
-
-        }
+        };
 
         const formData = new FormData();
         formData.append("CodeInfrastructure", this.step2.CodeInfrastructure);
         formData.append("CodeProjet", this.Code);
         formData.append("id", this.ToId);
         formData.append("Cost", this.step2.Cost);
-
         formData.append("Logo", this.step2.Logo);
         formData.append("NomInfrastructure", this.step2.NomInfrastructure);
         formData.append("MaitreOuvrage", this.step2.MaitreOuvrage);
         formData.append("CodeMission", this.step2.CodeMission);
 
-        formData.append("EntrepriseResponsable", this.step2.EntrepriseResponsable);
+        formData.append(
+          "EntrepriseResponsable",
+          this.step2.EntrepriseResponsable
+        );
         formData.append("DateDebut", this.step2.DateDebut);
         formData.append("DateFin", this.step2.DateFin);
 
-        formData.append("GeoInfrastructure[]", this.formattedGeoInfrastructureUpdate);
-        formData.append("LocalitesConcernees[]", this.step2.LocalitesConcernees);
+        formData.append(
+          "GeoInfrastructure[]",
+          this.formattedGeoInfrastructureUpdate
+        );
+        formData.append(
+          "LocalitesConcernees[]",
+          this.step2.LocalitesConcernees
+        );
         formData.append("TypeInfrastructure", this.step2.TypeInfrastructure);
 
         formData.append("Visible", this.step2.Visible ? 1 : 0);
 
         try {
-          const response = await axios.post('/infrastructures/update', formData, {
-            headers: {
-              // Authorization: `Bearer ${this.loggedInUser.token}`,
-              withCredentials: true,
-              'Content-Type': 'multipart/form-data'
-            },
-
-          });
+          const response = await axios.post(
+            "/infrastructures/update",
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${this.loggedInUser.token}`,
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
 
           if (response.data.status === "success") {
             this.closeModal(modalId);
@@ -1325,12 +1962,10 @@ CodeInfrastructure: "",
             );
 
             this.loading = false;
-            this.$emit('indicateur-updated');
+            this.$emit("indicateur-updated");
           }
         } catch (error) {
-          
           if (error.response.data.status === "error") {
-
             if (
               error.response.data.message === "Vous n'êtes pas autorisé." ||
               error.response.status === 401
@@ -1344,9 +1979,6 @@ CodeInfrastructure: "",
             return false;
           }
         }
-
-
-
       } else {
         this.loading = false;
       }
@@ -1375,8 +2007,7 @@ CodeInfrastructure: "",
         // Faites une requête pour supprimer l'élément avec l'ID itemId
         const response = await axios.delete(`/infrastructures/${id}`, {
           headers: {
-            // Authorization: `Bearer ${this.loggedInUser.token}`,
-            withCredentials: true,
+            Authorization: `Bearer ${this.loggedInUser.token}`,
           },
         });
         if (response.data.status === "success") {
@@ -1387,12 +2018,11 @@ CodeInfrastructure: "",
           );
 
           this.loading = false;
-          this.$emit('indicateur-updated');
+          this.$emit("indicateur-updated");
         } else {
           this.loading = false;
         }
       } catch (error) {
-
         if (
           error.response.data.message === "Vous n'êtes pas autorisé." ||
           error.response.status === 401
@@ -1402,78 +2032,65 @@ CodeInfrastructure: "",
         }
       }
     },
-    handleModal(id){
-      if(id === 1){
+    handleModal(id) {
+      if (id === 1) {
         const modal = new bootstrap.Modal(this.$refs.create_controle);
         modal.show();
-      }else{
+      } else {
         const modal = new bootstrap.Modal(this.$refs.create_entreprise);
         modal.show();
       }
-       
-
-
     },
 
-    async submitMission(modalId ,id) {
-    
+    async submitMission(modalId, id) {
       this.v$.mission.$touch();
-   
+
       if (this.v$.$errors.length == 0) {
         this.loading = true;
-        
-       
+
         let data = {
-          missions :[
+          missions: [
             {
-          CodeMission: this.mission.CodeMission,
-          NomMission: this.mission.NomMission,
-          Description: this.mission.Description,
-          Statut : id 
-            }
-          ]
-         
-         
+              CodeMission: this.mission.CodeMission,
+              NomMission: this.mission.NomMission,
+              Description: this.mission.Description,
+              Statut: id,
+            },
+          ],
         };
         try {
           const response = await axios.post("/missions", data, {
             headers: {
-              // Authorization: `Bearer ${this.loggedInUser.token}`,
-              withCredentials: true,
-             
-            }
+              Authorization: `Bearer ${this.loggedInUser.token}`,
+            },
           });
-
 
           if (response.data.status === "success") {
             this.closeModal(modalId);
             this.mission = {
-                CodeMission:"",
-                NomMission:"",
-                Description:"",
-              }
+              CodeMission: "",
+              NomMission: "",
+              Description: "",
+            };
             this.v$.mission.$reset();
-            if(id === 1){
+            if (id === 1) {
               this.successmsg(
-              "Bureau de controle créée avec succès",
-              "Le Bureau de controle a été créée avec succès !"
-            );
-
-            }else{
+                "Bureau de controle créée avec succès",
+                "Le Bureau de controle a été créée avec succès !"
+              );
+            } else {
               this.successmsg(
-              "Entreprise de travaux  créée avec succès",
-              "La nouvelle entreprise de travaux  a été créée avec succès !"
-            );
-
+                "Entreprise de travaux  créée avec succès",
+                "La nouvelle entreprise de travaux  a été créée avec succès !"
+              );
             }
-           
+
             this.loading = false;
-           this.fetchControle()
+            this.fetchControle();
           } else {
             // Gérer les erreurs du serveur ici
           }
         } catch (error) {
-
           this.loading = false;
           if (error.response.data.status === "error") {
             return (this.error = error.response.data.message);
@@ -1487,8 +2104,8 @@ CodeInfrastructure: "",
 
     formatDate(dateString) {
       const date = new Date(dateString);
-      const options = { day: 'numeric', month: 'short', year: 'numeric' };
-      return date.toLocaleDateString('fr-FR', options).replace('.', ',');
+      const options = { day: "numeric", month: "short", year: "numeric" };
+      return date.toLocaleDateString("fr-FR", options).replace(".", ",");
     },
     formatBudget(value) {
       return parseFloat(value).toLocaleString(); // Formatage avec séparateurs de milliers
@@ -1500,9 +2117,7 @@ CodeInfrastructure: "",
       for (const field in errors) {
         const errorMessages = errors[field]; // Liste complète des messages d'erreur
 
-
         const concatenatedError = errorMessages.join(", "); // Concaténer les messages d'erreur
-
 
         formattedErrors[field] = concatenatedError; // Utilisez le nom du champ comme clé
       }
@@ -1534,61 +2149,75 @@ CodeInfrastructure: "",
         closeButton: "button",
         icon: "mdi mdi-alert-circle-outline", // Modifier l'icône pour une icône d'erreur
         rtl: false,
-        className: 'toast-error'
+        className: "toast-error",
       });
     },
     exportToExcel() {
-
-      const data = this.InfrastructuresOptions.map(item => ({
-        'Code infrastructure': item.CodeInfrastructure,
-        'Nom': item.NomInfrastructure,
-        'Date de début': this.formatDate(item.DateFin),
-        'Date de fin': this.formatDate(item.DateFin),
-        'Coût infrastructure (GNF) ': this.formatBudget(item.Cost),
-        'Entreprise Responsable ': item.EntrepriseResponsable,
+      const data = this.InfrastructuresOptions.map((item) => ({
+        "Code infrastructure": item.CodeInfrastructure,
+        Nom: item.NomInfrastructure,
+        "Date de début": this.formatDate(item.DateFin),
+        "Date de fin": this.formatDate(item.DateFin),
+        "Coût infrastructure (GNF) ": this.formatBudget(item.Cost),
+        "Entreprise Responsable ": item.EntrepriseResponsable,
         "Maitre d'Ouvrage": item.MaitreOuvrage,
-        'Taux Avancement Technique': item.TauxAvancementTechnique,
+        "Taux Avancement Technique": item.TauxAvancementTechnique,
       }));
 
       const worksheet = XLSX.utils.json_to_sheet(data);
       const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, 'Liste des infrastructures');
+      XLSX.utils.book_append_sheet(
+        workbook,
+        worksheet,
+        "Liste des infrastructures"
+      );
 
-      XLSX.writeFile(workbook, 'listes_des_infrastructures.xlsx');
+      XLSX.writeFile(workbook, "listes_des_infrastructures.xlsx");
     },
     exportToCSV() {
-      const data = this.InfrastructuresOptions.map(item => ({
-        'Code infrastructure': item.CodeInfrastructure,
-        'Nom': item.NomInfrastructure,
-        'Date de début': this.formatDate(item.DateFin),
-        'Date de fin': this.formatDate(item.DateFin),
-        'Coût infrastructure (GNF) ': this.formatBudget(item.Cost),
-        'Entreprise Responsable ': item.EntrepriseResponsable,
+      const data = this.InfrastructuresOptions.map((item) => ({
+        "Code infrastructure": item.CodeInfrastructure,
+        Nom: item.NomInfrastructure,
+        "Date de début": this.formatDate(item.DateFin),
+        "Date de fin": this.formatDate(item.DateFin),
+        "Coût infrastructure (GNF) ": this.formatBudget(item.Cost),
+        "Entreprise Responsable ": item.EntrepriseResponsable,
         "Maitre d'Ouvrage": item.MaitreOuvrage,
-        'Taux Avancement Technique': item.TauxAvancementTechnique,
+        "Taux Avancement Technique": item.TauxAvancementTechnique,
       }));
 
       const worksheet = XLSX.utils.json_to_sheet(data);
       const csv = XLSX.utils.sheet_to_csv(worksheet);
 
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = 'listes_des_infrastructures.csv';
+      link.download = "listes_des_infrastructures.csv";
       link.click();
     },
     exportPDF() {
-      const doc = new jsPDF('landscape'); // 'landscape' pour le format paysage
+      const doc = new jsPDF("landscape"); // 'landscape' pour le format paysage
 
       // Ajouter un titre
       doc.setFontSize(18);
-      doc.text('Liste des projets', 14, 22);
+      doc.text("Liste des projets", 14, 22);
 
       // Ajouter la table
       doc.autoTable({
         startY: 30, // Positionner la table sous le titre
-        head: [['Code', 'Nom', 'Date de début', 'Date de fin', 'Coût infrastructure (GNF)', 'Entreprise Responsable ', "Maitre d'Ouvrage", 'Taux Avancement Technique']],
-        body: this.InfrastructuresOptions.map(item => [
+        head: [
+          [
+            "Code",
+            "Nom",
+            "Date de début",
+            "Date de fin",
+            "Coût infrastructure (GNF)",
+            "Entreprise Responsable ",
+            "Maitre d'Ouvrage",
+            "Taux Avancement Technique",
+          ],
+        ],
+        body: this.InfrastructuresOptions.map((item) => [
           item.CodeInfrastructure,
           item.NomInfrastructure,
           this.formatDate(item.DateDebut),
@@ -1596,13 +2225,12 @@ CodeInfrastructure: "",
           this.formatBudget(item.Cost),
           item.EntrepriseResponsable,
           item.MaitreOuvrage,
-          item.TauxAvancementTechnique
-
+          item.TauxAvancementTechnique,
         ]),
       });
 
       // Sauvegarder le PDF
-      doc.save('listes_des_infrastructures.pdf');
+      doc.save("listes_des_infrastructures.pdf");
     },
     filterByName() {
       this.currentPage = 1; // Reset to the first page on search
@@ -1611,7 +2239,7 @@ CodeInfrastructure: "",
       this.currentPage = pageNumber;
       window.scrollTo({
         top: 0,
-        behavior: 'smooth', // Utilisez 'auto' pour un défilement instantané
+        behavior: "smooth", // Utilisez 'auto' pour un défilement instantané
       });
     },
     updatePaginatedItems() {
@@ -1631,8 +2259,6 @@ CodeInfrastructure: "",
       }
     },
   },
-}
+};
 </script>
-<style lang="css" scoped>
-
-</style>
+<style lang="css" scoped></style>

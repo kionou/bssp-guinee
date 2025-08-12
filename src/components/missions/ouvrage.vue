@@ -33,7 +33,6 @@
                                 <tr>
     
                                     <th scope="col">Code</th>
-                                    <th scope="col">Nom</th>
                                     <th scope="col">Description</th>
                                     <th scope="col">Action</th>
                                 </tr>
@@ -49,16 +48,7 @@
                             </tbody>
                             <tbody v-else data-aos="fade-up" data-aos-duration="1000">
                                 <tr v-for="(data , index)  in paginatedItems" :key="index">
-                                    <th scope="row" class="ps-4" style="width: 60px;"> {{data.CodeMission }}</th>
-    
-    
-                                    <td>
-    
-                                        <span class="">
-                                            {{ data.NomMission }}
-                                        </span>
-    
-                                    </td>
+                                    <th scope="row" class="ps-4" style="width: 60px;"> {{data.Code }}</th>
                                     <td>
     
                                         {{data.Description}}
@@ -104,7 +94,7 @@
                         style="background-color: var(--primary-rgb); padding-bottom: 10px">
                         <h2 class="modal-title text-white text-center" id="mail-ComposeLabel"
                             style="font-size: 22px !important">
-                            <b class="text-center">Ajouter un maître d'ouvrage </b>
+                            <b class="text-center">Ajouter des maîtres d'ouvrage </b>
                         </h2>
                     </div>
                     <div class="modal-body px-4">
@@ -130,38 +120,25 @@
                                         </span>
                                         <div class="row  content-group">
     
-                                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                                 <div class="input-groupe">
                                                     <label for="userpassword">Code d'ouvrage <span
                                                             class="text-danger">*</span></label>
-                                                    <MazInput v-model="infrastructure.CodeMission" color="info"
-                                                        name="CodeMission" size="sm" rounded-size="sm" type="text"
-                                                        @input="clearErrorInfrastructures(index, 'CodeMission')" />
+                                                    <MazInput v-model="infrastructure.Code" color="info"
+                                                        name="Code" size="sm" rounded-size="sm" type="text"
+                                                        @input="clearErrorInfrastructures(index, 'Code')" />
                                                     <small
-                                                        v-if="errors.Infrastructures && errors.Infrastructures[index] && errors.Infrastructures[index].CodeMission">{{
-                                                        errors.Infrastructures[index].CodeMission }}</small>
+                                                        v-if="errors.Infrastructures && errors.Infrastructures[index] && errors.Infrastructures[index].Code">{{
+                                                        errors.Infrastructures[index].Code }}</small>
                                                     <small v-if="resultError['Infrastructures']"> {{
                                                         resultError["Infrastructures"] }} </small>
                                                 </div>
                                             </div>
-                                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                                                <div class="input-groupe">
-                                                    <label for="userpassword">Nom d'ouvrage <span
-                                                            class="text-danger">*</span></label>
-                                                    <MazInput v-model="infrastructure.NomMission" color="info"
-                                                        name="NomMission" size="sm" rounded-size="sm"
-                                                        @input="clearErrorInfrastructures(index, 'NomMission')" />
-                                                    <small
-                                                        v-if="errors.Infrastructures && errors.Infrastructures[index] && errors.Infrastructures[index].NomMission">{{
-                                                        errors.Infrastructures[index].NomMission }}</small>
-                                                    <small v-if="resultError['Infrastructures']"> {{
-                                                        resultError["Infrastructures"] }} </small>
-                                                </div>
-                                            </div>
+                                          
     
-                                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                                 <div class="input-groupe">
-                                                    <label for="userpassword">Description d'ouvrage </label>
+                                                    <label for="userpassword">Description d'ouvrage <span class="text-danger">*</span> </label>
                                                     <textarea class="form-control"
                                                         style="border-radius:0 !important; border:1px solid #e5eaee !important"
                                                         id="text-area" v-model="infrastructure.Description"
@@ -238,13 +215,13 @@
                                         <div class="input-groupe">
                                             <label for="userpassword">Code d'ouvrage
                                                 <span class="text-danger">*</span></label>
-                                            <MazInput v-model="step2.CodeMission" type="text" color="info"
-                                                name="CodeMission" size="sm" rounded-size="sm" />
-                                            <small v-if="v$.step2.CodeMission.$error">{{
-                                                v$.step2.CodeMission.$errors[0].$message
+                                            <MazInput v-model="step2.Code" type="text" color="info"
+                                                name="Code" size="sm" rounded-size="sm" />
+                                            <small v-if="v$.step2.Code.$error">{{
+                                                v$.step2.Code.$errors[0].$message
                                                 }}</small>
-                                            <small v-if="resultError['CodeMission']">
-                                                {{ resultError["CodeMission"] }}
+                                            <small v-if="resultError['Code']">
+                                                {{ resultError["Code"] }}
                                             </small>
                                         </div>
                                     </div>
@@ -254,24 +231,7 @@
                                 <div class="row mt-3 content-group">
                                     <div class="col">
                                         <div class="input-groupe">
-                                            <label for="userpassword">Nom d'ouvrage
-                                                <span class="text-danger">*</span></label>
-                                            <MazInput v-model="step2.NomMission" type="text" color="info" name="NomMission"
-                                                size="sm" rounded-size="sm" />
-                                            <small v-if="v$.step2.NomMission.$error">{{
-                                                v$.step2.NomMission.$errors[0].$message
-                                                }}</small>
-                                            <small v-if="resultError['NomMission']">
-                                                {{ resultError["NomMission"] }}
-                                            </small>
-                                        </div>
-                                    </div>
-    
-                                </div>
-                                <div class="row mt-3 content-group">
-                                    <div class="col">
-                                        <div class="input-groupe">
-                                            <label for="userpassword">Description d'ouvrage
+                                            <label for="userpassword">Description d'ouvrage <span class="text-danger">*</span>
                                             </label>
                                             <textarea class="form-control"
                                                 style="border-radius:0 !important; border:1px solid #e5eaee !important"
@@ -352,23 +312,17 @@ export default {
       search: "",
       resultError: {},
       ToId: "",
-      choix: [
-        { label: "Oui", value: true },
-        { label: "Non", value: 'non' },
-      ],
+      
       errors: { Infrastructures: [], },
       Infrastructures: [
         {
 
-          CodeMission: "",
-          NomMission: "",
+          Code: "",
           Description: "",
-          Statut : 1 
         }
       ],
       step2: {
-        CodeMission: "",
-        NomMission: "",
+        Code: "",
         Description: "",
 
       },
@@ -380,9 +334,8 @@ export default {
   validations: {
 
     step2: {
-      CodeMission: { require },
-      NomMission: { require },
-      Description: {},
+      Code: { require },
+      Description: {require},
     },
 
 
@@ -405,7 +358,7 @@ export default {
       );
     },
     AddformDataInfrastructures() {
-      this.Infrastructures.push({ CodeMission: "", NomMission: "", Description: "",  Statut : 1 });
+      this.Infrastructures.push({ Code: "", Description: "" });
     },
     deleteRowInfrastructures(index) {
 
@@ -424,12 +377,12 @@ export default {
       this.Infrastructures.forEach((infrastructure, index) => {
         const infrastructureErrors = {};
 
-        if (!infrastructure.CodeMission) {
-          infrastructureErrors.CodeMission = 'Ce champs est obligatoire!';
+        if (!infrastructure.Code) {
+          infrastructureErrors.Code = 'Ce champs est obligatoire!';
           isValid = false;
         }
-        if (!infrastructure.NomMission) {
-          infrastructureErrors.NomMission = 'Ce champs est obligatoire!';
+        if (!infrastructure.Description) {
+          infrastructureErrors.Description = 'Ce champs est obligatoire!';
           isValid = false;
         }
 
@@ -442,12 +395,12 @@ export default {
       if (this.validateInfrastructures()) {
         this.loading = true;
         const dataToSend = {
-          missions: this.Infrastructures
+          maitres: this.Infrastructures
         };
 
 
         try {
-          const response = await axios.post("/missions", dataToSend, {
+          const response = await axios.post("/maitres", dataToSend, {
             headers: {
               Authorization: `Bearer ${this.loggedInUser.token}`, 
 
@@ -455,7 +408,7 @@ export default {
           });
 
           if (response.data.status === "success") {
-            this.Infrastructures = [{ CodeMission: "", NomMission: "", Description: "", }];
+            this.Infrastructures = [{ Code: "",  Description: "", }];
             this.closeModal(modalId);
             this.successmsg(
               "Maîtres d'ouvrage créés avec succès",
@@ -496,12 +449,13 @@ export default {
 
 
         if (response.data.status === "success") {
-          this.data = response.data.data.filter((i) => i.Statut == "1");
+          this.data = response.data.data;
           this.OuvrageOptions = this.data
 
           this.loading = false
         }
       } catch (error) {
+        this.loading = false
 
         if (error.response.data.status === "error") {
 
@@ -524,8 +478,7 @@ export default {
 
     async HandleIdUpdate(id) {
         this.step2= {
-        CodeMission: "",
-        NomMission: "",
+        Code: "",
         Description: "",
 
       },
@@ -543,8 +496,7 @@ export default {
 
           let data = response.data.data
 
-          this.step2.CodeMission = data.CodeMission,
-            this.step2.NomMission = data.NomMission,
+          this.step2.Code = data.Code,
             this.step2.Description = data.Description,
             this.ToId = data.id
           this.loading = false;
@@ -579,13 +531,11 @@ export default {
 
         this.loading = true;
         let dataSend = {
-          missions: [
+          maitres: [
             {
 
-              CodeMission: this.step2.CodeMission,
-              NomMission: this.step2.NomMission,
+              Code: this.step2.Code,
               Description: this.step2.Description,
-              Statut : 1 ,
               id: this.ToId
             }
           ]
@@ -595,7 +545,7 @@ export default {
 
 
         try {
-          const response = await axios.put('/maitres/update', dataSend, {
+          const response = await axios.put( `/maitres/update/${this.ToId}`, dataSend, {
             headers: {
 
               Authorization: `Bearer ${this.loggedInUser.token}`,
@@ -711,8 +661,8 @@ export default {
         const tt = this.search;
         const searchValue = tt.toLowerCase()
         this.OuvrageOptions = this.data.filter(user => {
-          const Nom = user.CodeMission || '';
-          const Descriptions = user.NomMission || '';
+          const Nom = user.Code || '';
+          const Descriptions = user.Description || '';
 
           return Nom.toLowerCase().includes(searchValue) || Descriptions.toLowerCase().includes(searchValue);
         });

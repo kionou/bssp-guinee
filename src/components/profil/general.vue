@@ -379,7 +379,6 @@ export default {
       console.log("fetchUserDetail");
       try {
         const response = await axios.get("/auth-user", {
-          withCredentials: true,
           headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
           },

@@ -1,160 +1,9 @@
 <template >
-  <div>
+    <div>
     <Loading v-if="loading" style="z-index: 99999"></Loading>
-  
-    <!-- Start::app-content -->
-  
-    <div class="">
-  
-      <!-- Page Header -->
-      <div class="d-md-flex d-block pt-12  align-items-center justify-content-between my-4 page-header-breadcrumb">
-        <h1 class="page-title fw-semibold fs-18 mb-0"> Details</h1>
-        <div class="ms-md-1 ms-0">
-          <nav>
-            <ol class="breadcrumb mb-0">
-              <li class="breadcrumb-item"><a href="javascript:void(0);">BSPP</a></li>
-              <li class="breadcrumb-item active" aria-current="page"> Details</li>
-            </ol>
-          </nav>
-        </div>
-      </div>
-      <!-- Page Header Close -->
-  
-  
+
+        
       <!-- Start::row-1 -->
-      <div class="card">
-        <div class="card-body">
-          <div class="card m-0">
-            <div class="card-header">
-              <div class="row">
-                <div class="col-11">
-                  <h4 class="fw-semibold fs-20 mb-0 d-flex align-items-center "> {{data.NomInfrastructure}} <span
-                      style="color:red"> ({{data.CodeInfrastructure}})</span> </h4>
-                </div>
-                <div class="col-1">
-                  <div class="float-end w-20 ">
-                    <a class="px-2 bg-primary text-white  fs-15 " @click="goBack" href="#"> &larr; Retour</a>
-  
-                  </div>
-                </div>
-              </div>
-  
-  
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                  <div class="mt-1"><i class="bi bi-person me-2 fs-14"></i>Maître d'ouvrage : <span
-                      class="fw-semibold fs-16" data-bs-toggle="tooltip"
-                      title="Current Salary">{{data.MaitreOuvrage}}</span> </div>
-                </div>
-                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                  <div class="mt-1"><i class="bi bi-geo-alt me-2 fs-14"></i>Localité : <span class="fw-semibold  fs-16"
-                      data-bs-toggle="tooltip" title="Current Salary">{{data.LocalitesConcernees}}</span> </div>
-                </div>
-                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                  <div class="mt-1"><i class="bi bi-bricks me-2 fs-14"></i>Entreprise de travaux: <span
-                      class="fw-semibold fs-16" data-bs-toggle="tooltip" title="Current Salary">
-                      {{data.responsable?.NomMission}}</span> </div>
-  
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                  <div class="mt-1 fs-16"><i class="bi bi-calendar3 me-2 fs-16"></i>Date début prévue : <span
-                      class="fw-semibold text-warning fs-16" data-bs-toggle="tooltip"
-                      title="Current Salary">{{formatDate(data.DateDebut) }}</span> </div>
-  
-                </div>
-                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                  <div class="mt-1 fs-16"><i class="bi bi-calendar3 me-2 fs-16"></i>Date fin prévue : <span
-                      class="fw-semibold text-warning fs-16" data-bs-toggle="tooltip"
-                      title="Current Salary">{{formatDate(data.DateFin) }}</span> </div>
-                </div>
-  
-                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                  <div class="mt-1 fs-16"><i class="bi bi-calendar3 me-2 fs-16"></i>Durée prévue : <span
-                      class="fw-semibold fs-16" data-bs-toggle="tooltip" title="Current Salary"
-                      style="color:red">{{tempsEcoule(data.DateDebut , data.DateFin) }}</span> </div>
-                </div>
-  
-              </div>
-              <div class="row">
-                <div class="col-xxl-7 col-xl-7 col-lg-7 col-md-6 col-sm-12">
-                  <div class="mt-1 fs-17"><i class="bi bi-x-diamond me-2 fs-16"></i>Type d'infrastructure
-                    : <span class="fw-semibold" data-bs-toggle="tooltip"
-                      title="Current Salary">{{data.type?.Intitule}}</span> </div>
-  
-                </div>
-               
-                <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-6 col-sm-6">
-                  <div class="mt-1 fs-17"><i class="bi bi-bank me-2 fs-16"></i>Coût infrastructure : <span
-                      class="fw-semibold" data-bs-toggle="tooltip" title="Current Salary">
-                      {{ formatBudget(data.Cost) ?? "-"
-  
-                      }}
-                    </span> </div>
-  
-                </div>
-                <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-6 col-sm-12">
-                  <div class="mt-1 fs-16"><i class="bi bi-bullseye me-2 fs-16"></i>Bureau de contrôle :
-                    <span
-                      class="fw-semibold" data-bs-toggle="tooltip" title="Current Salary">
-                      {{ data.bureau?.NomMission ?? "-" }} </span> 
-                  </div>
-                </div>
-                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                  <div class="mt-1 fs-16"><i class="bi bi-eye me-2 fs-16"></i>Visibilité :
-                    <span v-if="data.Visible ==='1'" class="fw-semibold badge rounded-pill bg-success"
-                      data-bs-toggle="tooltip" title="Current Salary">Actif</span>
-                    <span v-else class="fw-semibold badge rounded-pill bg-danger" data-bs-toggle="tooltip"
-                      title="Current Salary">Inactif</span>
-                  </div>
-                </div>
-              </div>
-              <div class="card-titre mt-3 fw-semibold">
-                Information sur le projet :
-  
-              </div>
-              <hr class="m-0">
-              <div class="row">
-                <div class="col-12">
-                  <p><span class=" fs-20">Nom projet : </span><span class="  fs-15 fw-bolder"> {{
-                      data.projet?.NomProjet }}</span> </p>
-  
-                </div>
-                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                  <p><span class=" fs-20">Date debut : </span> <span class="fs-15 fw-semibold text-warning">{{
-                      formatDate(data.projet?.DateDebut)}}</span> </p>
-  
-                </div>
-                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                  <p><span class=" fs-20">Date fin : </span><span class="fs-15 fw-semibold text-warning">{{
-                      formatDate(data.projet?.DateFin)
-                      }}</span></p>
-  
-                </div>
-                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                  <p><span class=" fs-20">Durée : </span><span class="fs-15 fw-semibold" style="color:red">{{
-                      tempsEcoule(data.projet?.DateDebut , data.projet?.DateFin) }}</span></p>
-  
-                </div>
-              </div>
-            </div>
-            <div class="card-body">
-            
-            </div>
-          </div>
-         
-        </div>
-      </div>
-  
-      <!--End::row-1 -->
-  
-  
-  
-  
-  
       <div class="row">
         <div class="col-xl-12">
           <div class="card custom-card overflow-hidden">
@@ -196,7 +45,6 @@
                       <th scope="col">Mont. Décaiss.</th>
                       <th scope="col" class="text-center">Taux Av. Tech.</th>
                       <th scope="col">Difficultes</th>
-                      <!-- <th scope="col">Trimestres</th> -->
                       <th scope="col">Images</th>
                       <th scope="col">Videos</th>
                       <th scope="col" v-if="hasPermission(6)">Etat</th>
@@ -204,25 +52,25 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(user , index) in paginatedItems" :key="user.id">
+                    <tr v-for="(suivi , index) in paginatedItems" :key="suivi.id">
                       <th scope="row" class="ps-4" style="width: 60px;"> {{index + 1}}</th>
                       <td>
                         <div class="d-flex align-items-center lh-1">
   
-                          <div style="color:red ; width: 85px" >{{ formatDate(user.DateSuivi) }}</div>
+                          <div style="color:red ; width: 85px" >{{ formatDate(suivi.DateSuivi) }}</div>
                         </div>
                       </td>
-                      <td  class="" v-html="user.NiveauAvancement"></td>
-                      <td  class="text-center">{{user.TauxExecutionFinanciere}}</td>
-                      <td class="text-center"  style="width: 100px;">{{ formatBudget(user.MontantDecaisser) }}</td>
-                      <td style="width: 100px;" class="text-center">{{user.TauxAvancementTechnique}}</td>
-                      <td v-html="user.Difficultes"></td>
+                      <td  class="" v-html="suivi.NiveauAvancement"></td>
+                      <td  class="text-center">{{suivi.TauxExecutionFinanciere}}</td>
+                      <td class="text-center"  style="width: 100px;">{{ formatBudget(suivi.MontantDecaisser) }}</td>
+                      <td style="width: 100px;" class="text-center">{{suivi.TauxAvancementTechnique}}</td>
+                      <td v-html="suivi.Difficultes"></td>
                       <!-- <td>
-                        {{user.Trimestre}}
+                        {{suivi.Trimestre}}
                          
                       </td> -->
                       <td class="text-center"  style="width: 80px;">
-                        <button v-if="user.Photos" @click="openGallery(user.Photos)" class="btn btn-primary btn-sm"
+                        <button v-if="suivi.Photos" @click="openGallery(suivi.Photos)" class="btn btn-primary btn-sm"
                          v-tippy="{ content: 'Afficher les images',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                         >
                           <i class="bi bi-card-image"></i>
@@ -230,7 +78,7 @@
                         <span v-else>Aucune image</span>
                       </td>
                       <td  style="width: 80px;">
-                        <button v-if="user.videos" @click="openVideo(user.videos)"
+                        <button v-if="suivi.videos" @click="openVideo(suivi.videos)"
                           v-tippy="{ content: 'Afficher les vidéos',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                           class="btn btn-primary btn-sm text-center">
                           <i class="bi bi-play-btn"></i>
@@ -238,9 +86,9 @@
                         <span v-else>Aucune vidéo</span>
                       </td>
                       <td style="width:125px" v-if="hasPermission(6)" >
-                        <button class="btn " :class=" user?.Validated == '1' ? 'bg-success' : 'bg-danger'" :disabled="user?.Validated == '1'" style=" color:white" @click="validateSelection(user?.id)">
+                        <button class="btn " :class=" suivi?.Validated == '1' ? 'bg-success' : 'bg-danger'" :disabled="suivi?.Validated == '1'" style=" color:white" @click="validateSelection(suivi?.id)">
                         <i class="bi bi-check2-circle"></i>
-                        {{ user?.Validated == '1' ? 'Valider' : 'Non Valider' }}
+                        {{ suivi?.Validated == '1' ? 'Valider' : 'Non Valider' }}
                       </button>
                       </td>
   
@@ -249,12 +97,12 @@
   
                           <div v-if="hasPermission(2)" class="btn btn-icon btn-sm btn-info btn-wave waves-effect "
                             v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
-                            data-bs-toggle="modal" data-bs-target="#update-suivi" @click="HandleIdUpdate(user.id)"><i
+                            data-bs-toggle="modal" data-bs-target="#update-suivi" @click="HandleIdUpdate(suivi.id)"><i
                               class="ri-edit-line"></i></div>
                           <a v-if="hasPermission(4)" aria-label="anchor" href="javascript:void(0);"
                             v-tippy="{ content: 'Supprimer l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                             class="btn btn-icon btn-sm btn-danger btn-wave waves-effect waves-light"><i
-                              class="ri-delete-bin-line" @click="HandleIdDelete(user.id)"></i></a>
+                              class="ri-delete-bin-line" @click="HandleIdDelete(suivi.id)"></i></a>
                         </div>
                       </td>
                     </tr>
@@ -273,10 +121,10 @@
           </div>
         </div>
       </div>
-      <!--End::row-1 -->
   
-    </div>
-    <!-- Start:: Create suivi -->
+      <!--End::row-1 -->
+
+          <!-- Start:: Create suivi -->
     <div class="modal fade effect-rotate-bottom" id="create-suivi" tabindex="-1" aria-hidden="true"
       data-bs-backdrop="static" ref="create-suivi">
       <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -543,7 +391,7 @@
       </div>
     </div>
     <!-- End:: update suivi -->
-  </div>
+    </div>
 </template>
 <script>
 import useVuelidate from "@vuelidate/core";
@@ -560,9 +408,25 @@ import 'glightbox/dist/css/glightbox.min.css';
 import QuillEditor from '@/components/projets/QuillEditor.vue';
 
 export default {
-  name: "ComponentlisteInfra",
-  props: ['id'],
+    props: {
+    infrastructureData: {
+      type: Object,
+      required: true,
+    },
+  },
   components: { Loading, MazPhoneNumberInput, Pag , QuillEditor},
+    watch: {
+        infrastructureData: {
+      handler(newVal, oldVal) {
+        if (newVal && newVal !== oldVal) {
+         this.data = newVal
+         this.SuiviOptions = newVal.suivis
+         this.loading = false 
+        }
+      },
+      immediate: false,
+    },
+  },
   computed: {
     loggedInUser() {
       return this.$store.getters["auth/myAuthenticatedUser"];
@@ -674,9 +538,7 @@ export default {
 
     }
   },
-  async mounted() {
-
-    await this.fetchDetailInfra()
+  mounted() {
     var lightboxVideo = GLightbox({
       selector: '.glightbox'
     });
@@ -687,10 +549,7 @@ export default {
     });
   },
   methods: {
-    successmsg: successmsg,
-    goBack() {
-      this.$router.go(-1);
-    },
+    successmsg:successmsg,
     hasPermission(permissionName) {
       if (!this.loggedInUser || !Array.isArray(this.loggedInUser.permissions)) {
         return false;
@@ -719,47 +578,6 @@ export default {
           'width': '900px',
         }]
       }).open();
-    },
-
-
-    async fetchDetailInfra() {
-      try {
-        const response = await axios.get(`infrastructures/detail/${this.id}`, {
-          headers: {
-              Authorization: `Bearer ${this.loggedInUser.token}`,
-            
-          },
-        });
-
-    
-        if (response.data.status === "success") {
-          this.data = response.data.data;
-          this.datas = this.data.suivis
-          this.SuiviOptions = this.datas
-         
-
-          this.loading = false;
-
-        }
-      } catch (error) {
-        this.loading = false;
-      
-        if (error.response.data.status === "error") {
-       
-
-          if (
-            error.response.data.message === "Vous n'êtes pas autorisé." ||
-            error.response.status === 401
-          ) {
-            await this.$store.dispatch("auth/clearMyAuthenticatedUser");
-            this.$router.push("/"); //a revoir
-          }
-        } else {
-          this.formatValidationErrors(error.response.data.errors);
-          this.loading = false;
-          return false;
-        }
-      }
     },
     async submitSuivi(modalId) {
       this.v$.step1.$touch();
@@ -820,7 +638,7 @@ export default {
               "Suivi créé avec succès",
               "Le nouveau suivi a été créé avec succès !"
             );
-            await this.fetchDetailInfra()
+            this.$emit('data-updated', {action: 'suivi-created'});
             
           }
         } catch (error) {
@@ -934,13 +752,14 @@ export default {
               "Suivi mis à jour avec succès",
               "Le suivi a été mis à jour avec succès !"
             );
-            await this.fetchDetailInfra()
+            this.$emit('data-updated', {action: 'suivi-update'});
+
 
 
           }
         } catch (error) {
           this.loading = false;
-        
+        console.log(error)
 
           if (error.response.data.message === "Vous n'êtes pas autorisé." || error.response.status === 401) {
             await this.$store.dispatch('auth/clearMyAuthenticatedUser');
@@ -1158,7 +977,8 @@ resetQuillEditors() {
             "Suivi d'infrastructure supprimé avec succès",
             "Le suivi d'infrastructure a été supprimé avec succès !"
           );
-          await this.fetchDetailInfra();
+          this.$emit('data-updated', {action: 'suivi-delete'});
+
 
         } else {
        
@@ -1211,7 +1031,94 @@ resetQuillEditors() {
         minimumFractionDigits: 0
       }).format(budget);
     },
+    async validateSelection(id) {
+     const result = await Swal.fire({
+        title: 'Êtes-vous sûr ?',
+        text: 'Vous ne pourrez pas annuler cette action !',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Oui, validez !',
+        cancelButtonText: 'Non, annulez !',
+        reverseButtons: true
+     });
+  
+     // Si l'utilisateur confirme la suppression
+     if (result.isConfirmed) {
+       this.validateSelection1(id);
+     }
+        },
+        async  validateSelection1(id) {
+        const data = {
+          id:id
+        }
+    
+      this.loading = true
+         
+         try {
+           const response = await axios.put('/infrastructures/suivis/confirmer',data, {
+            headers: {
+              Authorization: `Bearer ${this.loggedInUser.token}`,
 
+              
+            },
+           
+   
+   
+           });
+       
+           if (response.status === 200) {
+             this.loading = false
+             this.successmsg(
+                  "Validation du suivi",
+                  "Votre suivi  a été validé avec succès !"
+              ); 
+            this.$emit('data-updated', {action: 'suivi-update'});
+
+              this.loading = false
+              
+   
+           } else {
+        
+            this.handleErrors(error);
+           }
+         } catch (error) {
+         
+              this.loading = false
+              Swal.fire({
+              icon: "error",
+              title: "Suivi validé",
+              text: "Ce suivi a été déjà valider merci.",
+            
+            });
+            // this.handleErrors(error);
+           
+         }
+
+    },
+
+    closeModal(modalId) {
+      let modalElement = this.$refs[modalId];
+      modalElement.classList.remove("show");
+      modalElement.style.display = "none";
+      document.body.classList.remove("modal-open");
+      let modalBackdrop = document.querySelector(".modal-backdrop");
+      if (modalBackdrop) {
+        modalBackdrop.parentNode.removeChild(modalBackdrop);
+      }
+    },
+    updateCurrentPage(pageNumber) {
+      this.currentPage = pageNumber;
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth', // Utilisez 'auto' pour un défilement instantané
+      });
+    },
+    updatePaginatedItems() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.SuiviOptions.slice(startIndex, endIndex);
+    },
     async formatValidationErrors(errors) {
       const formattedErrors = {};
 
@@ -1297,115 +1204,8 @@ resetQuillEditors() {
       this.step1.videoss = file
 
     },
-    closeModal(modalId) {
-      let modalElement = this.$refs[modalId];
-      modalElement.classList.remove("show");
-      modalElement.style.display = "none";
-      document.body.classList.remove("modal-open");
-      let modalBackdrop = document.querySelector(".modal-backdrop");
-      if (modalBackdrop) {
-        modalBackdrop.parentNode.removeChild(modalBackdrop);
-      }
-    },
-    updateCurrentPage(pageNumber) {
-      this.currentPage = pageNumber;
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth', // Utilisez 'auto' pour un défilement instantané
-      });
-    },
-    updatePaginatedItems() {
-      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-
-      const endIndex = startIndex + this.itemsPerPage;
-      return this.SuiviOptions.slice(startIndex, endIndex);
-    },
-    async validateSelection(id) {
-     const result = await Swal.fire({
-        title: 'Êtes-vous sûr ?',
-        text: 'Vous ne pourrez pas annuler cette action !',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Oui, validez !',
-        cancelButtonText: 'Non, annulez !',
-        reverseButtons: true
-     });
-  
-     // Si l'utilisateur confirme la suppression
-     if (result.isConfirmed) {
-       this.validateSelection1(id);
-     }
-        },
-        async  validateSelection1(id) {
-        const data = {
-          id:id
-        }
-    
-      this.loading = true
-         
-         try {
-           const response = await axios.put('/infrastructures/suivis/confirmer',data, {
-            headers: {
-              Authorization: `Bearer ${this.loggedInUser.token}`,
-
-              
-            },
-           
-   
-   
-           });
-       
-           if (response.status === 200) {
-             this.loading = false
-             this.successmsg(
-                  "Validation du suivi",
-                  "Votre suivi  a été validé avec succès !"
-              );  
-              await this.fetchDetailInfra();
-              this.loading = false
-              
-   
-           } else {
-        
-            this.handleErrors(error);
-           }
-         } catch (error) {
-         
-              this.loading = false
-              Swal.fire({
-              icon: "error",
-              title: "Suivi validé",
-              text: "Ce suivi a été déjà valider merci.",
-            
-            });
-            // this.handleErrors(error);
-           
-         }
-
-    },
-    filterByName() {
-      this.currentPage = 1;
-      if (this.search !== null) {
-        const tt = this.search;
-        const searchValue = tt.toLowerCase();
-        this.SuiviOptions = this.datas.filter((user) => {
-          const Nom = user.DateSuivi || "";
-          const Prenoms = user.NiveauAvancement || "";
-          const Pseudo = user.MontantDecaisser || "";
-          const Email = user.TauxAvancementTechnique || "";
-          return (
-            Nom.toLowerCase().includes(searchValue) ||
-            Prenoms.toLowerCase().includes(searchValue) ||
-            Pseudo.toLowerCase().includes(searchValue) ||
-            Email.toLowerCase().includes(searchValue)
-          );
-        });
-      } else {
-        this.SuiviOptions = [...this.datas];
-      }
-    },
   },
-
+    
 }
 </script>
 <style lang="css" scoped>
@@ -1527,4 +1327,5 @@ resetQuillEditors() {
 :deep(.ql-editor) {
   min-height: 150px;
 }
+    
 </style>

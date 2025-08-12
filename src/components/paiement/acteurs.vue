@@ -467,7 +467,7 @@ export default {
         };
 
         try {
-          const response = await axios.put("/acteurs-etapes", dataSend, {
+          const response = await axios.put( `/acteurs-etapes/update/${this.ToId}`, dataSend, {
             headers: {
               Authorization: `Bearer ${this.loggedInUser.token}`,
             },

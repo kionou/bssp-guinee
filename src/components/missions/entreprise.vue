@@ -450,8 +450,7 @@ export default {
         try {
           const response = await axios.post("/missions", dataToSend, {
             headers: {
-              // Authorization: `Bearer ${this.loggedInUser.token}`,
-              withCredentials: true,
+              Authorization: `Bearer ${this.loggedInUser.token}`,
             }
           });
 
@@ -490,8 +489,7 @@ export default {
         const response = await axios.get('/missions',
           {
             headers: {
-              // Authorization: `Bearer ${this.loggedInUser.token}`,
-              withCredentials: true,
+              Authorization: `Bearer ${this.loggedInUser.token}`,
             },
           }
         );
@@ -536,8 +534,7 @@ export default {
       try {
         const response = await axios.get(`/missions/detail/${id}`, {
           headers: {
-            // Authorization: `Bearer ${this.loggedInUser.token}`,
-            withCredentials: true,
+            Authorization: `Bearer ${this.loggedInUser.token}`,
           }
         });
 
@@ -601,8 +598,7 @@ export default {
           const response = await axios.put('/missions/update', dataSend, {
             headers: {
 
-              // Authorization: `Bearer ${this.loggedInUser.token}`,
-              withCredentials: true,
+              Authorization: `Bearer ${this.loggedInUser.token}`,
 
             },
           });
@@ -660,8 +656,7 @@ export default {
         // Faites une requête pour supprimer l'élément avec l'ID itemId
         const response = await axios.delete(`/missions/${id}`, {
           headers: {
-            // Authorization: `Bearer ${this.loggedInUser.token}`,
-            withCredentials: true,
+            Authorization: `Bearer ${this.loggedInUser.token}`,
 
 
           },

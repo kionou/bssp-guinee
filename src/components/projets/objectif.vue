@@ -891,7 +891,6 @@ export default {
         //   const response = await axios.post("/duties-services", data, {
         //     headers: { 
         //       // Authorization: `Bearer ${this.loggedInUser.token}`,
-        //       withCredentials: true,
         //   }
         //   });
         //   if (response.data.status === "success") {
