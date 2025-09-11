@@ -891,8 +891,7 @@ export default {
 
     },
     async submitUpdateInfrastructureSuivi(modalId) {
-      console.log('this.step2.NiveauAvancement',this.step2.NiveauAvancement)
-      console.log('this.step2.NiveauAvancement',this.step2.Difficultes)
+   
       this.v$.step2.$touch();
 
 
@@ -953,7 +952,6 @@ export default {
           }
         }
       } else {
-          console.log('this.v$.$errors',this.v$.$errors)
         this.loading = false;
 
       }
@@ -986,7 +984,6 @@ export default {
     
     quill.on("text-change", () => {
       this.step2.NiveauAvancement = quill.root.innerHTML;
-      console.log('Mise à jour NiveauAvancement:', this.step2.NiveauAvancement);
     });
     }
   },

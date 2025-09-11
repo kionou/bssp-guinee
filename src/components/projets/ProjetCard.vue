@@ -23,9 +23,7 @@
                 <i class="ri-eye-line"></i>
               </router-link>
               </div>
-            <!-- <div class=" col-1 p-0 text-sm-center" v-if="hasPermission(1)">
-            
-            </div> -->
+          
           </div>
         </div>
         <div class="row py-2">
@@ -50,7 +48,7 @@
           <div class="col-4">
             <div class="orders-delivery-address text-center">
               <p class="mb-1 ">Durée</p>
-              <p class=" mb-0 fs-16 fw-semibold" style="color:red;">
+              <p class=" mb-0 fs-16 fw-semibold" style="color:black;">
                 {{ formatDuration(projet.DateDebut, projet.DateFin) }}
               </p>
             </div>
@@ -82,8 +80,8 @@
           <div class="col-5 justify-content-center text-center">
            
               <p title="Budget" class="mb-1">Budget(GNF)</p>
-              <p class="text-muted mb-0">
-                <span class="badge bg-secondary fs-20">{{ formatBudget(projetBudget(projet)) }}</span>
+              <p class="text-dark mb-0">
+                <span class=" fs-20">{{ formatBudget(projetBudget(projet)) }}</span>
   
               </p>
           
@@ -145,11 +143,11 @@
               <span class=" fs-16">Etat Projet</span> <br>
               <div class="fs-18">
                 <b style="font-size:25px !important">
-                  <i v-if="projetEtat(projet) === 2" class="ri-close-circle-fill text-warning" v-tippy="{ content: 'Risque  moderé',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"></i>
+                  <i v-if="projetEtat(projet) == 2" class="ri-close-circle-fill text-warning" v-tippy="{ content: 'Risque  moderé',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"></i>
 
-                  <i v-if="projetEtat(projet) === 1"
+                  <i v-if="projetEtat(projet) == 1"
                     class="ri-error-warning-fill text-danger" v-tippy="{ content: 'Risque elevé',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"></i>
-                  <i v-if="projetEtat(projet)=== 3" class="ri-checkbox-circle-fill text-success" v-tippy="{ content: ' En bonne voie',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"></i>
+                  <i v-if="projetEtat(projet)== 3" class="ri-checkbox-circle-fill text-success" v-tippy="{ content: ' En bonne voie',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"></i>
                 </b>
               </div>
   
@@ -341,7 +339,11 @@ export default {
  
 
   let GlobalTaux = 0;  
- if ( (Taux_Financiere - Taux_Physique <= 15) && (Taux_Duree - Taux_Physique  <= 25) && ( Taux_Financiere  < 150)) {
+  
+  if(Taux_Financiere == 0 && Taux_Physique == 0){
+    GlobalTaux = 2; 
+    // color orange warning step 2
+  }else if ( (Taux_Financiere - Taux_Physique <= 15) && (Taux_Duree - Taux_Physique  <= 25) && ( Taux_Financiere  < 150)) {
         GlobalTaux = 3;
          //color green step1 
     } else if ((Taux_Financiere - Taux_Physique <= 25) && (Taux_Duree - Taux_Physique  <= 50) && ( Taux_Financiere  < 150) 

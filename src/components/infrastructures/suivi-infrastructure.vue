@@ -98,7 +98,8 @@
                           <div v-if="hasPermission(2)" class="btn btn-icon btn-sm btn-info btn-wave waves-effect "
                             v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                             data-bs-toggle="modal" data-bs-target="#update-suivi" @click="HandleIdUpdate(suivi.id)"><i
-                              class="ri-edit-line"></i></div>
+                              class="ri-edit-line"></i>
+                              </div>
                           <a v-if="hasPermission(4)" aria-label="anchor" href="javascript:void(0);"
                             v-tippy="{ content: 'Supprimer l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                             class="btn btn-icon btn-sm btn-danger btn-wave waves-effect waves-light"><i
@@ -709,8 +710,7 @@ export default {
 
     },
     async submitUpdateInfrastructureSuivi(modalId) {
-      console.log('this.step2.NiveauAvancement',this.step2.NiveauAvancement)
-      console.log('this.step2.NiveauAvancement',this.step2.Difficultes)
+    
       this.v$.step2.$touch();
 
 
@@ -759,7 +759,7 @@ export default {
           }
         } catch (error) {
           this.loading = false;
-        console.log(error)
+       
 
           if (error.response.data.message === "Vous n'êtes pas autorisé." || error.response.status === 401) {
             await this.$store.dispatch('auth/clearMyAuthenticatedUser');
@@ -772,7 +772,6 @@ export default {
           }
         }
       } else {
-          console.log('this.v$.$errors',this.v$.$errors)
         this.loading = false;
 
       }
@@ -805,7 +804,6 @@ export default {
     
     quill.on("text-change", () => {
       this.step2.NiveauAvancement = quill.root.innerHTML;
-      console.log('Mise à jour NiveauAvancement:', this.step2.NiveauAvancement);
     });
     }
   },

@@ -51,7 +51,7 @@
                                                 <thead>
                                                     <tr>
                                                        
-                                                        <th scope="col">N° </th>
+                                                        <th scope="col" class="text-center">N°</th>
                                                         <th scope="col">Action</th>
                                                         <th scope="col">Description</th>
                                                         <th scope="col">Effectué par</th>
@@ -74,16 +74,16 @@
                                                 <tbody v-else  data-aos="fade-up"
                                                 data-aos-duration="1000">
                                                     <tr v-for="(data , index) in paginatedItems" :key="data.id">
-                                                        <th  scope="row" class="p-0 text-center" style="width: 60px; padding:0 !important;">  {{index + 1}}</th>
+                                                        <th  scope="row" class="p-0 text-center" style="width: 40px; padding:0 !important;">  {{index + 1}}</th>
                                                        
                                                         <td>  <span class="">{{ data.Action }}  </span> </td>
                                                         <td>  <span class="">{{ data.Description }}  </span> </td>
-                                                        <td>  <span class="">{{ data.user?.Nom }} {{ data.user?.Prenoms }}   </span> </td>
-                                                        <td>  <span class="">{{ formatCreatedAt(data.created_at)  }}  </span> </td>
+                                                        <td  style="width: 130px;">  <span class="">{{ data.user?.Nom }} {{ data.user?.Prenoms }}   </span> </td>
+                                                        <td  style="width: 140px;">  <span class="">{{ formatCreatedAt(data.created_at)  }}  </span> </td>
 
                                                         
-                                                        <td>
-                                                            <div class="hstack gap-2 fs-15">
+                                                        <td class="text-center">
+                                                            <div class="hstack gap-2 fs-15 justify-content-center">
                                                        
                                                                 <button v-if="hasPermission(4)"  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-danger" 
                                                                 v-tippy="{ content: 'Supprimer cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}" 

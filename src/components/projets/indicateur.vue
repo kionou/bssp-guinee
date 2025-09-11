@@ -56,7 +56,7 @@
               
             </div>
             <div v-else 
-            v-tippy="{ content: 'Suivre cet indicateur',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"> >
+            v-tippy="{ content: 'Suivre cet indicateur',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"> 
               <!-- <span class="d-block text-center text-danger fw-bold mb-1">
                 {{ realisationPercentage(item).toFixed(2) }}%
               </span> -->

@@ -65,7 +65,7 @@
                     </span>
                   </td>
                   <td>
-                    {{ data?.modes?.map((mode) => mode.Intitule).join(",") }}
+                    {{ data?.modes?.map((mode) => mode.Intitule).join(" , ") }} 
                   </td>
                   <td style="width: 100px !important">
                     <div class="hstack gap-2 fs-15">

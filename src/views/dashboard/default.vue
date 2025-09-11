@@ -989,14 +989,20 @@
     <li v-for="parent in organizedMenus" :key="parent.menu.id" class="slide" >
       
       <!-- Si le parent a des enfants, on utilise un div avec un toggle -->
-      <a href="javascript:void(0);" v-if="parent.children.length" class="side-menu__item" @click="toggleMenu(parent)">
+      <a href="javascript:void(0);" v-if="parent.children.length" 
+      class="side-menu__item" 
+      :class="{active: $route.path == parent.menu.lien}"
+      @click="toggleMenu(parent)"
+      >
         <i class="side-menu__icon"  :class="parent.menu.icon"></i>
         <span  class="side-menu__label">{{ parent.menu.label }}</span>
         <i class="fe fe-chevron-right side-menu__angle"></i>
       </a>
       
       <!-- Si le parent n'a pas d'enfants, on utilise un router-link -->
-      <router-link v-else :to="parent.menu.lien" class="side-menu__item">
+      <router-link v-else :to="parent.menu.lien" class="side-menu__item"
+      :class="{active: $route.path == parent.menu.lien}"
+      >
         <i class="side-menu__icon" :class="parent.menu.icon"></i>
         <span class="side-menu__label">{{ parent.menu.label }}</span>
       </router-link>
@@ -1004,7 +1010,9 @@
       <!-- Affichage des enfants si le parent est ouvert -->
       <ul v-if="parent.isOpen && parent.children.length" class="slide-menu child1">
         <li v-for="child in parent.children" :key="child.menu.id" class="slide">
-          <router-link :to="child.menu.lien" class="side-menu__item">
+          <router-link :to="child.menu.lien" class="side-menu__item"
+          :class="{active: $route.path == child.menu.lien}"
+          >
             <i :class="child.menu.icon"></i>
             {{ child.menu.label }}
           </router-link>
@@ -1117,7 +1125,7 @@ organizedMenussss() {
   }
 
   // Filtrer les menus avec type === 1
-  const menusType1 = this.loggedInUser.menus.filter(menu => menu.menu.type === "1");
+  const menusType1 = this.loggedInUser.menus.filter(menu => menu.menu.type == "1");
 
   // Filtrer les parents et les enfants à partir des menus de type 1
   const parentMenus = menusType1.filter(menu => !menu.menu.parent);
@@ -1128,7 +1136,7 @@ organizedMenussss() {
   childMenus.sort((a, b) => a.menu.id - b.menu.id);
 
   // Déplacer "Paramétrages" en deuxième position
-  const parametresIndex = parentMenus.findIndex(menu => menu.menu.label === "Paramétrages");
+  const parametresIndex = parentMenus.findIndex(menu => menu.menu.label == "Paramétrages");
   if (parametresIndex !== -1) {
     const parametresMenu = parentMenus.splice(parametresIndex, 1)[0];
     parentMenus.splice(1, 0, parametresMenu);
@@ -1149,7 +1157,7 @@ organizedMenus() {
   }
 
   // Filtrer les menus avec type === 1
-  const menusType1 = this.loggedInUser.menus.filter(menu => menu.menu.type === "1");
+  const menusType1 = this.loggedInUser.menus.filter(menu => menu.menu.type == "1");
 
   // Filtrer les parents et les enfants à partir des menus de type 1
   const parentMenus = menusType1.filter(menu => !menu.menu.parent);

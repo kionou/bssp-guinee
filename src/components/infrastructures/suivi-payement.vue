@@ -99,7 +99,7 @@
                           <td>{{ suivi.Delay }} jours</td>
                           <td>
                             <span class="badge bg-primary-transparent">
-                              {{ suivi.mode?.Intitule  }} ({{ suivi.mode?.Code}})
+                              {{ suivi?.CodeTypeFinancement  }}
                             </span>
                           </td>
                           <td>
@@ -114,7 +114,7 @@
                           </td>
                           <td style="width: 80px">
                             <div class="hstack gap-2 fs-15">
-                              <button
+                              <!-- <button
                                 v-if="hasPermission(2)"
                                 class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-info"
                                 v-tippy="{
@@ -128,7 +128,7 @@
                                 @click="handleEditSuivi(suivi)"
                               >
                                 <i class="ri-edit-line"></i>
-                              </button>
+                              </button> -->
                               <button
                                 v-if="hasPermission(4)"
                                 class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-danger"

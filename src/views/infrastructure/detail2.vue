@@ -154,7 +154,6 @@ import Loading from '@/components/others/loading.vue';
       this.$router.go(-1);
     },
     async handleDataUpdate(eventData = null) {
-      console.log('Données mises à jour dans l\'enfant:', eventData);
       // Rafraîchir les données du parent
       await this.fetchDetailInfra();
     },
@@ -169,7 +168,6 @@ import Loading from '@/components/others/loading.vue';
 
     
         if (response.data.status === "success") {
-          console.log(response)
           this.data = response.data.data;
           this.InfrastructuresOptions = this.data
          

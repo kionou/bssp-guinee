@@ -1159,7 +1159,7 @@
               id="mail-ComposeLabel"
               style="font-size: 22px !important"
             >
-              <b class="text-center">Ajouter les fichiers</b>
+              <b class="text-center">Ajouter des fichiers</b>
             </h2>
           </div>
           <div class="modal-body px-4">
@@ -1347,6 +1347,7 @@ export default {
       currentStep: 1,
       currentData: "",
       currentPage: 1,
+      cheickModal: false,
       itemsPerPage: 12,
       totalPageArray: [],
       UsersOptions: [],
@@ -1495,6 +1496,7 @@ export default {
     // }
   },
   async mounted() {
+    
     await this.fetchUserAll();
   },
 
@@ -1896,7 +1898,34 @@ export default {
         this.loading = false;
       }
     },
-    async submitFileSuivi(modalId) {
+    async confirmFilesUpdate() {
+      // Affichez une boîte de dialogue Sweet Alert pour confirmer la suppression
+      const result = await Swal.fire({
+        title: "Voulez-vous modifier les fichiers concernant le suivi?",
+        text: "Vous pouvez télécharger des fichiers tels que des images et une video.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Oui, modifier",
+        cancelButtonText: "Non, annuler",
+        reverseButtons: true,
+      });
+
+      // Si l'utilisateur confirme la suppression
+      if (result.isConfirmed) {
+        event.preventDefault();
+        const modal = new bootstrap.Modal(this.$refs.add_file);
+        modal.show();
+        this.cheickModal = true
+      } else {
+        this.successmsg(
+              "Suivi modifié avec succès",
+              "Le nouveau suivi a été créé avec succès !"
+            );
+            this.$emit("indicateur-updated");
+        this.loading = false;
+      }
+    },
+    async submitFileSuivi(modalId ) {
       this.loading = true;
       const formData = new FormData();
       if (this.Fichiers.images && this.Fichiers.images.length > 0) {
@@ -1923,13 +1952,26 @@ export default {
         );
 
         if (response.data.status === "success") {
-          this.closeModal(modalId);
+          if(this.cheickModal == true){
+            this.closeModal(modalId);
+          this.successmsg(
+           "Suivi modifié avec succès",
+              "Le nouveau suivi a été créé avec succès !"
+          );
+          this.loading = false;
+          this.$emit("indicateur-updated");
+
+         
+          }else{
+            this.closeModal(modalId);
           this.successmsg(
             "Suivi créé avec succès",
             "Le nouveau suivi a été créé avec succès !"
           );
           this.loading = false;
           this.$emit("indicateur-updated");
+          }
+         
         } else {
         }
       } catch (error) {
@@ -2158,13 +2200,14 @@ export default {
           });
 
           if (response.data.status === "success") {
-            this.closeModal(modalId);
-            this.successmsg(
-              "Suivi modifié avec succès",
-              "Le nouveau suivi a été créé avec succès !"
-            );
+          this.currentData = response.data.data.id;
+          console.log(this.currentData)
+
+             this.closeModal(modalId);
+           
             this.loading = false;
-            this.$emit("indicateur-updated");
+            await this.confirmFilesUpdate();
+           
           } else {
           }
         } catch (error) {

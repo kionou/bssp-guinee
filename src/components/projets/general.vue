@@ -1651,8 +1651,7 @@
                         background: red;
                       "
                     >
-                      style=" position:absolute !important ; top: 18px
-                      !important; background:red;">
+                    
                       <i class="ri-delete-bin-line"></i>
                     </button>
                   </div>

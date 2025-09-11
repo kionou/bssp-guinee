@@ -16843,7 +16843,7 @@ code[class*=language-] {
   font-weight: 600;
 }
 .app-sidebar .slide-menu.child1 .side-menu__item.active, .app-sidebar .slide-menu.child2 .side-menu__item.active, .app-sidebar .slide-menu.child3 .side-menu__item.active {
-  background-color: transparent;
+  background-color: none;
 }
 .app-sidebar .slide-menu {
   padding: 0rem;
