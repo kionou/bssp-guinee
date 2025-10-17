@@ -6,7 +6,9 @@
       </div> -->
     <div class="contact-header mb-3 py-2 px-1">
       <div class="d-sm-flex d-block align-items-center justify-content-between">
-        <div class="fs-16 fw-semibold mb-0 text-primary">{{ data.NomProjet }}</div>
+        <div class="fs-16 fw-semibold mb-0 text-primary">
+          {{ data.NomProjet }}
+        </div>
         <div class="d-flex mt-sm-0 mt-2 align-items-center">
           <div class="input-group">
             <input
@@ -17,7 +19,11 @@
               v-model="search"
               @input="filterByName"
             />
-            <button class="btn btn-light" type="button" id="search-contact-member">
+            <button
+              class="btn btn-light"
+              type="button"
+              id="search-contact-member"
+            >
               <i class="ri-search-line text-muted"></i>
             </button>
           </div>
@@ -29,7 +35,12 @@
             data-bs-title="Add Contact"
             data-bs-toggle="modal"
             data-bs-target="#add_suivi"
-            v-tippy="{ content: 'Créer un nouvel élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+            v-tippy="{
+              content: 'Créer un nouvel élément',
+              theme: 'custom',
+              animation: 'shift-away',
+              backgroundColor: '#FF5733',
+            }"
           >
             <i class="ri-add-line"> </i>
           </button>
@@ -39,7 +50,8 @@
     <div class="row task-card">
       <div v-if="paginatedItems.length === 0" class="noresul">
         <span>
-          Vous n'avez pas encore de suivi, vous pouvez également en ajouter un !!
+          Vous n'avez pas encore de suivi, vous pouvez également en ajouter un
+          !!
         </span>
       </div>
       <div id="tasks-container" v-else>
@@ -50,12 +62,20 @@
               v-for="(item, index) in paginatedItems"
               :key="index"
             >
-              <div class="card custom-card task-pending-card border border-dark">
+              <div
+                class="card custom-card task-pending-card border border-dark"
+              >
                 <div class="card-body">
-                  <div class="d-flex justify-content-between flex-wrap flex-column">
+                  <div
+                    class="d-flex justify-content-between flex-wrap flex-column"
+                  >
                     <div>
-                      <p class="fw-semibold mb-3 d-flex align-items-center fs-16">
-                        <span class="avatar me-2 avatar-rounded border border-gray-800">
+                      <p
+                        class="fw-semibold mb-3 d-flex align-items-center fs-16"
+                      >
+                        <span
+                          class="avatar me-2 avatar-rounded border border-gray-800"
+                        >
                           <img src="@/assets/img/logo_mobile.png" alt="img" />
                         </span>
                         Suivi du
@@ -77,8 +97,10 @@
                       </p>
                       <p class="mb-2 fw-semibold fs-16">
                         Récap. :
-                        <span class="fs-14 mb-1 fw-semibold truncate"
-                          >{{ getTruncate(item.Observations, 20) }}
+                        <span
+                          class="fs-14 mb-1 fw-semibold truncate"
+                          v-html="getTruncateHtml(item.Observations, 20)"
+                        >
                         </span>
                       </p>
                     </div>
@@ -88,9 +110,17 @@
                         <!-- <button class="btn btn-sm btn-icon btn-wave btn-success"><i class="ri-eye-line"></i></button> -->
                         <router-link
                           v-if="hasPermission(1)"
-                          :to="{ name: 'suivi-projet', params: { id: item.id } }"
+                          :to="{
+                            name: 'suivi-projet',
+                            params: { id: item.id },
+                          }"
                           class="btn btn-sm btn-icon btn-success btn-wave"
-                          v-tippy="{ content: 'Afficher les détails',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                          v-tippy="{
+                            content: 'Afficher les détails',
+                            theme: 'custom',
+                            animation: 'shift-away',
+                            backgroundColor: '#FF5733',
+                          }"
                         >
                           <i class="ri-eye-line"></i>
                         </router-link>
@@ -98,7 +128,12 @@
                           v-if="hasPermission(2)"
                           class="btn btn-sm btn-icon btn-wave btn-info"
                           @click="HandleIdUpdateSuivie(item.id)"
-                          v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
+                          v-tippy="{
+                            content: 'Modifier l\'élément sélectionné',
+                            theme: 'custom',
+                            animation: 'shift-away',
+                            backgroundColor: '#FF5733',
+                          }"
                           :disabled="index !== 0"
                           data-bs-toggle="modal"
                           data-bs-target="#update_suivi"
@@ -109,15 +144,21 @@
                           v-if="hasPermission(4)"
                           class="btn btn-sm btn-icon btn-danger btn-wave"
                           @click="HandleIdDelete(item.id)"
-                          v-tippy="{ content: 'Supprimer l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
-
+                          v-tippy="{
+                            content: 'Supprimer l\'élément sélectionné',
+                            theme: 'custom',
+                            animation: 'shift-away',
+                            backgroundColor: '#FF5733',
+                          }"
                         >
                           <i class="ri-delete-bin-line"></i>
                         </button>
                         <button
                           v-if="hasPermission(6)"
                           class="btn btn-sm btn-icon"
-                          :class="item?.Validated == '1' ? 'bg-success' : 'bg-warning'"
+                          :class="
+                            item?.Validated == '1' ? 'bg-success' : 'bg-warning'
+                          "
                           :disabled="item?.Validated == '1' || index !== 0"
                           style="color: white"
                           @click="validateSelection(item?.id)"
@@ -246,7 +287,8 @@
                         <div class="col col-md-6 col-sm-6">
                           <div class="input-groupe">
                             <label for="userpassword"
-                              >Date du suivi <span class="text-danger">*</span></label
+                              >Date du suivi
+                              <span class="text-danger">*</span></label
                             >
 
                             <MazInput
@@ -284,12 +326,19 @@
                                 size="sm"
                                 rounded-size="sm"
                               />
-                              <small v-if="v$.step1.TauxAvancementPhysique.$error">{{
-                                v$.step1.TauxAvancementPhysique.$errors[0].$message
-                              }}</small>
-                              <small v-if="resultError['TauxAvancementPhysique']">{{
-                                resultError["TauxAvancementPhysique"]
-                              }}</small>
+                              <small
+                                v-if="v$.step1.TauxAvancementPhysique.$error"
+                                >{{
+                                  v$.step1.TauxAvancementPhysique.$errors[0]
+                                    .$message
+                                }}</small
+                              >
+                              <small
+                                v-if="resultError['TauxAvancementPhysique']"
+                                >{{
+                                  resultError["TauxAvancementPhysique"]
+                                }}</small
+                              >
                             </div>
                           </div>
                         </div>
@@ -311,12 +360,19 @@
                                 size="sm"
                                 rounded-size="sm"
                               />
-                              <small v-if="v$.step1.TauxExecutionFinanciere.$error">{{
-                                v$.step1.TauxExecutionFinanciere.$errors[0].$message
-                              }}</small>
-                              <small v-if="resultError['TauxExecutionFinanciere']">{{
-                                resultError["TauxAvancementPhysique"]
-                              }}</small>
+                              <small
+                                v-if="v$.step1.TauxExecutionFinanciere.$error"
+                                >{{
+                                  v$.step1.TauxExecutionFinanciere.$errors[0]
+                                    .$message
+                                }}</small
+                              >
+                              <small
+                                v-if="resultError['TauxExecutionFinanciere']"
+                                >{{
+                                  resultError["TauxAvancementPhysique"]
+                                }}</small
+                              >
                             </div>
                           </div>
                         </div>
@@ -398,7 +454,9 @@
                   </div>                       
                 </div> -->
                     </div>
-                    <div class="btnForm py-3 d-flex items-center justify-content-end">
+                    <div
+                      class="btnForm py-3 d-flex items-center justify-content-end"
+                    >
                       <button
                         class="btnLogin"
                         :disabled="isButtonDisabled"
@@ -438,15 +496,24 @@
                               {{ index + 1 }}
                             </span>
                             <div class="row content-group">
-                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                              <div
+                                class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12"
+                              >
                                 <div class="input-groupe">
                                   <div>
-                                    <label for="userpassword">Nom du Bailleur </label>
+                                    <label for="userpassword"
+                                      >Nom du Bailleur
+                                    </label>
                                     <MazSelect
                                       v-model="bailleur.CodeBailleur"
                                       type="text"
                                       color="info"
-                                      @click="clearErrorBailleurs(index, 'CodeBailleur')"
+                                      @click="
+                                        clearErrorBailleurs(
+                                          index,
+                                          'CodeBailleur'
+                                        )
+                                      "
                                       name="bailleur.CodeBailleur"
                                       size="sm"
                                       rounded-size="sm"
@@ -468,7 +535,9 @@
                                   </small>
                                 </div>
                               </div>
-                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                              <div
+                                class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12"
+                              >
                                 <div class="input-groupe">
                                   <div>
                                     <label for="userpassword"
@@ -479,7 +548,10 @@
                                       type="number"
                                       color="info"
                                       @input="
-                                        clearErrorBailleurs(index, 'MontantDecaisser')
+                                        clearErrorBailleurs(
+                                          index,
+                                          'MontantDecaisser'
+                                        )
                                       "
                                       name="bailleur.MontantDecaisser"
                                       size="sm"
@@ -490,10 +562,12 @@
                                     v-if="
                                       errors.step2.Bailleurs &&
                                       errors.step2.Bailleurs[index] &&
-                                      errors.step2.Bailleurs[index].MontantDecaisser
+                                      errors.step2.Bailleurs[index]
+                                        .MontantDecaisser
                                     "
                                     >{{
-                                      errors.step2.Bailleurs[index].MontantDecaisser
+                                      errors.step2.Bailleurs[index]
+                                        .MontantDecaisser
                                     }}</small
                                   >
                                   <small v-if="resultError['Bailleurs']">
@@ -524,7 +598,10 @@
                           <button class="btnLogin" @click.prevent="prevStep">
                             Précédent
                           </button>
-                          <button class="btnLogin" @click.prevent="nextStep('add_suivi')">
+                          <button
+                            class="btnLogin"
+                            @click.prevent="nextStep('add_suivi')"
+                          >
                             Suivant
                           </button>
                         </div>
@@ -542,13 +619,14 @@
                               >Récapitulatif du projet
                               <span class="text-danger">*</span></label
                             >
-                            <MazTextarea
+                            <!-- <MazTextarea
                               v-model="step3.Observations"
                               color="info"
                               name="Observations"
                               size="sm"
                               rounded-size="sm"
-                            />
+                            /> -->
+                            <QuillEditor v-model="step3.Observations" />
                             <small v-if="v$.step3.Observations.$error">{{
                               v$.step3.Observations.$errors[0].$message
                             }}</small>
@@ -560,11 +638,16 @@
                       </div>
                     </div>
 
-                    <div class="btnForm py-3 d-flex items-center justify-content-between">
+                    <div
+                      class="btnForm py-3 d-flex items-center justify-content-between"
+                    >
                       <button class="btnLogin" @click.prevent="prevStep">
                         Précédent
                       </button>
-                      <button class="btnLogin" @click.prevent="nextStep('add_suivi')">
+                      <button
+                        class="btnLogin"
+                        @click.prevent="nextStep('add_suivi')"
+                      >
                         Suivant
                       </button>
                     </div>
@@ -603,7 +686,9 @@
                                     >Réalisation des travaux</label
                                   >
 
-                                  <QuillEditor v-model="realisation.Realisation" />
+                                  <QuillEditor
+                                    v-model="realisation.Realisation"
+                                  />
                                 </div>
                               </div>
                             </div>
@@ -625,11 +710,16 @@
                       </div>
                     </div>
 
-                    <div class="btnForm py-3 d-flex items-center justify-content-between">
+                    <div
+                      class="btnForm py-3 d-flex items-center justify-content-between"
+                    >
                       <button class="btnLogin" @click.prevent="prevStep">
                         Précédent
                       </button>
-                      <button class="btnLogin" @click.prevent="nextStep('add_suivi')">
+                      <button
+                        class="btnLogin"
+                        @click.prevent="nextStep('add_suivi')"
+                      >
                         Suivant
                       </button>
                     </div>
@@ -664,18 +754,22 @@
                               {{ index + 1 }}
                             </span>
                             <div class="row content-group">
-                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                              <div
+                                class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12"
+                              >
                                 <div class="input-groupe">
                                   <div>
                                     <label for="userpassword"
                                       >Type de contrainte
-                                      <span class="text-danger">*</span></label
-                                    >
+                                      <span class="text-danger"></span
+                                    ></label>
                                     <MazSelect
                                       v-model="contrainte.TypeConstrainte"
                                       type="text"
                                       color="info"
-                                      @click="clearError(index, 'TypeConstrainte')"
+                                      @click="
+                                        clearError(index, 'TypeConstrainte')
+                                      "
                                       name="contrainte.TypeConstrainte"
                                       size="sm"
                                       rounded-size="sm"
@@ -686,10 +780,12 @@
                                     v-if="
                                       errors.step5.Contraintes &&
                                       errors.step5.Contraintes[index] &&
-                                      errors.step5.Contraintes[index].TypeConstrainte
+                                      errors.step5.Contraintes[index]
+                                        .TypeConstrainte
                                     "
                                     >{{
-                                      errors.step5.Contraintes[index].TypeConstrainte
+                                      errors.step5.Contraintes[index]
+                                        .TypeConstrainte
                                     }}</small
                                   >
                                   <small v-if="resultError['Contraintes']">
@@ -698,29 +794,35 @@
                                 </div>
                               </div>
 
-                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                              <div
+                                class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12"
+                              >
                                 <div class="input-groupe">
                                   <div>
                                     <label for="userpassword"
                                       >Description de la contrainte
-                                      <span class="text-danger">*</span></label
-                                    >
+                                      <span class="text-danger"></span
+                                    ></label>
                                     <textarea
                                       class="form-control"
                                       id="text-area"
                                       v-model="contrainte.IntituleConstrainte"
                                       rows="1"
-                                      @input="clearError(index, 'IntituleConstrainte')"
+                                      @input="
+                                        clearError(index, 'IntituleConstrainte')
+                                      "
                                     ></textarea>
                                   </div>
                                   <small
                                     v-if="
                                       errors.step5.Contraintes &&
                                       errors.step5.Contraintes[index] &&
-                                      errors.step5.Contraintes[index].IntituleConstrainte
+                                      errors.step5.Contraintes[index]
+                                        .IntituleConstrainte
                                     "
                                     >{{
-                                      errors.step5.Contraintes[index].IntituleContrainte
+                                      errors.step5.Contraintes[index]
+                                        .IntituleContrainte
                                     }}</small
                                   >
                                   <small v-if="resultError['Contraintes']">
@@ -729,13 +831,15 @@
                                 </div>
                               </div>
 
-                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                              <div
+                                class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12"
+                              >
                                 <div class="input-groupe">
                                   <div>
                                     <label for="userpassword"
                                       >Mitigation
-                                      <span class="text-danger">*</span></label
-                                    >
+                                      <span class="text-danger"></span
+                                    ></label>
                                     <textarea
                                       class="form-control"
                                       id="text-area"
@@ -750,7 +854,8 @@
                                       errors.step5.Contraintes[index].Mitigation
                                     "
                                     >{{
-                                      errors.step5.Contraintes[index].IntituleConstrainte
+                                      errors.step5.Contraintes[index]
+                                        .IntituleConstrainte
                                     }}</small
                                   >
                                   <small v-if="resultError['Contraintes']">
@@ -759,13 +864,15 @@
                                 </div>
                               </div>
 
-                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                              <div
+                                class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12"
+                              >
                                 <div class="input-groupe">
                                   <div>
                                     <label for="userpassword"
                                       >Acteur-s (Responsables)
-                                      <span class="text-danger">*</span></label
-                                    >
+                                      <span class="text-danger"></span
+                                    ></label>
                                     <MazInput
                                       v-model="contrainte.Acteurs"
                                       type="text"
@@ -782,7 +889,9 @@
                                       errors.step5.Contraintes[index] &&
                                       errors.step5.Contraintes[index].Acteurs
                                     "
-                                    >{{ errors.step5.Contraintes[index].Acteurs }}</small
+                                    >{{
+                                      errors.step5.Contraintes[index].Acteurs
+                                    }}</small
                                   >
                                   <small v-if="resultError['Contraintes']">
                                     {{ resultError["Contraintes"] }}
@@ -797,16 +906,17 @@
                                   <div>
                                     <label for="userpassword"
                                       >Délai de la mise en oeuvre
-                                      <span class="text-danger">*</span></label
-                                    >
-                                    <MazInput
+                                      <span class="text-danger"></span
+                                    ></label>
+                                    <MazSelect
                                       v-model="contrainte.Delai"
                                       color="info"
                                       @click="clearError(index, 'Delai')"
                                       name="contrainte.Delai"
                                       size="sm"
                                       rounded-size="sm"
-                                      type="date"
+                                      :options="DelaisOptions"
+                                      search
                                     />
                                   </div>
                                   <small
@@ -815,7 +925,9 @@
                                       errors.step5.Contraintes[index] &&
                                       errors.step5.Contraintes[index].Delai
                                     "
-                                    >{{ errors.step5.Contraintes[index].Delai }}</small
+                                    >{{
+                                      errors.step5.Contraintes[index].Delai
+                                    }}</small
                                   >
                                   <small v-if="resultError['Contraintes']">
                                     {{ resultError["Contraintes"] }}
@@ -823,13 +935,15 @@
                                 </div>
                               </div>
 
-                              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                              <div
+                                class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12"
+                              >
                                 <div class="input-groupe">
                                   <div>
                                     <label for="userpassword"
                                       >Catégorie
-                                      <span class="text-danger">*</span></label
-                                    >
+                                      <span class="text-danger"></span
+                                    ></label>
                                     <MazSelect
                                       v-model="contrainte.Categorie"
                                       type="text"
@@ -875,11 +989,16 @@
                       </div>
                       <!-- fin infos genral -->
                     </div>
-                    <div class="btnForm py-3 d-flex items-center justify-content-between">
+                    <div
+                      class="btnForm py-3 d-flex items-center justify-content-between"
+                    >
                       <button class="btnLogin" @click.prevent="prevStep">
                         Précédent
                       </button>
-                      <button class="btnLogin" @click.prevent="nextStep('add_suivi')">
+                      <button
+                        class="btnLogin"
+                        @click.prevent="nextStep('add_suivi')"
+                      >
                         Valider
                       </button>
                     </div>
@@ -958,7 +1077,8 @@
                       <div class="col col-md-6 col-sm-12">
                         <div class="input-groupe">
                           <label for="userpassword"
-                            >Date du suivi <span class="text-danger">*</span></label
+                            >Date du suivi
+                            <span class="text-danger">*</span></label
                           >
                           <MazInput
                             v-model="suivi.DateSuivi"
@@ -994,12 +1114,19 @@
                               size="sm"
                               rounded-size="sm"
                             />
-                            <small v-if="v$.suivi.TauxAvancementPhysique.$error">{{
-                              v$.suivi.TauxAvancementPhysique.$errors[0].$message
-                            }}</small>
-                            <small v-if="resultError['TauxAvancementPhysique']">{{
-                              resultError["TauxAvancementPhysique"]
-                            }}</small>
+                            <small
+                              v-if="v$.suivi.TauxAvancementPhysique.$error"
+                              >{{
+                                v$.suivi.TauxAvancementPhysique.$errors[0]
+                                  .$message
+                              }}</small
+                            >
+                            <small
+                              v-if="resultError['TauxAvancementPhysique']"
+                              >{{
+                                resultError["TauxAvancementPhysique"]
+                              }}</small
+                            >
                           </div>
                         </div>
                       </div>
@@ -1021,12 +1148,19 @@
                               size="sm"
                               rounded-size="sm"
                             />
-                            <small v-if="v$.suivi.TauxExecutionFinanciere.$error">{{
-                              v$.suivi.TauxExecutionFinanciere.$errors[0].$message
-                            }}</small>
-                            <small v-if="resultError['TauxExecutionFinanciere']">{{
-                              resultError["TauxAvancementPhysique"]
-                            }}</small>
+                            <small
+                              v-if="v$.suivi.TauxExecutionFinanciere.$error"
+                              >{{
+                                v$.suivi.TauxExecutionFinanciere.$errors[0]
+                                  .$message
+                              }}</small
+                            >
+                            <small
+                              v-if="resultError['TauxExecutionFinanciere']"
+                              >{{
+                                resultError["TauxAvancementPhysique"]
+                              }}</small
+                            >
                           </div>
                         </div>
                       </div>
@@ -1040,14 +1174,20 @@
                             >Récapitulatif du projet
                             <span class="text-danger">*</span></label
                           >
-                          <MazTextarea
+                          <!-- <MazTextarea
                             v-model="suivi.Observations"
                             type="date"
                             color="info"
                             name="Observations"
                             size="sm"
                             rounded-size="sm"
-                          />
+                          /> -->
+                          <!-- <div id="quillEditorObservations" class="quill-editor"></div> -->
+                          <div
+                            ref="quillEditorObservation"
+                            class="quill-editor"
+                          ></div>
+
                           <small v-if="v$.suivi.Observations.$error">{{
                             v$.suivi.Observations.$errors[0].$message
                           }}</small>
@@ -1089,7 +1229,10 @@
                                       >
 
                                       <!-- Div pour chaque instance de QuillEditor -->
-                                      <div :id="'quillEditor-' + index" class="quill-editor"></div>
+                                      <div
+                                        :id="'quillEditor-' + index"
+                                        class="quill-editor"
+                                      ></div>
                                     </div>
                                   </div>
                                 </div>
@@ -1098,7 +1241,11 @@
                                 <button
                                   class="btn btn-sm btn-icon btn-danger btn-wave"
                                   @click="deleteRowRealisationsUpdate(index)"
-                                  style="position: absolute; top: 18px; background: red"
+                                  style="
+                                    position: absolute;
+                                    top: 18px;
+                                    background: red;
+                                  "
                                 >
                                   <i class="ri-delete-bin-line"></i>
                                 </button>
@@ -1111,7 +1258,10 @@
                   </div>
                   <div class="row mb-3">
                     <div class="boutton">
-                      <button class="" @click="submitUpdateSuivi('update_suivi')">
+                      <button
+                        class=""
+                        @click="submitUpdateSuivi('update_suivi')"
+                      >
                         Valider
                       </button>
                     </div>
@@ -1230,7 +1380,10 @@
                 </div>
                 <div class="row mb-3">
                   <div class="boutton">
-                    <button class="" @click.prevent="submitFileSuivi('add_file')">
+                    <button
+                      class=""
+                      @click.prevent="submitFileSuivi('add_file')"
+                    >
                       Valider
                     </button>
                   </div>
@@ -1258,21 +1411,13 @@
   </div>
 </template>
 <script>
-import Pag from "@/components/others/pagination.vue";
-import axios from "@/lib/axiosConfig";
 import Loading from "@/components/others/loading.vue";
-import useVuelidate from "@vuelidate/core";
-import {
-  require,
-  lgmin,
-  lgmax,
-  ValidEmail,
-  ValidNumeri,
-  vlmin,
-  vlmax,
-} from "@/functions/rules";
+import Pag from "@/components/others/pagination.vue";
+import { ValidNumeri, require, vlmax, vlmin } from "@/functions/rules";
+import axios from "@/lib/axiosConfig";
 import { successmsg } from "@/lib/modal.js";
-import MazPhoneNumberInput from "maz-ui/components/MazPhoneNumberInput";
+import useVuelidate from "@vuelidate/core";
+// import Quill from "quill";
 import Swal from "sweetalert2";
 import { mapGetters } from "vuex";
 import QuillEditor from "./QuillEditor.vue";
@@ -1351,6 +1496,7 @@ export default {
       itemsPerPage: 12,
       totalPageArray: [],
       UsersOptions: [],
+      quillEditorObservationContainer: null,
       errors: {
         step2: { Bailleurs: [] },
         step5: { Contraintes: [] },
@@ -1377,8 +1523,14 @@ export default {
       CategoriesOptions: [
         { label: "Catégorie 1 ", value: "1" },
         { label: "Catégorie 2 ", value: "2" },
-       
       ],
+      DelaisOptions: [
+        { label: "immédiat", value: "immédiat" },
+        { label: "continu", value: "continu" },
+        { label: "court terme", value: "court terme" },
+        { label: "long terme", value: "long terme" },
+      ],
+
       step1: {
         DateSuivi: "",
         // NiveauExecutionGlobal: "",
@@ -1398,8 +1550,7 @@ export default {
             Mitigation: null,
             Acteurs: null,
             Delai: null,
-            Categorie:null
-            
+            Categorie: null,
           },
         ],
       },
@@ -1496,7 +1647,6 @@ export default {
     // }
   },
   async mounted() {
-    
     await this.fetchUserAll();
   },
 
@@ -1507,6 +1657,32 @@ export default {
         return word.substring(0, nbre) + " ...";
       } else {
         return word;
+      }
+    },
+    getTruncateHtml(htmlContent, nbre) {
+      if (!htmlContent) return "";
+
+      // Créer un élément temporaire pour extraire le texte
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = htmlContent;
+      const textContent = tempDiv.textContent || tempDiv.innerText || "";
+
+      // Si le texte est plus court que la limite, retourner le HTML original
+      if (textContent.length <= nbre) {
+        return htmlContent;
+      }
+
+      // Tronquer le texte et ajouter "..."
+      const truncatedText = textContent.substring(0, nbre) + " ...";
+
+      // Essayer de préserver le formatage HTML en tronquant intelligemment
+      // Si c'est du HTML simple, on peut essayer de préserver les balises
+      if (htmlContent.includes("<p>") || htmlContent.includes("<div>")) {
+        // Pour du HTML complexe, on retourne juste le texte tronqué
+        return truncatedText;
+      } else {
+        // Pour du HTML simple, on peut essayer de préserver certaines balises
+        return truncatedText;
       }
     },
     firstElement(index) {
@@ -1593,6 +1769,59 @@ export default {
         });
       }
     },
+
+    initQuillEditorObservations(contenu) {
+      // Attendre que le DOM soit mis à jour
+      this.$nextTick(() => {
+        const editorElement = this.$refs.quillEditorObservation;
+
+        if (editorElement) {
+          // Nettoyer le contenu existant
+          editorElement.innerHTML = "";
+
+          const quill = new Quill(editorElement, {
+            theme: "snow",
+            modules: {
+              toolbar: [
+                ["bold", "italic", "underline", "strike"],
+                [{ header: 1 }, { header: 2 }],
+                [{ direction: "rtl" }],
+                [{ size: ["small", false, "large", "huge"] }],
+                [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                [{ font: [] }],
+                ["clean"],
+              ],
+            },
+          });
+
+          // Charger le contenu si disponible
+          if (contenu) {
+            quill.clipboard.dangerouslyPasteHTML(0, contenu);
+            this.suivi.Observations = quill.root.innerHTML;
+          }
+
+          // Synchroniser les changements
+          quill.on("text-change", () => {
+            this.suivi.Observations = quill.root.innerHTML;
+          });
+
+          this.quillEditorObservationContainer = quill;
+        }
+      });
+    },
+
+    resetQuillEditors() {
+      // Nettoyer l'instance Quill existante
+      if (this.quillEditorObservationContainer) {
+        this.quillEditorObservationContainer.off("text-change");
+        this.quillEditorObservationContainer = null;
+      }
+
+      // Nettoyer le contenu de l'élément ref
+      if (this.$refs.quillEditorObservation) {
+        this.$refs.quillEditorObservation.innerHTML = "";
+      }
+    },
     AddformDataContraintes() {
       this.step5.Contraintes.push({
         TypeConstrainte: null,
@@ -1600,7 +1829,7 @@ export default {
         Mitigation: null,
         Acteurs: null,
         Delai: null,
-        Categorie:null
+        Categorie: null,
       });
     },
     deleteRowContraintes(index) {
@@ -1816,16 +2045,18 @@ export default {
         TauxAvancementPhysique: this.step1.TauxAvancementPhysique,
         TauxExecutionFinanciere: this.step1.TauxExecutionFinanciere,
         Observations: this.step3.Observations,
+
         Realisation: realisations,
         CodeProjet: this.Code,
         contraintes: contraintes,
         bailleurs: bailleurs,
       };
+
       try {
         const response = await axios.post("/projet-suivis", dataToSend, {
-            headers: { 
+          headers: {
             Authorization: `Bearer ${this.loggedInUser.token}`,
-           },
+          },
         });
 
         if (response.data.status === "success") {
@@ -1847,7 +2078,7 @@ export default {
                 Mitigation: null,
                 Acteurs: null,
                 Delai: null,
-                Categorie:null
+                Categorie: null,
               },
             ]);
           this.step5.Bailleurs = [{ CodeBailleur: "", MontantDecaisser: "" }];
@@ -1915,17 +2146,17 @@ export default {
         event.preventDefault();
         const modal = new bootstrap.Modal(this.$refs.add_file);
         modal.show();
-        this.cheickModal = true
+        this.cheickModal = true;
       } else {
         this.successmsg(
-              "Suivi modifié avec succès",
-              "Le nouveau suivi a été créé avec succès !"
-            );
-            this.$emit("indicateur-updated");
+          "Suivi modifié avec succès",
+          "Le nouveau suivi a été créé avec succès !"
+        );
+        this.$emit("indicateur-updated");
         this.loading = false;
       }
     },
-    async submitFileSuivi(modalId ) {
+    async submitFileSuivi(modalId) {
       this.loading = true;
       const formData = new FormData();
       if (this.Fichiers.images && this.Fichiers.images.length > 0) {
@@ -1952,26 +2183,23 @@ export default {
         );
 
         if (response.data.status === "success") {
-          if(this.cheickModal == true){
+          if (this.cheickModal == true) {
             this.closeModal(modalId);
-          this.successmsg(
-           "Suivi modifié avec succès",
+            this.successmsg(
+              "Suivi modifié avec succès",
               "Le nouveau suivi a été créé avec succès !"
-          );
-          this.loading = false;
-          this.$emit("indicateur-updated");
-
-         
-          }else{
+            );
+            this.loading = false;
+            this.$emit("indicateur-updated");
+          } else {
             this.closeModal(modalId);
-          this.successmsg(
-            "Suivi créé avec succès",
-            "Le nouveau suivi a été créé avec succès !"
-          );
-          this.loading = false;
-          this.$emit("indicateur-updated");
+            this.successmsg(
+              "Suivi créé avec succès",
+              "Le nouveau suivi a été créé avec succès !"
+            );
+            this.loading = false;
+            this.$emit("indicateur-updated");
           }
-         
         } else {
         }
       } catch (error) {
@@ -2041,7 +2269,7 @@ export default {
         TypeConstrainte: "",
         Mitigation: null,
         Delai: null,
-        Categorie:null
+        Categorie: null,
       });
     },
     deleteRowContraintesUpdate(index) {
@@ -2133,6 +2361,9 @@ export default {
     async HandleIdUpdateSuivie(id) {
       this.loading = true;
 
+      // Nettoyer les éditeurs existants
+      this.resetQuillEditors();
+
       try {
         const response = await axios.get(`/projet-suivis/detail/${id}`, {
           headers: {
@@ -2142,22 +2373,29 @@ export default {
 
         if (response) {
           let data = response.data.data.suivi;
-          (this.suivi.DateSuivi = data.DateSuivi),
-            (this.suivi.TauxAvancementPhysique = data.TauxAvancementPhysique),
-            (this.suivi.TauxExecutionFinanciere = data.TauxExecutionFinanciere),
-            (this.suivi.Observations = data.Observations),
-            (this.suivi.Realisations =
-              data.Realisation === null
-                ? []
-                : data.Realisation?.split("|").map((real, index) => ({
-                    id: index,
-                    Realisation: real, // Contenu HTML de chaque réalisation
-                  })));
+          this.suivi.DateSuivi = data.DateSuivi;
+          this.suivi.TauxAvancementPhysique = data.TauxAvancementPhysique;
+          this.suivi.TauxExecutionFinanciere = data.TauxExecutionFinanciere;
+          this.suivi.Observations = data.Observations || "";
+
+          this.suivi.Realisations =
+            data.Realisation === null
+              ? []
+              : data.Realisation?.split("|").map((real, index) => ({
+                  id: index,
+                  Realisation: real,
+                }));
 
           this.ToId = data.id;
+
+          // Attendre que le modal soit ouvert et le DOM mis à jour
           this.$nextTick(() => {
+            // Initialiser l'éditeur des observations avec le contenu
+            this.initQuillEditorObservations(data?.Observations);
+            // Initialiser les éditeurs des réalisations
             this.initQuillEditors();
           });
+
           this.loading = false;
         }
       } catch (error) {
@@ -2167,7 +2405,7 @@ export default {
             error.response.status === 401
           ) {
             await this.$store.dispatch("auth/clearMyAuthenticatedUser");
-            this.$router.push("/"); //a revoir
+            this.$router.push("/");
           }
         } else {
           this.formatValidationErrors(error.response.data.errors);
@@ -2193,21 +2431,23 @@ export default {
         };
 
         try {
-          const response = await axios.put("/projet-suivis/update", dataToSend, {
-              headers: { 
-              Authorization: `Bearer ${this.loggedInUser.token}`,
-             },
-          });
+          const response = await axios.put(
+            "/projet-suivis/update",
+            dataToSend,
+            {
+              headers: {
+                Authorization: `Bearer ${this.loggedInUser.token}`,
+              },
+            }
+          );
 
           if (response.data.status === "success") {
-          this.currentData = response.data.data.id;
-          console.log(this.currentData)
+            this.currentData = response.data.data.id;
 
-             this.closeModal(modalId);
-           
+            this.closeModal(modalId);
+
             this.loading = false;
             await this.confirmFilesUpdate();
-           
           } else {
           }
         } catch (error) {
@@ -2333,7 +2573,6 @@ export default {
           this.handleErrors(error);
         }
       } catch (error) {
-       
         this.loading = false;
         Swal.fire({
           icon: "error",
@@ -2554,5 +2793,36 @@ export default {
 .quill-editor {
   height: auto;
   margin-bottom: 10px;
+}
+
+:deep(.ql-toolbar.ql-snow) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 4px 4px 0 0;
+}
+
+:deep(.ql-formats) {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-right: 0 !important;
+}
+:deep(.ql-toolbar.ql-snow + .ql-container.ql-snow) {
+  height: 150px;
+  overflow: scroll;
+}
+:deep(.ql-toolbar button) {
+  height: 28px;
+  width: 28px;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:deep(.ql-editor) {
+  min-height: 150px;
 }
 </style>

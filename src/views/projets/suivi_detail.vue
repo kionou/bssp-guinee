@@ -133,11 +133,11 @@
           <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
             <div class="mb-2 card rounded border border-primary custom-card p-2" style="height:215px !important; overflow-y:scroll">
               <p class="fs-15 fw-semibold mb-1">Récapitulatif du projet :</p>
-              <p class="text-muted mb-0 " v-if="data.Observations === '' || data.Observations === null">
+              <p class="text-muted mb-0 " v-if="data.Observations == '' || data.Observations == null">
                 Pas de description liée a ce suivi
               </p>
               <p class="text-muted mb-0 " v-else>
-                {{data.Observations}}
+                <span v-html="data.Observations"></span>
               </p>
             </div>
           </div>
@@ -145,7 +145,7 @@
           <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
             <div class="mb-2 card rounded border border-primary custom-card p-2" style="height:215px !important; overflow-y:scroll">
               <p class="fs-15 fw-semibold mb-1">Réalisation des travaux :</p>
-              <p class="text-muted mb-0 " v-if="data.Observations === '' || data.Observations === null">
+              <p class="text-muted mb-0 " v-if="data.Observations == '' || data.Observations == null">
                 Pas de réalisation de travaux liée a ce suivi
               </p>
               <p class="text-muted mb-0 " v-else>
@@ -329,7 +329,7 @@
                             suivre
                           </router-link>
                         </td>
-                        <td style="color:red ; width:100px">{{ formatDate(item.Delai)}}</td>
+                        <td style="color:red ; width:80px">{{ item.Delai}}</td>
                         <td style="width:80px">
                           <div class="hstack gap-2 fs-1">
                             <button v-if="hasPermission(2)" class="btn btn-sm btn-icon btn-info btn-wave"
@@ -367,7 +367,7 @@
                             suivre
                           </router-link>
                         </td>
-                        <td style="color:red ; width:100px">{{ formatDate(item.Delai) }}</td>
+                        <td style="color:red ; width:80px">{{item.Delai }}</td>
                         <td style="width:100px">
                           <div class="hstack gap-2 fs-1">
                             <button v-if="hasPermission(2)" class="btn btn-sm btn-icon btn-info btn-wave"
@@ -448,7 +448,7 @@
                         </div>
                 <div class="col-xl-6 col-md-6 col-sm-6">
                   <label for="date_start">Delai <span class="text-danger">*</span></label>
-                  <MazInput v-model="step1.Delai" color="info" name="Delai" size="sm" rounded-size="sm" type="date" />
+                  <MazSelect v-model="step1.Delai" color="info" name="Delai" size="sm" rounded-size="sm"  :options="DelaisOptions" search />
                   <small v-if="v$.step1.Delai.$error">{{ v$.step1.Delai.$errors[0].$message}}</small>
                   <small v-if="resultError['Delai']"> {{ resultError["Delai"] }} </small>
                 </div>
@@ -559,7 +559,7 @@
   
                 <div class="col-xl-6 col-md-6 col-sm-6">
                   <label for="date_start">Delai <span class="text-danger">*</span></label>
-                  <MazInput v-model="step2.Delai" color="info" name="Delai" size="sm" rounded-size="sm" type="date" />
+                  <MazSelect v-model="step2.Delai" color="info" name="Delai" size="sm" rounded-size="sm" :options="DelaisOptions" search />
                   <small v-if="v$.step2.Delai.$error">{{ v$.step2.Delai.$errors[0].$message}}</small>
                   <small v-if="resultError['Delai']"> {{ resultError["Delai"] }} </small>
                 </div>
@@ -1050,6 +1050,12 @@ export default {
         { label: "Catégorie 1 ", value: "1" },
         { label: "Catégorie 2 ", value: "2" },
        
+      ],
+      DelaisOptions: [
+        { label: "immédiat", value: "immédiat" },
+        { label: "continu", value: "continu" },
+        { label: "court terme", value: "court terme" },
+        { label: "long terme", value: "long terme" },
       ],
       step1: {
         IntituleConstrainte: "",

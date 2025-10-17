@@ -2161,7 +2161,7 @@ export default {
         "Coût infrastructure (GNF) ": this.formatBudget(item.Cost),
         "Entreprise Responsable ": item.EntrepriseResponsable,
         "Maitre d'Ouvrage": item.MaitreOuvrage,
-        "Taux Avancement Technique": item.TauxAvancementTechnique,
+        "Taux Avancement Technique": item.suivis_recent?.TauxAvancementTechnique,
       }));
 
       const worksheet = XLSX.utils.json_to_sheet(data);
@@ -2183,7 +2183,7 @@ export default {
         "Coût infrastructure (GNF) ": this.formatBudget(item.Cost),
         "Entreprise Responsable ": item.EntrepriseResponsable,
         "Maitre d'Ouvrage": item.MaitreOuvrage,
-        "Taux Avancement Technique": item.TauxAvancementTechnique,
+        "Taux Avancement Technique": item.suivis_recent?.TauxAvancementTechnique,
       }));
 
       const worksheet = XLSX.utils.json_to_sheet(data);
@@ -2225,7 +2225,7 @@ export default {
           this.formatBudget(item.Cost),
           item.EntrepriseResponsable,
           item.MaitreOuvrage,
-          item.TauxAvancementTechnique,
+          item.suivis_recent?.TauxAvancementTechnique,
         ]),
       });
 

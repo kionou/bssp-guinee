@@ -125,7 +125,7 @@
                                     </div>
                                 </div>
                                 <div class="row align-items-center p-2  border-bottom "
-                                    v-for="(infrastructure, index) in Infrastructures" :key="infrastructure.id">
+                                    v-for="(infrastructure, index) in missions" :key="infrastructure.id">
                                     <div class="col-11">
                                         <span class="nombre">
                                             {{index + 1}}
@@ -140,10 +140,10 @@
                                                         name="CodeMission" size="sm" rounded-size="sm" type="text"
                                                         @input="clearErrorInfrastructures(index, 'CodeMission')" />
                                                     <small
-                                                        v-if="errors.Infrastructures && errors.Infrastructures[index] && errors.Infrastructures[index].CodeMission">{{
-                                                        errors.Infrastructures[index].CodeMission }}</small>
-                                                    <small v-if="resultError['Infrastructures']"> {{
-                                                        resultError["Infrastructures"] }} </small>
+                                                        v-if="errors.missions && errors.missions[index] && errors.missions[index].CodeMission">{{
+                                                        errors.missions[index].CodeMission }}</small>
+                                                    <small v-if="resultError['missions']"> {{
+                                                        resultError["missions"] }} </small>
                                                 </div>
                                             </div>
                                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
@@ -154,10 +154,10 @@
                                                         name="NomMission" size="sm" rounded-size="sm"
                                                         @input="clearErrorInfrastructures(index, 'NomMission')" />
                                                     <small
-                                                        v-if="errors.Infrastructures && errors.Infrastructures[index] && errors.Infrastructures[index].NomMission">{{
-                                                        errors.Infrastructures[index].NomMission }}</small>
-                                                    <small v-if="resultError['Infrastructures']"> {{
-                                                        resultError["Infrastructures"] }} </small>
+                                                        v-if="errors.missions && errors.missions[index] && errors.missions[index].NomMission">{{
+                                                        errors.missions[index].NomMission }}</small>
+                                                    <small v-if="resultError['missions']"> {{
+                                                        resultError["missions"] }} </small>
                                                 </div>
                                             </div>
     
@@ -169,10 +169,10 @@
                                                         id="text-area" v-model="infrastructure.Description"
                                                         rows="1"></textarea>
                                                     <small
-                                                        v-if="errors.Infrastructures && errors.Infrastructures[index] && errors.Infrastructures[index].Description">{{
-                                                        errors.Infrastructures[index].Description }}</small>
-                                                    <small v-if="resultError['Infrastructures']"> {{
-                                                        resultError["Infrastructures"] }} </small>
+                                                        v-if="errors.missions && errors.missions[index] && errors.missions[index].Description">{{
+                                                        errors.missions[index].Description }}</small>
+                                                    <small v-if="resultError['missions']"> {{
+                                                        resultError["missions"] }} </small>
                                                 </div>
                                             </div>
     
@@ -333,19 +333,19 @@ export default {
       return this.$store.getters["auth/myAuthenticatedUser"];
     },
     totalPages() {
-      return Math.ceil(this.ClientOptions.length / this.itemsPerPage);
+      return Math.ceil(this.EntreprisesOptions.length / this.itemsPerPage);
     },
     paginatedItems() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.ClientOptions.slice(startIndex, endIndex);
+      return this.EntreprisesOptions.slice(startIndex, endIndex);
     },
 
   },
   data() {
     return {
       loading: true,
-      ClientOptions: [],
+      EntreprisesOptions: [],
       data: [],
       currentPage: 1,
       itemsPerPage: 10,
@@ -357,8 +357,8 @@ export default {
         { label: "Oui", value: true },
         { label: "Non", value: 'non' },
       ],
-      errors: { Infrastructures: [], },
-      Infrastructures: [
+      errors: { missions: [], },
+      missions: [
         {
 
           CodeMission: "",
@@ -390,7 +390,7 @@ export default {
   },
   async mounted() {
 
-    await this.fetchClients();
+    await this.fetchEntreprises();
 
   },
 
@@ -406,23 +406,23 @@ export default {
       );
     },
     AddformDataInfrastructures() {
-      this.Infrastructures.push({ CodeMission: "", NomMission: "", Description: "",  Statut : 2 });
+      this.missions.push({ CodeMission: "", NomMission: "", Description: "",  Statut : 2 });
     },
     deleteRowInfrastructures(index) {
 
       if (index !== 0) {
-        this.Infrastructures.splice(index, 1);
+        this.missions.splice(index, 1);
       }
     },
     clearErrorInfrastructures(index, field) {
-      if (this.errors.Infrastructures[index]) {
-        this.errors.Infrastructures[index][field] = null;
+      if (this.errors.missions[index]) {
+        this.errors.missions[index][field] = null;
       }
     },
     validateInfrastructures() {
       let isValid = true;
-      this.errors = { Infrastructures: [] };
-      this.Infrastructures.forEach((infrastructure, index) => {
+      this.errors = { missions: [] };
+      this.missions.forEach((infrastructure, index) => {
         const infrastructureErrors = {};
 
         if (!infrastructure.CodeMission) {
@@ -434,7 +434,7 @@ export default {
           isValid = false;
         }
 
-        this.errors.Infrastructures[index] = infrastructureErrors;
+        this.errors.missions[index] = infrastructureErrors;
       });
       return isValid;
     },
@@ -443,7 +443,7 @@ export default {
       if (this.validateInfrastructures()) {
         this.loading = true;
         const dataToSend = {
-          missions: this.Infrastructures
+          missions: this.missions
         };
 
 
@@ -455,14 +455,14 @@ export default {
           });
 
           if (response.data.status === "success") {
-            this.Infrastructures = [{ CodeMission: "", NomMission: "", Description: "", }];
+            this.missions = [{ CodeMission: "", NomMission: "", Description: "", }];
             this.closeModal(modalId);
             this.successmsg(
               "Entreprises de travaux créés avec succès",
               "Des nouveaux entreprises de travaux ont été créés avec succès !"
 
             );
-            await this.fetchClients()
+            await this.fetchEntreprises()
             this.loading = false
 
 
@@ -475,7 +475,7 @@ export default {
           if (error.response.data.status === "error") {
             return (this.error = error.response.data.message);
           } else {
-            this.formatValidationErrorsMultiple(error.response.data.errors ,'Infrastructures');
+            this.formatValidationErrorsMultiple(error.response.data.errors ,'missions');
           }
         }
       } else {
@@ -484,7 +484,7 @@ export default {
     },
 
 
-    async fetchClients() {
+    async fetchEntreprises() {
       try {
         const response = await axios.get('/missions',
           {
@@ -497,7 +497,7 @@ export default {
 
         if (response.data.status === "success") {
           this.data = response.data.data.filter((i) => i.Statut == "2");
-          this.ClientOptions = this.data
+            this.EntreprisesOptions = this.data
 
           this.loading = false
         }
@@ -609,7 +609,7 @@ export default {
               "Données de l'entreprise de travaux mises à jour",
               "Les données de l'entreprise de travaux ont été mises à jour avec succès !"
             );
-            await this.fetchClients();
+            await this.fetchEntreprises();
 
 
           }
@@ -670,7 +670,7 @@ export default {
             "L'entreprise de travaux supprimé avec succès",
             "L'entreprise de travaux a été supprimé avec succès !"
           );
-          await this.fetchClients();
+          await this.fetchEntreprises();
 
         } else {
 
@@ -699,7 +699,7 @@ export default {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
 
       const endIndex = startIndex + this.itemsPerPage;
-      return this.ClientOptions.slice(startIndex, endIndex);
+      return this.EntreprisesOptions.slice(startIndex, endIndex);
     },
 
     filterByName() {
@@ -707,7 +707,7 @@ export default {
       if (this.search !== null) {
         const tt = this.search;
         const searchValue = tt.toLowerCase()
-        this.ClientOptions = this.data.filter(user => {
+        this.EntreprisesOptions = this.data.filter(user => {
           const Nom = user.CodeMission || '';
           const Descriptions = user.NomMission || '';
 
@@ -715,7 +715,7 @@ export default {
         });
 
       } else {
-        this.ClientOptions = [...this.data];
+        this.EntreprisesOptions = [...this.data];
 
       }
 
@@ -731,7 +731,7 @@ export default {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
 
       const endIndex = startIndex + this.itemsPerPage;
-      return this.ClientOptions.slice(startIndex, endIndex);
+      return this.EntreprisesOptions.slice(startIndex, endIndex);
     },
     closeModal(modalId) {
       let modalElement = this.$refs[modalId];

@@ -50,7 +50,7 @@
                 </div>
                 <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6">
                   <div class="mt-1"><i class="bi bi-geo-alt me-2 fs-14"></i>Localité : <span class="fw-semibold  fs-16"
-                      data-bs-toggle="tooltip" title="Current Salary">{{data.LocalitesConcernees}}</span> </div>
+                      data-bs-toggle="tooltip" title="Current Salary">{{data?.localite?.NomRegion}}</span> </div>
                 </div>
                 <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-6">
                   <div class="mt-1"><i class="bi bi-bricks me-2 fs-14"></i>Entreprise de travaux: <span

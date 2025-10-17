@@ -92,7 +92,7 @@
         <div class=" p-0 py-1  d-flex justify-content-center">
           <div class="row bg-gray-200" style="width:98%">
             <div class="col-6 text-center">
-            <span class=" fs-16 m-0">Taux Décaissement Global:</span><br>
+            <span class=" fs-16 m-0">Décaissement Global (%):</span><br>
             <span class="fw-semibold " :style="{ color: getProgressColor(projetTauxDecaissement(projet)) }">{{
               projetTauxDecaissement(projet).toFixed(2) }}%</span>
             <div class="progress mb-1" role="progressbar" aria-valuemin="0" aria-valuemax="100">
@@ -105,7 +105,7 @@
           <div class="col-6">
             <div class="mt-sm-0 mt-2 text-center">
   
-              <span class=" fs-16">Taux Exécution Physique:</span> <br>
+              <span class=" fs-16">Exéc. Physique (%):</span> <br>
               <span class="fw-semibold "
                 :style="{ color: getProgressColor(projet.suivis_dash?.TauxAvancementPhysique ?? 0) }">{{
                 projet.suivis_dash?.TauxAvancementPhysique ?? 0
@@ -120,10 +120,10 @@
             </div>
           </div>
   
-          <div class="col-6">
+          <div class="col-4">
             <div class="mt-sm-0 mt-2 text-center">
   
-              <span class=" fs-16">Taux Exécution financière:</span> <br>
+              <span class=" fs-16">Exéc. Financière (%):</span> <br>
               <span class="fw-semibold "
                 :style="{ color: getProgressColor(projet.suivis_dash?.TauxExecutionFinanciere ?? 0) }">{{
                 projet.suivis_dash?.TauxExecutionFinanciere ?? 0
@@ -137,7 +137,20 @@
               </div>
             </div>
           </div>
-          <div class="col-6">
+          <div class="col-4">
+            <div class="mt-sm-0 mt-2 text-center">
+  
+              <span class=" fs-16">Cons. Délai (%):</span> <br>
+              <span class="fw-semibold " :style="{ color: getProgressColor(TauxConsommationDelai(projet)) }">{{
+              TauxConsommationDelai(projet).toFixed(2) }}%</span>
+            <div class="progress mb-1" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar progress-bar-striped" :class="getProgressClass(TauxConsommationDelai(projet))"
+                :style="{ width: TauxConsommationDelai(projet) + '%' }" :aria-valuenow="TauxConsommationDelai(projet)">
+              </div>
+            </div>
+            </div>
+          </div>
+          <div class="col-4">
             <div class="mt-sm-0 mt-2 text-center">
   
               <span class=" fs-16">Etat Projet</span> <br>
@@ -357,6 +370,19 @@ export default {
     return GlobalTaux;
     },
 
+    TauxConsommationDelai(projet) {
+
+  const TotalJours = Math.floor((new Date(projet.DateFin) - new Date(projet.DateDebut)) / (1000 * 60 * 60 * 24 * 30));
+  const TotalJoursNewDate = Math.floor((new Date() - new Date(projet.DateDebut)) / (1000 * 60 * 60 * 24 * 30));
+  const duree = parseFloat(((TotalJoursNewDate / TotalJours) * 100).toFixed(2) )   
+
+          
+  const Taux_Duree =  parseFloat(duree); // deja en %
+  if(Taux_Duree > 0) return Taux_Duree;
+  else return 0;
+  
+ 
+    },
 
     formatDuration(startDate, endDate) {
       const duration = this.calculateDuration(startDate, endDate);

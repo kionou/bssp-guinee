@@ -20,7 +20,7 @@
     
                     <button v-if="hasPermission(3)" class="btn btn-icon btn-primary ms-2" data-bs-placement="top"
                      v-tippy="{ content: 'Créer un nouvel élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
-                        data-bs-title="Add Contact" data-bs-toggle="modal" data-bs-target="#add_infrastructure">
+                        data-bs-title="Add Contact" data-bs-toggle="modal" data-bs-target="#add_bureaux">
                         <i class="ri-add-line">
                         </i></button>
                 </div>
@@ -68,7 +68,7 @@
                                             <button v-if="hasPermission(2)"
                                              v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                                                 class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-info"
-                                                data-bs-toggle="modal" data-bs-target="#update_infrastructure"
+                                                data-bs-toggle="modal" data-bs-target="#update_bureaux"
                                                 @click="HandleIdUpdate(data.id)"><i class="ri-edit-line"></i></button>
                                             <button v-if="hasPermission(4)"
                                               v-tippy="{ content: 'Supprimer l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
@@ -96,8 +96,8 @@
     
         <!-- add indicateur -->
     
-        <div class="modal fade effect-rotate-bottom " id="add_infrastructure" tabindex="-1" aria-hidden="true"
-            data-bs-backdrop="static" ref="add_infrastructure">
+        <div class="modal fade effect-rotate-bottom " id="add_bureaux" tabindex="-1" aria-hidden="true"
+            data-bs-backdrop="static" ref="add_bureaux">
             <div class="modal-dialog modal-dialog-centered  modal-lg">
                 <div class="modal-content">
                     <div class="modal-header float-start text-center justify-content-center"
@@ -119,11 +119,11 @@
                                     <div class="bouttons">
                                         <div class="boutton" style=" width: 38px; z-index:1000"
                                             v-tippy="{ content: 'Ajouter un élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
-                                            @click="AddformDataInfrastructures"><i class="ri-add-line"></i></div>
+                                            @click="AddformDataBureaux"><i class="ri-add-line"></i></div>
                                     </div>
                                 </div>
                                 <div class="row align-items-center p-2  border-bottom "
-                                    v-for="(infrastructure, index) in Infrastructures" :key="infrastructure.id">
+                                    v-for="(  bureau, index) in missions" :key="bureau.id">
                                     <div class="col-11">
                                         <span class="nombre">
                                             {{index + 1}}
@@ -134,28 +134,28 @@
                                                 <div class="input-groupe">
                                                     <label for="userpassword">Code de contrôle <span
                                                             class="text-danger">*</span></label>
-                                                    <MazInput v-model="infrastructure.CodeMission" color="info"
+                                                    <MazInput v-model="bureau.CodeMission" color="info"
                                                         name="CodeMission" size="sm" rounded-size="sm" type="text"
-                                                        @input="clearErrorInfrastructures(index, 'CodeMission')" />
+                                                        @input="clearErrorBureaux(index, 'CodeMission')" />
                                                     <small
-                                                        v-if="errors.Infrastructures && errors.Infrastructures[index] && errors.Infrastructures[index].CodeMission">{{
-                                                        errors.Infrastructures[index].CodeMission }}</small>
-                                                    <small v-if="resultError['Infrastructures']"> {{
-                                                        resultError["Infrastructures"] }} </small>
+                                                        v-if="errors.missions && errors.missions[index] && errors.missions[index].CodeMission">{{
+                                                        errors.missions[index].CodeMission }}</small>
+                                                    <small v-if="resultError['missions']"> {{
+                                                        resultError["missions"] }} </small>
                                                 </div>
                                             </div>
                                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                                 <div class="input-groupe">
                                                     <label for="userpassword">Nom de contrôle <span
                                                             class="text-danger">*</span></label>
-                                                    <MazInput v-model="infrastructure.NomMission" color="info"
+                                                    <MazInput v-model="bureau.NomMission" color="info"
                                                         name="NomMission" size="sm" rounded-size="sm"
-                                                        @input="clearErrorInfrastructures(index, 'NomMission')" />
+                                                        @input="clearErrorBureaux(index, 'NomMission')" />
                                                     <small
-                                                        v-if="errors.Infrastructures && errors.Infrastructures[index] && errors.Infrastructures[index].NomMission">{{
-                                                        errors.Infrastructures[index].NomMission }}</small>
-                                                    <small v-if="resultError['Infrastructures']"> {{
-                                                        resultError["Infrastructures"] }} </small>
+                                                        v-if="errors.missions && errors.missions[index] && errors.missions[index].NomMission">{{
+                                                        errors.missions[index].NomMission }}</small>
+                                                    <small v-if="resultError['missions']"> {{
+                                                        resultError["missions"] }} </small>
                                                 </div>
                                             </div>
     
@@ -164,13 +164,13 @@
                                                     <label for="userpassword">Description de contrôle </label>
                                                     <textarea class="form-control"
                                                         style="border-radius:0 !important; border:1px solid #e5eaee !important"
-                                                        id="text-area" v-model="infrastructure.Description"
+                                                        id="text-area" v-model="bureau.Description"
                                                         rows="1"></textarea>
                                                     <small
-                                                        v-if="errors.Infrastructures && errors.Infrastructures[index] && errors.Infrastructures[index].Description">{{
-                                                        errors.Infrastructures[index].Description }}</small>
-                                                    <small v-if="resultError['Infrastructures']"> {{
-                                                        resultError["Infrastructures"] }} </small>
+                                                        v-if="errors.missions && errors.missions[index] && errors.missions[index].Description">{{
+                                                        errors.missions[index].Description }}</small>
+                                                    <small v-if="resultError['missions']"> {{
+                                                        resultError["missions"] }} </small>
                                                 </div>
                                             </div>
     
@@ -180,7 +180,7 @@
     
                                         <button class="btn btn-sm btn-icon btn-danger btn-wave"
 
-                                            @click="deleteRowInfrastructures(index)"
+                                            @click="deleteRowBureaux(index)"
                                             v-tippy="{ content: 'Supprimer cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
                                             style=" position:absolute !important ; top: 18px !important; background:red;">
                                             <i class="ri-delete-bin-line"></i>
@@ -192,7 +192,7 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="boutton">
-                                    <button class="" @click.prevent="submitInfrastructure('add_infrastructure')">
+                                    <button class="" @click.prevent="submitBureaux('add_bureaux')">
                                         Valider
                                     </button>
                                 </div>
@@ -213,8 +213,8 @@
         </div>
     
     
-        <div class="modal fade effect-rotate-bottom" id="update_infrastructure" tabindex="-1" aria-hidden="true"
-            data-bs-backdrop="static" ref="update_infrastructure">
+        <div class="modal fade effect-rotate-bottom" id="update_bureaux" tabindex="-1" aria-hidden="true"
+            data-bs-backdrop="static" ref="update_bureaux">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header float-start text-center justify-content-center"
@@ -289,7 +289,7 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="boutton">
-                                    <button class="" @click.prevent="submitUpdateInfrastructure('update_infrastructure')">
+                                    <button class="" @click.prevent="submitUpdateBureaux('update_bureaux')">
                                         Valider
                                     </button>
                                 </div>
@@ -332,19 +332,19 @@ export default {
       return this.$store.getters["auth/myAuthenticatedUser"];
     },
     totalPages() {
-      return Math.ceil(this.ClientOptions.length / this.itemsPerPage);
+      return Math.ceil(this.BureauxOptions.length / this.itemsPerPage);
     },
     paginatedItems() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.ClientOptions.slice(startIndex, endIndex);
+      return this.BureauxOptions.slice(startIndex, endIndex);
     },
 
   },
   data() {
     return {
       loading: true,
-      ClientOptions: [],
+      BureauxOptions: [],
       data: [],
       currentPage: 1,
       itemsPerPage: 10,
@@ -356,8 +356,8 @@ export default {
         { label: "Oui", value: true },
         { label: "Non", value: 'non' },
       ],
-      errors: { Infrastructures: [], },
-      Infrastructures: [
+      errors: { missions: [], },
+      missions: [
         {
 
           CodeMission: "",
@@ -389,7 +389,7 @@ export default {
   },
   async mounted() {
 
-    await this.fetchClients();
+    await this.fetchBureaux();
 
   },
 
@@ -404,45 +404,45 @@ export default {
         (permission) => permission.id === permissionName
       );
     },
-    AddformDataInfrastructures() {
-      this.Infrastructures.push({ CodeMission: "", NomMission: "", Description: "",  Statut : 1 });
+    AddformDataBureaux() {
+      this.missions.push({ CodeMission: "", NomMission: "", Description: "",  Statut : 1 });
     },
-    deleteRowInfrastructures(index) {
+    deleteRowBureaux(index) {
 
       if (index !== 0) {
-        this.Infrastructures.splice(index, 1);
+        this.missions.splice(index, 1);
       }
     },
-    clearErrorInfrastructures(index, field) {
-      if (this.errors.Infrastructures[index]) {
-        this.errors.Infrastructures[index][field] = null;
+    clearErrorBureaux(index, field) {
+      if (this.errors.missions[index]) {
+        this.errors.missions[index][field] = null;
       }
     },
-    validateInfrastructures() {
+    validateBureaux() {
       let isValid = true;
-      this.errors = { Infrastructures: [] };
-      this.Infrastructures.forEach((infrastructure, index) => {
-        const infrastructureErrors = {};
+      this.errors = { missions: [] };
+      this.missions.forEach((bureau, index) => {
+        const bureauErrors = {};
 
-        if (!infrastructure.CodeMission) {
-          infrastructureErrors.CodeMission = 'Ce champs est obligatoire!';
+        if (!bureau.CodeMission) {
+          bureauErrors.CodeMission = 'Ce champs est obligatoire!';
           isValid = false;
         }
-        if (!infrastructure.NomMission) {
-          infrastructureErrors.NomMission = 'Ce champs est obligatoire!';
+        if (!bureau.NomMission) {
+          bureauErrors.NomMission = 'Ce champs est obligatoire!';
           isValid = false;
         }
 
-        this.errors.Infrastructures[index] = infrastructureErrors;
+        this.errors.missions[index] = bureauErrors;
       });
       return isValid;
     },
-    async submitInfrastructure(modalId) {
+    async submitBureaux(modalId) {
 
-      if (this.validateInfrastructures()) {
+      if (this.validateBureaux()) {
         this.loading = true;
         const dataToSend = {
-          missions: this.Infrastructures
+          missions: this.missions
         };
 
 
@@ -455,27 +455,27 @@ export default {
           });
 
           if (response.data.status === "success") {
-            this.Infrastructures = [{ CodeMission: "", NomMission: "", Description: "", }];
+            this.missions = [{ CodeMission: "", NomMission: "", Description: "", }];
             this.closeModal(modalId);
             this.successmsg(
               "Bureaux de contrôle créés avec succès",
               "Des nouveaux bureaux de contrôle ont été créés avec succès !"
 
             );
-            await this.fetchClients()
+            await this.fetchBureaux()
             this.loading = false
 
 
           } else {
           }
         } catch (error) {
-
+          console.log('error',error)
 
           this.loading = false;
           if (error.response.data.status === "error") {
             return (this.error = error.response.data.message);
           } else {
-            this.formatValidationErrorsMultiple(error.response.data.errors ,'Infrastructures');
+            this.formatValidationErrorsMultiple(error.response.data.errors ,'missions');
           }
         }
       } else {
@@ -484,7 +484,7 @@ export default {
     },
 
 
-    async fetchClients() {
+    async fetchBureaux() {
       try {
         const response = await axios.get('/missions',
           {
@@ -497,7 +497,7 @@ export default {
 
         if (response.data.status === "success") {
           this.data = response.data.data.filter((i) => i.Statut == "1");
-          this.ClientOptions = this.data
+          this.BureauxOptions = this.data
 
           this.loading = false
         }
@@ -572,7 +572,7 @@ export default {
       }
 
     },
-    async submitUpdateInfrastructure(modalId) {
+    async submitUpdateBureaux(modalId) {
 
       this.v$.step2.$touch();
 
@@ -611,7 +611,7 @@ export default {
               "Données du bureau de contrôle mises à jour",
               "Les données du bureau de contrôle ont été mises à jour avec succès !"
             );
-            await this.fetchClients();
+            await this.fetchBureaux();
 
 
           }
@@ -673,7 +673,7 @@ export default {
             "Bureau de contrôle supprimé avec succès",
             "Le bureau de contrôle a été supprimé avec succès !"
           );
-          await this.fetchClients();
+          await this.fetchBureaux();
 
         } else {
 
@@ -703,7 +703,7 @@ export default {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
 
       const endIndex = startIndex + this.itemsPerPage;
-      return this.ClientOptions.slice(startIndex, endIndex);
+      return this.BureauxOptions.slice(startIndex, endIndex);
     },
 
     filterByName() {
@@ -711,7 +711,7 @@ export default {
       if (this.search !== null) {
         const tt = this.search;
         const searchValue = tt.toLowerCase()
-        this.ClientOptions = this.data.filter(user => {
+        this.BureauxOptions = this.data.filter(user => {
           const Nom = user.CodeMission || '';
           const Descriptions = user.NomMission || '';
 
@@ -719,7 +719,7 @@ export default {
         });
 
       } else {
-        this.ClientOptions = [...this.data];
+        this.BureauxOptions = [...this.data];
 
       }
 
@@ -735,7 +735,7 @@ export default {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
 
       const endIndex = startIndex + this.itemsPerPage;
-      return this.ClientOptions.slice(startIndex, endIndex);
+      return this.BureauxOptions.slice(startIndex, endIndex);
     },
     closeModal(modalId) {
       let modalElement = this.$refs[modalId];
@@ -769,6 +769,7 @@ export default {
 
  
 },
+
 async formatValidationErrors(errors) {
       const formattedErrors = {};
 
