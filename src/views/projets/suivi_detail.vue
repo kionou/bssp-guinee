@@ -36,7 +36,7 @@
          
           <div class=" col-xl-4 col-sm-12  ">
             <div class="my-1 card p-2 border-radius  border border-primary"> <span class="fs-20 fw-semibold text-center" data-bs-toggle="tooltip"
-                title="Current Salary"   style="color: var(--primary-rgb)">Taux d'exécution Physique:  {{data.TauxAvancementPhysique}}%</span></div>
+                title="Current Salary"   style="color: var(--primary-rgb)">Taux de mise en œuvre:  {{data.TauxAvancementPhysique}}%</span></div>
           </div>
 
           <div class=" col-xl-4 col-sm-12  ">

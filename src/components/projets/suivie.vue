@@ -84,7 +84,7 @@
                         </b>
                       </p>
                       <p class="mb-2 fw-semibold fs-16">
-                        Taux Ex. Physique :
+                        Taux de mise en œuvre :
                         <span class="fs-14 mb-1 text-secondary fw-semibold"
                           >{{ item.TauxAvancementPhysique }} %</span
                         >
@@ -312,7 +312,7 @@
                           <div class="mb-3 position-relative">
                             <div class="input-groupe">
                               <label for="password"
-                                >Taux d'exécution physique
+                                >Taux de mise en œuvre
                                 <span class="text-danger">*</span></label
                               >
                               <MazInput
@@ -1100,7 +1100,7 @@
                         <div class="mb-3 position-relative">
                           <div class="input-groupe">
                             <label for="password"
-                              >Taux d'exécution physique
+                              >Taux de mise en œuvre
                               <span class="text-danger">*</span></label
                             >
                             <MazInput
@@ -2824,5 +2824,7 @@ export default {
 
 :deep(.ql-editor) {
   min-height: 150px;
+  line-height: 1.6 !important;
+
 }
 </style>
