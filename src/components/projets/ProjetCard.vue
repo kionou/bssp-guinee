@@ -254,16 +254,15 @@
                 <div class="fs-18">
                   <b style="font-size: 25px !important">
                     <i
-                      v-if="projetEtat(projet) == 2"
-                      class="ri-close-circle-fill text-warning"
+                      v-if="projetEtat(projet) == 0"
+                      class="ri-error-warning-fill text-danger"
                       v-tippy="{
-                        content: 'Risque  moderé',
+                        content: 'Risque elevé',
                         theme: 'custom',
                         animation: 'shift-away',
                         backgroundColor: '#FF5733',
                       }"
                     ></i>
-
                     <i
                       v-if="projetEtat(projet) == 1"
                       class="ri-error-warning-fill text-danger"
@@ -275,6 +274,18 @@
                       }"
                     ></i>
                     <i
+                      v-if="projetEtat(projet) == 2"
+                      class="ri-close-circle-fill text-warning"
+                      v-tippy="{
+                        content: 'Risque  moderé',
+                        theme: 'custom',
+                        animation: 'shift-away',
+                        backgroundColor: '#FF5733',
+                      }"
+                    ></i>
+
+                  
+                    <i
                       v-if="projetEtat(projet) == 3"
                       class="ri-checkbox-circle-fill text-success"
                       v-tippy="{
@@ -284,6 +295,16 @@
                         backgroundColor: '#FF5733',
                       }"
                     ></i>
+                    <!-- <i
+                      v-if="projetEtat(projet) == 0"
+                      class="ri-question-line text-info"
+                      v-tippy="{
+                        content: ' Non défini',
+                        theme: 'custom',
+                        animation: 'shift-away',
+                        backgroundColor: '#FF5733',
+                      }"
+                    ></i> -->
                   </b>
                 </div>
               </div>
@@ -307,6 +328,8 @@
 <script>
 import BailleurModal from "@/components/projets/bailleurPopup.vue";
 import RegionModal from "@/components/projets/regionsModal.vue";
+import axios from '@/lib/axiosConfig'
+
 export default {
   props: ["data"],
   components: {
@@ -328,15 +351,41 @@ export default {
   },
   data() {
     return {
-      GlobalTaux: 0,
       showModal: false,
       currentBailleurs: [],
       showRegionModals: false,
       currentRegions: [],
+      Conditions: [],
     };
   },
-  mounted() {},
+  mounted() {
+    this.fetchConditions();
+  },
   methods: {
+    // Nettoyer l'expression PHP en retirant les $
+    cleanExpr(expr) {
+      return expr.replace(/\$/g, "");
+    },
+
+    // Récupérer les conditions depuis l'API
+    async fetchConditions() {
+      try {
+        const response = await axios.get("/conditions", {
+          headers: {
+            Authorization: `Bearer ${this.loggedInUser.token}`,
+          },
+        });
+        if (response.data.status === "success") {
+          this.Conditions = response.data?.data || [];
+          console.log('Conditions chargées:', this.Conditions);
+        }
+      } catch (error) {
+        console.error('Erreur chargement conditions:', error);
+        this.Conditions = [];
+      }
+    },
+
+    // Vérifier les permissions
     hasPermission(permissionName) {
       if (!this.loggedInUser || !Array.isArray(this.loggedInUser.permissions)) {
         return false;
@@ -345,6 +394,8 @@ export default {
         (permission) => permission.id === permissionName
       );
     },
+
+    // Gestion des modals
     getRegionNames(regions) {
       return regions.map((region) => region.region?.NomRegion).join(", ");
     },
@@ -364,31 +415,31 @@ export default {
       this.showRegionModals = false;
       this.currentRegions = [];
     },
+
+    // Utilitaires de formatage
     truncateText(text, maxLength) {
       if (text.length <= maxLength) {
         return text;
       }
       return text.substring(0, maxLength) + "...";
     },
-
     formatDate(dateString) {
       const date = new Date(dateString);
       const options = { day: "numeric", month: "short", year: "numeric" };
       return date.toLocaleDateString("fr-FR", options).replace(".", ",");
     },
-
     getYear(date) {
-      // const date = new Date(dateString);
-      // const year = date.getFullYear();
-      // return year;
-
       const d = new Date(date);
       const day = String(d.getDate()).padStart(2, "0");
       const month = String(d.getMonth() + 1).padStart(2, "0");
       const year = String(d.getFullYear());
-
       return `${day}/${month}/${year}`;
     },
+    formatBudget(value) {
+      return parseFloat(value).toLocaleString();
+    },
+
+    // Calculs de durée
     calculateDuration(startDate, endDate) {
       const start = new Date(startDate);
       const end = new Date(endDate);
@@ -410,8 +461,77 @@ export default {
 
       return { years, months };
     },
+    formatDuration(startDate, endDate) {
+      const duration = this.calculateDuration(startDate, endDate);
+      let durationString = "";
+
+      if (duration.years > 0) {
+        durationString += `${duration.years} an${duration.years > 1 ? "s" : ""}`;
+      }
+
+      if (duration.months > 0) {
+        if (durationString) {
+          durationString += " ";
+        }
+        durationString += `${duration.months} mois`;
+      }
+
+      if (!durationString) {
+        durationString = "0 mois";
+      }
+
+      return durationString;
+    },
+
+    // Calculs de taux
+    TauxConsommationDelai(projet) {
+      const TotalJours = Math.floor(
+        (new Date(projet.DateFin) - new Date(projet.DateDebut)) /
+          (1000 * 60 * 60 * 24 * 30)
+      );
+      const TotalJoursNewDate = Math.floor(
+        (new Date() - new Date(projet.DateDebut)) / (1000 * 60 * 60 * 24 * 30)
+      );
+      
+      if (TotalJours <= 0) return 0;
+      
+      const duree = parseFloat(
+        ((TotalJoursNewDate / TotalJours) * 100).toFixed(2)
+      );
+
+      return duree > 0 ? duree : 0;
+    },
+    projetBudget(projet) {
+      return projet.bailleurs.reduce(
+        (total, bailleur) => total + parseFloat(bailleur.Budget || 0),
+        0
+      );
+    },
+    projetTauxDecaissement(projet) {
+      const totalBudget = this.projetBudget(projet);
+      const totalMontantDecaisse = projet.bailleurs.reduce(
+        (total, bailleur) => {
+          return (
+            total +
+            parseFloat(
+              (bailleur.decaissement &&
+                bailleur.decaissement[0] &&
+                bailleur.decaissement[0].montant_decaisser) ||
+                0
+            )
+          );
+        },
+        0
+      );
+
+      if (totalBudget === 0) return 0;
+      return (totalMontantDecaisse / totalBudget) * 100;
+    },
+
     projetEtat(projet) {
-      // const totalBudget = this.projetBudget(projet);
+      // code original 1
+
+            // const totalBudget = this.projetBudget(projet);
       // const totalMontantDecaisse = projet.bailleurs.reduce((total, bailleur) => {
       //   return total + parseFloat((bailleur.decaissement && bailleur.decaissement[0] && bailleur.decaissement[0].montant_decaisser) || 0);
       // }, 0);
@@ -459,92 +579,87 @@ export default {
       //     return GlobalTaux;
       // && (Taux_Duree  <= 10)
 
-      const TotalJours = Math.floor(
-        (new Date(projet.DateFin) - new Date(projet.DateDebut)) /
-          (1000 * 60 * 60 * 24 * 30)
-      );
-      const TotalJoursNewDate = Math.floor(
-        (new Date() - new Date(projet.DateDebut)) / (1000 * 60 * 60 * 24 * 30)
-      );
-      const duree = parseFloat(
-        ((TotalJoursNewDate / TotalJours) * 100).toFixed(2)
-      );
+// code original 2
+    
 
-      const Taux_Duree = parseFloat(duree); // deja en %
-      const Taux_Financiere = parseFloat(
-        projet?.suivis[0]?.TauxExecutionFinanciere
-      );
-      const Taux_Physique = parseFloat(
-        projet?.suivis[0]?.TauxAvancementPhysique
-      );
-
-      let GlobalTaux = 0;
-
-      if (Taux_Financiere == 0 && Taux_Physique == 0) {
-        GlobalTaux = 2;
-        // color orange warning step 2
-      } else if (
-        Taux_Financiere - Taux_Physique <= 15 &&
-        Taux_Duree - Taux_Physique <= 25 &&
-        Taux_Financiere < 150
-      ) {
-        GlobalTaux = 3;
-        //color green step1
-      } else if (
-        Taux_Financiere - Taux_Physique <= 25 &&
-        Taux_Duree - Taux_Physique <= 50 &&
-        Taux_Financiere < 150
-      ) {
-        GlobalTaux = 2;
-        // color orange warning step 2
-      } else {
-        GlobalTaux = 1;
-        // color red danger step 3
-      }
-      return GlobalTaux;
-    },
-
-    TauxConsommationDelai(projet) {
-      const TotalJours = Math.floor(
-        (new Date(projet.DateFin) - new Date(projet.DateDebut)) /
-          (1000 * 60 * 60 * 24 * 30)
-      );
-      const TotalJoursNewDate = Math.floor(
-        (new Date() - new Date(projet.DateDebut)) / (1000 * 60 * 60 * 24 * 30)
-      );
-      const duree = parseFloat(
-        ((TotalJoursNewDate / TotalJours) * 100).toFixed(2)
-      );
-
-      const Taux_Duree = parseFloat(duree); // deja en %
-      if (Taux_Duree > 0) return Taux_Duree;
-      else return 0;
-    },
-
-    formatDuration(startDate, endDate) {
-      const duration = this.calculateDuration(startDate, endDate);
-      let durationString = "";
-
-      if (duration.years > 0) {
-        durationString += `${duration.years} an${
-          duration.years > 1 ? "s" : ""
-        }`;
-      }
-
-      if (duration.months > 0) {
-        if (durationString) {
-          durationString += " ";
+      // if (Taux_Financiere == 0 && Taux_Physique == 0) {
+      //   GlobalTaux = 2;
+      //   // color orange warning step 2
+      // } else if (
+      //   Taux_Financiere - Taux_Physique <= 15 &&
+      //   Taux_Duree - Taux_Physique <= 25 &&
+      //   Taux_Financiere < 150
+      // ) {
+      //   GlobalTaux = 3;
+      //   //color green step1
+      // } else if (
+      //   Taux_Financiere - Taux_Physique <= 25 &&
+      //   Taux_Duree - Taux_Physique <= 50 &&
+      //   Taux_Financiere < 150
+      // ) {
+      //   GlobalTaux = 2;
+      //   // color orange warning step 2
+      // } else {
+      //   GlobalTaux = 1;
+      //   // color red danger step 3
+      // }
+      // return GlobalTaux;
+      try {
+        if (!this.Conditions || this.Conditions.length == 0) {
+          console.warn('Conditions non chargées');
+          return 0;
         }
-        durationString += `${duration.months} mois`;
-      }
 
-      // Si ni années ni mois ne sont affichés, afficher "0 mois"
-      if (!durationString) {
-        durationString = "0 mois";
-      }
 
-      return durationString;
+        const TotalJours = Math.floor(
+          (new Date(projet.DateFin) - new Date(projet.DateDebut)) /
+            (1000 * 60 * 60 * 24 * 30)
+        );
+        const TotalJoursNewDate = Math.floor(
+          (new Date() - new Date(projet.DateDebut)) / (1000 * 60 * 60 * 24 * 30)
+        );
+        
+        const duree = TotalJours > 0 
+          ? parseFloat(((TotalJoursNewDate / TotalJours) * 100).toFixed(2))
+          : 0;
+
+        const D = duree;
+        const TF = parseFloat(projet?.suivis_dash?.TauxExecutionFinanciere || 0);
+        const TP = parseFloat(projet?.suivis_dash?.TauxAvancementPhysique || 0);
+
+        for (const condition of this.Conditions) {
+          const expr = this.cleanExpr(condition.statment);
+          try {
+            const evaluator = new Function("TP", "TF", "D", `return ${expr};`);
+            const result = evaluator(TP, TF, D);
+
+            if (result) {
+              switch (condition.statut) {
+                case "BONNE":
+                  return 3; // vert
+                case "MODERE":
+                  return 2; // orange
+                case "ELEVE":
+                  return 1; // rouge
+                default:
+                  return 1; // info
+              
+              }
+            }
+          } catch (e) {
+            console.error(`Erreur évaluation condition ${condition.id}:`, e);
+          }
+        }
+
+        return 0;
+
+      } catch (error) {
+        console.error('Erreur dans projetEtat:', error);
+        return 0;
+      }
     },
+
+    // Classes et couleurs pour les progress bars
     getProgressColor(percentage) {
       if (percentage <= 30) {
         return "red";
@@ -562,35 +677,6 @@ export default {
       } else {
         return "red";
       }
-    },
-    formatBudget(value) {
-      return parseFloat(value).toLocaleString(); // Formatage avec séparateurs de milliers
-    },
-    projetBudget(projet) {
-      return projet.bailleurs.reduce(
-        (total, bailleur) => total + parseFloat(bailleur.Budget || 0),
-        0
-      );
-    },
-    projetTauxDecaissement(projet) {
-      const totalBudget = this.projetBudget(projet);
-      const totalMontantDecaisse = projet.bailleurs.reduce(
-        (total, bailleur) => {
-          return (
-            total +
-            parseFloat(
-              (bailleur.decaissement &&
-                bailleur.decaissement[0] &&
-                bailleur.decaissement[0].montant_decaisser) ||
-                0
-            )
-          );
-        },
-        0
-      );
-
-      if (totalBudget === 0) return 0;
-      return (totalMontantDecaisse / totalBudget) * 100;
     },
     getProgressClass(percentage) {
       if (percentage <= 30) {
