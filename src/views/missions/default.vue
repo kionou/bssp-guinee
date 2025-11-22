@@ -38,6 +38,9 @@
                           <li class="nav-item" role="presentation">
                             <a class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#ouvrage" aria-selected="false" tabindex="-1"> Maître d'ouvrage</a>
                           </li>
+                          <li class="nav-item" role="presentation">
+                            <a class="nav-link" data-bs-toggle="tab" role="tab" aria-current="page" href="#conditions" aria-selected="false" tabindex="-1"> Critères d'etat de projet</a>
+                          </li>
                       </ul>
                   </div>
                  
@@ -62,6 +65,9 @@
           <div class="tab-pane p-0" id="ouvrage" role="tabpanel">
              <Ouvrage></Ouvrage>
           </div>
+          <div class="tab-pane p-0" id="conditions" role="tabpanel">
+             <Conditions></Conditions>
+          </div>
       </div>
   </div>
 </div>
@@ -76,10 +82,10 @@
 import Bureau from '@/components/missions/bureau.vue'
 import Entreprise from '@/components/missions/entreprise.vue'
 import Ouvrage from '@/components/missions/ouvrage.vue'
-
+import Conditions from '@/components/missions/conditions.vue'
 export default {
   components: {
-      Entreprise , Bureau , Ouvrage
+      Entreprise , Bureau , Ouvrage , Conditions
   },
 }
 </script>

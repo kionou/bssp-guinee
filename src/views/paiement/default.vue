@@ -79,44 +79,32 @@
                                               </tbody>
                                                 <tbody v-else  data-aos="fade-up"
                                                 data-aos-duration="1000">
-                                                    <tr v-for="data  in paginatedItems" :key="data.id">
-                                                      <th scope="row" class="ps-4"> {{ data.Code }}</th>
-                                                     
-                                                        <td>
-                                                        
-                                                        <span class="">
-                                                          {{ data.Intitule }}
-                                                        </span>
-                                                 
-                                                </td>
-                                                        <td>
-                                                           
-                                                            <span  v-if="data.Visible === '1'" class="badge bg-success">Activer</span>
-                                                            <span  v-else class="badge bg-warning">Desactiver</span>
-                                                        </td>
-                                                        <td>
-                                                           
-                                                           <span  v-if="data.Visible === '1'" class="badge bg-success">Activer</span>
-                                                           <span  v-else class="badge bg-warning">Desactiver</span>
-                                                       </td>
-                                                       <td>
-                                                           
-                                                           <span  v-if="data.Visible === '1'" class="badge bg-success">Activer</span>
-                                                           <span  v-else class="badge bg-warning">Desactiver</span>
-                                                       </td>
-                                                       <td>
-                                                           
-                                                           <span  v-if="data.Visible === '1'" class="badge bg-success">Activer</span>
-                                                           <span  v-else class="badge bg-warning">Desactiver</span>
-                                                       </td>
+                                                    <tr v-for="suivi  in paginatedItems" :key="suivi.id">
+                                                      <td class="text-danger">{{ formatDate(suivi.DateEmission) }}</td>
+                                                            <td>{{ suivi.Delay }} jours</td>
+                                                            <td>
+                                                              <span class="badge bg-primary-transparent">
+                                                                {{ suivi?.CodeTypeFinancement  }}
+                                                              </span>
+                                                            </td>
+                                                            <td>
+                                                              <span class="badge bg-info-transparent">
+                                                                {{ formatArray(suivi.Acteurs)}}
+                                                              </span>
+                                                            </td>
+                                                            <td>
+                                                              <span class="badge bg-success-transparent">
+                                                                {{ formatArray(suivi.Etapes) }}
+                                                              </span>
+                                                            </td>
                                                         <td style="width: 80px;">
                                                             <div class="hstack gap-2 fs-15">
                                                                 <button  v-if="hasPermission(2)"  class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-info" 
                                                                 v-tippy="{ content: 'Modifier l\'élément sélectionné',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}"
-                                                                 data-bs-toggle="modal"  data-bs-target="#update_client" @click="HandleIdUpdate(data.id)"><i class="ri-edit-line"></i></button>
+                                                                 data-bs-toggle="modal"  data-bs-target="#update_client" @click="HandleIdUpdate(suivi.id)"><i class="ri-edit-line"></i></button>
                                                                 <button  v-if="hasPermission(4)" class="btn btn-icon btn-wave waves-effect waves-light btn-sm btn-danger" 
                                                                 v-tippy="{ content: 'Supprimer cet élément',theme: 'custom',animation: 'shift-away', backgroundColor: '#FF5733'}" 
-                                                                     @click="HandleIdDelete(data.id)"><i class="ri-delete-bin-line"></i></button>
+                                                                     @click="HandleIdDelete(suivi.id)"><i class="ri-delete-bin-line"></i></button>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -596,6 +584,20 @@ export default {
 
       const endIndex = startIndex + this.itemsPerPage;
       return this.ClientOptions.slice(startIndex, endIndex);
+    },
+    
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const date = new Date(dateString);
+      const options = { day: "numeric", month: "short", year: "numeric" };
+      return date.toLocaleDateString("fr-FR", options);
+    },
+    formatArray(array) {
+      if (!array || array.length === 0) return "Aucun";
+      if (Array.isArray(array)) {
+        return array.join(", ");
+      }
+      return array;
     },
     async fetchClients() {
       try {

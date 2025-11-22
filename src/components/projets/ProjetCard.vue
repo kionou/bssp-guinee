@@ -377,7 +377,6 @@ export default {
         });
         if (response.data.status === "success") {
           this.Conditions = response.data?.data || [];
-          console.log('Conditions chargées:', this.Conditions);
         }
       } catch (error) {
         console.error('Erreur chargement conditions:', error);
